@@ -1,0 +1,37 @@
+\documentclass{mini}
+\usepackage[utf8]{inputenc}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[polish]{babel}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{algpseudocode}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{catchfilebetweentags}
+\usepackage{enumitem}
+
+\usepackage{catchfilebetweentags}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\CatchFBT@Fin@l}{\endlinechar\m@ne}{}
+  {}{\typeout{Unsuccessful patch!}}
+\makeatother
+
+\addto\extraspolish{%  
+ \def\figureautorefname{Rysunek}%  
+} 
+
+%------------------------------------------------------------------------------%
+\title{Realizacje scenariuszy działań}
+\author{Robert Jakubowski
+\\Hanna Dziegciar
+\\Paweł Bielicki
+\\Karol Bocian
+\\Karol Dzitkowski
+\\Mateusz Jankowski
+\\Wiktor Ryciuk
+\\Mariusz Ambroziak}
+\monthyear{\today}
+%------------------------------------------------------------------------------%
