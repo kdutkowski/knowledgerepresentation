@@ -7,7 +7,7 @@
 
 %
 %</tag>
-Zdefiniowany język akcji może być odpytywany przez poniżej odpowiadający mu język kwerend, który zapewnia uzyskanie odpowiedzi $TRUE/FALSE$ na następujące pytania:
+Zdefiniowany język akcji może być odpytywany przez poniżej zaprezentowany język kwerend, który zapewnia uzyskanie odpowiedzi $TRUE/FALSE$ na następujące pytania:
 
 Q1. Czy podany scenariusz jest możliwy do realizacji zawsze/kiedykolwiek?
 \begin{itemize}
@@ -29,11 +29,18 @@ Q3. Czy w chwili $t$ realizacji scenariusza wykonywana jest akcja $A$?
 
 Q4. Czy podany cel $\gamma$ jest osiągalny zawsze/kiedykolwiek przy zadanym zbiorze obserwacji OBS?
 \begin{itemize}
-	\item $always/ever\ accesible\ \gamma\ when\ OBS$\\
-	Oznacza, że cel $\gamma$ jest osiągalny zawsze/kiedykolwiek przy zadanym zbiorze obserwacji $OBS$ scenariusza $Sc$.
+	\item $always/ever\ accesible\ \gamma\ when\ Sc$\\
+	Oznacza, że cel $\gamma$ jest osiągalny zawsze/kiedykolwiek przy zadanym zbiorze obserwacji $OBS$ przy realizacji scenariusza $Sc$.
 \end{itemize}
 
-Semantyka kwerend w języku
+Semantyka kwerend w języku\\
+Niech $Sc$ będzie scenariuszem, $D$ niech będzie opisem domeny języka, wtedy powiemy, że kwerenda $Q$ jest konsekwencją $Sc$ zgodnie z $D$ (ozn. $Sc,\ D\ |\approx\ Q $)
 
+\begin{itemize}
+	\item zapytanie kwerendą $Q$ postaci $\gamma\ at\ t\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $H(\gamma,t)=1$
+	\item zapytanie kwerendą $Q$ postaci $performing\ A\ at\ t\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $(A,t) \in E$
+	\item zapytanie kwerendą $Q$ postaci $accesible\ \gamma\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\exists_{t \in NN} \exists_{A \in Ac}\ \gamma \in O(A, t)$
+\end{itemize}
+jeśli warunek nie zajdzie program zwróci wartość $FALSE$.
 
 \end{document}
