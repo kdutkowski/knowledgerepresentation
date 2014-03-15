@@ -30,3 +30,9 @@
 *.vrb
 *.xdy
 *.tdo
+*.Rproj.user
+*.Rproj
+*Thumbs.db
+
+*.Rhistory
+.Rproj.user

@@ -8,4 +8,47 @@
 \section{Opis dziedziny}
 %
 %</tag>
+\section{Semantyka}
+\begin{definition}Semantyczną strukturą języka $ \textit{AL} $ nazywamy system $ S=(H,O,E) $  taki, że:
+\begin{itemize}
+\item $ H: F $ $\times$ $ \mathbb{N}$ $\longrightarrow$ $\{0,1\}$ jest funkcją historii, pozwala ona stwierdzić, jaki stan ma pewny fluent w danej chwili czasu.
+\item $ O: Ac$ $\times$ $ \mathbb{N}$ $\longrightarrow$ $2^{F}$ jest funkcją okluzji. Dla pewnej ustalonej akcji $A$ i chwili czasu $t\in\mathbb{N}$ funkcja $O(A,t) $ zwraca zbiór fluentów, na który akcja $A$ ma wpływ, jeśli zostanie wykonana od czasu $t-1$ do $t$.
+\item $E\subseteq Ac \times \mathbb{N}$ jest relacją wykonań akcji. Para $(A,t)$ należy do relacji $E$ jeśli akcja $A$ jest wykonana w czasie t. W naszym modelu zakładamy warunek sekwencyjności działań. Oznacza on, że tylko jedną akcje możemy wykonać w danym czasie tak, więc jeśli $(A,t)\in E$ oraz $(B,t)\in E$, to $A=B$. 
+\end{itemize}
+\end{definition}
+
+ Niech: $A,B$ będą akcjami, $ f $ - fluentem, $\alpha, \pi$ - literałami, $d $ - liczbą naturalną oraz $fl(\alpha)$ będzie zbiorem fluentów występujących w $\alpha$. Wtedy dla zdań języka $AL$ muszą być spełnione następujące warunki: 
+   \begin{itemize} 
+   \item Dla każdego wyrażenia $ (A\;causes\;\alpha\;if\;\pi)\in D $ i dla każdego momentu w czasie $t \in \mathbb{N}$, jęzeli $H(\pi,t)=1$ oraz $(A,t) \in E$, wtedy $H(\alpha,t+1)=1$ i $fl(\alpha)\subseteq O(A,t+1)$.
+   \item Dla każdego wyrażenia $(A\;release\;f\;if\;\pi)\in D $ i dla każdego momentu czasu $t \in \mathbb{N}$, jeżeli $H(\pi,t)=1$ oraz $(A,t)\in E$, wtedy $f\in O(A,t+1)$.
+   \item Dla każdego wyrażenia $(\pi\;triggers\;A)\in D$ i dla każdego momentu czasu $t \in \mathbb{N}$, jeżeli $H(\pi,t)=1$, wtedy $(A,t)\in E$.
+   \item Dla każdego wyrażenia $(A\;invokes\;B\;after\;d\;\;if\;\pi)\in D$ i dla każdego momentu czasu $t \in \mathbb{N}$, jeżeli $H(\pi,t)=1$ oraz $(A,t)\in E $, wtedy $(B,t+d+1) \in E $.
+   \end{itemize}
+   \begin{definition}
+   Niech $S = (H,O,E)$ będzie strukturą języka $ \textit{AL} $, $ Sc=(OBS,ACS) $ będzie scenariuszem, oraz $ D $ domeną. Powiem, że $ S $ jest strukturą dla $Sc$ zgodnym z opisem domeny $D$ jeśli:
+     \begin{itemize} 
+     \item Dla każdej obserwacji $(\alpha,t )\in OBS$, $H(\alpha,t )=1$
+     \item $ACS \subseteq E$ 
+    \end{itemize} 
+   \end{definition}
+   \begin{definition}
+   Niech $O_{1}$,$O_{2}$: $X \longrightarrow 2^{Y}$, mówimy, że $O_{1} \prec O_{2}$ jeżeli $\forall x\in X$ $O_{1}(x)\subseteq O_{2}(x)$ oraz $O_{1}\neq O_{2}$.
+   \end{definition}
+   
+   \begin{definition}
+   Niech $S=(H,O,E)$ będzie strukturą dla scenariusza $Sc=(OBS,ACS)$ zgodną z opisem domeny $D$. Mowimy, że $S$ jest $O$-minimalną strukturą, jeżeli nie istnieje struktura $S'=(H',O',E')$ dla tego samego scenariusza i domeny taka, że $O'\prec O$.  
+   \end{definition}
+   \begin{definition}
+   Niech $S=(H,O,E)$ będzie strukturą dla scenariusza $Sc=(OBS,ACS)$ zgodną z opisem domeny $D$. $S$ będziemy nazywać modelem $Sc$ zgodnym z opisem $D$ jeżeli:
+   \begin{itemize}
+   \item $S$ jest $O$-minimalny
+   \item Dla każdego momentu w czasie $t\in \mathbb{N}$, ${f\in F:H(f,t)\neq H(f,t+1)}\subseteq O(A,t+1)$ dla pewnej akcji $A\in Ac$.
+   \item Nie istnieje, żadna struktura $S'=(H',O',E')$ dla $Sc$ zgodna z opisem $D$ która spełnia poprzednie warunki oraz taka, że $E'\subset E$. 
+   \end{itemize}
+   \end{definition}
+   \begin{remark}
+   Nie dla każdego scenariusza można ułożyć model. Mówimy, że scenariusz $Sc$ jest \textit{zgodny} jeśli istnieje do niego model zgodny z domeną $D$.
+   \end{remark}
+
+
 \end{document}
