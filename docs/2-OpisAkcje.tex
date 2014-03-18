@@ -3,8 +3,75 @@
 %<*tag>
 
 \chapter{Opis języka akcji}
+Język akcji zaprojektowany na potrzeby zadania, musi spełniać następujące warunki:
+\begin{enumerate}
+	\item Prawo inercji.
+	\item Sekwencyjność działań.
+	\item Możliwe akcje niedeterministyczne.
+	\item Liniowy model czasu - czas dyskretny.
+	\item Pełna informacja o wszystkich:
+	\begin{enumerate}
+		\item akcjach,
+		\item skutkach bezpośrednich.
+	\end{enumerate}
+	\item Akcja posiada:
+	\begin{enumerate}
+		\item warunek początkowy,
+		\item czas trwania $ t \geqslant 1, t\in\mathbb{N} $
+	\end{enumerate}
+	\item Podczas trwania akcji, wartości zmiennych, na które ona wpływa, nie są znane.
+	\item Występujące rodzaje efektów:
+	\begin{enumerate}
+		\item środowiskowe,
+		\item dynamiczne.
+	\end{enumerate}
+	\item Akcje mogą być niewykonalne.
+	\item Stany opisywane częściowo (obserwacje).
+	\item Pewne stany mogą rozpocząć wykonywanie pewnych akcji.
+\end{enumerate}
 
-\section{Opis dziedziny}
+Językiem odpowiadającym powyższym założeniom jest język $ \textit{AL} $ opisujący domeny akcji z czasem liniowym.
+
+\section{Sygnatura języka}
+$ \psi = (F, Ac, \mathbb{N}) $\\
+gdzie:\\
+$ F $ -- zbiór zmiennych inercji (fluentów)\\
+$ Ac $ -- zbiór akcji\\
+$ \mathbb{N} $ -- zbiór liczb naturalnych (czas trwania akcji)
+
+\section{Opis domeny}
+Rodzaje zdań występujących w projektowanym języku (domena języka):\\
+Oznaczenia:\\
+$ f $ -- fluent\\
+$ Ac_{i}, Ac_{j}\in Ac $\\
+$ \pi \in Forms(F) $\\
+$ d_{i}, d \in \mathbb{N} $
+\begin{itemize}
+	\item initially $ \alpha $\\
+	Określa stan początkowy fluentów w formule $ \alpha $.
+	\item $ (Ac_{i}, d_{i}) $ causes $ \alpha $ if $ \pi $\\
+	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil powoduje stan $ \alpha $, jeśli zachodzi warunek $ \pi $.
+	\item $ (Ac_{i}, d_{i}) $ invokes $ (Ac_{j}, d_{j}) $ after $ d $ if $ \pi $\\
+	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil powoduje wykonanie akcji $ Ac_{j} $ trwającej $ d_{j} $ chwil po $ d $ chwilach od zakończenia akcji $ Ac_{i} $, jeśli zachodzi warunek $ \pi $.
+	\item $ (Ac_{i}, d_{i}) $ releases $ f $ if $ \pi $\\
+	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil powoduje uwolnienie $ f $ po zakończeniu akcji $ Ac_{i} $, jeśli zachodzi warunek $ \pi $.
+	\item $ \pi $ triggers $ (Ac_{i}, d_{i}) $\\
+	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil jest wykonywana, jeśli zajdzie warunek $ \pi $.
+\end{itemize}
+
+\section{Scenariusze działań}
+Scenariusze działań opisane są w następujący sposób:
+	\begin{itemize}
+	\item $ Sc = (OBS, ACS) $
+	\item $ OBS = \{(\gamma_{1}, t_{1}),...,(\gamma_{m}, t_{m})\} $, gdzie:\\
+	$ m \geqslant 0 $ -- obserwacje, gdzie każda obserwacja jest stanem częściowym (stanem spełniającym warunek $ \gamma $ w pewnym punkcie czasu $ t $).\\
+	$ \gamma $ -- zbiór (np. $ x_{1}=True, x_{2}=True, x_{3}=False $).
+	\item $ ACS = \{((Ac_{1},d_{1}), t_{1}),...,((Ac_{n},d_{n}), t_{n})\} $, gdzie:\\
+	$ n \geqslant 1 $,\\
+	$ Ac_{i} $ -- akcja,\\
+	$ d_{i} $ -- czas trwania akcji,\\
+	$ t_{i} $ -- punkt w czasie (rozpoczęcie akcji).
+\end{itemize}
 
 \section{Semantyka}
 \begin{definition}Semantyczną strukturą języka $ \textit{AL} $ nazywamy system $ S=(H,O,E) $  taki, że:
