@@ -5,30 +5,53 @@
 \chapter{Przykłady}
 
 \section{Pytanie czy scenariusz może wystąpić}
+
 	\subsection{Historia}
+
 	\subsection{Opis akcji}
+
 	\subsection{Scenariusz}
+
 	\subsection{Kwerendy}
+
 	\subsection{Analiza}
 
 \section{Pytanie czy dany warunek  zachodzi w danym czasie}
+
 	\subsection{Historia}
+
 	\subsection{Opis akcji}
+
 	\subsection{Scenariusz}
+
 	\subsection{Kwerendy}
+
 	\subsection{Analiza}
+
 \section{Pytanie czy dana akcja jest wykonywana w danym czasie}
+
 	\subsection{Historia}
+
 	\subsection{Opis akcji}
+.%Usunąć kropkę - była tylko po to, żeby dobrze strony się wyświetlały - bez niej była lipa
 	\subsection{Scenariusz}
+
 	\subsection{Kwerendy}
+
 	\subsection{Analiza}
+
 \section{Pytanie czy cel jest osiągalny}
+
 	\subsection{Historia}
+
 	\subsection{Opis akcji}
+
 	\subsection{Scenariusz}
+
 	\subsection{Kwerendy}
+
 	\subsection{Analiza}
+
 \section{Brak integralnośći}
 
 Przykład \textit{Brak integralnośći} pokazuje scenariusz, który mimo zgodności z warunkami zadania, jest sprzeczny z logiką \textit{common sense} (z powodu braku warunków integralności).
@@ -38,28 +61,35 @@ Mamy Billa oraz kompute. Bill może nacisnąć przycisk \textit{Włącz} lub od�
 
 \subsection{Opis akcji}
 
-\textit{initially} $off\_computer$ and $\neg on\_computer$  and  $connects\_power\_computer$ and $\neg swithing\_on\_computer$\\
-$click\_button\_on$  \textit{causes} $switching\_on\_computer$\\
-$click\_button\_on$  \textit{invokes} $switch\_on\_computer$  \textit{after} $1$\\
-$switch\_on\_computer$  \textit{causes} $on\_computer$\\
-$disconnect\_power$  \textit{causes} $\neg off\_computer$ and $\neg swithing\_on\_computer$ \\
+\textbf{initially} $\neg on\_computer$  and  $connects\_power\_computer$ \textbf{and} $\neg swithing\_on\_computer$\\
+$(click\_button\_on,1)$  \textbf{causes} $switching\_on\_computer$\\
+$(click\_button\_on,1)$  \textbf{invokes} $(switch\_on\_computer,2)$  \textbf{after} $1$\\
+$(switch\_on\_computer,1)$  \textbf{causes} $on\_computer$\\
+$(disconnect\_power,1)$  \textbf{causes} $on\_computer$  \textbf{and} $\neg swithing\_on\_computer$ \\
 
 \subsection{Scenariusz}
 
 \textit{Sc} =$(OBS,ACS)$\\
 \textit{OBS} = ${\emptyset}$\\
-\textit{ACS}  = ${ 	(click\_button\_on,0+1), (disconnect\_power,)	,2+1),(click\_button\_on,3+1)	}$\\
+\textit{ACS}  = ${ 	(click\_button\_on,0+1), (disconnect\_power,)	,3+1),(click\_button\_on,4+1)	}$\\
 
 \subsection{Kwerendy}
 
 \begin{enumerate}
-	\item $swithing\_on\_computer$  \textit{at} $4+1$ \textit{when} \textit{Sc}
-	\item $swithing\_on\_computer$  and $off\_computer$ \textit{at} $4+1$ \textit{when} \textit{Sc}
+	\item $swithing\_on\_computer$  \textbf{at} $6+2$ \textbf{when} \textit{Sc}
+	\item $swithing\_on\_computer$   \textbf{and}  $\neg on\_computer$ \textbf{at} $6+2$ \textit{when} \textbf{Sc}
 \end{enumerate}
 
 
 \subsection{Analiza}
-Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 2+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się.  Bill chwili $t = 3+1$ naciska przycisk \textit{Włącz}.Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj.  $swithing\_on\_computer = T$  i $off\_computer=F$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1. True$ i $2. False$. Należy zaznaczyć, że odpowiedzi zgodnie z logiką \textit{commonsense} powinny być sobie równe.
+Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się.  Bill chwili $t = 5+1$ naciska przycisk \textit{Włącz}.Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj.  $swithing\_on\_computer = T$  i $on\_computer=T$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1. True$ i $2. False$. Należy zaznaczyć, że odpowiedzi zgodnie z logiką \textit{commonsense} powinny być sobie równe.
+
+\begin{center}
+  \includegraphics[width=1\textwidth]{Example5}
+  \captionof*{figure}{
+  }
+\end{center}
+
 
 %</tag>
 \end{document}
