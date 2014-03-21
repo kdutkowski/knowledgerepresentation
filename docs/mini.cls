@@ -24,9 +24,9 @@
 %------------------------------------------------------------------------------%
 \RequirePackage{geometry}
 \geometry{
-  inner=25mm,
-  outer=25mm,
-  bindingoffset=5mm,
+  inner=20mm,
+  outer=20mm,
+  bindingoffset=0mm,
   top=20mm,
   bottom=15mm,  % 20mm
   includeheadfoot
