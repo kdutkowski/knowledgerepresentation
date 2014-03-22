@@ -5,40 +5,48 @@
 \chapter{Opis języka kwerend}
 
 Zdefiniowany język akcji może być odpytywany przez poniżej zaprezentowany język kwerend, który zapewnia uzyskanie odpowiedzi $TRUE/FALSE$ na następujące pytania:
+\begin{description}
+\item[Q1.] Czy podany scenariusz jest możliwy do realizacji zawsze/kiedykolwiek?
+	\begin{itemize}
+		\item $always/ever\ executable\ Sc$\\
+		Oznacza, że scenariusz $Sc$ zawsze/kiedykolwiek jest możliwy do realizacji.
+	\end{itemize}
+\item[Q2.] Czy w chwili $t\ge0$ realizacji podanego scenariusza warunek $\gamma$ zachodzi zawsze/kiedykolwiek?
+	\begin{itemize}
+		\item $always/ever\ \gamma\ at\ t\ when\ Sc$\\
+		Oznacza, że zawsze/kiedykolwiek w chwili $t$ realizacji scenariusza $Sc$ zachodzi warunek $\gamma$.
+		\item $always/ever\ \gamma\ when\ Sc$\\
+		Oznacza, że zawsze/kiedykolwiek w pewnej chwili $t$ realizacji scenariusza $Sc$ zachodzi warunek $\gamma$.
+	\end{itemize}
+\item[Q3.] Czy w chwili $t$ realizacji scenariusza wykonywana jest akcja $A$?
+	\begin{itemize}
+		\item $performing\ A\ at\ t\ when\ Sc$\\
+		Oznacza, że zawsze w chwili $t$ realizacji scenariusza $Sc$ zachodzi akcja $A$.
+		\item $performing\ A\ when\ Sc$\\
+		Oznacza, że zawsze w pewnej chwili $t$ realizacji scenariusza $Sc$ zachodzi akcja $A$.
+		\item $performing\ at\ t\ when\ Sc$\\
+		Oznacza, że zawsze w chwili $t$ realizacji scenariusza $Sc$ zachodzi pewna akcja $A$.
+	\end{itemize}
+\item[Q4.] Czy podany cel $\gamma$ jest osiągalny zawsze/kiedykolwiek przy zadanym zbiorze o.bserwacji OBS?
+	\begin{itemize}
+		\item $always/ever\ accesible\ \gamma\ when\ Sc$\\
+		Oznacza, że cel $\gamma$ jest osiągalny zawsze/kiedykolwiek przy zadanym zbiorze obserwacji $OBS$ przy realizacji scenariusza $Sc$.\\
+	\end{itemize}
 
-Q1. Czy podany scenariusz jest możliwy do realizacji zawsze/kiedykolwiek?
-\begin{itemize}
-	\item $always/ever\ executable\ Sc$\\
-	Oznacza, że scenariusz $Sc$ zawsze/kiedykolwiek jest możliwy do realizacji.
-\end{itemize}
-
-Q2. Czy w chwili $t\ge0$ realizacji podanego scenariusza warunek $\gamma$ zachodzi zawsze/kiedykolwiek?
-\begin{itemize}
-	\item $always/ever\ \gamma\ at\ t\ when\ Sc$\\
-	Oznacza, że zawsze/kiedykolwiek w chwili $t$ realizacji scenariusza $Sc$ zachodzi warunek $\gamma$.
-\end{itemize}
-
-Q3. Czy w chwili $t$ realizacji scenariusza wykonywana jest akcja $A$?
-\begin{itemize}
-	\item $performing\ A\ at\ t\ when\ Sc$\\
-	Oznacza, że zawsze w chwili $t$ realizacji scenariusza $Sc$ zachodzi akcja $A$.
-\end{itemize}
-
-Q4. Czy podany cel $\gamma$ jest osiągalny zawsze/kiedykolwiek przy zadanym zbiorze obserwacji OBS?
-\begin{itemize}
-	\item $always/ever\ accesible\ \gamma\ when\ Sc$\\
-	Oznacza, że cel $\gamma$ jest osiągalny zawsze/kiedykolwiek przy zadanym zbiorze obserwacji $OBS$ przy realizacji scenariusza $Sc$.
-\end{itemize}
-
-Semantyka kwerend w języku\\
+\item[Semantyka kwerend w języku] \hfill \\
 Niech $Sc$ będzie scenariuszem, $D$ niech będzie opisem domeny języka, wtedy powiemy, że kwerenda $Q$ jest konsekwencją $Sc$ zgodnie z $D$ (ozn. $Sc,\ D\ |\approx\ Q $)
 
 \begin{itemize}
 	\item zapytanie kwerendą $Q$ postaci $\gamma\ at\ t\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $H(\gamma,t)=1$
+	\item zapytanie kwerendą $Q$ postaci $\gamma\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\exists_{t \in N}\ H(\gamma,t)=1$
 	\item zapytanie kwerendą $Q$ postaci $performing\ A\ at\ t\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $(A,t) \in E$
+	\item zapytanie kwerendą $Q$ postaci $performing\ A\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\exists_{t \in N}\ (A,t) \in E$
+	\item zapytanie kwerendą $Q$ postaci $performing\ at\ t\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\exists_{A \in Ac}\ (A,t) \in E$
+
 	\item zapytanie kwerendą $Q$ postaci $accesible\ \gamma\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\exists_{t \in \aleph} \exists_{A \in Ac}\ \gamma \in O(A, t)$
 \end{itemize}
 jeśli warunek nie zajdzie program zwróci wartość $FALSE$.
 
+\end{description}
 %</tag>
 \end{document}
