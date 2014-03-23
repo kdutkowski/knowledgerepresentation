@@ -2,7 +2,7 @@
 \begin{document}
 %<*tag>
 
-\chapter{Opis języka akcji}
+\section{Opis języka akcji}
 Język akcji zaprojektowany na potrzeby zadania, musi spełniać następujące warunki:
 \begin{enumerate}
 	\item Prawo inercji.
@@ -33,14 +33,14 @@ Język akcji zaprojektowany na potrzeby zadania, musi spełniać następujące w
 
 Językiem odpowiadającym powyższym założeniom jest język $ \textit{AL} $ opisujący domeny akcji z czasem liniowym.
 
-\section{Sygnatura języka}
+\subsection{Sygnatura języka}
 $ \psi = (F, Ac, \mathbb{N}) $\\
 gdzie:\\
 $ F $ -- zbiór zmiennych inercji (fluentów)\\
 $ Ac $ -- zbiór akcji\\
 $ \mathbb{N} $ -- zbiór liczb naturalnych (czas trwania akcji)
 
-\section{Opis domeny}
+\subsection{Opis domeny}
 Rodzaje zdań występujących w projektowanym języku (domena języka):\\
 Oznaczenia:\\
 $ f $ -- fluent\\
@@ -60,7 +60,7 @@ $ d_{i}, d \in \mathbb{N} $
 	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil jest wykonywana, jeśli zajdzie warunek $ \pi $.
 \end{itemize}
 
-\section{Scenariusze działań}
+\subsection{Scenariusze działań}
 Scenariusze działań opisane są w następujący sposób:
 	\begin{itemize}
 	\item $ Sc = (OBS, ACS) $
@@ -74,7 +74,7 @@ Scenariusze działań opisane są w następujący sposób:
 	$ t_{i} $ -- punkt w czasie (rozpoczęcie akcji).
 \end{itemize}
 
-\section{Semantyka}
+\subsection{Semantyka}
 \begin{definition}Semantyczną strukturą języka $ \textit{AL} $ nazywamy system $ S=(H,O,E) $  taki, że:
 \begin{itemize}
 \item $ H: F $ $\times$ $ \mathbb{N}$ $\longrightarrow$ $\{0,1\}$ jest funkcją historii, pozwala ona stwierdzić, jaki stan ma pewny fluent w danej chwili czasu.

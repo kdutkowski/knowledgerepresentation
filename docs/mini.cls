@@ -17,7 +17,7 @@
 %\DeclareOption{12pt}{\OptionNotUsed}
 %\DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
 \ProcessOptions\relax
-\LoadClass[a4paper,11pt,twoside,onecolumn,openany]{report}
+\LoadClass[a4paper,11pt,twoside,onecolumn,openany]{article}
 %------------------------------------------------------------------------------%
 \RequirePackage{graphicx}
 \graphicspath{{graphics/}}
@@ -31,25 +31,26 @@
   bottom=15mm,  % 20mm
   includeheadfoot
 }
-%------------------------------------------------------------------------------%
-\RequirePackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
+%%------------------------------------------------------------------------------%
+\pagestyle{plain}
+%\RequirePackage{fancyhdr}
+%\pagestyle{fancy}
+%\fancyhf{}
 %\fancyhead[RO,LE]{\slshape\rightmark}
 %\fancyhead[LO,RE]{\slshape\leftmark}
 %\fancyfoot[C]{\thepage}
-\fancyhead[RE]{\slshape\leftmark}
-\fancyhead[LO]{\slshape\rightmark}
-\fancyhead[LE,RO]{\thepage}
+%\fancyhead[RE]{\slshape\leftmark}
+%\fancyhead[LO]{\slshape\rightmark}
+%\fancyhead[LE,RO]{\thepage}
 %------------------------------------------------------------------------------%
-\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\enspace#1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection.\enspace#1}}
+%\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\enspace#1}{}}
+%\renewcommand{\sectionmark}[1]{\markright{\thesection.\enspace#1}}
 %------------------------------------------------------------------------------%
-\def\cleardoublepage{\clearpage\if@twoside
-\ifodd\c@page\else\hbox{}\thispagestyle{empty}\newpage
-\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+%\def\cleardoublepage{\clearpage\if@twoside
+%\ifodd\c@page\else\hbox{}\thispagestyle{empty}\newpage
+%\if@twocolumn\hbox{}\newpage\fi\fi\fi}
 %------------------------------------------------------------------------------%
-\renewcommand{\@seccntformat}[1]{\csname the#1\endcsname.\enspace}
+%\renewcommand{\@seccntformat}[1]{\csname the#1\endcsname.\enspace}
 \renewcommand{\numberline}[1]{\hb@xt@\@tempdima{#1.\hfil}}
 %------------------------------------------------------------------------------%
 \RequirePackage[parfill]{parskip}[2001/04/09]
@@ -78,16 +79,16 @@
   pdfstartview={FitH}
 }
 %------------------------------------------------------------------------------%
-\def\@schapter#1{
-\phantomsection\addcontentsline{toc}{chapter}{#1}
-\markboth{#1}{#1}\@makeschapterhead{#1}\@afterheading}
-%------------------------------------------------------------------------------%
-\renewcommand{\tableofcontents}{
-\if@openright\cleardoublepage\else\clearpage\fi\thispagestyle{plain}
-\pdfbookmark[0]{\contentsname}{tableofcontents}
-\@makeschapterhead{\contentsname}\@afterheading
-\@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}
-\@starttoc{toc}}
+%\def\@schapter#1{
+%\phantomsection\addcontentsline{toc}{chapter}{#1}
+%\markboth{#1}{#1}\@makeschapterhead{#1}\@afterheading}
+%%------------------------------------------------------------------------------%
+%\renewcommand{\tableofcontents}{
+%\if@openright\cleardoublepage\else\clearpage\fi\thispagestyle{plain}
+%\pdfbookmark[0]{\contentsname}{tableofcontents}
+%\@makeschapterhead{\contentsname}\@afterheading
+%\@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}
+%\@starttoc{toc}}
 %------------------------------------------------------------------------------%
 \def\title#1{\gdef\@title{#1}\hypersetup{pdftitle={#1}}}
 \def\@title{\@latex@error{No title given}\@ehc}
@@ -95,6 +96,8 @@
 \def\@titleaux{\@latex@error{No polish title given}\@ehc}
 \def\author#1{\gdef\@author{#1}\hypersetup{pdfauthor={#1}}}
 \def\@author{\@latex@error{No author given}\@ehc}
+\def\pm#1{\gdef\@pm{#1}}
+\def\@pm{\@latex@error{No pm given}\@ehc}
 \def\coauthor#1{\gdef\@coauthor{#1}}
 \def\@coauthor{\@latex@error{No coauthor given}\@ehc}
 \def\supervisor#1{\gdef\@supervisor{#1}}
@@ -114,6 +117,7 @@
 %------------------------------------------------------------------------------%
 \def\@descriptionfirst{Reprezentacja wiedzy}
 \def\@descriptionsecond{projekt nr 5}
+\def\@pmcap{Szef}
 \def\@authorcap{Autorzy}
 \def\@location{Warszawa}
 \def\@titlepagecap{Strona tytu{\l}owa}
@@ -138,18 +142,18 @@
 }{
   \def\bibname{Literatura}
 }
-%------------------------------------------------------------------------------%
+%%------------------------------------------------------------------------------%
 \newtheoremstyle{thm}{3ex}{3ex}{\itshape}{}{\bfseries}{.}{.5em}{#1 #2\thmnote{ (#3)}}
 \newtheoremstyle{rem}{3ex}{3ex}{}{}{\bfseries}{.}{.5em}{#1 #2\thmnote{ (#3)}}
 \theoremstyle{thm}
-\newtheorem{definition}{\@definition}[chapter]
-\newtheorem{theorem}{\@theorem}[chapter]
+\newtheorem{definition}{\@definition}[section]
+\newtheorem{theorem}{\@theorem}[section]
 \newtheorem{lemma}[theorem]{\@lemma}
 \newtheorem{proposition}[theorem]{\@proposition}
 \newtheorem{corollary}[theorem]{\@corollary}
 \theoremstyle{rem}
-\newtheorem{remark}{\@remark}[chapter]
-\newtheorem{example}{\@example}[chapter]
+\newtheorem{remark}{\@remark}[section]
+\newtheorem{example}{\@example}[section]
 \renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
 %------------------------------------------------------------------------------%
 \renewcommand{\maketitle}{
@@ -171,7 +175,8 @@
 \end{center}
 \hspace{.7\textwidth}
 \begin{minipage}[t][80mm]{.6\textwidth}
-  \textsc{\large\@authorcap:\\\@author}\par
+  \textsc{\@pmcap:\\\textbf{\MakeUppercase{\@pm}}
+  \\\\\@authorcap:\\\@author}\par
   \vspace{7mm}
 \end{minipage}
 \begin{center}
