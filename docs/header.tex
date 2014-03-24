@@ -14,6 +14,7 @@
 
 \usepackage{catchfilebetweentags}
 \usepackage{etoolbox}
+\setcounter{tocdepth}{2}
 \makeatletter
 \patchcmd{\CatchFBT@Fin@l}{\endlinechar\m@ne}{}
   {}{\typeout{Unsuccessful patch!}}

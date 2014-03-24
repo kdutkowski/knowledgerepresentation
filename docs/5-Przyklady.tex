@@ -2,164 +2,92 @@
 \begin{document}
 %<*tag>
 \section{Przykłady}
-%%czy to powinno być na sekcjach a nie wypunktowane?
-%%coś w stylu
+
 \subsection{Pytanie czy scenariusz może wystąpić}
-	\begin{enumerate}
-		\item Historia\\
-		\item Opis akcji\\
-		\item Scenariusz\\
-		\item Kwerendy\\
-		\item Analiza\\
-	\end{enumerate}
+
+	\subsubsection{Historia}
+
+	\subsubsection{Opis akcji}
+
+	\subsubsection{Scenariusz}
+
+	\subsubsection{Kwerendy}
+
+	\subsubsection{Analiza}
+
 \subsection{Pytanie czy dany warunek  zachodzi w danym czasie}
-	\begin{enumerate}
-		\item Historia\\
-		\item Opis akcji\\
-		\item Scenariusz\\
-		\item Kwerendy\\
-		\item Analiza\\
-	\end{enumerate}
+
+	\subsubsection{Historia}
+
+	\subsubsection{Opis akcji}
+
+	\subsubsection{Scenariusz}
+
+	\subsubsection{Kwerendy}
+
+	\subsubsection{Analiza}
+
 \subsection{Pytanie czy dana akcja jest wykonywana w danym czasie}
-	\begin{enumerate}
-		\item Historia\\
-		\item Opis akcji\\
-		\item Scenariusz\\
-		\item Kwerendy\\
-		\item Analiza\\
-	\end{enumerate}
+
+	\subsubsection{Historia}
+
+	\subsubsection{Opis akcji}
+
+	\subsubsection{Scenariusz}
+
+	\subsubsection{Kwerendy}
+.%dzięki mnie dobrze się formatuje. usuń mnie jak napiszesz ten fragment
+	\subsubsection{Analiza}
+
 \subsection{Pytanie czy cel jest osiągalny}
-	\begin{enumerate}
-		\item Historia\\
-		\item Opis akcji\\
-		\item Scenariusz\\
-		\item Kwerendy\\
-		\item Analiza\\
-	\end{enumerate}
+
+	\subsubsection{Historia}
+
+	\subsubsection{Opis akcji}
+
+	\subsubsection{Scenariusz}
+
+	\subsubsection{Kwerendy}
+
+	\subsubsection{Analiza}
+
 \subsection{Brak integralności}
-	Przykład \textit{Brak integralnośći} pokazuje scenariusz, który mimo zgodności z warunkami zadania, jest sprzeczny z logiką \textit{common sense} (z powodu braku warunków integralności).
-	\begin{enumerate}
-		\item Historia\\
-		Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub odłączyć komputer od zasilania. Komputer jest wyłączony i podłączony do zasilania. Jeżeli zostanie naciśnięty jego przycisk \textit{Włącz}, to komputer włącza się.
-		
-		\item Opis akcji\\
-		\textbf{initially} $\neg on\_computer$  and  $connects\_power\_computer$ \textbf{and} $\neg swithing\_on\_computer$\\
+
+Przykład \textit{Brak integralnośći} pokazuje scenariusz, który mimo zgodności z warunkami zadania, jest sprzeczny z logiką \textit{common sense} (z powodu braku warunków integralności).
+
+\subsubsection{Historia}
+Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub odłączyć komputer od zasilania. Komputer jest wyłączony i podłączony do zasilania. Jeżeli zostanie naciśnięty jego przycisk \textit{Włącz}, to komputer włącza się.
+
+\subsubsection{Opis akcji}
+
+\textbf{initially} $\neg on\_computer$  and  $connects\_power\_computer$ \textbf{and} $\neg swithing\_on\_computer$\\
 $(click\_button\_on,1)$  \textbf{causes} $switching\_on\_computer$\\
 $(click\_button\_on,1)$  \textbf{invokes} $(switch\_on\_computer,2)$  \textbf{after} $1$\\
 $(switch\_on\_computer,1)$  \textbf{causes} $on\_computer$\\
 $(disconnect\_power,1)$  \textbf{causes} $on\_computer$  \textbf{and} $\neg swithing\_on\_computer$ \\
 
-		\item Scenariusz\\
-		\textit{Sc} =$(OBS,ACS)$\\
+\subsubsection{Scenariusz}
+
+\textit{Sc} =$(OBS,ACS)$\\
 \textit{OBS} = ${\emptyset}$\\
 \textit{ACS}  = ${ 	(click\_button\_on,0+1), (disconnect\_power,)	,3+1),(click\_button\_on,4+1)	}$\\
 
-		\item Kwerendy\\
-		\begin{enumerate}
-			\item $swithing\_on\_computer$  \textbf{at} $6+2$ \textbf{when} \textit{Sc}
-			\item $swithing\_on\_computer$   \textbf{and}  $\neg on\_computer$ \textbf{at} $6+2$ \textit{when} \textbf{Sc}
-		\end{enumerate}
-		
-		\item Analiza\\
-		Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się.  Bill chwili $t = 5+1$ naciska przycisk \textit{Włącz}.Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj.  $swithing\_on\_computer = T$  i $on\_computer=T$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1. True$ i $2. False$. Należy zaznaczyć, że odpowiedzi zgodnie z logiką \textit{commonsense} powinny być sobie równe.
+\subsubsection{Kwerendy}
 
-	\begin{center}[!h]
-  	\includegraphics[width=1\textwidth]{Example5}
-  	\captionof*{figure}{
+\begin{enumerate}
+	\item $swithing\_on\_computer$  \textbf{at} $6+2$ \textbf{when} \textit{Sc}
+	\item $swithing\_on\_computer$   \textbf{and}  $\neg on\_computer$ \textbf{at} $6+2$ \textit{when} \textbf{Sc}
+\end{enumerate}
+
+
+\subsubsection{Analiza}
+Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się.  Bill chwili $t = 5+1$ naciska przycisk \textit{Włącz}.Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj.  $swithing\_on\_computer = T$  i $on\_computer=T$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1. True$ i $2. False$. Należy zaznaczyć, że odpowiedzi zgodnie z logiką \textit{commonsense} powinny być sobie równe.
+
+\begin{center}[!h]
+  \includegraphics[width=1\textwidth]{Example5}
+  \captionof*{figure}{
   }
-  	\end{center}
-	\end{enumerate}
-
-%stara wersja poniżej
-
-%\subsection{Pytanie czy scenariusz może wystąpić}
-%
-%	\subsubsection{Historia}
-%
-%	\subsubsection{Opis akcji}
-%
-%	\subsubsection{Scenariusz}
-%
-%	\subsubsection{Kwerendy}
-%
-%	\subsubsection{Analiza}
-%
-%\subsection{Pytanie czy dany warunek  zachodzi w danym czasie}
-%
-%	\subsubsection{Historia}
-%
-%	\subsubsection{Opis akcji}
-%
-%	\subsubsection{Scenariusz}
-%
-%	\subsubsection{Kwerendy}
-%
-%	\subsubsection{Analiza}
-%
-%\subsection{Pytanie czy dana akcja jest wykonywana w danym czasie}
-%
-%	\subsubsection{Historia}
-%
-%	\subsubsection{Opis akcji}
-%
-%	\subsubsection{Scenariusz}
-%
-%	\subsubsection{Kwerendy}
-%
-%	\subsubsection{Analiza}
-%
-%\subsection{Pytanie czy cel jest osiągalny}
-%
-%	\subsubsection{Historia}
-%
-%	\subsubsection{Opis akcji}
-%
-%	\subsubsection{Scenariusz}
-%
-%	\subsubsection{Kwerendy}
-%
-%	\subsubsection{Analiza}
-%
-%\subsection{Brak integralności}
-%
-%Przykład \textit{Brak integralnośći} pokazuje scenariusz, który mimo zgodności z warunkami zadania, jest sprzeczny z logiką \textit{common sense} (z powodu braku warunków integralności).
-%
-%\subsubsection{Historia}
-%Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub odłączyć komputer od zasilania. Komputer jest wyłączony i podłączony do zasilania. Jeżeli zostanie naciśnięty jego przycisk \textit{Włącz}, to komputer włącza się.
-%
-%\subsubsection{Opis akcji}
-%
-%\textbf{initially} $\neg on\_computer$  and  $connects\_power\_computer$ \textbf{and} $\neg swithing\_on\_computer$\\
-%$(click\_button\_on,1)$  \textbf{causes} $switching\_on\_computer$\\
-%$(click\_button\_on,1)$  \textbf{invokes} $(switch\_on\_computer,2)$  \textbf{after} $1$\\
-%$(switch\_on\_computer,1)$  \textbf{causes} $on\_computer$\\
-%$(disconnect\_power,1)$  \textbf{causes} $on\_computer$  \textbf{and} $\neg swithing\_on\_computer$ \\
-%
-%\subsubsection{Scenariusz}
-%
-%\textit{Sc} =$(OBS,ACS)$\\
-%\textit{OBS} = ${\emptyset}$\\
-%\textit{ACS}  = ${ 	(click\_button\_on,0+1), (disconnect\_power,)	,3+1),(click\_button\_on,4+1)	}$\\
-%
-%\subsubsection{Kwerendy}
-%
-%\begin{enumerate}
-%	\item $swithing\_on\_computer$  \textbf{at} $6+2$ \textbf{when} \textit{Sc}
-%	\item $swithing\_on\_computer$   \textbf{and}  $\neg on\_computer$ \textbf{at} $6+2$ \textit{when} \textbf{Sc}
-%\end{enumerate}
-%
-%
-%\subsubsection{Analiza}
-%Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się.  Bill chwili $t = 5+1$ naciska przycisk \textit{Włącz}.Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj.  $swithing\_on\_computer = T$  i $on\_computer=T$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1. True$ i $2. False$. Należy zaznaczyć, że odpowiedzi zgodnie z logiką \textit{commonsense} powinny być sobie równe.
-%
-%\begin{center}[!h]
-%  \includegraphics[width=1\textwidth]{Example5}
-%  \captionof*{figure}{
-%  }
-%\end{center}
-%
-
-
+\end{center}
 
 %</tag>
 \end{document}
