@@ -29,11 +29,25 @@
 
 \subsection{Pytanie czy dana akcja jest wykonywana w danym czasie}
 
+Ten przykład pokazuje przypadek kwarendy, która pyta, czy dana akcja jest wykonywana w danym czasie.
+
 	\subsubsection{Historia}
+
+Mamy Billa i psa Maxa. Jeśli Bill idzie, to  Max biegnie. Jeśli Bill zatrzymuje się, Max również zatrzymuje się.
 
 	\subsubsection{Opis akcji}
 
+\textbf{initially} $\neg go\_Bill$   \textbf{and}  $\neg run\_Max$ \\
+$(goes\_Bill,2)$  \textbf{causes} $running\_Max$\\
+$(goes\_Bill,2)$  \textbf{invokes} $(run\_Max,2)$  \textbf{after} $1$\\
+$(stops\_Bill,1)$  \textbf{causes} $stopping\_Max$\\
+$(stops\_Bill,1)$  \textbf{invokes} $(stops\_Max,1)$  \textbf{after} $1$\\
+
 	\subsubsection{Scenariusz}
+
+\textit{Sc} =$(OBS,ACS)$\\
+\textit{OBS} = ${\emptyset}$\\
+\textit{ACS}  = ${ 	(goes\_Bill,0+1), (stops\_Bill,TODO),(goes\_Bill,TODO)	}$\\
 
 	\subsubsection{Kwerendy}
 .%dzięki mnie dobrze się formatuje. usuń mnie jak napiszesz ten fragment
@@ -60,7 +74,7 @@ Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub od
 
 \subsubsection{Opis akcji}
 
-\textbf{initially} $\neg on\_computer$  and  $connects\_power\_computer$ \textbf{and} $\neg swithing\_on\_computer$\\
+\textbf{initially} $\neg on\_computer$   \textbf{and}  $connects\_power\_computer$ \textbf{and} $\neg swithing\_on\_computer$\\
 $(click\_button\_on,1)$  \textbf{causes} $switching\_on\_computer$\\
 $(click\_button\_on,1)$  \textbf{invokes} $(switch\_on\_computer,2)$  \textbf{after} $1$\\
 $(switch\_on\_computer,1)$  \textbf{causes} $on\_computer$\\
@@ -70,7 +84,7 @@ $(disconnect\_power,1)$  \textbf{causes} $on\_computer$  \textbf{and} $\neg swit
 
 \textit{Sc} =$(OBS,ACS)$\\
 \textit{OBS} = ${\emptyset}$\\
-\textit{ACS}  = ${ 	(click\_button\_on,0+1), (disconnect\_power,)	,3+1),(click\_button\_on,4+1)	}$\\
+\textit{ACS}  = ${ 	(click\_button\_on,0+1), (disconnect\_power,3+1),(click\_button\_on,4+1)	}$\\
 
 \subsubsection{Kwerendy}
 
