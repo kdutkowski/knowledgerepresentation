@@ -3,77 +3,50 @@
 %<*tag>
 \section{Przykłady}
 
-\subsection{Pytanie czy scenariusz może wystąpić}
-
-	\subsubsection{Historia}
-
-	\subsubsection{Opis akcji}
-
-	\subsubsection{Scenariusz}
-
-	\subsubsection{Kwerendy}
-
-	\subsubsection{Analiza}
-
-\subsection{Pytanie czy dany warunek  zachodzi w danym czasie}
-
-	\subsubsection{Historia}
-
-	\subsubsection{Opis akcji}
-
-	\subsubsection{Scenariusz}
-
-	\subsubsection{Kwerendy}
-
-	\subsubsection{Analiza}
 
 \subsection{Pytanie czy dana akcja jest wykonywana w pewnym czasie}
 
-Ten przykład pokazuje przypadek kwarendy, która pyta, czy dana akcja jest wykonywana w pewnym czasie.
+Ten przykład pokazuje przypadek kwerendy, która pyta, czy dana akcja jest wykonywana w pewnym czasie.
 
 	\subsubsection{Historia}
 
-Mamy Billa i psa Maxa. Jeśli Bill idzie, to  Max biegnie. Jeśli Bill zatrzymuje się, Max również zatrzymuje się.
+Mamy Billa i psa Maxa. Jeśli Bill idzie, to  Max biegnie. Jeśli Bill gwiżdże , Max szczeka. Jeśli Bill zatrzymuje się, Max również. Jeśli Bill przestaje gwizdać, to Max przestaje szczekać.
 
 	\subsubsection{Opis akcji}
 
-\textbf{initially} $\neg go\_Bill$   \textbf{and}  $\neg run\_Max$ \\
+\textbf{initially} $\neg go\_Bill$   \textbf{and}  $\neg run\_Max$  \textbf{and}  $\neg whistle\_Bill$  \textbf{and}  $\neg bark\_Max$ \\
 $(goes\_Bill,2)$  \textbf{causes} $running\_Max$\\
 $(goes\_Bill,2)$  \textbf{invokes} $(run\_Max,2)$  \textbf{after} $1$\\
-$(stops\_Bill,1)$  \textbf{causes} $stopping\_Max$\\
-$(stops\_Bill,1)$  \textbf{invokes} $(stops\_Max,1)$  \textbf{after} $1$\\
+$(whistles\_Bill,1)$  \textbf{causes} $barking\_Max$\\
+$(whistles\_Bill,1)$  \textbf{invokes} $(barks\_Max,1)$  \textbf{after} $1$\\
+
 
 	\subsubsection{Scenariusz}
 
 \textit{Sc} =$(OBS,ACS)$\\
 \textit{OBS} = ${\emptyset}$\\
-\textit{ACS}  = ${ 	(goes\_Bill,0+1), (stops\_Bill,TODO),(goes\_Bill,TODO)	}$\\
+\textit{ACS}  = ${ 	(goes\_Bill,0+1), (whistles\_Bill,5+2),(goes\_Bill,7+2)	}$\\
 
 	\subsubsection{Kwerendy}
 	
 \begin{enumerate}
-	\item \textbf{performing} $running\_Max$  \textbf{at} $TODO$ \textbf{when} \textit{Sc}
+	\item \textbf{performing} $running\_Max$  \textbf{at} $8$ \textbf{when} \textit{Sc}
 	\item \textbf{performing} $running\_Max$   \textbf{when} \textit{Sc}
-	\item \textbf{performing}   \textbf{at} $TODO$ \textbf{when} \textit{Sc}
+	\item \textbf{performing}   \textbf{at} $8$ \textbf{when} \textit{Sc}
 \end{enumerate}
 
 	\subsubsection{Analiza}
+Odpowiedzi na powyższe kwerendy są następujące:
+\begin{enumerate}
+	\item \texttt{FALSE},
+	\item \texttt{TRUE},
+	\item \texttt{TRUE}.
+\end{enumerate}
+Ilustruje to poniższy diagram:
 
 \begin{center}
   \includegraphics[width=1\textwidth]{Example3}
 \end{center}
-
-\subsection{Pytanie czy cel jest osiągalny}
-
-	\subsubsection{Historia}
-
-	\subsubsection{Opis akcji}
-
-	\subsubsection{Scenariusz}
-
-	\subsubsection{Kwerendy}
-
-	\subsubsection{Analiza}
 
 \subsection{Brak integralności}
 
@@ -105,7 +78,7 @@ $(disconnect\_power,1)$  \textbf{causes} $on\_computer$  \textbf{and} $\neg swit
 
 
 \subsubsection{Analiza}
-Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się.  Bill chwili $t = 5+1$ naciska przycisk \textit{Włącz}.Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj.  $swithing\_on\_computer = T$  i $on\_computer=T$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1. True$ i $2. False$. Należy zaznaczyć, że odpowiedzi zgodnie z logiką \textit{commonsense} powinny być sobie równe.
+Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się.  Bill chwili $t = 5+1$ naciska przycisk \textit{Włącz}.Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj.  $swithing\_on\_computer = T$  i $on\_computer=T$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1.$ \texttt{TRUE} i $2.$ \texttt{FALSE}. Należy zaznaczyć, że odpowiedzi zgodnie z logiką \textit{commonsense} powinny być sobie równe.
 
 \begin{center}
   \includegraphics[width=1\textwidth]{Example5}
