@@ -27,9 +27,9 @@
 
 	\subsubsection{Analiza}
 
-\subsection{Pytanie czy dana akcja jest wykonywana w danym czasie}
+\subsection{Pytanie czy dana akcja jest wykonywana w pewnym czasie}
 
-Ten przykład pokazuje przypadek kwarendy, która pyta, czy dana akcja jest wykonywana w danym czasie.
+Ten przykład pokazuje przypadek kwarendy, która pyta, czy dana akcja jest wykonywana w pewnym czasie.
 
 	\subsubsection{Historia}
 
@@ -50,8 +50,18 @@ $(stops\_Bill,1)$  \textbf{invokes} $(stops\_Max,1)$  \textbf{after} $1$\\
 \textit{ACS}  = ${ 	(goes\_Bill,0+1), (stops\_Bill,TODO),(goes\_Bill,TODO)	}$\\
 
 	\subsubsection{Kwerendy}
-.%dzięki mnie dobrze się formatuje. usuń mnie jak napiszesz ten fragment
+	
+\begin{enumerate}
+	\item \textbf{performing} $running\_Max$  \textbf{at} $TODO$ \textbf{when} \textit{Sc}
+	\item \textbf{performing} $running\_Max$   \textbf{when} \textit{Sc}
+	\item \textbf{performing}   \textbf{at} $TODO$ \textbf{when} \textit{Sc}
+\end{enumerate}
+
 	\subsubsection{Analiza}
+
+\begin{center}
+  \includegraphics[width=1\textwidth]{Example3}
+\end{center}
 
 \subsection{Pytanie czy cel jest osiągalny}
 
@@ -97,10 +107,8 @@ $(disconnect\_power,1)$  \textbf{causes} $on\_computer$  \textbf{and} $\neg swit
 \subsubsection{Analiza}
 Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się.  Bill chwili $t = 5+1$ naciska przycisk \textit{Włącz}.Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj.  $swithing\_on\_computer = T$  i $on\_computer=T$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1. True$ i $2. False$. Należy zaznaczyć, że odpowiedzi zgodnie z logiką \textit{commonsense} powinny być sobie równe.
 
-\begin{center}[!h]
+\begin{center}
   \includegraphics[width=1\textwidth]{Example5}
-  \captionof*{figure}{
-  }
 \end{center}
 
 %</tag>
