@@ -84,7 +84,7 @@ Scenariusze działań opisane są w następujący sposób:
 \begin{itemize}
 \item $ H: F $ $\times$ $ \mathbb{N}$ $\longrightarrow$ $\{0,1\}$ jest funkcją historii, pozwala ona stwierdzić, jaki stan ma pewny fluent w danej chwili czasu.
 \item $ O: Ac$ $\times$ $ \mathbb{N}$ $\longrightarrow$ $2^{F}$ jest funkcją okluzji. Dla pewnej ustalonej akcji $A$ i chwili czasu $t\in\mathbb{N}$ funkcja $O(A,t) $ zwraca zbiór fluentów, na który akcja $A$ ma wpływ, jeśli zostanie zakończona od czasu $t-1$ do $t$.
-\item $E\subseteq Ac \times \mathbb{N} \times \mathbb{N}$ jest relacją wykonań akcji. Para $(A,t,d)$ należy do relacji $E$ jeśli akcja $A$ trwająca d czasu jest rozpoczęta w czasie t. W naszym modelu zakładamy warunek sekwencyjności działań. Oznacza on, że tylko jedną akcje możemy wykonać w danym czasie tak, więc jeśli $(A,t,d)\in E$ oraz $(B,t,d)\in E$, to $A=B$. 
+\item $E\subseteq Ac \times \mathbb{N} \times \mathbb{N}$ jest relacją wykonań akcji. Trójka $(A,t,d)$ należy do relacji $E$ jeśli akcja $A$ trwająca d czasu jest rozpoczęta w czasie t. W naszym modelu zakładamy warunek sekwencyjności działań. Oznacza on, że tylko jedną akcje możemy wykonać w danym czasie tak, więc jeśli $(A,t,d)\in E$ oraz $(B,t,d)\in E$, to $A=B$. 
 \end{itemize}
 \end{definition}
 
