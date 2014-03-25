@@ -3,6 +3,100 @@
 %<*tag>
 \section{Przykłady}
 
+\subsection{Pytanie czy dany scenariusz moze wystąpić}
+
+\subsubsection{Historia}
+
+Mick i Sarah są parą, więc mają wspólne produkty spożywcze, ale posiłki zwykle jadają oddzielnie. Pewnego dnia Sarah chce zrobić ciasto, a Mick naleśniki. Nie mogą być one robione w tym samym czasie ze względu konieczność użycia miksera do przygotowania obu. Ponadto, zrobienie jednego lub drugiego dania zużywa cały zapas jajek dostępnych w mieszkaniu, więc trzeba je potem dokupić.
+
+\subsubsection{Opis akcji}
+
+ \textbf{initially}  \textit{eggs}\\
+ \textit{(making\_panc,1)}  \textbf{ causes}  \textit{$\neg$ eggs}  \textbf{if}  \textit{eggs}\\
+(making\_cake,1)   \textbf{causes} $\neg$ eggs  \textbf{if}  \textit{eggs}\\
+ \textbf{impossible}  \textit{\{making\_pan,making\_cake\}}\\
+$(buy\_eggs,2)$  \textbf{causes}  \textit{eggs}\\
+
+\subsubsection{Scenariusze}
+
+Sc =$(OBS;ACS)$\\
+OBS =  ${\emptyset}$\\
+ACS = $((making\_panc;1),0), ((making\_cake,1)2)$\\
+
+Sc2 =$(OBS2;ACS2)$\\
+OBS2 = ${\emptyset}$\\
+ACS2 =$ ((making\_panc,1),0), ((buy\_eggs,2)2),( (making\_cake,1),4), ((making\_panc,1), 4)$\\
+
+
+\subsubsection{Kwerendy}
+
+\begin{enumerate}
+	\item  \textbf{performing}  \textit{making\_panc}  \textbf{at} $1$  \textbf{when}  \textit{Sc}
+	\item  \textbf{performing}  \textit{making\_cake}  \textbf{at} 2  \textbf{when}  \textit{Sc}
+	\item  \textbf{performing at} 5  \textbf{when}  \textit{Sc2}
+\end{enumerate}
+
+\subsubsection{Analiza}
+
+Odpowiedzi na kwerendy to odpowiednio:
+\begin{enumerate}
+	\item \texttt{TRUE},
+	\item \texttt{TRUE},
+	\item Nie można zrealizować scenariusza \textit{Sc2},
+\end{enumerate}
+
+Zgodnie z diagramem dla scenariusza  \textit{Sc}:
+
+\begin{center}
+  \includegraphics[width=1\textwidth]{Example1}
+\end{center}
+
+Scenariusza \textit{ Sc2} nie można wykonać, ponieważ wymaga on jednoczesnego wypełnienia akcji  $\textit{making\_panc}$ i  $\textit{making\_cake}$, co jest niezgodne z warunkami zadania.
+
+
+\subsection{Pytanie czy dany warunek zachodzi w danym czasie}
+
+\subsubsection{Historia}
+
+Mick i Sarah są parą, więc mają wspólne produkty spożywcze, ale posiłki zwykle jadają oddzielnie. Pewnego dnia Sarah chce zrobić ciasto, a Mick naleśniki. Nie mogą być one robione w tym samym czasie ze względu konieczność użycia miksera do przygotowania obu. Ponadto, zrobienie jednego lub drugiego dania zużywa cały zapas jajek dostępnych w mieszkaniu, więc trzeba je potem dokupić.
+
+\subsubsection{Opis akcji}
+ \textbf{initially}  \textit{eggs}\\
+$(making\_panc,1)$   \textbf{causes} $\neg$  \textit{eggs} \textbf{ if } \textit{eggs}\\
+$(making\_cake,1)$   \textbf{causes} $\neg$  \textit{eggs} \textbf{ if } \textit{eggs}\\
+ \textbf{impossible} $\{making\_pan,making\_cake\}$\\
+$(buy\_eggs,2)$  \textbf{causes}  \textit{eggs}\\
+
+
+\subsubsection{Scenariusz}
+
+ \textit{Sc} =$(OBS;ACS)$
+ \textit{OBS} =  ${\emptyset}$\\
+ \textit{ACS} = $((making\_panc;1),0), ((making\_cake,1)2)$
+
+
+\subsubsection{Kwerendy}
+
+\begin{enumerate}
+	\item  \textit{eggs}  \texttt{at} 1  \textbf{when}  \textit{Sc}
+	\item  \textit{eggs} \texttt{ at} 2 \textbf{ when} \textit{ Sc}
+\end{enumerate}
+
+\subsubsection{Analiza}
+
+Odpowiedzi na kwerendy to odpowiednio:
+\begin{enumerate}
+	\item \texttt{TRUE},
+	\item \texttt{FALSE}.
+\end{enumerate}
+	
+	Zgodnie z diagramem dla scenariusza \textit{Sc}:
+
+\begin{center}
+  \includegraphics[width=1\textwidth]{Example2}
+\end{center}
+
+	Oczywiście warunek akcji \textit{making\_panc} nie jest spełniony w momencie $2$.
 
 \subsection{Pytanie czy dana akcja jest wykonywana w pewnym czasie}
 
