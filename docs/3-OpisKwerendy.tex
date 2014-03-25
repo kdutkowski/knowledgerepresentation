@@ -36,6 +36,7 @@ Zdefiniowany język akcji może być odpytywany przez poniżej zaprezentowany j�
 Niech $Sc$ będzie scenariuszem, $D$ niech będzie opisem domeny języka, wtedy powiemy, że kwerenda $Q$ jest konsekwencją $Sc$ zgodnie z $D$ (ozn. $Sc,\ D\ |\approx\ Q $)
 
 \begin{itemize}
+	\item zapytanie kwerendą $Q$ postaci $always/ever\ executable\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ zgodnego z $D$ scenariusz $Sc$\ zakończy się.
 	\item zapytanie kwerendą $Q$ postaci $\gamma\ at\ t\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $H(\gamma,t)=1$
 	\item zapytanie kwerendą $Q$ postaci $\gamma\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\exists_{t \in N}\ H(\gamma,t)=1$
 	\item zapytanie kwerendą $Q$ postaci $performing\ A\ at\ t\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\forall_{d \in N}\ (A,t) \in E$
