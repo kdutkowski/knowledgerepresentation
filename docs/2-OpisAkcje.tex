@@ -108,7 +108,7 @@ Scenariusze działań opisane są w następujący sposób:
    Niech $S=(H,O,E)$ będzie strukturą dla scenariusza $Sc=(OBS,ACS)$ zgodną z opisem domeny $D$. $S$ będziemy nazywać modelem $Sc$ zgodnym z opisem $D$ jeżeli:
    \begin{itemize}
    \item $S$ jest $O$-minimalny
-   \item Dla każdego momentu w czasie $t,d\in \mathbb{N}$, ${f\in F:H(f,t)\neq H(f,t+d)} \Longleftrightarrow f \in O(A,t+d)$ dla pewnej akcji $A\in Ac$ trwającej $ d $ czasu.
+   \item Dla każdego momentu w czasie $t,d\in \mathbb{N}$, jeżeli istnieje $f\in F$: takie, że$H(f,t)\neq H(f,t+d) $ to istnieje pewna akcja $A\in Ac$ trwająca d czasu, taka, że $f \in O(A,t+d)$.
    \item Nie istnieje, żadna struktura $S'=(H',O',E')$ dla $Sc$ zgodna z opisem $D$ która spełnia poprzednie warunki oraz taka, że $E'\subset E$. 
    \end{itemize}
    \end{definition}
