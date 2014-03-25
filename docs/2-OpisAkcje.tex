@@ -34,8 +34,7 @@ Język akcji zaprojektowany na potrzeby zadania spełnia następujące warunki:
 Językiem odpowiadającym powyższym założeniom jest język $ \textit{AL} $ opisujący domeny akcji z czasem liniowym.
 
 \subsection{Sygnatura języka}
-$ \psi = (F, Ac, \mathbb{N}) $\\
-gdzie:\\
+Sygnaturą języka jest następująca trójka zbiorów: $ \psi = (F, Ac, \mathbb{N}) $, gdzie:\\
 $ F $ -- zbiór zmiennych inercji (fluentów)\\
 $ Ac $ -- zbiór akcji\\
 $ \mathbb{N} $ -- zbiór liczb naturalnych (czas trwania akcji)
@@ -45,7 +44,7 @@ Rodzaje zdań występujących w projektowanym języku (domena języka):\\
 Oznaczenia:\\
 $ f $ -- fluent\\
 $ Ac_{i}, Ac_{j}\in Ac $\\
-$ \pi \in Forms(F) $\\
+$ \alpha, \pi \in Forms(F) $\\
 $ d_{i}, d \in \mathbb{N} $
 \begin{itemize}
 	\item initially $ \alpha $\\
@@ -58,6 +57,12 @@ $ d_{i}, d \in \mathbb{N} $
 	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil powoduje uwolnienie $ f $ po zakończeniu akcji $ Ac_{i} $, jeśli zachodzi warunek $ \pi $.
 	\item $ \pi $ triggers $ (Ac_{i}, d_{i}) $\\
 	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil jest wykonywana, jeśli zajdzie warunek $ \pi $.
+	\item impossible $ (Ac_{i}, d_{i}) $ at $ d $\\
+	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil jest niewykonalna w chwili $ d $.
+	\item impossible $ (Ac_{i}, d_{i}) $ if $ \pi $\\
+	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil jest niewykonalna, jeśli zachodzi warunek $ \pi $.
+	\item always $ \alpha $\\
+	Każdy stan spełnia warunek $ \alpha $.
 \end{itemize}
 
 \subsection{Scenariusze działań}
