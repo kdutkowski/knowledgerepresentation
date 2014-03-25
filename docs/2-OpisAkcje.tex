@@ -3,7 +3,7 @@
 %<*tag>
 
 \section{Opis języka akcji}
-Język akcji zaprojektowany na potrzeby zadania, musi spełniać następujące warunki:
+Język akcji zaprojektowany na potrzeby zadania spełnia następujące warunki:
 \begin{enumerate}
 	\item Prawo inercji.
 	\item Sekwencyjność działań.
@@ -23,10 +23,10 @@ Język akcji zaprojektowany na potrzeby zadania, musi spełniać następujące w
 	\item Podczas trwania akcji, wartości zmiennych, na które ona wpływa, nie są znane.
 	\item Występujące rodzaje efektów:
 	\begin{enumerate}
-		\item środowiskowe,
-		\item dynamiczne.
+		\item środowiskowe: zmiany wartości zmiennych systemu,
+		\item dynamiczne: wystąpienie innych akcji po $ d \geqslant 0 $ jednostkach czasu od zakończenia akcji przyczynowej.
 	\end{enumerate}
-	\item Akcje mogą być niewykonalne.
+	\item W pewnych stanach akcje mogą być niewykonalne, przy czym stany takie podane są albo przez podanie konkretnych punktów czasowych, albo przez określenie warunków logicznych.
 	\item Stany opisywane częściowo (obserwacje). (TODO wyjaśnić) %po wyjaśnieniu, usunąć TODO
 	\item Pewne stany mogą rozpocząć wykonywanie pewnych akcji.
 \end{enumerate}
