@@ -104,39 +104,41 @@ Odpowiedzi na kwerendy to odpowiednio:
 
 Ten przykład pokazuje przypadek kwerendy, która pyta, czy dana akcja jest wykonywana w pewnym czasie.
 
-	\subsubsection{Historia}
+\subsubsection{Historia}
 
-Mamy Billa i psa Maxa. Jeśli Bill idzie, to  Max biegnie. Jeśli Bill gwiżdże , Max szczeka. Jeśli Bill zatrzymuje się, Max również. Jeśli Bill przestaje gwizdać, to Max przestaje szczekać.
+Mamy Billa i psa Maxa. Jeśli Bill idzie, to Max biegnie. Jeśli Bill gwiżdże , Max szczeka. Jeśli Bill zatrzymuje się, Max również. Jeśli Bill przestaje gwizdać, to Max przestaje szczekać.
 
-	\subsubsection{Opis akcji}
+\subsubsection{Opis akcji}
 
-\textbf{initially} $\neg go\_Bill$   \textbf{and}  $\neg run\_Max$  \textbf{and}  $\neg whistle\_Bill$  \textbf{and}  $\neg bark\_Max$ \\
-$(goes\_Bill,2)$  \textbf{causes} $running\_Max$\\
-$(goes\_Bill,2)$  \textbf{invokes} $(run\_Max,2)$  \textbf{after} $1$\\
-$(whistles\_Bill,1)$  \textbf{causes} $barking\_Max$\\
-$(whistles\_Bill,1)$  \textbf{invokes} $(barks\_Max,1)$  \textbf{after} $1$\\
+\textbf{initially} $\neg go\_Bill$ \textbf{and} $\neg run\_Max$ \textbf{and} $\neg whistle\_Bill$ \textbf{and} $\neg bark\_Max$ \\
+$(goes\_Bill,2)$ \textbf{causes} $run\_Max$\\
+$(goes\_Bill,2)$ \textbf{invokes} $(runs\_Max,2)$ \textbf{after} $0$\\
+$(runs\_Max,2)$ \textbf{causes} $\neg run\_Max$\\
+$(whistles\_Bill,1)$ \textbf{causes} $bark\_Max$\\
+$(whistles\_Bill,1)$ \textbf{invokes} $(barks\_Max,1)$ \textbf{after} $0$\\
+$(whistles\_Bill,1)$ \textbf{causes} $\neg whistle\_Bill$\\
 
 
-	\subsubsection{Scenariusz}
+\subsubsection{Scenariusz}
 
 \textit{Sc} =$(OBS,ACS)$\\
 \textit{OBS} = ${\emptyset}$\\
-\textit{ACS}  = ${ 	(goes\_Bill,0+1), (whistles\_Bill,5+2),(goes\_Bill,7+2)	}$\\
+\textit{ACS} = ${ ((goes\_Bill,2),1), ((whistles\_Bill,1),5),((goes\_Bill,2),7)	}$\\
 
-	\subsubsection{Kwerendy}
-	
+\subsubsection{Kwerendy}
+
 \begin{enumerate}
-	\item \textbf{performing} $running\_Max$  \textbf{at} $8$ \textbf{when} \textit{Sc}
-	\item \textbf{performing} $running\_Max$   \textbf{when} \textit{Sc}
-	\item \textbf{performing}   \textbf{at} $8$ \textbf{when} \textit{Sc}
+\item \textbf{performing} $run\_Max$ \textbf{at} $8$ \textbf{when} \textit{Sc}
+\item \textbf{performing} $run\_Max$ \textbf{when} \textit{Sc}
+\item \textbf{performing} \textbf{at} $8$ \textbf{when} \textit{Sc}
 \end{enumerate}
 
-	\subsubsection{Analiza}
+\subsubsection{Analiza}
 Odpowiedzi na powyższe kwerendy są następujące:
 \begin{enumerate}
-	\item \texttt{FALSE},
-	\item \texttt{TRUE},
-	\item \texttt{TRUE}.
+\item \texttt{FALSE},
+\item \texttt{TRUE},
+\item \texttt{TRUE}.
 \end{enumerate}
 Ilustruje to poniższy diagram:
 
@@ -153,32 +155,34 @@ Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub od
 
 \subsubsection{Opis akcji}
 
-\textbf{initially} $\neg on\_computer$   \textbf{and}  $connects\_power\_computer$ \textbf{and} $\neg swithing\_on\_computer$\\
-$(click\_button\_on,1)$  \textbf{causes} $switching\_on\_computer$\\
-$(click\_button\_on,1)$  \textbf{invokes} $(switch\_on\_computer,2)$  \textbf{after} $1$\\
-$(switch\_on\_computer,1)$  \textbf{causes} $on\_computer$\\
-$(disconnect\_power,1)$  \textbf{causes} $on\_computer$  \textbf{and} $\neg swithing\_on\_computer$ \\
+\textbf{initially} $\neg on\_computer$ \textbf{and} $connect\_power\_computer$ \textbf{and} $\neg swith\_on\_computer$\\
+$(clicks\_button\_on,1)$ \textbf{causes} $switch\_on\_computer$\\
+$(clicks\_button\_on,1)$ \textbf{invokes} $(switches\_on\_computer,2)$ \textbf{after} $0$\\
+$(switches\_on\_computer,1)$ \textbf{causes} $on\_computer$\\
+$(disconnects\_power,1)$ \textbf{causes} $on\_computer$ \textbf{and} $\neg swith\_on\_computer$ \\
 
 \subsubsection{Scenariusz}
 
 \textit{Sc} =$(OBS,ACS)$\\
 \textit{OBS} = ${\emptyset}$\\
-\textit{ACS}  = ${ 	(click\_button\_on,0+1), (disconnect\_power,3+1),(click\_button\_on,4+1)	}$\\
+\textit{ACS} = ${ ((clicks\_button\_on,1),1), ((disconnects\_power,1),4),((clicks\_button\_on,1),5)	}$\\
 
 \subsubsection{Kwerendy}
 
 \begin{enumerate}
-	\item $swithing\_on\_computer$  \textbf{at} $6+2$ \textbf{when} \textit{Sc}
-	\item $swithing\_on\_computer$   \textbf{and}  $\neg on\_computer$ \textbf{at} $6+2$ \textit{when} \textbf{Sc}
+\item $swith\_on\_computer$ \textbf{at} $6+2$ \textbf{when} \textit{Sc}
+\item $swith\_on\_computer$ \textbf{and} $\neg on\_computer$ \textbf{at} $6+2$ \textit{when} \textbf{Sc}
 \end{enumerate}
 
 
 \subsubsection{Analiza}
-Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się.  Bill chwili $t = 5+1$ naciska przycisk \textit{Włącz}.Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj.  $swithing\_on\_computer = T$  i $on\_computer=T$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1.$ \texttt{TRUE} i $2.$ \texttt{FALSE}. Należy zaznaczyć, że odpowiedzi zgodnie z logiką \textit{commonsense} powinny być sobie równe.
+Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się. Bill chwili $t = 5+1$ naciska przycisk \textit{Włącz}.Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj. $swith\_on\_computer = T$ i $on\_computer=T$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1.$ \texttt{TRUE} i $2.$ \texttt{FALSE}. Należy zaznaczyć, że odpowiedzi zgodnie ze zdrowym rozsądkiem powinny być sobie równe.
 
 \begin{center}
   \includegraphics[width=1\textwidth]{Example5}
 \end{center}
+
+
 
 %</tag>
 \end{document}
