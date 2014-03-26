@@ -90,10 +90,14 @@ Scenariusze działań opisane są w następujący sposób:
 
  Niech: $A,B$ będą akcjami, $ f $ - fluentem, $\alpha, \pi$ - będą formułami, $d,d_{2},d_{3} $ - liczbami naturalnymi (oznaczającymi czas trawania akcji) oraz $fl(\alpha)$ będzie zbiorem fluentów występujących w $\alpha$. Wtedy dla zdań języka $AL$ muszą być spełnione następujące warunki: 
    \begin{itemize} 
+   \item Dla każdego wyrażenia $(initially\; \alpha)$ mamy $H(\alpha,1)=1$.
    \item Dla każdego wyrażenia $ ( (A,d)\;causes\;\alpha\;if\;\pi)\in D $ i dla każdego momentu w czasie $t \in \mathbb{N}$, jeżeli $H(\pi,t)=1$ oraz $(A,t,d) \in E$, wtedy $H(\alpha,t+d)=1$ i $fl(\alpha)\subseteq O(A,t+d)$.
    \item Dla każdego wyrażenia $( (A,d) \;release\;f\;if\;\pi)\in D $ i dla każdego momentu czasu $t \in \mathbb{N}$, jeżeli $H(\pi,t)=1$ oraz $(A,t,d)\in E$, wtedy $f\in O(A,t+d)$.
    \item Dla każdego wyrażenia $(\pi\;triggers\; (A,d))\in D$ i dla każdego momentu czasu $t \in \mathbb{N}$, jeżeli $H(\pi,t)=1$, wtedy $(A,t,d)\in E$.
    \item Dla każdego wyrażenia $( (A,d_{1})\;invokes\;(B,d_{2})\;after\;d\;\;if\;\pi)\in D$ i dla każdego momentu czasu $t \in \mathbb{N}$, jeżeli $H(\pi,t)=1$ oraz $(A,t,d_{1})\in E $, wtedy $(B,t+d+d_{1},d_{2}) \in E $.
+   \item Dla każdego wyrażenia $(impossible \; (A, d) \; at\;  t )$ mamy $(A,t,d) \notin E $
+   \item Dla każdego wyrażenia $(impossible \; (A, d) \; if\;  \pi )$ i dla każdego momentu czasu $t \in \mathbb{N}$, jeżeli $H(\pi,t)=1$, wtedy $(A,t,d) \notin E $.
+   \item Dla każdego wyrażenia $(always \; \alpha ) $ i dla każdego momentu czasu $t \in \mathbb{N}$, mamy $H(\alpha,t)=1$.   
    \end{itemize}
    \begin{definition}
    Niech $S = (H,O,E)$ będzie strukturą języka $ \textit{AL} $, $ Sc=(OBS,ACS) $ będzie scenariuszem, oraz $ D $ domeną. Powiem, że $ S $ jest strukturą dla $Sc$ zgodnym z opisem domeny $D$ jeśli:
