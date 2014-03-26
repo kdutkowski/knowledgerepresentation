@@ -7,7 +7,7 @@
 
 \subsubsection{Historia}
 
-Mick i Sarah są parą, więc mają wspólne produkty spożywcze, ale posiłki zwykle jadają oddzielnie. Pewnego dnia Sarah chce zrobić ciasto, a Mick naleśniki. Nie mogą być one robione w tym samym czasie ze względu konieczność użycia miksera do przygotowania obu. Ponadto, zrobienie jednego lub drugiego dania zużywa cały zapas jajek dostępnych w mieszkaniu, więc trzeba je potem dokupić.
+Mick i Sarah są parą, więc mają wspólne produkty spożywcze, ale posiłki zwykle jadają oddzielnie. Pewnego dnia Sarah chce zrobić ciasto, a Mick naleśniki. Nie mogą być one robione w tym samym czasie ze względu na konieczność użycia miksera do przygotowania obu. Ponadto, zrobienie jednego lub drugiego dania zużywa cały zapas jajek dostępnych w mieszkaniu, więc trzeba je potem dokupić.
 
 \subsubsection{Opis akcji}
 
@@ -21,11 +21,11 @@ $(buy\_eggs,2)$  \textbf{causes}  \textit{eggs}\\
 
 Sc =$(OBS;ACS)$\\
 OBS =  ${\emptyset}$\\
-ACS = $((making\_panc;1),0), ((making\_cake,1)2)$\\
+ACS = $((making\_pan,;1),0), ((making\_cake,1),2)$\\
 
 Sc2 =$(OBS2;ACS2)$\\
 OBS2 = ${\emptyset}$\\
-ACS2 =$ ((making\_panc,1),0), ((buy\_eggs,2)2),( (making\_cake,1),4), ((making\_panc,1), 4)$\\
+ACS2 =$ ((making\_panc,1),0), ((buy\_eggs,2),2),( (making\_cake,1),4), ((making\_panc,1), 4)$\\
 
 
 \subsubsection{Kwerendy}
@@ -44,7 +44,7 @@ Odpowiedzi na kwerendy to odpowiednio:
 	\item \texttt{TRUE},
 	\item \texttt{TRUE},
 	\item \texttt{TRUE},
-	\item \texttt{FALSE},
+	\item \texttt{FALSE}.
 \end{enumerate}
 
 Zgodnie z diagramem dla scenariuszy  \textit{Sc} i \textit{Sc2}:
@@ -60,7 +60,7 @@ Scenariusza \textit{ Sc2} nie można wykonać, ponieważ wymaga on jednoczesnego
 
 \subsubsection{Historia}
 
-Mick i Sarah są parą, więc mają wspólne produkty spożywcze, ale posiłki zwykle jadają oddzielnie. Pewnego dnia Sarah chce zrobić ciasto, a Mick naleśniki. Nie mogą być one robione w tym samym czasie ze względu konieczność użycia miksera do przygotowania obu. Ponadto, zrobienie jednego lub drugiego dania zużywa cały zapas jajek dostępnych w mieszkaniu, więc trzeba je potem dokupić.
+Mick i Sarah są parą, więc mają wspólne produkty spożywcze, ale posiłki zwykle jadają oddzielnie. Pewnego dnia Sarah chce zrobić ciasto, a Mick naleśniki. Nie mogą być one robione w tym samym czasie ze względu na  konieczność użycia miksera do przygotowania obu. Ponadto, zrobienie jednego lub drugiego dania zużywa cały zapas jajek dostępnych w mieszkaniu, więc trzeba je potem dokupić.
 
 \subsubsection{Opis akcji}
  \textbf{initially}  \textit{eggs}\\
@@ -72,9 +72,9 @@ $(buy\_eggs,2)$  \textbf{causes}  \textit{eggs}\\
 
 \subsubsection{Scenariusz}
 
- \textit{Sc} =$(OBS;ACS)$
+ \textit{Sc} =$(OBS;ACS)$\\
  \textit{OBS} =  ${\emptyset}$\\
- \textit{ACS} = $((making\_panc;1),0), ((making\_cake,1)2)$
+ \textit{ACS} = $((making\_panc,1),0), ((making\_cake,1),2)$
 
 
 \subsubsection{Kwerendy}
@@ -121,7 +121,7 @@ $(whistles\_Bill,1)$ \textbf{causes} $\neg whistle\_Bill$\\
 
 \subsubsection{Scenariusz}
 
-\textit{Sc} =$(OBS,ACS)$\\
+\textit{Sc} =$(OBS;ACS)$\\
 \textit{OBS} = ${\emptyset}$\\
 \textit{ACS} = ${ ((goes\_Bill,2),1), ((whistles\_Bill,1),5),((goes\_Bill,2),7)	}$\\
 
@@ -163,9 +163,9 @@ $(disconnects\_power,1)$ \textbf{causes} $on\_computer$ \textbf{and} $\neg swith
 
 \subsubsection{Scenariusz}
 
-\textit{Sc} =$(OBS,ACS)$\\
+\textit{Sc} =$(OBS;ACS)$\\
 \textit{OBS} = ${\emptyset}$\\
-\textit{ACS} = ${ ((clicks\_button\_on,1),1), ((disconnects\_power,1),4),((clicks\_button\_on,1),5)	}$\\
+\textit{ACS} = $ ((clicks\_button\_on,1),1),((disconnects\_power,1),4),((clicks\_button\_on,1),5)	$\\
 
 \subsubsection{Kwerendy}
 
@@ -176,7 +176,7 @@ $(disconnects\_power,1)$ \textbf{causes} $on\_computer$ \textbf{and} $\neg swith
 
 
 \subsubsection{Analiza}
-Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się. Bill chwili $t = 5+1$ naciska przycisk \textit{Włącz}.Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj. $swith\_on\_computer = T$ i $on\_computer=T$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1.$ \texttt{TRUE} i $2.$ \texttt{FALSE}. Należy zaznaczyć, że odpowiedzi zgodnie ze zdrowym rozsądkiem powinny być sobie równe.
+Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się. Bill chwili $t = 5+1$ naciska przycisk \textit{Włącz}. Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj. $swith\_on\_computer = T$ i $on\_computer=T$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1.$ \texttt{TRUE} i $2.$ \texttt{FALSE}. Należy zaznaczyć, że odpowiedzi zgodnie ze zdrowym rozsądkiem powinny być sobie równe.
 
 \begin{center}
   \includegraphics[width=1\textwidth]{Example5}
