@@ -31,12 +31,16 @@ Zdefiniowany język akcji może być odpytywany przez poniżej zaprezentowany j�
 		\item $always/ever\ accesible\ \gamma\ when\ Sc$\\
 		Oznacza, że cel $\gamma$ jest osiągalny zawsze/kiedykolwiek przy zadanym zbiorze obserwacji $OBS$ przy realizacji scenariusza $Sc$.\\
 	\end{itemize}
+\begin{remark}
+   Warunek $always$\ zachodzi jeśli odpowiedź na kwerendę we wszystkich ścieżkach wykonania jest $TRUE$, natomiast warunek $ever$\ zachodzi jeśli istnieje co najmniej jedna taka ścieżka. 
+\end{remark}
 
 \item[Semantyka kwerend w języku] \hfill \\
 Niech $Sc$ będzie scenariuszem, $D$ niech będzie opisem domeny języka, wtedy powiemy, że kwerenda $Q$ jest konsekwencją $Sc$ zgodnie z $D$ (ozn. $Sc,\ D\ |\approx\ Q $)
 
 \begin{itemize}
-	\item zapytanie kwerendą $Q$ postaci $always/ever\ executable\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ zgodnego z $D$ scenariusz $Sc$\ zakończy się.
+	\item zapytanie kwerendą $Q$ postaci $executable\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ zgodnego z $D$ scenariusz $Sc$\ zakończy się w sposób prawidłowy tj. wszystkie akcje zostaną zakończone, czyli aktualnie nie występuje akcja trwająca i żadna inna akcja nie zostanie wywołana.
+
 	\item zapytanie kwerendą $Q$ postaci $\gamma\ at\ t\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $H(\gamma,t)=1$
 	\item zapytanie kwerendą $Q$ postaci $\gamma\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E)$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\exists_{t \in N}\ H(\gamma,t)=1$
 
