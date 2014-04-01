@@ -7,32 +7,31 @@
 
 \subsubsection{Historia}
 
-Mick i Sarah są parą, więc mają wspólne produkty spożywcze, ale posiłki zwykle jadają oddzielnie. Pewnego dnia Sarah chce zrobić ciasto, a Mick naleśniki. Nie mogą być one robione w tym samym czasie ze względu na konieczność użycia miksera do przygotowania obu. Ponadto, zrobienie jednego lub drugiego dania zużywa cały zapas jajek dostępnych w mieszkaniu, więc trzeba je potem dokupić.
+Michał jest pracującym  studentem. W środę powinien o godzinie 8.00 pojawić się w pracy zupełnie trzeźwy, a mimo to postanowił pójść do baru dzień wcześniej. Jeśli Michał się napije,  stanie się pijany. Jeśli pójdzie spać przestanie być pijany, ale stanie się skacowany, co również będzie niedopuszczalne w w jego pracy.
 
 \subsubsection{Opis akcji}
 
- \textbf{initially}  \textit{eggs}\\
- \textit{(making\_panc,1)}  \textbf{ causes}  \textit{$\neg$ eggs}  \textbf{if}  \textit{eggs}\\
-(making\_cake,1)   \textbf{causes} $\neg$ eggs  \textbf{if}  \textit{eggs}\\
- \textbf{impossible}  \textit{\{making\_pan,making\_cake\}}\\
-$(buy\_eggs,2)$  \textbf{causes}  \textit{eggs}\\
+ \textbf{initially}  \textit{drunk, hungover}\\
+ \textit{(drink,2)}  \textbf{ causes}  \textit{drunk}\\
+\textit{(sleep,8)}   \textbf{causes} \textit{$\neg$drunk}\\
+\textit{(sleep,8)}   \textbf{causes} \textit{hungover}  \textbf{if}  \textit{drunk}\\
+
 
 \subsubsection{Scenariusze}
 
 Sc =$(OBS;ACS)$\\
-OBS =  ${\emptyset}$\\
-ACS = $((making\_pan,;1),0), ((making\_cake,1),2)$\\
+OBS =  ${(drunk=FALSE,hungover=FALSE,10)}$\\
+ACS = $((drink;2),0), ((sleep,8)2)$\\
+
 
 Sc2 =$(OBS2;ACS2)$\\
-OBS2 = ${\emptyset}$\\
-ACS2 =$ ((making\_panc,1),0), ((buy\_eggs,2),2),( (making\_cake,1),4), ((making\_panc,1), 4)$\\
+OBS =  ${(drunk=FALSE,hungover=FALSE,10)}$\\
+ACS = $((sleep,8)1)$\\
 
 
 \subsubsection{Kwerendy}
 
 \begin{enumerate}
-	\item  \textbf{performing}  \textit{making\_panc}  \textbf{at} $1$  \textbf{when}  \textit{Sc}
-	\item  \textbf{performing}  \textit{making\_cake}  \textbf{at} 2  \textbf{when}  \textit{Sc}
 	\item  \textbf{ever executable} \textit{Sc}
 	\item  \textbf{ever executable} \textit{Sc2}
 \end{enumerate}
@@ -41,19 +40,17 @@ ACS2 =$ ((making\_panc,1),0), ((buy\_eggs,2),2),( (making\_cake,1),4), ((making\
 
 Odpowiedzi na kwerendy to odpowiednio:
 \begin{enumerate}
+	\item \texttt{FALSE},
 	\item \texttt{TRUE},
-	\item \texttt{TRUE},
-	\item \texttt{TRUE},
-	\item \texttt{FALSE}.
 \end{enumerate}
 
 Zgodnie z diagramem dla scenariuszy  \textit{Sc} i \textit{Sc2}:
 
 \begin{center}
-  \includegraphics{Example1}
+  \includegraphics[width=1\textwidth]{Example1}
 \end{center}
 
-Scenariusza \textit{ Sc2} nie można wykonać, ponieważ wymaga on jednoczesnego wypełnienia akcji  $\textit{making\_panc}$ i  $\textit{making\_cake}$, co jest niezgodne z warunkami zadania.
+Scenariusz \textit{ Sc2} jest w pełni poprawny i wykonywalny. Scenariusza \textit{Sc} nie można wykonać, ponieważ wymaga on by w chwili 10 fluenty textit{drunk} i \textit{hungover} miały wartość FALSE, jednak w tej chwili zmienna \textit{hungover} ma wartość TRUE.
 
 
 \subsection{Pytanie czy dany warunek zachodzi w danym czasie}
