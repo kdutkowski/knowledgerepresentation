@@ -7,8 +7,8 @@
     <ProjectGuid>{CE51CAFA-C1B6-4C43-88A9-F55B12BDE3BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KnowledgeRepresentationIntelligence</RootNamespace>
-    <AssemblyName>KnowledgeRepresentationIntelligence</AssemblyName>
+    <RootNamespace>KnowledgeRepresentationReasoning</RootNamespace>
+    <AssemblyName>KnowledgeRepresentationReasoning</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,12 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\KnowledgeRepresentationInterface\KnowledgeRepresentationInterface.csproj">
-      <Project>{729fc525-cf61-4874-93a4-6ef07205377f}</Project>
-      <Name>KnowledgeRepresentationInterface</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeRepresentationIntelligence", "KnowledgeRepresentationIntelligence\KnowledgeRepresentationIntelligence.csproj", "{CE51CAFA-C1B6-4C43-88A9-F55B12BDE3BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeRepresentationReasoning", "KnowledgeRepresentationIntelligence\KnowledgeRepresentationReasoning.csproj", "{CE51CAFA-C1B6-4C43-88A9-F55B12BDE3BD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeRepresentationInterface", "KnowledgeRepresentationInterface\KnowledgeRepresentationInterface.csproj", "{729FC525-CF61-4874-93A4-6EF07205377F}"
 EndProject
