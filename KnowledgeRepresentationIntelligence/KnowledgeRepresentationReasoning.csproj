@@ -39,14 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logic\Tree.cs" />
+    <Compile Include="Queries\Query.cs" />
+    <Compile Include="Queries\QueryResult.cs" />
+    <Compile Include="Scenario\ActionTime.cs" />
+    <Compile Include="Scenario\ScenarioDescriptionRecord.cs" />
     <Compile Include="World\Action.cs" />
     <Compile Include="World\Expression.cs" />
     <Compile Include="World\Fluent.cs" />
     <Compile Include="IReasoning.cs" />
-    <Compile Include="Scenario\Observation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReasoningFasade.cs" />
-    <Compile Include="Scenario\Scenario.cs" />
+    <Compile Include="Scenario\ScenarioDescription.cs" />
     <Compile Include="World\State.cs" />
     <Compile Include="World\WorldDescription.cs" />
     <Compile Include="World\WorldDescriptionRecord.cs" />

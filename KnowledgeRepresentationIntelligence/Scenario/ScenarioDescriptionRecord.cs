@@ -1,7 +1,6 @@
 ﻿namespace KnowledgeRepresentationReasoning.Scenario
 {
-    public class Scenario
+    public class ScenarioDescriptionRecord
     {
-
     }
 }

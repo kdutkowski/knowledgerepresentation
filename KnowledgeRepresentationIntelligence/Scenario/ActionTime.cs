@@ -1,6 +1,6 @@
 ﻿namespace KnowledgeRepresentationReasoning.Scenario
 {
-    public class Observation
+    public class ActionTime
     {
     }
 }
