@@ -105,13 +105,13 @@ Mamy Billa i psa Maxa. Jeśli Bill idzie, to Max biegnie. Jeśli Bill gwiżdże 
 
 \subsubsection{Opis akcji}
 
-\textbf{initially} $\neg go\_Bill$ \textbf{and} $\neg run\_Max$ \textbf{and} $\neg whistle\_Bill$ \textbf{and} $\neg bark\_Max$ \\
+\textbf{initially}  $\neg run\_Max$ \textbf{and} $\neg bark\_Max$ \\
 $(goes\_Bill,2)$ \textbf{causes} $run\_Max$\\
 $(goes\_Bill,2)$ \textbf{invokes} $(runs\_Max,2)$ \textbf{after} $0$\\
 $(runs\_Max,2)$ \textbf{causes} $\neg run\_Max$\\
 $(whistles\_Bill,1)$ \textbf{causes} $bark\_Max$\\
 $(whistles\_Bill,1)$ \textbf{invokes} $(barks\_Max,1)$ \textbf{after} $0$\\
-$(whistles\_Bill,1)$ \textbf{causes} $\neg whistle\_Bill$\\
+$(barks\_Max,1)$ \textbf{causes} $\neg bark\_Max$\\
 
 
 \subsubsection{Scenariusz}
@@ -146,7 +146,7 @@ Ilustruje to poniższy diagram:
 Przykład \textit{Brak integralnośći} pokazuje scenariusz, który mimo zgodności z warunkami zadania, jest sprzeczny z logiką \textit{common sense} (z powodu braku warunków integralności).
 
 \subsubsection{Historia}
-Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub odłączyć komputer od zasilania. Komputer jest wyłączony i podłączony do zasilania. Jeżeli zostanie naciśnięty jego przycisk \textit{Włącz}, to komputer włącza się.
+Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub odłączyć komputer od zasilania. Komputer jest wyłączony i podłączony do zasilania. Jeżeli zostanie naciśnięty jego przycisk \textit{Włącz}, to komputer włącza się. Odłączenie komputera od prądu powoduje, że komputer przestanie się wyłączać i będzie odłączony od zasilania.
 
 \subsubsection{Opis akcji}
 
@@ -154,7 +154,8 @@ Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub od
 $(clicks\_button\_on,1)$ \textbf{causes} $switch\_on\_computer$\\
 $(clicks\_button\_on,1)$ \textbf{invokes} $(switches\_on\_computer,2)$ \textbf{after} $0$\\
 $(switches\_on\_computer,1)$ \textbf{causes} $on\_computer$\\
-$(disconnects\_power,1)$ \textbf{causes} $on\_computer$ \textbf{and} $\neg swith\_on\_computer$ \\
+$(switches\_on\_computer,1)$ \textbf{causes} $\neg switch\_on\_computer$\\
+$(disconnects\_power,1)$ \textbf{causes} $\neg connect\_power\_computer$ \textbf{and} $\neg swith\_on\_computer$ \\
 
 \subsubsection{Scenariusz}
 
