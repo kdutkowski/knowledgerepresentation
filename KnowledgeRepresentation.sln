@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeRepresentationReas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeRepresentationInterface", "KnowledgeRepresentationInterface\KnowledgeRepresentationInterface.csproj", "{729FC525-CF61-4874-93A4-6EF07205377F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeRepresentationReasoning.Test", "KnowledgeRepresentationReasoning.Test\KnowledgeRepresentationReasoning.Test.csproj", "{BB0605CE-F6A2-46A8-8420-3837BA871875}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{729FC525-CF61-4874-93A4-6EF07205377F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{729FC525-CF61-4874-93A4-6EF07205377F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{729FC525-CF61-4874-93A4-6EF07205377F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB0605CE-F6A2-46A8-8420-3837BA871875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB0605CE-F6A2-46A8-8420-3837BA871875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB0605CE-F6A2-46A8-8420-3837BA871875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB0605CE-F6A2-46A8-8420-3837BA871875}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,6 @@
+﻿namespace KnowledgeRepresentationReasoning
+{
+    interface IReasoning
+    {
+    }
+}
