@@ -58,6 +58,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KnowledgeRepresentationIntelligence\KnowledgeRepresentationReasoning.csproj">
+      <Project>{ce51cafa-c1b6-4c43-88a9-f55b12bde3bd}</Project>
+      <Name>KnowledgeRepresentationReasoning</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

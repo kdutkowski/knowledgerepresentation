@@ -20,5 +20,7 @@
 
         QueryResult ExecuteQuery(Query query);
         Task<QueryResult> ExecuteQueryAsync(QueryResult query);
+
+        void Initialize();
     }
 }

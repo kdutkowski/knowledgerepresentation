@@ -1,6 +1,7 @@
 ﻿namespace KnowledgeRepresentationReasoning.Queries
 {
-    public class Query
+    public abstract class Query
     {
+        public QueryType Type { get; set; }
     }
 }
