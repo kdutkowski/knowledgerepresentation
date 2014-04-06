@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeRepresentationIntelligence", "KnowledgeRepresentationIntelligence\KnowledgeRepresentationIntelligence.csproj", "{CE51CAFA-C1B6-4C43-88A9-F55B12BDE3BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeRepresentationInterface", "KnowledgeRepresentationInterface\KnowledgeRepresentationInterface.csproj", "{729FC525-CF61-4874-93A4-6EF07205377F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE51CAFA-C1B6-4C43-88A9-F55B12BDE3BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE51CAFA-C1B6-4C43-88A9-F55B12BDE3BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE51CAFA-C1B6-4C43-88A9-F55B12BDE3BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE51CAFA-C1B6-4C43-88A9-F55B12BDE3BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{729FC525-CF61-4874-93A4-6EF07205377F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{729FC525-CF61-4874-93A4-6EF07205377F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{729FC525-CF61-4874-93A4-6EF07205377F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{729FC525-CF61-4874-93A4-6EF07205377F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
