@@ -7,7 +7,7 @@
 
     using log4net;
 
-    public class LoggingModule : Autofac.Module
+    internal class LoggingModule : Autofac.Module
     {
         private static void InjectLoggerProperties(object instance)
         {

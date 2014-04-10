@@ -1,4 +1,4 @@
-﻿namespace KnowledgeRepresentationReasoning.World
+﻿namespace KnowledgeRepresentationReasoning.World.Records
 {
     public enum WorldDescriptionRecordType
     {

@@ -1,6 +1,6 @@
 ﻿namespace KnowledgeRepresentationReasoning.Logic
 {
-    class Tree
+    internal class Tree
     {
     }
 }

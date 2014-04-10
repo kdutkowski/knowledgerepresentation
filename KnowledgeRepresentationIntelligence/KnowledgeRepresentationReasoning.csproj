@@ -33,6 +33,9 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.3.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="ExpressionEvaluator">
+      <HintPath>..\packages\ExpressionEvaluator.1.0.4.0\lib\net40\ExpressionEvaluator.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -45,17 +48,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Expressions\ILogicExpression.cs" />
     <Compile Include="Logging\LoggingModule.cs" />
     <Compile Include="Logic\ITree.cs" />
     <Compile Include="Logic\Tree.cs" />
     <Compile Include="Queries\Query.cs" />
     <Compile Include="Queries\QueryResult.cs" />
     <Compile Include="Queries\QueryType.cs" />
-    <Compile Include="Scenario\ActionTime.cs" />
     <Compile Include="Scenario\ScenarioDescriptionRecord.cs" />
     <Compile Include="World\Action.cs" />
-    <Compile Include="World\WorldDescriptionRecordType.cs" />
-    <Compile Include="World\Expression.cs" />
+    <Compile Include="World\Interfaces\IWorldDescription.cs" />
+    <Compile Include="World\Records\InitiallyRecord.cs" />
+    <Compile Include="World\WorldDescriptionImplication.cs" />
+    <Compile Include="World\Records\WorldDescriptionRecordType.cs" />
+    <Compile Include="Expressions\SimpleLogicExpression.cs" />
     <Compile Include="World\Fluent.cs" />
     <Compile Include="IReasoning.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,7 +69,7 @@
     <Compile Include="Scenario\ScenarioDescription.cs" />
     <Compile Include="World\State.cs" />
     <Compile Include="World\WorldDescription.cs" />
-    <Compile Include="World\WorldDescriptionRecord.cs" />
+    <Compile Include="World\Records\WorldDescriptionRecord.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,6 +1,6 @@
 ﻿namespace KnowledgeRepresentationReasoning.Logic
 {
-    public interface ITree
+    internal interface ITree
     {
     }
 }
