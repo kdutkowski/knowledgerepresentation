@@ -11,7 +11,15 @@
 
         public SimpleLogicExpressionTest()
         {
-            _expression = new SimpleLogicExpression("");
+            _expression = new SimpleLogicExpression();
+        }
+
+        [Test]
+        public void EmptyExpressionShouldReturnFalse_Test()
+        {
+            bool result = _expression.Evaluate(null);
+
+            Assert.False(result);
         }
 
         [Test]

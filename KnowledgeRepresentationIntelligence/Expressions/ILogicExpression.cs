@@ -5,6 +5,7 @@
 
     internal interface ILogicExpression
     {
+        bool Evaluate();
         bool Evaluate(IEnumerable<Tuple<string, bool>> values);
 
         void SetExpression(string expression);
