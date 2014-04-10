@@ -33,6 +33,7 @@ namespace KnowledgeRepresentationReasoning.Expressions
         {
             if (_expression.Equals(string.Empty)) return false;
             var expression = new CompiledExpression(_expression);
+            expression.RegisterType("h", typeof(ExpressionHelper));
             if (values != null)
             {
                 foreach (var value in values)
@@ -46,6 +47,21 @@ namespace KnowledgeRepresentationReasoning.Expressions
         public void SetExpression(string expression)
         {
             _expression = expression??string.Empty;
+        }
+
+        class ExpressionHelper
+        {
+            public static bool impl(bool a, bool b)
+            {
+                if (a == false) return true;
+                return b;
+            }
+
+            public static bool rown(bool a, bool b)
+            {
+                if (a == b) return true;
+                else return false;
+            }
         }
     }
 }

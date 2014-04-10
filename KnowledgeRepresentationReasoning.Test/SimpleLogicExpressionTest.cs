@@ -127,5 +127,36 @@
 
             Assert.True(result);
         }
+
+        [Test]
+        public void TwoValues_IMPL_Test_ResultTrue()
+        {
+            var values = new[]
+                         {
+                             new Tuple<string, bool>("v1", false),
+                             new Tuple<string, bool>("v2", false), 
+                         };
+            _expression.SetExpression("h.impl(v1, v2)");
+
+            bool result = _expression.Evaluate(values);
+
+            Assert.True(result);
+        }
+
+        [Test]
+        public void TwoValues_IMPL_Test_ResultFalse()
+        {
+            var values = new[]
+                         {
+                             new Tuple<string, bool>("v1", true),
+                             new Tuple<string, bool>("v2", false), 
+                         };
+            _expression.SetExpression("h.impl(v1, v2)");
+
+            bool result = _expression.Evaluate(values);
+
+            Assert.False(result);
+        }
+
     }
 }
