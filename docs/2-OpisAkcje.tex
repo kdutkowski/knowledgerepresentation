@@ -70,10 +70,11 @@ Scenariusze działań opisane są w następujący sposób:
 	\begin{itemize}
 	\item $ Sc = (OBS, ACS) $
 	\item $ OBS = \{(\gamma_{1}, t_{1}),...,(\gamma_{m}, t_{m})\} $, gdzie:\\
-	$ m \geqslant 0 $ -- obserwacje, gdzie każda obserwacja jest stanem częściowym (stanem spełniającym warunek $ \gamma $ w pewnym punkcie czasu $ t $).\\
-	$ \gamma $ -- formuła.
+	$ m \geqslant 0 $ -- ilość obserwacji,\\
+	każda obserwacja jest stanem częściowym (stanem spełniającym warunek $ \gamma_{i} $ w pewnym punkcie czasu $ t_{i} $).\\
+	$ \gamma_{i} \in Forms(F) $\\
 	\item $ ACS = \{((Ac_{1},d_{1}), t_{1}),...,((Ac_{n},d_{n}), t_{n})\} $, gdzie:\\
-	$ n \geqslant 1 $,\\
+	$ n \geqslant 0 $,\\
 	$ Ac_{i} $ -- akcja,\\
 	$ d_{i} $ -- czas trwania akcji,\\
 	$ t_{i} $ -- punkt w czasie (rozpoczęcie akcji).
