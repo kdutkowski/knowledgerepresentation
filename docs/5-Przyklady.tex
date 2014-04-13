@@ -11,21 +11,21 @@ Michał jest pracującym  studentem. W środę powinien o godzinie 8.00 pojawić
 
 \subsubsection{Opis akcji}
 
- \textbf{initially}  \textit{drunk, hungover}\\
+ \textbf{initially}  \textit{$\neg$drunk \textbf{and} $\neg$hangover}\\
  \textit{(drink,2)}  \textbf{ causes}  \textit{drunk}\\
 \textit{(sleep,8)}   \textbf{causes} \textit{$\neg$drunk}\\
-\textit{(sleep,8)}   \textbf{causes} \textit{hungover}  \textbf{if}  \textit{drunk}\\
+\textit{(sleep,8)}   \textbf{causes} \textit{hangover}  \textbf{if}  \textit{drunk}\\
 
 
 \subsubsection{Scenariusze}
 
 Sc =$(OBS,ACS)$\\
-OBS =  $ {\{(drunk=FALSE,10), (hungover=FALSE,10)\} }$\\
-ACS = ${\{((drink,2),0),((sleep,8)2)\}}$\\
+OBS =  $ {\{(\neg drunk,10), (\neg hangover,10)\} }$\\
+ACS = ${\{((drink,2),0),((sleep,8),2)\}}$\\
 
 
 Sc2 =$(OBS2,ACS2)$\\
-OBS =  ${ \{(drunk=FALSE,10), (hungover=FALSE,10)\} }$\\
+OBS =  $ {\{(\neg drunk,10), (\neg hangover,10)\} }$\\
 ACS = ${\{((sleep,8),1)\}}$\\
 
 
@@ -56,7 +56,7 @@ Zgodnie z diagramem dla scenariusza  \textit{Sc2}
   \includegraphics[width=1\textwidth]{Example1a}
 \end{center}
 
-Scenariusz \textit{ Sc2} jest w pełni poprawny i wykonywalny. Scenariusza \textit{Sc} nie można wykonać, ponieważ wymaga on by w chwili 10 fluenty \textit{drunk} i \textit{hungover} miały wartość FALSE, jednak w tej chwili zmienna \textit{hungover} ma wartość TRUE.
+Scenariusz \textit{ Sc2} jest w pełni poprawny i wykonywalny. Scenariusza \textit{Sc} nie można wykonać, ponieważ wymaga on by w chwili 10 fluenty \textit{drunk} i \textit{hangover} miały wartość FALSE, jednak w tej chwili zmienna \textit{hangover} ma wartość TRUE.
 
 
 \subsection{Pytanie czy dany warunek zachodzi w danym czasie}
@@ -67,8 +67,8 @@ Mick i Sarah są parą, więc mają wspólne produkty spożywcze, ale posiłki z
 
 \subsubsection{Opis akcji}
  \textbf{initially}  \textit{eggs}\\
-$(making\_panc,1)$   \textbf{causes} $\neg$  \textit{eggs} \textbf{ if } \textit{eggs}\\
-$(making\_cake,1)$   \textbf{causes} $\neg$  \textit{eggs} \textbf{ if } \textit{eggs}\\
+$(making\_panc,1)$   \textbf{causes} $\neg$\textit{eggs} \textbf{ if } \textit{eggs}\\
+$(making\_cake,1)$   \textbf{causes} $\neg$\textit{eggs} \textbf{ if } \textit{eggs}\\
 $(buy\_eggs,2)$  \textbf{causes}  \textit{eggs}\\
 
 
@@ -76,13 +76,13 @@ $(buy\_eggs,2)$  \textbf{causes}  \textit{eggs}\\
 
  \textit{Sc} =$(OBS,ACS)$\\
  \textit{OBS} =  ${\emptyset}$\\
- \textit{ACS} = ${\{((making\_panc,2),0), ((making\_cake,2)2)\}}$
+ \textit{ACS} = $\{((making\_panc,1),0), ((making\_cake,1),2)\}$
 
 
 \subsubsection{Kwerendy}
 
 \begin{enumerate}
-	\item  \textit{eggs}  \texttt{at} 1  \textbf{when}  \textit{Sc}
+	\item  \textit{eggs}  \texttt{at} 0  \textbf{when}  \textit{Sc}
 	\item  \textit{eggs} \texttt{at} 2 \textbf{ when} \textit{ Sc}
 \end{enumerate}
 
@@ -108,7 +108,7 @@ Ten przykład pokazuje przypadek kwerendy, która pyta, czy dana akcja jest wyko
 
 \subsubsection{Historia}
 
-Mamy Billa i psa Maxa. Jeśli Bill idzie, to Max biegnie. Jeśli Bill gwiżdże , Max szczeka. Jeśli Bill zatrzymuje się, Max również. Jeśli Bill przestaje gwizdać, to Max przestaje szczekać.
+Mamy Billa i psa Maxa. Jeśli Bill idzie, to Max biegnie. Jeśli Bill gwiżdże, Max szczeka. Jeśli Bill zatrzymuje się, Max również. Jeśli Bill przestaje gwizdać, to Max przestaje szczekać.
 
 \subsubsection{Opis akcji}
 
@@ -125,13 +125,13 @@ $(barks\_Max,1)$ \textbf{causes} $\neg bark\_Max$\\
 
 \textit{Sc} =$(OBS;ACS)$\\
 \textit{OBS} = ${\emptyset}$\\
-\textit{ACS} = ${ ((goes\_Bill,2),1), ((whistles\_Bill,1),5),((goes\_Bill,2),7)	}$\\
+\textit{ACS} = $\{ ((goes\_Bill,2),1), ((whistles\_Bill,1),5),((goes\_Bill,2),7)\}$\\
 
 \subsubsection{Kwerendy}
 
 \begin{enumerate}
-\item \textbf{performing} $run\_Max$ \textbf{at} $8$ \textbf{when} \textit{Sc}
-\item \textbf{performing} $run\_Max$ \textbf{when} \textit{Sc}
+\item \textbf{performing} $runs\_Max$ \textbf{at} $8$ \textbf{when} \textit{Sc}
+\item \textbf{performing} $runs\_Max$ \textbf{when} \textit{Sc}
 \item \textbf{performing} \textbf{at} $8$ \textbf{when} \textit{Sc}
 \end{enumerate}
 
@@ -150,7 +150,7 @@ Ilustruje to poniższy diagram:
 
 \subsection{Brak integralności}
 
-Przykład \textit{Brak integralnośći} pokazuje scenariusz, który mimo zgodności z warunkami zadania, jest sprzeczny z logiką \textit{common sense} (z powodu braku warunków integralności).
+Przykład \textit{Brak integralności} pokazuje scenariusz, który mimo zgodności z warunkami zadania, jest sprzeczny z logiką \textit{common sense} (z powodu braku warunków integralności).
 
 \subsubsection{Historia}
 Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub odłączyć komputer od zasilania. Komputer jest wyłączony i podłączony do zasilania. Jeżeli zostanie naciśnięty jego przycisk \textit{Włącz}, to komputer włącza się. Odłączenie komputera od prądu powoduje, że komputer przestanie się wyłączać i będzie odłączony od zasilania.
@@ -168,13 +168,13 @@ $(disconnects\_power,1)$ \textbf{causes} $\neg connect\_power\_computer$ \textbf
 
 \textit{Sc} =$(OBS;ACS)$\\
 \textit{OBS} = ${\emptyset}$\\
-\textit{ACS} = $ ((clicks\_button\_on,1),1),((disconnects\_power,1),4),((clicks\_button\_on,1),5)	$\\
+\textit{ACS} = $\{(clicks\_button\_on,1),1),((disconnects\_power,1),4),((clicks\_button\_on,1),5)\}	$\\
 
 \subsubsection{Kwerendy}
 
 \begin{enumerate}
 \item $swith\_on\_computer$ \textbf{at} $6+2$ \textbf{when} \textit{Sc}
-\item $swith\_on\_computer$ \textbf{and} $\neg on\_computer$ \textbf{at} $6+2$ \textit{when} \textbf{Sc}
+\item $swith\_on\_computer$ \textbf{and} $\neg on\_computer$ \textbf{at} $6+2$ \textbf{when} \textit{Sc}
 \end{enumerate}
 
 
