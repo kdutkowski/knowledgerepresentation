@@ -4,7 +4,11 @@
 
     public class State
     {
-        // Dictionary of pairs (id, fluent)
-        public Dictionary<string, Fluent> Fluents { get; set; }
+        public List<Fluent> Fluents { get; set; }
+
+        public State()
+        {
+            Fluents = new List<Fluent>();
+        }
     }
 }

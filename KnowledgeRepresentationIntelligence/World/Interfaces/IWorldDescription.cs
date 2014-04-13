@@ -1,8 +1,10 @@
 ﻿namespace KnowledgeRepresentationReasoning.World.Interfaces
 {
+    using System.Collections.Generic;
+
     public interface IWorldDescription
     {
-        State GetInitialState();
+        IEnumerable<State> GetInitialStates();
 
         WorldDescriptionImplication Verify(Action action, State state, int time);
     }

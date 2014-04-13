@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Expressions\ILogicExpression.cs" />
+    <Compile Include="Helpers\Gray.cs" />
     <Compile Include="Logging\LoggingModule.cs" />
     <Compile Include="Logic\ITree.cs" />
     <Compile Include="Logic\Tree.cs" />
@@ -58,7 +59,7 @@
     <Compile Include="Scenario\ScenarioDescriptionRecord.cs" />
     <Compile Include="World\Action.cs" />
     <Compile Include="World\Interfaces\IWorldDescription.cs" />
-    <Compile Include="World\Records\InitiallyRecord.cs" />
+    <Compile Include="World\Records\InitialRecord.cs" />
     <Compile Include="World\WorldDescriptionImplication.cs" />
     <Compile Include="World\Records\WorldDescriptionRecordType.cs" />
     <Compile Include="Expressions\SimpleLogicExpression.cs" />
