@@ -108,7 +108,7 @@ Ten przykład pokazuje przypadek kwerendy, która pyta, czy dana akcja jest wyko
 
 \subsubsection{Historia}
 
-Mamy Billa i psa Maxa. Jeśli Bill idzie, to Max biegnie. Jeśli Bill gwiżdże, Max szczeka. Jeśli Bill zatrzymuje się, Max również. Jeśli Bill przestaje gwizdać, to Max przestaje szczekać.
+Mamy Billa i psa Maxa. Jeśli Bill idzie, to Max biegnie przez jakiś czas. Jeśli Bill gwiżdże, Max szczeka przez jakiś czas. Jeśli Bill zatrzymuje się, Max również. Jeśli Bill przestaje gwizdać, to Max przestaje szczekać.
 
 \subsubsection{Opis akcji}
 
@@ -153,16 +153,15 @@ Ilustruje to poniższy diagram:
 Przykład \textit{Brak integralności} pokazuje scenariusz, który mimo zgodności z warunkami zadania, jest sprzeczny z logiką \textit{common sense} (z powodu braku warunków integralności).
 
 \subsubsection{Historia}
-Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub odłączyć komputer od zasilania. Komputer jest wyłączony i podłączony do zasilania. Jeżeli zostanie naciśnięty jego przycisk \textit{Włącz}, to komputer włącza się. Odłączenie komputera od prądu powoduje, że komputer przestanie się wyłączać i będzie odłączony od zasilania.
+Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub odłączyć komputer od zasilania. Komputer jest wyłączony i podłączony do zasilania. Jeżeli zostanie naciśnięty jego przycisk \textit{Włącz}, to komputer włączy się. Odłączenie komputera od prądu powoduje, że komputer  będzie odłączony od zasilania.
 
 \subsubsection{Opis akcji}
 
-\textbf{initially} $\neg on\_computer$ \textbf{and} $connect\_power\_computer$ \textbf{and} $\neg swith\_on\_computer$\\
+\textbf{initially} $\neg on\_computer$ \textbf{and} $connect\_power\_computer$ 
 $(clicks\_button\_on,1)$ \textbf{causes} $switch\_on\_computer$\\
 $(clicks\_button\_on,1)$ \textbf{invokes} $(switches\_on\_computer,2)$ \textbf{after} $0$\\
-$(switches\_on\_computer,1)$ \textbf{causes} $on\_computer$\\
-$(switches\_on\_computer,1)$ \textbf{causes} $\neg switch\_on\_computer$\\
-$(disconnects\_power,1)$ \textbf{causes} $\neg connect\_power\_computer$ \textbf{and} $\neg swith\_on\_computer$ \\
+$(switches\_on\_computer,2)$ \textbf{causes} $on\_computer$\\
+$(disconnects\_power,1)$ \textbf{causes} $\neg connect\_power\_computer$
 
 \subsubsection{Scenariusz}
 
@@ -173,13 +172,12 @@ $(disconnects\_power,1)$ \textbf{causes} $\neg connect\_power\_computer$ \textbf
 \subsubsection{Kwerendy}
 
 \begin{enumerate}
-\item $swith\_on\_computer$ \textbf{at} $6+2$ \textbf{when} \textit{Sc}
-\item $swith\_on\_computer$ \textbf{and} $\neg on\_computer$ \textbf{at} $6+2$ \textbf{when} \textit{Sc}
+\item $on\_computer$ \textbf{at} $6+2$ \textbf{when} \textit{Sc}
 \end{enumerate}
 
 
 \subsubsection{Analiza}
-Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się. Bill chwili $t = 5+1$ naciska przycisk \textit{Włącz}. Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą stany, tj. $swith\_on\_computer = T$ i $on\_computer=T$. Odpowiedzi na powyższe kwerendy będą odpowiednio: $1.$ \texttt{TRUE} i $2.$ \texttt{FALSE}. Należy zaznaczyć, że odpowiedzi zgodnie ze zdrowym rozsądkiem powinny być sobie równe.
+Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się. Bill w chwili $t = 5+1$ naciska przycisk \textit{Włącz}. Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą z  punktu widzenia drowego rozsądku  stany, tj. $connect\_power\_computer=\neg C $  i $on\_computer=N$. Odpowiedzi na powyższą kwerendę będzie \texttt{TRUE}.
 
 \begin{center}
   \includegraphics[width=1\textwidth]{Example5}
