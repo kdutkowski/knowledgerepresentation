@@ -23,12 +23,12 @@
         public static List<BitArray> GetGreyCodesWithLengthN(int n)
         {
             var result = new List<BitArray>();
-            var start = (ulong)(1 << (n + 1));
-            var end = (ulong)(1 << (n + 2));
+            var start = (ulong)(1 << (n));
+            var end = (ulong)(1 << (n+1));
             for (var i = start; i < end; i++)
             {
                 var gray = (int)GrayEncode(i);
-                result.Add(new BitArray(new[] { gray }));
+                result.Add(new BitArray(new int[] { gray }) { Length = n });
             }
             return result;
         }

@@ -1,7 +1,9 @@
-﻿namespace KnowledgeRepresentationReasoning.World.Records
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("KnowledgeRepresentationReasoning.Test")]
+namespace KnowledgeRepresentationReasoning.World.Records
 {
     using System;
-    using System.CodeDom;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -11,7 +13,7 @@
 
     public class InitialRecord : WorldDescriptionRecord
     {
-        private const char FluentPrefix = '$';
+        private readonly char[] specialCharacters = new[] { '|', '&', '(', ')', '!' };
 
         private readonly ILogicExpression logicExpression;
         private string expression;
@@ -26,15 +28,21 @@
 
         public InitialRecord(string expression) : base(WorldDescriptionRecordType.Initially)
         {
-            this.SetExpression(expression);
+            this.PossibleFluents = new List<Fluent[]>();
             this.logicExpression = new SimpleLogicExpression(expression);
+            this.SetExpression(expression);
+        }
+
+        public InitialRecord Concat(InitialRecord record)
+        {
+            return new InitialRecord(Expression + " && " + record.Expression);
         }
 
         private void SetExpression(string expression)
         {
             this.expression = expression;
-            int numberOfFluents = this.expression.Count(t => t == FluentPrefix);
             string[] fluentNames = this.GetFluentNames();
+            int numberOfFluents = fluentNames.Length;
             foreach (var code in Gray.GetGreyCodesWithLengthN(numberOfFluents))
             {
                 var possibleFluents = new Fluent[numberOfFluents];
@@ -45,13 +53,13 @@
             }
         }
 
-        private string[] GetFluentNames()
+        // TODO: TEST
+        internal string[] GetFluentNames()
         {
-            return (
-                    from Match fluent 
-                    in Regex.Matches(this.expression, @"(?<!\w)" + FluentPrefix + @"\w+") 
-                    select fluent.Value
-                    ).ToArray();
+            string filteredString = this.Expression;
+            filteredString = this.specialCharacters.Aggregate(filteredString, (current, specialCharacter) => current.Replace(specialCharacter, ' '));
+            filteredString = Regex.Replace(filteredString, " {2,}", " ");
+            return filteredString.Split(new []{ ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
         }
     }
 }
