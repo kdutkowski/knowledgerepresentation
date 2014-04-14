@@ -123,7 +123,7 @@ $(barks\_Max,1)$ \textbf{causes} $\neg bark\_Max$\\
 
 \subsubsection{Scenariusz}
 
-\textit{Sc} =$(OBS;ACS)$\\
+\textit{Sc} =$(OBS,ACS)$\\
 \textit{OBS} = ${\emptyset}$\\
 \textit{ACS} = $\{ ((goes\_Bill,2),1), ((whistles\_Bill,1),5),((goes\_Bill,2),7)\}$\\
 
@@ -158,21 +158,20 @@ Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub od
 \subsubsection{Opis akcji}
 
 \textbf{initially} $\neg on\_computer$ \textbf{and} $connect\_power\_computer$\\ 
-$(clicks\_button\_on,1)$ \textbf{causes} $switch\_on\_computer$\\
 $(clicks\_button\_on,1)$ \textbf{invokes} $(switches\_on\_computer,2)$ \textbf{after} $0$\\
 $(switches\_on\_computer,2)$ \textbf{causes} $on\_computer$\\
 $(disconnects\_power,1)$ \textbf{causes} $\neg connect\_power\_computer$
 
 \subsubsection{Scenariusz}
 
-\textit{Sc} =$(OBS;ACS)$\\
+\textit{Sc} =$(OBS,ACS)$\\
 \textit{OBS} = ${\emptyset}$\\
 \textit{ACS} = $\{(clicks\_button\_on,1),1),((disconnects\_power,1),4),((clicks\_button\_on,1),5)\}	$\\
 
 \subsubsection{Kwerendy}
 
 \begin{enumerate}
-\item $on\_computer$ \textbf{at} $6+2$ \textbf{when} \textit{Sc}
+\item $on\_computer$ \textbf{at} $8$ \textbf{when} \textit{Sc}
 \end{enumerate}
 
 
