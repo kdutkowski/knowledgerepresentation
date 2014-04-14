@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("KnowledgeRepresentationReasoning.Test")]
-namespace KnowledgeRepresentationReasoning.World.Records
+﻿namespace KnowledgeRepresentationReasoning.World.Records
 {
     using System;
     using System.Collections.Generic;
@@ -53,8 +50,7 @@ namespace KnowledgeRepresentationReasoning.World.Records
             }
         }
 
-        // TODO: TEST
-        internal string[] GetFluentNames()
+        public string[] GetFluentNames()
         {
             string filteredString = this.Expression;
             filteredString = this.specialCharacters.Aggregate(filteredString, (current, specialCharacter) => current.Replace(specialCharacter, ' '));
