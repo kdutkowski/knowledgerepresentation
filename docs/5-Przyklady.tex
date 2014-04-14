@@ -173,10 +173,11 @@ $(disconnects\_power,1)$ \textbf{causes} $\neg connect\_power\_computer$
 \begin{enumerate}
 \item $on\_computer$ \textbf{at} $8$ \textbf{when} \textit{Sc}
 \end{enumerate}
+Znak zapytania oznacza, że stan w tym przypadku nie zgadza się ze zdrowym rozsądkiem.
 
 
 \subsubsection{Analiza}
-Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się. Bill w chwili $t = 5+1$ naciska przycisk \textit{Włącz}. Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą z  punktu widzenia drowego rozsądku  stany, tj. $connect\_power\_computer=\neg C $  i $on\_computer=N$. Odpowiedzi na powyższą kwerendę będzie \texttt{TRUE}.
+Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się. Bill w chwili $t = 5+1$ naciska przycisk \textit{Włącz}. Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą z  punktu widzenia zdrowego rozsądku  stany, tj. $connect\_power\_computer=\neg C $  i $on\_computer=N$. Odpowiedzi na powyższą kwerendę będzie \texttt{TRUE}.
 
 \begin{center}
   \includegraphics[width=1\textwidth]{Example5}
