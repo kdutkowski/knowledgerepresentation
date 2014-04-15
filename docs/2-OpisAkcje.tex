@@ -3,7 +3,7 @@
 %<*tag>
 
 \section{Opis języka akcji}
-Język akcji zaprojektowany na potrzeby zadania spełnia następujące warunki:
+Język akcji, zaprojektowany na potrzeby zadania, spełnia następujące warunki:
 \begin{enumerate}
 	\item Prawo inercji.
 	\item Sekwencyjność działań.
@@ -17,21 +17,21 @@ Język akcji zaprojektowany na potrzeby zadania spełnia następujące warunki:
 	\item Akcja posiada:
 	\begin{enumerate}
 		\item warunek początkowy,
-		\item czas trwania $ t \geqslant 1, t\in\mathbb{N} $,
+		\item czas trwania $ t \geqslant 1$, $t\in\mathbb{N} $,
 		\item efekt akcji.
 	\end{enumerate}
 	\item Podczas trwania akcji, wartości zmiennych, na które ona wpływa, nie są znane.
 	\item Występujące rodzaje efektów:
 	\begin{enumerate}
 		\item środowiskowe: zmiany wartości zmiennych systemu,
-		\item dynamiczne: wystąpienie innych akcji po $ d \geqslant 0 $ jednostkach czasu od zakończenia akcji przyczynowej.
+		\item dynamiczne: wystąpienie akcji może wywołać wystąpienie innych akcji po $ d \geqslant 0 $ jednostkach czasu od jej zakończenia.
 	\end{enumerate}
-	\item W pewnych stanach akcje mogą być niewykonalne, przy czym stany takie podane są albo przez podanie konkretnych punktów czasowych, albo przez określenie warunków logicznych.
+	\item W pewnych stanach akcje mogą być niewykonalne. Takie stany są określone przez podanie konkretnych punktów czasowych, albo przez określenie warunków logicznych.
 	\item Stany opisywane częściowo przez obserwacje.
 	\item Pewne stany mogą rozpocząć wykonywanie pewnych akcji.
 \end{enumerate}
 
-Językiem odpowiadającym powyższym założeniom jest język $ \textit{AL} $ opisujący domeny akcji z czasem liniowym.
+Językiem odpowiadającym powyższym założeniom jest język $AL$ opisujący domeny akcji z czasem liniowym.
 
 \subsection{Sygnatura języka}
 Sygnaturą języka jest następująca trójka zbiorów: $ \psi = (F, Ac, \mathbb{N}) $, gdzie:\\
@@ -40,37 +40,37 @@ $ Ac $ -- zbiór akcji\\
 $ \mathbb{N} $ -- zbiór liczb naturalnych (czas trwania akcji)
 
 \subsection{Opis domeny}
-Rodzaje zdań występujących w projektowanym języku (domena języka):\\
-Oznaczenia:\\
-$ f $ -- fluent\\
-$ Ac_{i}, Ac_{j}\in Ac $\\
-$ \alpha, \pi \in Forms(F) $\\
+\subsubsection*{Oznaczenia:}
+$ f \in F$ -- fluent\\
+$ Ac_{i}, Ac_{j}\in Ac $ -- akcje\\
+$ \alpha, \pi \in Forms(F) $ -- warunki\\
 $ d_{i}, d \in \mathbb{N} $
+\subsubsection*{Rodzaje zdań występujących w projektowanym języku (domena języka):}
 \begin{itemize}
 	\item initially $ \alpha $\\
 	Określa stan początkowy fluentów w formule $ \alpha $.
 	\item $ (Ac_{i}, d_{i}) $ causes $ \alpha $ if $ \pi $\\
-	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil powoduje stan $ \alpha $, jeśli zachodzi warunek $ \pi $.
+	Akcja $ Ac_{i} $ trwająca $ d_{i} $ jednostek czasu powoduje stan $ \alpha $, jeśli zachodzi warunek $ \pi $.
 	\item $ (Ac_{i}, d_{i}) $ invokes $ (Ac_{j}, d_{j}) $ after $ d $ if $ \pi $\\
-	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil powoduje wykonanie akcji $ Ac_{j} $ trwającej $ d_{j} $ chwil po $ d $ chwilach od zakończenia akcji $ Ac_{i} $, jeśli zachodzi warunek $ \pi $.
+	Akcja $ Ac_{i} $ trwająca $ d_{i} $ jednostek czasu powoduje wykonanie akcji $ Ac_{j} $ trwającej $ d_{j} $ jednostek czasu po $ d $ jednostkach czasu od zakończenia akcji $ Ac_{i} $, jeśli przy jej rozpoczęciu zachodzi warunek $ \pi $.
 	\item $ (Ac_{i}, d_{i}) $ releases $ f $ if $ \pi $\\
-	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil powoduje uwolnienie $ f $ po zakończeniu akcji $ Ac_{i} $, jeśli zachodzi warunek $ \pi $.
+	Akcja $ Ac_{i} $ trwająca $ d_{i} $ jednostek czasu powoduje uwolnienie $ f $ po zakończeniu akcji $ Ac_{i} $, jeśli zachodzi warunek $ \pi $.
 	\item $ \pi $ triggers $ (Ac_{i}, d_{i}) $\\
-	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil jest wykonywana, jeśli zajdzie warunek $ \pi $.
+	Akcja $ Ac_{i} $ trwająca $ d_{i} $ jednostek czasu jest wykonywana, jeśli zajdzie warunek $ \pi $.
 	\item impossible $ (Ac_{i}, d_{i}) $ at $ d $\\
-	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil jest niewykonalna w chwili $ d $.
+	Akcja $ Ac_{i} $ trwająca $ d_{i} $ jednostek czasu jest niewykonalna w chwili $ d $.
 	\item impossible $ (Ac_{i}, d_{i}) $ if $ \pi $\\
-	Akcja $ Ac_{i} $ trwająca $ d_{i} $ chwil jest niewykonalna, jeśli zachodzi warunek $ \pi $.
+	Akcja $ Ac_{i} $ trwająca $ d_{i} $ jednostek czasu jest niewykonalna, jeśli zachodzi warunek $ \pi $.
 	\item always $ \alpha $\\
 	Każdy stan spełnia warunek $ \alpha $.
 \end{itemize}
-
+\newpage
 \subsection{Scenariusze działań}
 Scenariusze działań opisane są w następujący sposób:
 	\begin{itemize}
 	\item $ Sc = (OBS, ACS) $
 	\item $ OBS = \{(\gamma_{1}, t_{1}),...,(\gamma_{m}, t_{m})\} $, gdzie:\\
-	$ m \geqslant 0 $ -- ilość obserwacji,\\
+	$ m \geqslant 0 $ -- liczba obserwacji,\\
 	każda obserwacja jest stanem częściowym (stanem spełniającym warunek $ \gamma_{i} $ w pewnym punkcie czasu $ t_{i} $).\\
 	$ \gamma_{i} \in Forms(F) $\\
 	\item $ ACS = \{((Ac_{1},d_{1}), t_{1}),...,((Ac_{n},d_{n}), t_{n})\} $, gdzie:\\
@@ -81,12 +81,12 @@ Scenariusze działań opisane są w następujący sposób:
 \end{itemize}
 
 \subsection{Semantyka}
-\begin{definition}Semantyczną strukturą języka $ \textit{AL} $ nazywamy system $ S=(H,O,E) $ zgodny z dziedziną $D$ taki, że:
+\begin{definition}Semantyczną strukturą języka $AL$ nazywamy system $ S=(H,O,E) $ zgodny z dziedziną $D$ taki, że:
 \begin{itemize}
 \item $ H: Forms(F) $ $\times$ $ \mathbb{N}$ $\longrightarrow$ $\{0,1\}$ jest funkcją historii, pozwala ona stwierdzić, jaki stan ma pewny fluent lub czy dana formuła jest spełniona, dla określonej chwili czasu $t$.
 \item $ O: Ac$ $\times$ $ \mathbb{N}$ $\longrightarrow$ $2^{F}$ jest funkcją okluzji. Dla pewnej ustalonej akcji $A \in Ac$, chwili czasu $t\in\mathbb{N}$, funkcja $O(A,t) $ zwraca zbiór fluentów, na który akcja $A$ ma wpływ, jeśli będzie ona trwała w chwili $t$. 
 Wartość funkcji okluzji będziemy nazywać regionem okluzji. 
-\item $E\subseteq Ac \times \mathbb{N} \times \mathbb{N}$ jest relacją wykonań akcji. Trójka $(A,t,d)$ należy do relacji $E$ jeśli akcja $A$ trwająca d czasu jest rozpoczęta w czasie t. W naszym modelu zakładamy warunek sekwencyjności działań. Oznacza on, że tylko jedną akcje możemy wykonać w danym czasie tak, więc jeśli $(t_{1},t_{1}+d_{1}) \subseteq (t_{2},t_{2}+d_{2} )$ lub $(t_{2},t_{2}+d_{2} ) \subseteq (t_{1},t_{1}+d_{1}) $ oraz $(A,t_{1},d_{1})\in E$ i $(B,t_{2},d_{2})\in E$, to $A=B$, $t_{1}=t_{2}$, $d_{1}=d_{2} $. Natomiast jeżeli $(t_{1},t_{1}+d_{1}) \nsubseteq (t_{2},t_{2}+d_{2} )$, $(t_{2},t_{2}+d_{2} ) \nsubseteq (t_{1},t_{1}+d_{1}) $ oraz $(A,t_{1},d_{1})\in E$ i $(B,t_{2},d_{2})\in E$, to $t_{1}+d_{1}<t_{2}$ lub $t_{2}+d_{2}<t_{1}$.
+\item $E\subseteq Ac \times \mathbb{N} \times \mathbb{N}$ jest relacją wykonań akcji. Trójka $(A,t,d)$ należy do relacji $E$ jeśli akcja $A$ trwająca d jednostek czasu jest rozpoczęta w czasie t. W naszym modelu zakładamy warunek sekwencyjności działań. Oznacza on, że tylko jedną akcje możemy wykonać w danym czasie tak, więc jeśli $(t_{1},t_{1}+d_{1}) \subseteq (t_{2},t_{2}+d_{2} )$ lub $(t_{2},t_{2}+d_{2} ) \subseteq (t_{1},t_{1}+d_{1}) $ oraz $(A,t_{1},d_{1})\in E$ i $(B,t_{2},d_{2})\in E$, to $A=B$, $t_{1}=t_{2}$, $d_{1}=d_{2} $. Natomiast jeżeli $(t_{1},t_{1}+d_{1}) \nsubseteq (t_{2},t_{2}+d_{2} )$, $(t_{2},t_{2}+d_{2} ) \nsubseteq (t_{1},t_{1}+d_{1}) $ oraz $(A,t_{1},d_{1})\in E$ i $(B,t_{2},d_{2})\in E$, to $t_{1}+d_{1}<t_{2}$ lub $t_{2}+d_{2}<t_{1}$.
 \end{itemize}
 \end{definition}
 
@@ -102,14 +102,14 @@ Wartość funkcji okluzji będziemy nazywać regionem okluzji.
    \item Dla każdego wyrażenia $(always \; \alpha ) $ i dla każdego momentu czasu $t \in \mathbb{N}$, mamy $H(\alpha,t)=1$.   
    \end{itemize}
    \begin{definition}
-   Niech $S = (H,O,E)$ będzie strukturą języka $ \textit{AL} $, $ Sc=(OBS,ACS) $ będzie scenariuszem, oraz $ D $ dziedziną. Powiem, że $ S $ jest strukturą dla $Sc$ zgodnym z opisem domeny $D$ jeśli:
+   Niech $S = (H,O,E)$ będzie strukturą języka $AL$, $ Sc=(OBS,ACS) $ będzie scenariuszem, oraz $ D $ dziedziną. Powiemy, że $ S $ jest strukturą dla $Sc$ zgodną z opisem domeny $D$, jeśli:
      \begin{itemize} 
-     \item Dla każdej obserwacji $(\alpha,t )\in OBS$, $H(\alpha,t )=1$
+     \item Dla każdej obserwacji $(\alpha,t )\in OBS$ mamy $H(\alpha,t )=1$
      \item $ACS \subseteq E$ 
     \end{itemize} 
    \end{definition}
    \begin{definition}
-   Niech $O_{1}$,$O_{2}$: $X \longrightarrow 2^{Y}$, mówimy, że $O_{1} \prec O_{2}$ jeżeli $\forall x\in X$ $O_{1}(x)\subseteq O_{2}(x)$ oraz $O_{1}\neq O_{2}$.
+   Niech $O_{1}$,$O_{2}$: $X \longrightarrow 2^{Y}$. Mówimy, że $O_{1} \prec O_{2}$ jeżeli $\forall x\in X$ $O_{1}(x)\subseteq O_{2}(x)$ oraz $O_{1}\neq O_{2}$.
    \end{definition}
    
    \begin{definition}
@@ -120,7 +120,7 @@ Wartość funkcji okluzji będziemy nazywać regionem okluzji.
    \begin{itemize}
    \item $S$ jest $O$-minimalny
    \item Dla każdego momentu w czasie $t,d\in \mathbb{N}$,  \{$f\in F$: $H(f,t)\neq H(f,t+d) $\} $\subseteq O(A,t+d)$ dla pewnej akcji $A$.
-   \item Nie istnieje, żadna struktura $S'=(H',O',E')$ dla $Sc$ zgodna z opisem $D$ która spełnia poprzednie warunki oraz taka, że $E'\subset E$. 
+   \item Nie istnieje, żadna struktura $S'=(H',O',E')$ dla $Sc$ zgodna z opisem $D$, która spełnia poprzednie warunki oraz taka, że $E'\subset E$. 
    \end{itemize}
    \end{definition}
    \begin{remark}
