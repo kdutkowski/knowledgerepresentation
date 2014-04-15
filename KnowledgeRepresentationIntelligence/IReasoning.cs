@@ -5,6 +5,7 @@
     using KnowledgeRepresentationReasoning.Queries;
     using KnowledgeRepresentationReasoning.World;
     using KnowledgeRepresentationReasoning.Scenario;
+    using KnowledgeRepresentationReasoning.World.Records;
 
     public interface IReasoning
     {

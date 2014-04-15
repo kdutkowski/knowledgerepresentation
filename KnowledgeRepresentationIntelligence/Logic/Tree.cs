@@ -1,6 +1,9 @@
-﻿namespace KnowledgeRepresentationReasoning.Logic
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("KnowledgeRepresentationReasoning.Test")]
+namespace KnowledgeRepresentationReasoning.Logic
 {
-    class Tree
+    internal class Tree
     {
     }
 }

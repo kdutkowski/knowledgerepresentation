@@ -9,6 +9,7 @@
     using KnowledgeRepresentationReasoning.Queries;
     using KnowledgeRepresentationReasoning.Scenario;
     using KnowledgeRepresentationReasoning.World;
+    using KnowledgeRepresentationReasoning.World.Records;
 
     public class ReasoningFasade : IReasoning
     {

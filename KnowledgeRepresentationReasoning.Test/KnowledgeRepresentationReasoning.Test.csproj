@@ -53,7 +53,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="InitialRecordTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleLogicExpressionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
