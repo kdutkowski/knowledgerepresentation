@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace KnowledgeRepresentationInterface
 {
-    public interface ISwitchable
-    {
-        void UtilizeState(object state);
-    }
+    //public interface ISwitchable
+    //{
+    //    void UtilizeState(object state);
+    //}
 }

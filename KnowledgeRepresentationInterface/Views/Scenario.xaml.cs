@@ -18,7 +18,7 @@ namespace KnowledgeRepresentationInterface.Views
     /// <summary>
     /// Interaction logic for _Scenario.xaml
     /// </summary>
-    public partial class _Scenario : UserControl, ISwitchable
+    public partial class _Scenario : UserControl//, ISwitchable
     {
         public _Scenario()
         {
@@ -30,11 +30,11 @@ namespace KnowledgeRepresentationInterface.Views
             Switcher.Switch(new _Results());
         }
 
-        #region ISwitchable Members
-        public void UtilizeState(object state)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
+        //#region ISwitchable Members
+        //public void UtilizeState(object state)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //#endregion
     }
 }

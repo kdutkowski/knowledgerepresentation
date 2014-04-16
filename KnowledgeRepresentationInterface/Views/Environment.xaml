@@ -4,10 +4,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
-    <Grid>
-        <Button Name ="ButtonNextPage" Content="Next page" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="ButtonNextPage_Click"/>
-        <Label Content="Environment" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Margin="10,10,0,0"/>
+             d:DesignHeight="600" d:DesignWidth="790"
+             x:Name="uc_env">
+    <Grid Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
+        
+        <Button x:Name ="ButtonNextPage" Content="Next page" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="ButtonNextPage_Click"/>
+        <Label Content="Environment" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
+        <GridSplitter HorizontalAlignment="Left" Height="500" Margin="148,40,0,0" VerticalAlignment="Top" Width="4" Background="DarkBlue"/>
+        <GridSplitter HorizontalAlignment="Left" Height="500" Margin="496,40,0,0" VerticalAlignment="Top" Width="4" Background="DarkBlue"/>
+
+        <!--fluents fields-->
+        <GroupBox Header="Fluents" HorizontalAlignment="Left" Height="135" Margin="512,45,0,0" VerticalAlignment="Top" Width="268" Foreground="Black"/>
+        <TextBox x:Name="TextBoxFluents" Text="" HorizontalAlignment="Left" Height="23" Margin="525,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="149"/>
+        <Label x:Name="LabelFluentValidation" Content="Validation" HorizontalAlignment="Left" Margin="525,300,0,0" VerticalAlignment="Top" Width="244" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
+        <Button x:Name="ButtonAddFluent" Content="Add Fluent" HorizontalAlignment="Left" Margin="679,83,0,0" VerticalAlignment="Top" Width="90" Click="ButtonAddFluent_Click"/>
+        <Button x:Name="ButtonRemoveFluent" Content="Remove Fluent" HorizontalAlignment="Left" Margin="679,110,0,0" VerticalAlignment="Top" Width="90" Click="ButtonRemoveFluent_Click"/>
+
+        <Label x:Name="LabelFluentsName" Content="Fluents:" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="LabelFluents" Content="{Binding fluentString, ElementName=uc_env, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="120"/>
+
+        <!-- statements fields-->
+        <GroupBox Header="Statements" HorizontalAlignment="Left" Height="135" Margin="512,232,0,0" VerticalAlignment="Top" Width="268" Foreground="Black"/>
+        <TextBox x:Name="TextBoxStatements" Text="" HorizontalAlignment="Left" Height="23" Margin="525,263,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="244"/>
+        <Label x:Name="LabelStatementsValidation" Content="Validation" HorizontalAlignment="Left" Margin="525,128,0,0" VerticalAlignment="Top" Width="244" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
+        <Button x:Name="ButtonAddStatements" Content="Add Statement" HorizontalAlignment="Left" Margin="584,335,0,0" VerticalAlignment="Top" Width="90" />
+        <Button x:Name="ButtonRemoveStatements" Content="Remove Statement" HorizontalAlignment="Left" Margin="679,335,0,0" VerticalAlignment="Top" Width="90"/>
+
+        <Label x:Name="LabelStatementsName" Content="Statements:" HorizontalAlignment="Left" Margin="160,50,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="LabelStatements" Content="{Binding statementsString, ElementName=uc_env, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="160,70,0,0" VerticalAlignment="Top" Width="120"/>
+
+
 
     </Grid>
 </UserControl>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,10 +20,50 @@ namespace KnowledgeRepresentationInterface.Views
     /// <summary>
     /// Interaction logic for _Environment.xaml
     /// </summary>
-    public partial class _Environment : UserControl, ISwitchable
+    public partial class _Environment : UserControl, INotifyPropertyChanged//, ISwitchable
     {
+        List<string> fluents;
+        private String str;
+        public String fluentString
+        {
+            get
+            {
+                return str;
+            }
+            set
+            {
+                if (value != "")
+                    str = value + "\r\n";
+                NotifyPropertyChanged();
+            }
+        }
+
+        private String strStatement;
+        public String statementsString
+        {
+            get
+            {
+                return strStatement;
+            }
+            set
+            {
+                if (value != "")
+                    strStatement = value + "\r\n";
+                NotifyPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
         public _Environment()
         {
+            fluents = new List<string>();
+            //fluentString = "aaaa\r\nbbb";
             InitializeComponent();
         }
 
@@ -30,12 +72,22 @@ namespace KnowledgeRepresentationInterface.Views
             Switcher.Switch(new _Scenario());
         }
 
-        #region ISwitchable Members
-        public void UtilizeState(object state)
+        private void ButtonAddFluent_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            fluentString += TextBoxFluents.Text;// +"\r\n";
         }
-        #endregion
+
+        private void ButtonRemoveFluent_Click(object sender, RoutedEventArgs e)
+        {
+            //fluentString += TextBoxFluents.Text;// +"\r\n";
+        }
+
+        //#region ISwitchable Members
+        //public void UtilizeState(object state)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //#endregion
 
         
     }

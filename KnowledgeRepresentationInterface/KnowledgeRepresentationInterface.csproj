@@ -53,8 +53,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ISwitchable.cs" />
-    <Compile Include="Switcher.cs" />
+    <Compile Include="Views\ISwitchable.cs" />
+    <Compile Include="Views\Switcher.cs" />
     <Compile Include="Views\Environment.xaml.cs">
       <DependentUpon>Environment.xaml</DependentUpon>
     </Compile>

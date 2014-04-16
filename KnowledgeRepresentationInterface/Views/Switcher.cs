@@ -16,9 +16,9 @@ namespace KnowledgeRepresentationInterface
             pageSwitcher.Navigate(newPage);
         }
 
-        public static void Switch(UserControl newPage, object state)
-        {
-            pageSwitcher.Navigate(newPage, state);
-        }
+        //public static void Switch(UserControl newPage, object state)
+        //{
+        //    pageSwitcher.Navigate(newPage, state);
+        //}
     }
 }

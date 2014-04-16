@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using KnowledgeRepresentationInterface.Views;
+using KnowledgeRepresentationReasoning.World;
+using KnowledgeRepresentationReasoning.World.Records;
 
 namespace KnowledgeRepresentationInterface
 {
@@ -21,6 +25,12 @@ namespace KnowledgeRepresentationInterface
     /// </summary>
     public partial class MainWindow : Window
     {
+        int T_inf;
+        List<Fluent> fluents;
+        List<WorldDescriptionRecord> statements;
+
+       
+
         public MainWindow()
         {
             InitializeComponent();
@@ -33,16 +43,16 @@ namespace KnowledgeRepresentationInterface
             this.Content = nextPage;
         }
 
-        public void Navigate(UserControl nextPage, object state)
-        {
-            this.Content = nextPage;
-            ISwitchable s = nextPage as ISwitchable;
+        //public void Navigate(UserControl nextPage, object state)
+        //{
+        //    this.Content = nextPage;
+        //    ISwitchable s = nextPage as ISwitchable;
 
-            if (s != null)
-                s.UtilizeState(state);
-            else
-                throw new ArgumentException("NextPage is not ISwitchable! "
-                  + nextPage.Name.ToString());
-        }
+        //    if (s != null)
+        //        s.UtilizeState(state);
+        //    else
+        //        throw new ArgumentException("NextPage is not ISwitchable! "
+        //          + nextPage.Name.ToString());
+        //}
     }
 }
