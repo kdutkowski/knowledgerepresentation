@@ -127,7 +127,6 @@ Mamy Billa i psa Maxa. Jeśli Bill idzie, to Max biegnie przez jakiś czas. Jeś
 
 \subsubsection{Opis akcji}
 
-\textbf{initially} $\neg run\_Max$ \textbf{and} $\neg bark\_Max$ \\
 $(goes\_Bill,\ 2)$ \textbf{causes} $run\_Max$\\
 $(goes\_Bill,\ 2)$ \textbf{invokes} $(runs\_Max,\ 2)$ \textbf{after} $0$\\
 $(runs\_Max,\ 2)$ \textbf{causes} $\neg run\_Max$\\
@@ -139,7 +138,7 @@ $(barks\_Max,\ 1)$ \textbf{causes} $\neg bark\_Max$\\
 \subsubsection{Scenariusz}
 
 $Sc$ =$(OBS,\ ACS)$\\
-$OBS$ = ${\emptyset}$\\
+$OBS$ = $\{\neg run\_Max, \neg bark\_Max\}$\\
 $ACS$ = $\{ ((goes\_Bill,\ 2),\ 1),\ \ ((whistles\_Bill,\ 1),5),\ \ ((goes\_Bill,\ 2),\ 7)\}$\\
 
 \subsubsection{Kwerendy}
@@ -177,7 +176,6 @@ Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub od
 
 \subsubsection{Opis akcji}
 
-\textbf{initially} $\neg on\_computer$ \textbf{and} $connect\_power\_computer$\\ 
 $(clicks\_button\_on,\ 1)$ \textbf{invokes} $(switches\_on\_computer,\ 2)$ \textbf{after} $0$\\
 $(switches\_on\_computer,\ 2)$ \textbf{causes} $on\_computer$\\
 $(disconnects\_power,\ 1)$ \textbf{causes} $\neg connect\_power\_computer$
@@ -185,7 +183,7 @@ $(disconnects\_power,\ 1)$ \textbf{causes} $\neg connect\_power\_computer$
 \subsubsection{Scenariusz}
 
 \textit{Sc} =$(OBS,\ ACS)$\\
-\textit{OBS} = ${\emptyset}$\\
+\textit{OBS} =  $\{\neg on\_computer, connect\_power\_computer\}$\\
 \textit{ACS} = $\{(clicks\_button\_on,\ 1),\ 1),\ \ ((disconnects\_power,\ 1),\ 4),\ \ ((clicks\_button\_on,\ 1),\ 5)\}	$\\
 
 \subsubsection{Kwerendy}
