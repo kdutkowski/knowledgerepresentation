@@ -119,7 +119,6 @@ Zgodnie z diagramem dla scenariusza \textit{Sc}:
 \newpage
 \subsection{Pytanie czy dana akcja jest wykonywana w pewnym czasie}
 
-%Ten przykład pokazuje przypadek kwerendy, która pyta, czy dana akcja jest wykonywana w pewnym czasie.
 
 \subsubsection{Historia}
 
@@ -127,7 +126,6 @@ Mamy Billa i psa Maxa. Jeśli Bill idzie, to Max biegnie przez jakiś czas. Jeś
 
 \subsubsection{Opis akcji}
 
-\textbf{initially} $\neg run\_Max$ \textbf{and} $\neg bark\_Max$ \\
 $(goes\_Bill,\ 2)$ \textbf{causes} $run\_Max$\\
 $(goes\_Bill,\ 2)$ \textbf{invokes} $(runs\_Max,\ 2)$ \textbf{after} $0$\\
 $(runs\_Max,\ 2)$ \textbf{causes} $\neg run\_Max$\\
@@ -139,7 +137,7 @@ $(barks\_Max,\ 1)$ \textbf{causes} $\neg bark\_Max$\\
 \subsubsection{Scenariusz}
 
 $Sc$ =$(OBS,\ ACS)$\\
-$OBS$ = ${\emptyset}$\\
+$OBS$ = $\{\neg run\_Max, \neg bark\_Max\}$\\
 $ACS$ = $\{ ((goes\_Bill,\ 2),\ 1),\ \ ((whistles\_Bill,\ 1),5),\ \ ((goes\_Bill,\ 2),\ 7)\}$\\
 
 \subsubsection{Kwerendy}
@@ -168,35 +166,43 @@ Ilustruje to poniższy diagram:
 %  \includegraphics[width=1\textwidth]{Example3}
 %\end{center}
 \newpage
-\subsection{Brak integralności}
+\subsection{Pytanie czy podany cel jest osiągalny}
 
-Przykład \textit{Brak integralności} pokazuje scenariusz, który mimo zgodności z warunkami zadania, jest~sprzeczny z logiką \textit{common sense} (z powodu braku warunków integralności).
 
 \subsubsection{Historia}
-Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub odłączyć komputer od zasilania. Początkowo komputer jest wyłączony i podłączony do zasilania. Jeżeli zostanie naciśnięty jego przycisk \textit{Włącz}, to komputer włączy się. Odłączenie komputera od prądu powoduje, że komputer będzie odłączony od~zasilania oraz wyłączony.
+Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub odłączyć komputer od zasilania. Początkowo komputer jest wyłączony i podłączony do zasilania. Jeżeli zostanie naciśnięty jego przycisk \textit{Włącz} oraz komputer jest podłączony do zasilania, to komputer włączy się. Odłączenie komputera od prądu powoduje, że komputer będzie odłączony od~zasilania oraz wyłączony. 
 
 \subsubsection{Opis akcji}
 
-\textbf{initially} $\neg on\_computer$ \textbf{and} $connect\_power\_computer$\\ 
-$(clicks\_button\_on,\ 1)$ \textbf{invokes} $(switches\_on\_computer,\ 2)$ \textbf{after} $0$\\
+$(clicks\_button\_on,\ 1)$ \textbf{invokes} $(switches\_on\_computer,\ 2)$ \textbf{after} $0$ \textbf{if} $connect\_power\_computer$\\
 $(switches\_on\_computer,\ 2)$ \textbf{causes} $on\_computer$\\
-$(disconnects\_power,\ 1)$ \textbf{causes} $\neg connect\_power\_computer$
+$(disconnects\_power,\ 1)$ \textbf{causes} $\neg connect\_power\_computer$\\
+$(disconnects\_power,\ 1)$ \textbf{causes} $\neg on\_computer$\\
 
 \subsubsection{Scenariusz}
 
 \textit{Sc} =$(OBS,\ ACS)$\\
-\textit{OBS} = ${\emptyset}$\\
+\textit{OBS} =  $\{\neg on\_computer, connect\_power\_computer\}$\\
 \textit{ACS} = $\{(clicks\_button\_on,\ 1),\ 1),\ \ ((disconnects\_power,\ 1),\ 4),\ \ ((clicks\_button\_on,\ 1),\ 5)\}	$\\
 
 \subsubsection{Kwerendy}
 
 \begin{enumerate}
-\item $on\_computer$ \textbf{at} $8$ \textbf{when} \textit{Sc}
+\item $on\_computer$ \textbf{at} $7$ \textbf{when} \textit{Sc}
+\item \textbf{accesible} $on\_computer$ \textbf{when} \textit{Sc}
 \end{enumerate}
 
-
+\newpage
 \subsubsection{Analiza}
-Powyższy scenariusz jest prawidłowy, lecz zawiera pewną niezgodność. W chwili $t = 4+1$ komputer zostaje odcięty od zasilania. Powinien więc wyłączyć się. Bill w chwili $t = 5+1$ naciska przycisk \textit{Włącz}. Komputer zacznie włączać się mimo iż jest odcięty od zasilania. Zachodzą dwa sprzeczne ze sobą, z~punktu widzenia zdrowego rozsądku,  stany, tj. $connect\_power\_computer=\neg C $  i $on\_computer=N$. Odpowiedzi na powyższą kwerendę będzie \texttt{TRUE}.
+Odpowiedzi na powyższe kwerendy są następujące:
+\begin{enumerate}
+\item \texttt{FALSE},
+\item \texttt{TRUE}.
+\end{enumerate}
+
+Należy dodać, że  cel osiągnięto już w chwili czasu równej $4$, mimo iż komputer jest wyłączony od chwili czasu równej $5$ i stan ten nie ulega już zmianie.
+
+Ilustruje to poniższy diagram:
 
 \begin{figure}[h!]
 	\centering
