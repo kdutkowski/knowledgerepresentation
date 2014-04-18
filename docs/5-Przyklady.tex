@@ -138,7 +138,7 @@ $(barks\_Max,\ 1)$ \textbf{causes} $\neg bark\_Max$\\
 \subsubsection{Scenariusz}
 
 $Sc$ =$(OBS,\ ACS)$\\
-$OBS$ = $\{\neg run\_Max, \neg bark\_Max\}$\\
+$OBS$ = $\{ (\neg run\_Max, 0), ( \neg bark\_Max, 0),  ( run\_Max, 3),  (\neg run\_Max, 5),  (bark\_Max, 6),   ( \neg bark\_Max, 7),\\ ( run\_Max, 9),  (\neg run\_Max, 11)  \}$\\
 $ACS$ = $\{ ((goes\_Bill,\ 2),\ 1),\ \ ((whistles\_Bill,\ 1),5),\ \ ((goes\_Bill,\ 2),\ 7)\}$\\
 
 \subsubsection{Kwerendy}
@@ -183,7 +183,7 @@ $(disconnects\_power,\ 1)$ \textbf{causes} $\neg on\_computer$\\
 \subsubsection{Scenariusz}
 
 \textit{Sc} =$(OBS,\ ACS)$\\
-\textit{OBS} =  $\{\neg on\_computer, connect\_power\_computer\}$\\
+\textit{OBS} =  $\{ (\neg on\_computer, 0), (connect\_power\_computer, 0), (on\_computer, 4), (\neg on\_computer, 5),\\  (\neg connect\_power\_computer, 5)\}$\\
 \textit{ACS} = $\{(clicks\_button\_on,\ 1),\ 1),\ \ ((disconnects\_power,\ 1),\ 4),\ \ ((clicks\_button\_on,\ 1),\ 5)\}	$\\
 
 \subsubsection{Kwerendy}
