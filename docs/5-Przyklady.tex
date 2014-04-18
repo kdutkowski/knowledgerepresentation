@@ -11,7 +11,6 @@ Michał jest pracującym  studentem. W środę o godzinie 8.00 powinien  pojawi�
 
 \subsubsection{Opis akcji}
 
- \textbf{initially}  \textit{$\neg$drunk \textbf{and} $\neg$hangover}\\
  \textit{(drink, 2)}  \textbf{ causes}  \textit{drunk}\\
 \textit{(sleep, 8)}   \textbf{causes} \textit{$\neg$drunk}\\
 \textit{(sleep, 8)}   \textbf{causes} \textit{hangover}  \textbf{if}  \textit{drunk}\\
@@ -19,13 +18,15 @@ Michał jest pracującym  studentem. W środę o godzinie 8.00 powinien  pojawi�
 
 \subsubsection{Scenariusze}
 $Sc$ =$(OBS,ACS)$\\
-$OBS$ =  $ {\{(\neg drunk,\ 10),\ \ (\neg hangover,\ 10)\} }$\\
+$OBS$ =  $ {\{(\neg drunk,\ 0),\ \ (\neg hangover,\ 0),\ 
+(\neg drunk,\ 10),\ \ (\neg hangover,\ 10)\}}$\\
 $ACS$ = ${\{((drink,\ 2),\ 0),\ \ ((sleep,\ 8),\ 2)\}}$\\
 
 
 $Sc_2$ =$(OBS_2,\ ACS_2)$\\
-$OBS$ =  $ {\{(\neg drunk,\ 10),\ \ (\neg hangover,\ 10)\} }$\\
-$ACS$ = ${\{((sleep,\ 8),\ 1)\}}$\\
+$OBS_2$ =  $ {\{(\neg drunk,\ 0),\ \ (\neg hangover,\ 0),\ 
+(\neg drunk,\ 10),\ \ (\neg hangover,\ 10)\}}$\\
+$ACS_2$ = ${\{((sleep,\ 8),\ 1)\}}$\\
 
 
 \subsubsection{Kwerendy}
@@ -76,7 +77,6 @@ Scenariusz \textit{ Sc2} jest w pełni poprawny i wykonywalny. Scenariusza \text
 Mick i Sarah są parą, więc mają wspólne produkty spożywcze, ale posiłki zwykle jadają oddzielnie. Pewnego dnia Sarah chce zrobić ciasto, a Mick naleśniki. Nie mogą być one robione w tym samym czasie ze względu konieczność użycia miksera do przygotowania obu. Ponadto, zrobienie jednego lub~drugiego dania zużywa cały zapas jajek dostępnych w mieszkaniu, więc trzeba je potem dokupić.
 
 \subsubsection{Opis akcji}
- \textbf{initially}  \textit{eggs}\\
 $(making\_panc,\ 1)$   \textbf{causes} $\neg$\textit{eggs} \textbf{ if } \textit{eggs}\\
 $(making\_cake,\ 1)$   \textbf{causes} $\neg$\textit{eggs} \textbf{ if } \textit{eggs}\\
 $(buy\_eggs,\ 2)$  \textbf{causes}  \textit{eggs}\\
@@ -85,7 +85,7 @@ $(buy\_eggs,\ 2)$  \textbf{causes}  \textit{eggs}\\
 \subsubsection{Scenariusz}
 
  $Sc$ =$(OBS,\ ACS)$\\
- $OBS$ =  ${\emptyset}$\\
+ $OBS$ =  ${ \{(eggs,\ 0)\} }$\\
  $ACS$ = $\{((making\_panc,\ 1),\ 0),\ \ ((making\_cake,\ 1),\ 2)\}$
 
 
@@ -116,6 +116,7 @@ Zgodnie z diagramem dla scenariusza \textit{Sc}:
 %\end{center}
 
 	Oczywiście warunek akcji \textit{making\_panc} nie jest spełniony w momencie $2$.
+	
 \newpage
 \subsection{Pytanie czy dana akcja jest wykonywana w pewnym czasie}
 
