@@ -53,6 +53,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\EnvironmentControls\EnvCausesIf.xaml.cs">
+      <DependentUpon>EnvCausesIf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ISwitchable.cs" />
     <Compile Include="Views\Switcher.cs" />
     <Compile Include="Views\Environment.xaml.cs">
@@ -77,6 +80,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Environment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnvironmentControls\EnvCausesIf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -122,6 +129,7 @@
       <Name>KnowledgeRepresentationReasoning</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

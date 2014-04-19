@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KnowledgeRepresentationInterface.Views.EnvironmentControls;
+using KnowledgeRepresentationReasoning.World;
+using KnowledgeRepresentationReasoning.World.Records;
 
 namespace KnowledgeRepresentationInterface.Views
 {
@@ -22,35 +25,67 @@ namespace KnowledgeRepresentationInterface.Views
     /// </summary>
     public partial class _Environment : UserControl, INotifyPropertyChanged//, ISwitchable
     {
-        List<string> fluents;
-        private String str;
-        public String fluentString
+        private List<Fluent> _fluents;
+        private String _strFluent;
+        public String FluentString
         {
             get
             {
-                return str;
+                return _strFluent;
             }
             set
             {
                 if (value != "")
-                    str = value + "\r\n";
-                NotifyPropertyChanged();
+                    _strFluent = value + "\r\n";
+                NotifyPropertyChanged("FluentString");
             }
         }
 
-        private String strStatement;
-        public String statementsString
+        private String _strStatement;
+        public String StatementsString
         {
             get
             {
-                return strStatement;
+                return _strStatement;
             }
             set
             {
                 if (value != "")
-                    strStatement = value + "\r\n";
-                NotifyPropertyChanged();
+                    _strStatement = value + "\r\n";
+                NotifyPropertyChanged("StatementsString");
             }
+        }
+
+        private WorldDescriptionRecordType _selectedWDRecordType;
+        public WorldDescriptionRecordType SelectedWDRecordType
+        {
+            get { return _selectedWDRecordType; }
+            set
+            {
+                _selectedWDRecordType = value;
+                NotifyPropertyChanged("SelectedWDRecordType");
+            }
+        }
+        public IEnumerable<WorldDescriptionRecordType> WDRecordType
+        {
+            get
+            {
+                return Enum.GetValues(typeof(WorldDescriptionRecordType)).Cast<WorldDescriptionRecordType>();
+            }
+        }
+
+        Dictionary<WorldDescriptionRecordType, UserControl> StatementsControls;
+
+        
+        public _Environment()
+        {
+            _fluents = new List<Fluent>();
+            StatementsControls = new Dictionary<WorldDescriptionRecordType, UserControl>();
+            StatementsControls.Add(WorldDescriptionRecordType.ActionCausesIf, new EnvCausesIf());
+            
+            InitializeComponent();
+            this.GruopBoxStatements.Content = StatementsControls[WorldDescriptionRecordType.ActionCausesIf];
+           
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -60,12 +95,6 @@ namespace KnowledgeRepresentationInterface.Views
             var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
-        public _Environment()
-        {
-            fluents = new List<string>();
-            //fluentString = "aaaa\r\nbbb";
-            InitializeComponent();
-        }
 
         private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
         {
@@ -74,12 +103,35 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddFluent_Click(object sender, RoutedEventArgs e)
         {
-            fluentString += TextBoxFluents.Text;// +"\r\n";
+            if (!_fluents.Exists(f => (f.Name == TextBoxFluents.Text)))
+            {
+                Fluent f = new Fluent();
+                f.Name = TextBoxFluents.Text;
+                _fluents.Add(f);
+                FluentString += TextBoxFluents.Text;
+            }
+            else
+            {
+                LabelFluentsValidation.Content = "Fluent with this name already exists.";
+            }
         }
 
         private void ButtonRemoveFluent_Click(object sender, RoutedEventArgs e)
         {
-            //fluentString += TextBoxFluents.Text;// +"\r\n";
+            if (_fluents.Exists(f => (f.Name == TextBoxFluents.Text)))
+            {
+                _fluents.Remove(_fluents.FirstOrDefault(f => (f.Name == TextBoxFluents.Text)));
+                string tmp = "";
+                for (int i = 0; i < _fluents.Count; i++)
+                    tmp += (i != 0 ? "\r\n" : "") + _fluents[i].Name;
+                _strFluent = "";
+                
+                FluentString = tmp;
+            }
+            else
+            {
+                LabelFluentsValidation.Content = "Fluent with this name does not exist.";
+            }
         }
 
         //#region ISwitchable Members
