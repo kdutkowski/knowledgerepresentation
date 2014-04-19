@@ -56,6 +56,22 @@
     <Compile Include="Views\EnvironmentControls\EnvCausesIf.xaml.cs">
       <DependentUpon>EnvCausesIf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EnvironmentControls\EnvImpossibleAt.xaml.cs">
+      <DependentUpon>EnvImpossibleAt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EnvironmentControls\EnvInvokesAfterIf.xaml.cs">
+      <DependentUpon>EnvInvokesAfterIf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EnvironmentControls\EnvReleasesIf.xaml.cs">
+      <DependentUpon>EnvReleasesIf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EnvironmentControls\EnvTriggers.xaml.cs">
+      <DependentUpon>EnvTriggers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EnvironmentControls\EnvImpossibleIf.xaml.cs">
+      <DependentUpon>EnvImpossibleIf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EnvironmentControls\IEnvControl.cs" />
     <Compile Include="Views\ISwitchable.cs" />
     <Compile Include="Views\Switcher.cs" />
     <Compile Include="Views\Environment.xaml.cs">
@@ -84,6 +100,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EnvironmentControls\EnvCausesIf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnvironmentControls\EnvImpossibleAt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnvironmentControls\EnvInvokesAfterIf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnvironmentControls\EnvReleasesIf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnvironmentControls\EnvTriggers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnvironmentControls\EnvImpossibleIf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

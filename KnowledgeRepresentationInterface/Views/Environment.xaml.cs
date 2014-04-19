@@ -63,6 +63,8 @@ namespace KnowledgeRepresentationInterface.Views
             set
             {
                 _selectedWDRecordType = value;
+                //this.GruopBoxStatements.Content
+                this.GruopBoxStatements.Content = StatementsControls[_selectedWDRecordType];
                 NotifyPropertyChanged("SelectedWDRecordType");
             }
         }
@@ -70,7 +72,9 @@ namespace KnowledgeRepresentationInterface.Views
         {
             get
             {
-                return Enum.GetValues(typeof(WorldDescriptionRecordType)).Cast<WorldDescriptionRecordType>();
+                IEnumerable<WorldDescriptionRecordType> tmp = Enum.GetValues(typeof(WorldDescriptionRecordType)).Cast<WorldDescriptionRecordType>();
+                //tmp.
+                return tmp;
             }
         }
 
@@ -80,12 +84,23 @@ namespace KnowledgeRepresentationInterface.Views
         public _Environment()
         {
             _fluents = new List<Fluent>();
+            InitControls();
+            InitializeComponent();
+            this.GruopBoxStatements.Content = StatementsControls[WorldDescriptionRecordType.Initially];
+        }
+
+        private void InitControls()
+        {
             StatementsControls = new Dictionary<WorldDescriptionRecordType, UserControl>();
             StatementsControls.Add(WorldDescriptionRecordType.ActionCausesIf, new EnvCausesIf());
-            
-            InitializeComponent();
-            this.GruopBoxStatements.Content = StatementsControls[WorldDescriptionRecordType.ActionCausesIf];
-           
+            StatementsControls.Add(WorldDescriptionRecordType.ActionInvokesAfterIf, new EnvInvokesAfterIf());
+            StatementsControls.Add(WorldDescriptionRecordType.ActionReleasesIf, new EnvReleasesIf());
+            StatementsControls.Add(WorldDescriptionRecordType.ExpressionTriggersAction, new EnvTriggers());
+            StatementsControls.Add(WorldDescriptionRecordType.ImpossibleActionAt, new EnvImpossibleAt());
+            StatementsControls.Add(WorldDescriptionRecordType.ImpossibleActionIf, new EnvImpossibleIf());
+
+            StatementsControls.Add(WorldDescriptionRecordType.Initially, new UserControl());
+            StatementsControls.Add(WorldDescriptionRecordType.AlwaysExpression, new UserControl());
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

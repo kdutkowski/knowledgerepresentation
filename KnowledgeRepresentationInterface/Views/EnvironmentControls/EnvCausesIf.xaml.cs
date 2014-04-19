@@ -19,7 +19,7 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     /// <summary>
     /// Interaction logic for EnvCausesIf.xaml
     /// </summary>
-    public partial class EnvCausesIf : UserControl
+    public partial class EnvCausesIf : UserControl, IEnvControl
     {
         public KnowledgeRepresentationReasoning.World.Action action;
         public String formulaEffect;
@@ -41,10 +41,23 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
             throw new NotImplementedException();
         }
 
-        public bool Validate()
+        //public bool Validate()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public void CleanValues()
         {
-            throw new NotImplementedException();
+            formulaEffect = "";
+            formulaIf = "";
+            action.Duration = null;
+            action.Id = "";
+
+            TextBoxAction.Text = "(Action, duration)";
+            TextBoxFormEffect.Text = "Alfa";
+            TextBoxFormIf.Text = "Pi";
         }
+
 
         private bool parseAction()
         {
@@ -66,13 +79,24 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 
         private bool parseFormulaEffect()
         {
+            
             formulaEffect = TextBoxFormEffect.Text;
+            if (formulaEffect == "")
+            {
+                LabelValidation.Content = "All fields are reqiured";
+                return false;
+            }
             return true;
         }
 
         private bool parseFormulaIf()
         {
             formulaIf = TextBoxFormIf.Text;
+            if (formulaIf == "")
+            {
+                LabelValidation.Content = "All fields are reqiured";
+                return false;
+            }
             return true;
         }
     }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="KnowledgeRepresentationInterface.Views.EnvironmentControls.EnvCausesIf"
+﻿<UserControl x:Class="KnowledgeRepresentationInterface.Views.EnvironmentControls.EnvReleasesIf"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,13 +7,13 @@
              d:DesignHeight="300" d:DesignWidth="245">
     <Grid>
         <TextBox Name="TextBoxAction" Text="(Action, duration)" HorizontalAlignment="Center"  Margin="0,10,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
-        <Label Name="LabelCauses" Content="causes" HorizontalAlignment="Center" Margin="0,38,0,0" VerticalAlignment="Top" Width="47"/>
-        <TextBox Name="TextBoxFormEffect" Text="Alfa" HorizontalAlignment="Center" Margin="0,70,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
+        <Label Name="LabelReleases" Content="releases" HorizontalAlignment="Center" Margin="0,38,0,0" VerticalAlignment="Top" Width="60"/>
+        <TextBox Name="TextBoxFluent" Text="fluent" HorizontalAlignment="Center" Margin="0,70,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
         <Label Name="LabelIf" Content="if" HorizontalAlignment="Center" Margin="0,98,0,0" VerticalAlignment="Top" Width="23"/>
         <TextBox Name="TextBoxFormIf" Text="Pi" HorizontalAlignment="Center" Margin="0,129,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
 
         <Label Name ="LabelValidation" Content="Validation" HorizontalAlignment="Center" Margin="0,0,0,37" VerticalAlignment="Bottom" Width="225" Foreground="Red" FontWeight="Bold" FontStyle="Italic"/>
-        
+
 
     </Grid>
 </UserControl>
