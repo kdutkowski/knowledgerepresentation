@@ -12,20 +12,20 @@ Michał jest pracującym  studentem. W środę o godzinie 8.00 powinien  pojawi�
 \subsubsection{Opis akcji}
 
  \textit{(drink, 2)}  \textbf{ causes}  \textit{drunk}\\
-\textit{(sleep, 8)}   \textbf{causes} \textit{$\neg$drunk}\\
+\textit{(sleep, 8)}   \textbf{causes} \textit{$ !$drunk}\\
 \textit{(sleep, 8)}   \textbf{causes} \textit{hangover}  \textbf{if}  \textit{drunk}\\
 
 
 \subsubsection{Scenariusze}
 $Sc$ =$(OBS,ACS)$\\
-$OBS$ =  $ {\{(\neg drunk,\ 0),\ \ (\neg hangover,\ 0),\ 
-(\neg drunk,\ 10),\ \ (\neg hangover,\ 10)\}}$\\
+$OBS$ =  $ {\{( ! drunk,\ 0),\ \ ( ! hangover,\ 0),\ 
+( ! drunk,\ 10),\ \ ( ! hangover,\ 10)\}}$\\
 $ACS$ = ${\{((drink,\ 2),\ 0),\ \ ((sleep,\ 8),\ 2)\}}$\\
 
 
 $Sc_2$ =$(OBS_2,\ ACS_2)$\\
-$OBS_2$ =  $ {\{(\neg drunk,\ 0),\ \ (\neg hangover,\ 0),\ 
-(\neg drunk,\ 10),\ \ (\neg hangover,\ 10)\}}$\\
+$OBS_2$ =  $ {\{( ! drunk,\ 0),\ \ ( ! hangover,\ 0),\ 
+( ! drunk,\ 10),\ \ ( ! hangover,\ 10)\}}$\\
 $ACS_2$ = ${\{((sleep,\ 8),\ 1)\}}$\\
 
 
@@ -77,8 +77,8 @@ Scenariusz \textit{ Sc2} jest w pełni poprawny i wykonywalny. Scenariusza \text
 Mick i Sarah są parą, więc mają wspólne produkty spożywcze, ale posiłki zwykle jadają oddzielnie. Pewnego dnia Sarah chce zrobić ciasto, a Mick naleśniki. Nie mogą być one robione w tym samym czasie ze względu konieczność użycia miksera do przygotowania obu. Ponadto, zrobienie jednego lub~drugiego dania zużywa cały zapas jajek dostępnych w mieszkaniu, więc trzeba je potem dokupić.
 
 \subsubsection{Opis akcji}
-$(making\_panc,\ 1)$   \textbf{causes} $\neg$\textit{eggs} \textbf{ if } \textit{eggs}\\
-$(making\_cake,\ 1)$   \textbf{causes} $\neg$\textit{eggs} \textbf{ if } \textit{eggs}\\
+$(making\_panc,\ 1)$   \textbf{causes} $ !$\textit{eggs} \textbf{ if } \textit{eggs}\\
+$(making\_cake,\ 1)$   \textbf{causes} $ !$\textit{eggs} \textbf{ if } \textit{eggs}\\
 $(buy\_eggs,\ 2)$  \textbf{causes}  \textit{eggs}\\
 
 
@@ -129,16 +129,16 @@ Mamy Billa i psa Maxa. Jeśli Bill idzie, to Max biegnie przez jakiś czas. Jeś
 
 $(goes\_Bill,\ 2)$ \textbf{causes} $run\_Max$\\
 $(goes\_Bill,\ 2)$ \textbf{invokes} $(runs\_Max,\ 2)$ \textbf{after} $0$\\
-$(runs\_Max,\ 2)$ \textbf{causes} $\neg run\_Max$\\
+$(runs\_Max,\ 2)$ \textbf{causes} $ ! run\_Max$\\
 $(whistles\_Bill,\ 1)$ \textbf{causes} $bark\_Max$\\
 $(whistles\_Bill,\ 1)$ \textbf{invokes} $(barks\_Max,\ 1)$ \textbf{after} $0$\\
-$(barks\_Max,\ 1)$ \textbf{causes} $\neg bark\_Max$\\
+$(barks\_Max,\ 1)$ \textbf{causes} $ ! bark\_Max$\\
 
 
 \subsubsection{Scenariusz}
 
 $Sc$ =$(OBS,\ ACS)$\\
-$OBS$ = $\{ (\neg run\_Max, 0), ( \neg bark\_Max, 0),  ( run\_Max, 3),  (\neg run\_Max, 5),  (bark\_Max, 6),   ( \neg bark\_Max, 7),\\ ( run\_Max, 9),  (\neg run\_Max, 11)  \}$\\
+$OBS$ = $\{ ( ! run\_Max, 0), (  ! bark\_Max, 0)  \}$\\
 $ACS$ = $\{ ((goes\_Bill,\ 2),\ 1),\ \ ((whistles\_Bill,\ 1),5),\ \ ((goes\_Bill,\ 2),\ 7)\}$\\
 
 \subsubsection{Kwerendy}
@@ -177,13 +177,13 @@ Mamy Billa oraz komputer. Bill może nacisnąć przycisk \textit{Włącz} lub od
 
 $(clicks\_button\_on,\ 1)$ \textbf{invokes} $(switches\_on\_computer,\ 2)$ \textbf{after} $0$ \textbf{if} $connect\_power\_computer$\\
 $(switches\_on\_computer,\ 2)$ \textbf{causes} $on\_computer$\\
-$(disconnects\_power,\ 1)$ \textbf{causes} $\neg connect\_power\_computer$\\
-$(disconnects\_power,\ 1)$ \textbf{causes} $\neg on\_computer$\\
+$(disconnects\_power,\ 1)$ \textbf{causes} $ ! connect\_power\_computer$\\
+$(disconnects\_power,\ 1)$ \textbf{causes} $ ! on\_computer$\\
 
 \subsubsection{Scenariusz}
 
 \textit{Sc} =$(OBS,\ ACS)$\\
-\textit{OBS} =  $\{ (\neg on\_computer, 0), (connect\_power\_computer, 0), (on\_computer, 4), (\neg on\_computer, 5),\\  (\neg connect\_power\_computer, 5)\}$\\
+\textit{OBS} =  $\{ ( ! on\_computer, 0), (connect\_power\_computer, 0) \}$\\
 \textit{ACS} = $\{(clicks\_button\_on,\ 1),\ 1),\ \ ((disconnects\_power,\ 1),\ 4),\ \ ((clicks\_button\_on,\ 1),\ 5)\}	$\\
 
 \subsubsection{Kwerendy}
