@@ -1,11 +1,8 @@
 ﻿using KnowledgeRepresentationReasoning.Expressions;
-using KnowledgeRepresentationReasoning.Logic;
 using KnowledgeRepresentationReasoning.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KnowledgeRepresentationReasoning.Queries
 {
@@ -25,6 +22,8 @@ namespace KnowledgeRepresentationReasoning.Queries
             _logicExp = new SimpleLogicExpression();
             _logicExp.SetExpression(_condition);
             _fluentNames = _logicExp.GetFluentNames();
+
+            logger.Info("Creates SatisfyConditionAtTimeQuery query with parameters:\ncondition: " + condition + "\ntime: " + time);
         }
 
         public override QueryResult CheckCondition(World.State state, World.Action action, int time)
@@ -32,7 +31,7 @@ namespace KnowledgeRepresentationReasoning.Queries
             QueryResult result = QueryResult.None;
 
             if (time == _time || _time == -1)
-                result = CheckValuation(state, _condition);
+                result = CheckValuation(state);
             else if (time < _time)
                 result = QueryResult.None;
             else if (_time < time)
@@ -41,19 +40,20 @@ namespace KnowledgeRepresentationReasoning.Queries
             return result;
         }
 
-        private QueryResult CheckValuation(State state, string _condition)
+        private QueryResult CheckValuation(State state)
         {
             QueryResult result = QueryResult.None;
-            bool valuation = CalculateCondition(state, _condition);
+            bool valuation = CalculateCondition(state);
 
             if (true == valuation)
                 result = QueryResult.True;
             else result = QueryResult.False;
 
+            logger.Info("Condition value:\ncondition: " + _condition + "result: " + result);
             return result;
         }
 
-        private bool CalculateCondition(World.State state, string _condition)
+        private bool CalculateCondition(World.State state)
         {
             List<Tuple<string, bool>> values = new List<Tuple<string, bool>>();
             foreach (var name in _fluentNames)
