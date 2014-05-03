@@ -16,5 +16,10 @@
         {
             return this.time == currentTime;
         }
+
+        public Action GetResult()
+        {
+            return this.action;
+        }
     }
 }

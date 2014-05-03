@@ -10,6 +10,9 @@ namespace KnowledgeRepresentationReasoning.Expressions
 
     using ExpressionEvaluator;
 
+    using KnowledgeRepresentationReasoning.Helpers;
+    using KnowledgeRepresentationReasoning.World;
+
     internal class SimpleLogicExpression : ILogicExpression
     {
         private readonly char[] specialCharacters = new[] { '|', '&', '(', ')', '!' };
@@ -49,6 +52,22 @@ namespace KnowledgeRepresentationReasoning.Expressions
             filteredString = this.specialCharacters.Aggregate(filteredString, (current, specialCharacter) => current.Replace(specialCharacter, ' '));
             filteredString = Regex.Replace(filteredString, " {2,}", " ");
             return filteredString.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
+        }
+
+        public List<Fluent[]> CalculatePossibleFluents()
+        {
+            var result = new List<Fluent[]>();
+            string[] fluentNames = this.GetFluentNames();
+            int numberOfFluents = fluentNames.Length;
+            foreach (var code in Gray.GetGreyCodesWithLengthN(numberOfFluents))
+            {
+                var possibleFluents = new Fluent[numberOfFluents];
+                for (int i = 0; i < numberOfFluents; i++)
+                    possibleFluents[i] = new Fluent { Id = i.ToString(), Name = fluentNames[i], Value = code[i] };
+                if (this.Evaluate(possibleFluents.Select(t => new Tuple<string, bool>(t.Name, t.Value))))
+                    result.Add(possibleFluents);
+            }
+            return result;
         }
 
         class ExpressionHelper

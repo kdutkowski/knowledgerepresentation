@@ -14,6 +14,7 @@
         private readonly ILogicExpression logicExpression;
         private readonly string ifExpression;
         private readonly Action action;
+        private readonly string fluentName;
 
         public ActionReleasesIfRecord(Action action, string fluentName, string ifExpression) 
             : base(WorldDescriptionRecordType.ActionReleasesIf)
@@ -21,6 +22,7 @@
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
             this.ifExpression = ifExpression;
             this.action = action;
+            this.fluentName = fluentName;
         }
 
         public bool IsFulfilled(State state, Action endedAction)
@@ -33,6 +35,11 @@
             var fluents = this.logicExpression.GetFluentNames();
             var values = fluents.Select(t => new Tuple<string, bool>(t, state.Fluents.First(x => x.Name == t).Value));
             return this.logicExpression.Evaluate(values);
+        }
+
+        public string GetResult()
+        {
+            return this.fluentName;
         }
     }
 }

@@ -12,7 +12,7 @@
 
         public IEnumerable<string> GetFluentNames()
         {
-            return this.GetSummarizedInitialRecord().GetFluentNames();
+            return this.GetSummarizedInitialRecord().GetResult();
         }
 
         public IEnumerable<State> GetInitialStates()

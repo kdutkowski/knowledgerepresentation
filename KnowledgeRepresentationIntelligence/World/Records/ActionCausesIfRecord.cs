@@ -1,6 +1,7 @@
 ﻿namespace KnowledgeRepresentationReasoning.World.Records
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using KnowledgeRepresentationReasoning.Expressions;
@@ -36,6 +37,12 @@
             var fluents = this.logicExpression.GetFluentNames();
             var values = fluents.Select(t => new Tuple<string, bool>(t, state.Fluents.First(x => x.Name == t).Value));
             return this.logicExpression.Evaluate(values);
+        }
+
+        public List<Fluent[]> GetResult()
+        {
+            this.logicExpression.SetExpression(resultExpression);
+            return this.logicExpression.CalculatePossibleFluents();
         }
     }
 }

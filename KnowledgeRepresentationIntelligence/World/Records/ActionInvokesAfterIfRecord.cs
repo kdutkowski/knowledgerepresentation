@@ -14,6 +14,8 @@
         private readonly ILogicExpression logicExpression;
         private readonly string ifExpression;
         private readonly Action action;
+        private readonly Action result;
+        private readonly int after;
 
         public ActionInvokesAfterIfRecord(Action action, Action result, int after, string ifExpression) 
             : base(WorldDescriptionRecordType.ActionInvokesAfterIf)
@@ -21,6 +23,8 @@
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
             this.ifExpression = ifExpression;
             this.action = action;
+            this.result = result;
+            this.after = after;
         }
 
         public bool IsFulfilled(State state, Action endedAction)
@@ -33,6 +37,11 @@
             var fluents = this.logicExpression.GetFluentNames();
             var values = fluents.Select(t => new Tuple<string, bool>(t, state.Fluents.First(x => x.Name == t).Value));
             return this.logicExpression.Evaluate(values);
+        }
+
+        public Tuple<Action, int> GetResult()
+        {
+            return new Tuple<Action, int>(result, after);
         }
     }
 }

@@ -20,7 +20,7 @@
             {
                 expression = value;
                 this.logicExpression.SetExpression(expression);
-                this.CalculatePossibleFluents();
+                PossibleFluents = this.logicExpression.CalculatePossibleFluents();
             }
         }
 
@@ -43,21 +43,7 @@
             return new InitialRecord(Expression + " || " + record.Expression);
         }
 
-        private void CalculatePossibleFluents()
-        {
-            string[] fluentNames = this.logicExpression.GetFluentNames();
-            int numberOfFluents = fluentNames.Length;
-            foreach (var code in Gray.GetGreyCodesWithLengthN(numberOfFluents))
-            {
-                var possibleFluents = new Fluent[numberOfFluents];
-                for (int i = 0; i < numberOfFluents; i++)
-                    possibleFluents[i] = new Fluent { Id = i.ToString(), Name = fluentNames[i], Value = code[i] };
-                if(this.logicExpression.Evaluate(possibleFluents.Select(t => new Tuple<string, bool>(t.Name, t.Value))))
-                    PossibleFluents.Add(possibleFluents);
-            }
-        }
-
-        public string[] GetFluentNames()
+        public string[] GetResult()
         {
             return this.logicExpression.GetFluentNames();
         }
