@@ -9,28 +9,22 @@
 
     using Action = KnowledgeRepresentationReasoning.World.Action;
 
-    public class ActionCausesIfRecord : WorldDescriptionRecord
+    public class ExpressionTriggersActionRecord : WorldDescriptionRecord
     {
         private readonly ILogicExpression logicExpression;
-        private readonly string resultExpression;
         private readonly string ifExpression;
         private readonly Action action;
 
-
-        public ActionCausesIfRecord(Action action, string resultExpression, string ifExpression) 
-            : base(WorldDescriptionRecordType.ActionCausesIf)
+        public ExpressionTriggersActionRecord(Action action, string ifExpression) 
+            : base(WorldDescriptionRecordType.ExpressionTriggersAction)
         {
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
-            this.resultExpression = resultExpression;
             this.ifExpression = ifExpression;
             this.action = action;
         }
 
-        public bool IsFulfilled(State state, Action startedAction)
+        public bool IsFulfilled(State state)
         {
-            // Sprawdzamy czy to dana akcja się rozpoczęła
-            if (!startedAction.Equals(action))
-                return false;
             // Sprawdzamy czy zachodzi warunek
             this.logicExpression.SetExpression(ifExpression);
             var fluents = this.logicExpression.GetFluentNames();

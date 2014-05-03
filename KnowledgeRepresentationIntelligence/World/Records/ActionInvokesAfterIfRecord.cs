@@ -9,27 +9,24 @@
 
     using Action = KnowledgeRepresentationReasoning.World.Action;
 
-    public class ActionCausesIfRecord : WorldDescriptionRecord
+    public class ActionInvokesAfterIfRecord : WorldDescriptionRecord
     {
         private readonly ILogicExpression logicExpression;
-        private readonly string resultExpression;
         private readonly string ifExpression;
         private readonly Action action;
 
-
-        public ActionCausesIfRecord(Action action, string resultExpression, string ifExpression) 
-            : base(WorldDescriptionRecordType.ActionCausesIf)
+        public ActionInvokesAfterIfRecord(Action action, Action result, int after, string ifExpression) 
+            : base(WorldDescriptionRecordType.ActionInvokesAfterIf)
         {
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
-            this.resultExpression = resultExpression;
             this.ifExpression = ifExpression;
             this.action = action;
         }
 
-        public bool IsFulfilled(State state, Action startedAction)
+        public bool IsFulfilled(State state, Action endedAction)
         {
-            // Sprawdzamy czy to dana akcja się rozpoczęła
-            if (!startedAction.Equals(action))
+            // Sprawdzamy czy to dana akcja się skończyła
+            if (!endedAction.Equals(action))
                 return false;
             // Sprawdzamy czy zachodzi warunek
             this.logicExpression.SetExpression(ifExpression);

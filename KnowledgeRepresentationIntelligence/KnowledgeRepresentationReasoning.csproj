@@ -67,7 +67,11 @@
     <Compile Include="World\Action.cs" />
     <Compile Include="World\Interfaces\IWorldDescription.cs" />
     <Compile Include="World\Records\ActionCausesIfRecord.cs" />
-    <Compile Include="World\Records\ActionInvokesAfterIf.cs" />
+    <Compile Include="World\Records\ActionInvokesAfterIfRecord.cs" />
+    <Compile Include="World\Records\ActionReleasesIfRecord.cs" />
+    <Compile Include="World\Records\ExpressionTriggersActionRecord.cs" />
+    <Compile Include="World\Records\ImpossibleActionAtRecord.cs" />
+    <Compile Include="World\Records\ImpossibleActionIfRecord.cs" />
     <Compile Include="World\Records\InitialRecord.cs" />
     <Compile Include="World\WorldDescriptionImplication.cs" />
     <Compile Include="World\Records\WorldDescriptionRecordType.cs" />

@@ -91,7 +91,6 @@ namespace KnowledgeRepresentationInterface.Views
             StatementsControls.Add(WorldDescriptionRecordType.ImpossibleActionAt, new EnvImpossibleAt());
             StatementsControls.Add(WorldDescriptionRecordType.ImpossibleActionIf, new EnvImpossibleIf());
             StatementsControls.Add(WorldDescriptionRecordType.Initially, new UserControl());
-            StatementsControls.Add(WorldDescriptionRecordType.AlwaysExpression, new UserControl());
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -8,7 +8,6 @@
         ActionReleasesIf,
         ExpressionTriggersAction,
         ImpossibleActionAt,
-        ImpossibleActionIf,
-        AlwaysExpression
+        ImpossibleActionIf
     }
 }
