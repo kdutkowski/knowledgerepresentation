@@ -1,23 +1,41 @@
-﻿namespace KnowledgeRepresentationReasoning
+﻿using log4net.Config;
+
+[assembly: XmlConfigurator(Watch = true)]
+namespace KnowledgeRepresentationReasoning
 {
     using System.Threading.Tasks;
 
     using Autofac;
+    using Autofac.Extras.CommonServiceLocator;
 
-    using KnowledgeRepresentationReasoning.Logging;
+    using KnowledgeRepresentationReasoning.Expressions;
+    using KnowledgeRepresentationReasoning.Helpers;
     using KnowledgeRepresentationReasoning.Logic;
     using KnowledgeRepresentationReasoning.Queries;
     using KnowledgeRepresentationReasoning.Scenario;
     using KnowledgeRepresentationReasoning.World;
     using KnowledgeRepresentationReasoning.World.Records;
 
+    using log4net;
+
+    using Microsoft.Practices.ServiceLocation;
+
+   
     public class ReasoningFasade : IReasoning
     {
-        private static IContainer Container { get; set; }
+        private IContainer Container { get; set; }
+        private ILog logger { get; set; }
+        private WorldDescription WorldDescription { get; set; }
+        private ScenarioDescription ScenarioDescription { get; set; }
+
+        public ReasoningFasade()
+        {
+            this.Initialize();
+            logger = ServiceLocator.Current.GetInstance<ILog>();
+        }
 
         public void AddWorldDescriptionRecord(WorldDescriptionRecord record)
         {
-            throw new System.NotImplementedException();
         }
 
         public void RemoveWorldDescriptionRecord(WorldDescriptionRecord record)
@@ -67,10 +85,18 @@
 
         public void Initialize()
         {
+            // Autofac
             var builder = new ContainerBuilder();
             builder.RegisterModule(new LoggingModule());
+            builder.RegisterInstance(LogManager.GetLogger(typeof(ReasoningFasade))).As<ILog>();
             builder.RegisterType<Tree>().As<ITree>();
+            builder.RegisterType<SimpleLogicExpression>().As<ILogicExpression>();
             Container = builder.Build();
+            ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(Container));
+
+            // WorldDescription
+            
+            // ScenarioDescription
         }
     }
 }

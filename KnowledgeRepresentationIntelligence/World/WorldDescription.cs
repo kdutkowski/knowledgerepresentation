@@ -31,7 +31,7 @@
             if (!initialRecords.Any())
                 throw new TypeInitializationException("Brak warunków początkowych!", null);
 
-            return initialRecords.Select(t => (t.Item2 as InitialRecord)).Aggregate((x, y) => x.Concat(y));
+            return initialRecords.Select(t => (t.Item2 as InitialRecord)).Aggregate((x, y) => x.ConcatOr(y));
         }
     }
 }

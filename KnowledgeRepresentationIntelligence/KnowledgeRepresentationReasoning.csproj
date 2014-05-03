@@ -33,11 +33,17 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.3.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac.Extras.CommonServiceLocator">
+      <HintPath>..\packages\Autofac.Extras.CommonServiceLocator.3.1.1\lib\net40\Autofac.Extras.CommonServiceLocator.dll</HintPath>
+    </Reference>
     <Reference Include="ExpressionEvaluator">
       <HintPath>..\packages\ExpressionEvaluator.1.0.4.0\lib\net40\ExpressionEvaluator.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,8 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Expressions\ILogicExpression.cs" />
+    <Compile Include="Helpers\ComponentInjectionModule.cs" />
     <Compile Include="Helpers\Gray.cs" />
-    <Compile Include="Logging\LoggingModule.cs" />
+    <Compile Include="Helpers\LoggingModule.cs" />
     <Compile Include="Logic\ITree.cs" />
     <Compile Include="Logic\Tree.cs" />
     <Compile Include="Queries\Query.cs" />
@@ -73,6 +80,7 @@
     <Compile Include="World\Records\WorldDescriptionRecord.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,7 +3,7 @@
 [assembly: InternalsVisibleTo("KnowledgeRepresentationReasoning.Test")]
 namespace KnowledgeRepresentationReasoning.Logic
 {
-    internal class Tree
+    internal class Tree : ITree
     {
     }
 }

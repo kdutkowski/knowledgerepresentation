@@ -8,6 +8,8 @@
     using KnowledgeRepresentationReasoning.Expressions;
     using KnowledgeRepresentationReasoning.Helpers;
 
+    using Microsoft.Practices.ServiceLocation;
+
     public class InitialRecord : WorldDescriptionRecord
     {
         private readonly char[] specialCharacters = new[] { '|', '&', '(', ')', '!' };
@@ -26,18 +28,24 @@
         public InitialRecord(string expression) : base(WorldDescriptionRecordType.Initially)
         {
             this.PossibleFluents = new List<Fluent[]>();
-            this.logicExpression = new SimpleLogicExpression(expression);
+            this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
             this.SetExpression(expression);
         }
 
-        public InitialRecord Concat(InitialRecord record)
+        public InitialRecord ConcatAnd(InitialRecord record)
         {
             return new InitialRecord(Expression + " && " + record.Expression);
+        }
+
+        public InitialRecord ConcatOr(InitialRecord record)
+        {
+            return new InitialRecord(Expression + " || " + record.Expression);
         }
 
         private void SetExpression(string expression)
         {
             this.expression = expression;
+            this.logicExpression.SetExpression(expression);
             string[] fluentNames = this.GetFluentNames();
             int numberOfFluents = fluentNames.Length;
             foreach (var code in Gray.GetGreyCodesWithLengthN(numberOfFluents))
