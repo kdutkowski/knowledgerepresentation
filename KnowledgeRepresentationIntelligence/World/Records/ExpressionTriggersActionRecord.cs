@@ -32,8 +32,9 @@
             return this.logicExpression.Evaluate(values);
         }
 
-        public Action GetResult()
+        public Action GetResult(int time)
         {
+            this.action.StartAt = time;
             return this.action;
         }
     }

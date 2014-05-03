@@ -39,9 +39,10 @@
             return this.logicExpression.Evaluate(values);
         }
 
-        public Tuple<Action, int> GetResult()
+        public Action GetResult(int time)
         {
-            return new Tuple<Action, int>(result, after);
+            this.result.StartAt = time + after + action.Duration;
+            return this.result;
         }
     }
 }

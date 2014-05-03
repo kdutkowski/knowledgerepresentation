@@ -1,10 +1,7 @@
 ﻿namespace KnowledgeRepresentationReasoning.World.Records
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using KnowledgeRepresentationReasoning.Expressions;
-    using KnowledgeRepresentationReasoning.Helpers;
 
     using Microsoft.Practices.ServiceLocation;
 

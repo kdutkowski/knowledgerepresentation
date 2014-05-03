@@ -16,7 +16,7 @@
         private readonly Action action;
 
         public ImpossibleActionIfRecord(Action action, string ifExpression) 
-            : base(WorldDescriptionRecordType.ActionInvokesAfterIf)
+            : base(WorldDescriptionRecordType.ImpossibleActionIf)
         {
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
             this.ifExpression = ifExpression;

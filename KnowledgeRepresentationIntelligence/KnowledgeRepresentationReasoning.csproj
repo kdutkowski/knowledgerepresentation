@@ -73,7 +73,7 @@
     <Compile Include="World\Records\ImpossibleActionAtRecord.cs" />
     <Compile Include="World\Records\ImpossibleActionIfRecord.cs" />
     <Compile Include="World\Records\InitialRecord.cs" />
-    <Compile Include="World\WorldDescriptionImplication.cs" />
+    <Compile Include="World\Implication.cs" />
     <Compile Include="World\Records\WorldDescriptionRecordType.cs" />
     <Compile Include="Expressions\SimpleLogicExpression.cs" />
     <Compile Include="World\Fluent.cs" />
