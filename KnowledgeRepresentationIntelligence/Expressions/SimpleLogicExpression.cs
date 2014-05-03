@@ -5,34 +5,28 @@ namespace KnowledgeRepresentationReasoning.Expressions
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
 
     using ExpressionEvaluator;
 
     internal class SimpleLogicExpression : ILogicExpression
     {
-        public string _expression;
+        private readonly char[] specialCharacters = new[] { '|', '&', '(', ')', '!' };
 
-        public SimpleLogicExpression()
-        {
-            _expression = string.Empty;
-        }
-
-        public SimpleLogicExpression(string expression)
-        {
-            _expression = expression??string.Empty;
-        }
+        private string _expression { get; set; }
 
         public bool Evaluate()
         {
-            if (_expression.Equals(string.Empty)) return false;            
-            var expression = new CompiledExpression(_expression);
+            if (this._expression.Equals(string.Empty)) return false;            
+            var expression = new CompiledExpression(this._expression);
             return (bool)expression.Eval();
         }
 
         public bool Evaluate(IEnumerable<Tuple<string, bool>> values)
         {
-            if (_expression.Equals(string.Empty)) return false;
-            var expression = new CompiledExpression(_expression);
+            if (this._expression.Equals(string.Empty)) return false;
+            var expression = new CompiledExpression(this._expression);
             expression.RegisterType("h", typeof(ExpressionHelper));
             if (values != null)
             {
@@ -46,7 +40,15 @@ namespace KnowledgeRepresentationReasoning.Expressions
 
         public void SetExpression(string expression)
         {
-            _expression = expression??string.Empty;
+            this._expression = expression??string.Empty;
+        }
+
+        public string[] GetFluentNames()
+        {
+            string filteredString = this._expression;
+            filteredString = this.specialCharacters.Aggregate(filteredString, (current, specialCharacter) => current.Replace(specialCharacter, ' '));
+            filteredString = Regex.Replace(filteredString, " {2,}", " ");
+            return filteredString.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
         }
 
         class ExpressionHelper

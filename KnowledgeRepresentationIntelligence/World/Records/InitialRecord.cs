@@ -3,8 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text.RegularExpressions;
-
     using KnowledgeRepresentationReasoning.Expressions;
     using KnowledgeRepresentationReasoning.Helpers;
 
@@ -12,15 +10,18 @@
 
     public class InitialRecord : WorldDescriptionRecord
     {
-        private readonly char[] specialCharacters = new[] { '|', '&', '(', ')', '!' };
-
         private readonly ILogicExpression logicExpression;
         private string expression;
 
         public string Expression
         {
             get { return this.expression; }
-            set { this.SetExpression(value); }
+            set
+            {
+                expression = value;
+                this.logicExpression.SetExpression(expression);
+                this.CalculatePossibleFluents();
+            }
         }
 
         public List<Fluent[]> PossibleFluents { get; private set; }
@@ -29,7 +30,7 @@
         {
             this.PossibleFluents = new List<Fluent[]>();
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
-            this.SetExpression(expression);
+            this.Expression = expression;
         }
 
         public InitialRecord ConcatAnd(InitialRecord record)
@@ -42,11 +43,9 @@
             return new InitialRecord(Expression + " || " + record.Expression);
         }
 
-        private void SetExpression(string expression)
+        private void CalculatePossibleFluents()
         {
-            this.expression = expression;
-            this.logicExpression.SetExpression(expression);
-            string[] fluentNames = this.GetFluentNames();
+            string[] fluentNames = this.logicExpression.GetFluentNames();
             int numberOfFluents = fluentNames.Length;
             foreach (var code in Gray.GetGreyCodesWithLengthN(numberOfFluents))
             {
@@ -60,10 +59,7 @@
 
         public string[] GetFluentNames()
         {
-            string filteredString = this.Expression;
-            filteredString = this.specialCharacters.Aggregate(filteredString, (current, specialCharacter) => current.Replace(specialCharacter, ' '));
-            filteredString = Regex.Replace(filteredString, " {2,}", " ");
-            return filteredString.Split(new []{ ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
+            return this.logicExpression.GetFluentNames();
         }
     }
 }
