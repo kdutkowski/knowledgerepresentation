@@ -60,9 +60,13 @@
     <Compile Include="Helpers\LoggingModule.cs" />
     <Compile Include="Logic\ITree.cs" />
     <Compile Include="Logic\Tree.cs" />
+    <Compile Include="Queries\AccesibleConditionQuery.cs" />
+    <Compile Include="Queries\ExecutableScenarioQuery.cs" />
+    <Compile Include="Queries\PerformingActionAtTimeQuery.cs" />
     <Compile Include="Queries\Query.cs" />
     <Compile Include="Queries\QueryResult.cs" />
     <Compile Include="Queries\QueryType.cs" />
+    <Compile Include="Queries\SatisfyConditionAtTimeQuery.cs" />
     <Compile Include="Scenario\ScenarioDescriptionRecord.cs" />
     <Compile Include="World\Action.cs" />
     <Compile Include="World\Interfaces\IWorldDescription.cs" />
