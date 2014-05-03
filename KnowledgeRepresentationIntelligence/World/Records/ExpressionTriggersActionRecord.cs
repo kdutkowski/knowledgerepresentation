@@ -31,5 +31,11 @@
             var values = fluents.Select(t => new Tuple<string, bool>(t, state.Fluents.First(x => x.Name == t).Value));
             return this.logicExpression.Evaluate(values);
         }
+
+        public Action GetResult(int time)
+        {
+            this.action.StartAt = time;
+            return this.action;
+        }
     }
 }

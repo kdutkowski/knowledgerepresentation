@@ -16,7 +16,7 @@
         private readonly Action action;
 
         public ImpossibleActionIfRecord(Action action, string ifExpression) 
-            : base(WorldDescriptionRecordType.ActionInvokesAfterIf)
+            : base(WorldDescriptionRecordType.ImpossibleActionIf)
         {
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
             this.ifExpression = ifExpression;
@@ -29,6 +29,11 @@
             var fluents = this.logicExpression.GetFluentNames();
             var values = fluents.Select(t => new Tuple<string, bool>(t, state.Fluents.First(x => x.Name == t).Value));
             return this.logicExpression.Evaluate(values);
+        }
+
+        public Action GetResult()
+        {
+            return this.action;
         }
     }
 }

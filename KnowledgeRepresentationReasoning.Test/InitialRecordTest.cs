@@ -31,7 +31,7 @@
         public void GetFluentNamesTest()
         {
             var record = new InitialRecord("a1 || (a2 && a1)");
-            var result = record.GetFluentNames();
+            var result = record.GetResult();
             Assert.AreEqual(2, result.Length);
         }
 
