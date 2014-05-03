@@ -1,6 +1,11 @@
 ﻿namespace KnowledgeRepresentationReasoning.Queries
 {
-    public class QueryResult
+    public enum QueryResult
     {
+        True,
+        False,
+        TemporaryTrue,
+        TemporaryFalse,
+        None
     }
 }

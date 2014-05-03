@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace KnowledgeRepresentationReasoning.Queries
 {
-    class AccesibleConditionQuery : Query
+    public class AccesibleConditionQuery : Query
     {
         public AccesibleConditionQuery()
         {
-            Type = QueryType.AccesibleCondition;
+            queryType = QueryType.AccesibleCondition;
+        }
+
+        public override QueryResult CheckCondition(World.State state, World.Action action, int time)
+        {
+            throw new NotImplementedException();
         }
     }
 }

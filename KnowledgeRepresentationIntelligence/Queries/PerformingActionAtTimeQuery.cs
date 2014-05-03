@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace KnowledgeRepresentationReasoning.Queries
 {
-    class PerformingActionAtTimeQuery : Query
+    public class PerformingActionAtTimeQuery : Query
     {
-
         public PerformingActionAtTimeQuery()
         {
-            Type = QueryType.PerformingActionAtTime;
+            queryType = QueryType.PerformingActionAtTime;
+        }
+
+        public override QueryResult CheckCondition(World.State state, World.Action action, int time)
+        {
+            throw new NotImplementedException();
         }
     }
 }
