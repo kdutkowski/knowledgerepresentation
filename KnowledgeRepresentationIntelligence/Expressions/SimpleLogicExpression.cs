@@ -84,5 +84,13 @@ namespace KnowledgeRepresentationReasoning.Expressions
                 else return false;
             }
         }
+
+
+        public void AddExpression(ILogicExpression logicExpression)
+        {
+            if (logicExpression == null) return;
+
+            _expression = "(" + _expression + ") && (" + logicExpression + ")";
+        }
     }
 }
