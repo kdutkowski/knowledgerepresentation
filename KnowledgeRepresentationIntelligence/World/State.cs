@@ -10,5 +10,17 @@
         {
             Fluents = new List<Fluent>();
         }
+
+        public override string ToString()
+        {
+            string description = "State with " + Fluents.Count + " fluents:";
+
+            foreach (var fluent in Fluents)
+            {
+                description += "\n" + fluent.ToString();
+            }
+
+            return description;
+        }
     }
 }

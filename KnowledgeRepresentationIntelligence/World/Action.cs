@@ -17,5 +17,12 @@
             }
             return false;
         }
+
+        public override string ToString()
+        {
+            string description = "Action (" + Id + ", " + Duration + ") with start time: " + StartAt;
+
+            return description;
+        }
     }
 }
