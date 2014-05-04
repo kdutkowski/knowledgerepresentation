@@ -75,7 +75,18 @@ namespace KnowledgeRepresentationReasoning
 
         public QueryResult ExecuteQuery(Query query)
         {
-            throw new System.NotImplementedException();
+            QueryResultsContainer queryResultsContainer = new QueryResultsContainer(query.questionType);
+
+            //tree initialization
+
+            //generate next level if query can't answer yet
+            while (!queryResultsContainer.CanAnswer())
+            {
+                //TODO
+                //loop with creating tree levels
+            }
+
+            return queryResultsContainer.CollectResults();
         }
 
         public Task<QueryResult> ExecuteQueryAsync(Query query)

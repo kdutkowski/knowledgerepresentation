@@ -62,12 +62,14 @@
     <Compile Include="Logic\Tree.cs" />
     <Compile Include="Queries\AccesibleConditionQuery.cs" />
     <Compile Include="Queries\ExecutableScenarioQuery.cs" />
+    <Compile Include="Queries\IQueryResultsContainer.cs" />
     <Compile Include="Queries\PerformingActionAtTimeQuery.cs" />
     <Compile Include="Queries\Query.cs" />
     <Compile Include="Queries\QueryResult.cs" />
     <Compile Include="Queries\QueryType.cs" />
     <Compile Include="Queries\QuestionType.cs" />
     <Compile Include="Queries\ConditionAtTimeQuery.cs" />
+    <Compile Include="Queries\QueryResultsContainer.cs" />
     <Compile Include="Scenario\ScenarioDescriptionRecord.cs" />
     <Compile Include="World\Action.cs" />
     <Compile Include="World\Interfaces\IWorldDescription.cs" />

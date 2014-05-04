@@ -6,6 +6,8 @@
         False,
         TemporaryTrue,
         TemporaryFalse,
-        None
+        Undefined,
+        None,
+        Error
     }
 }

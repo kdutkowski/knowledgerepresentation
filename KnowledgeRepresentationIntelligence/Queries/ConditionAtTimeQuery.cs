@@ -34,7 +34,7 @@ namespace KnowledgeRepresentationReasoning.Queries
             if (time == _time || _time == -1)
                 result = CheckValuation(state);
             else if (time < _time)
-                result = QueryResult.None;
+                result = QueryResult.Undefined;
             else if (_time < time)
                 result = QueryResult.False;
 
