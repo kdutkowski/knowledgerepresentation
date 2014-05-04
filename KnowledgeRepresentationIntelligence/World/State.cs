@@ -22,5 +22,14 @@
 
             return description;
         }
+
+        internal void AddFluents(List<string> fluentsName)
+        {
+            foreach (var name  in fluentsName)
+            {
+                Fluent newFluent = new Fluent(name, false);
+                Fluents.Add(newFluent);
+            }
+        }
     }
 }
