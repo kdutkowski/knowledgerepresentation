@@ -14,7 +14,7 @@ namespace KnowledgeRepresentationReasoning.Logic
         ILogicExpression _logicExpression;
         private ILog _logger;
 
-        private List<Vertex> _actualLevel;
+        public List<Vertex> LastLevel {get; private set;}
         private List<Vertex> _allVertices;
 
         private int _TInf;
@@ -24,7 +24,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             _logger = Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetInstance<ILog>();
             _logicExpression = new SimpleLogicExpression();
 
-            _actualLevel = new List<Vertex>();
+            LastLevel = new List<Vertex>();
             _allVertices = new List<Vertex>();
 
             _TInf = timeInf;
@@ -40,14 +40,14 @@ namespace KnowledgeRepresentationReasoning.Logic
             foreach (var state in states)
             {
                 Vertex newVertex = new Vertex(state, null, t, null);
-                _actualLevel.Add(newVertex);
+                LastLevel.Add(newVertex);
             }
 
             //action
             Action action = ScenarioDescription.GetActionAtTime(t);
             if (action != null)
-                for (int i = 0; i < _actualLevel.Count; ++i)
-                    _actualLevel[0].Action = (Action)action.Clone();
+                for (int i = 0; i < LastLevel.Count; ++i)
+                    LastLevel[0].Action = (Action)action.Clone();
 
             return t;
         }
@@ -84,6 +84,25 @@ namespace KnowledgeRepresentationReasoning.Logic
             }
 
             return states;
+        }
+
+
+        public int LastLevelCount()
+        {
+            return LastLevel.Count();
+        }
+
+        internal void SaveLastLevel()
+        {
+            Vertex[] last = new Vertex[LastLevel.Count];
+            LastLevel.CopyTo(last);
+            _allVertices.AddRange(last);
+            LastLevel = new List<Vertex>();
+        }
+
+        internal void Add(Vertex leaf)
+        {
+            LastLevel.Add(leaf);
         }
     }
 }

@@ -19,14 +19,15 @@ namespace KnowledgeRepresentationReasoning
     using log4net;
 
     using Microsoft.Practices.ServiceLocation;
+    using System.Collections.Generic;
 
    
     public class ReasoningFacade : IReasoning
     {
         private IContainer Container { get; set; }
         private ILog logger { get; set; }
-        private WorldDescription WorldDescription { get; set; }
-        private ScenarioDescription ScenarioDescription { get; set; }
+        private WorldDescription worldDescription { get; set; }
+        private ScenarioDescription scenarioDescription { get; set; }
 
         public int TInf { get; set; }
 
@@ -82,9 +83,9 @@ namespace KnowledgeRepresentationReasoning
             QueryResultsContainer queryResultsContainer = new QueryResultsContainer(query.questionType);
 
             //tree initialization
-            ITree tree = new Tree(TInf);
+            Tree tree = new Tree(TInf);
             //add first level
-            tree.AddFirstLevel(WorldDescription, ScenarioDescription);
+            tree.AddFirstLevel(worldDescription, scenarioDescription);
 
             //generate next level if query can't answer yet
             while (!queryResultsContainer.CanAnswer())
@@ -94,18 +95,69 @@ namespace KnowledgeRepresentationReasoning
                         //false - add FALSE to resultsContainer (can check answer)
                         //true:
                             //if leaf isEnded=true: add query answer (only TRUE/FALSE are valid) to resultsContainer (can check answer)
-                            //genereate childs of leaf
+                            //genereate childs for leaf
                             //create next level in tree
                             //for each child:
                                 //query validation:
                                     //if result == TRUE/FALSE add to resultContainer and delete child
                                     //else add child to queue in tree
                 //for ends
-
+                int childsCount = tree.LastLevel.Count;
+                for (int i = 0; i < childsCount; ++i)
+                {
+                    Vertex leaf = tree.LastLevel[i];
+                    if (!CheckIfLeafIsPossible(leaf))
+                    {
+                        queryResultsContainer.Add(QueryResult.False);
+                        if (queryResultsContainer.CanAnswer())
+                            break;
+                    }
+                    else
+                    {
+                        if (CheckIfLeafIsEnded(leaf))
+                        {
+                            QueryResult result = query.CheckCondition(leaf.State, leaf.Action, leaf.Time);
+                            if (result != QueryResult.True && result != QueryResult.False)
+                            {
+                                logger.Warn("Unexpected query result!");
+                                return QueryResult.Error;
+                            }
+                            queryResultsContainer.Add(result);
+                            if (queryResultsContainer.CanAnswer())
+                                break;
+                        }
+                        tree.SaveLastLevel();
+                        List<Vertex> nextLevel = GenerateChildsForLeaf(leaf);
+                        foreach (var child in nextLevel)
+                        {
+                            QueryResult result = query.CheckCondition(child.State, child.Action, child.Time);
+                            if (result == QueryResult.True || result == QueryResult.False)
+                            {
+                                queryResultsContainer.Add(result);
+                            }
+                            else tree.Add(child);
+                        }
+                    }
+                }
 
             }
 
             return queryResultsContainer.CollectResults();
+        }
+
+        private List<Vertex> GenerateChildsForLeaf(Vertex leaf)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private bool CheckIfLeafIsEnded(Vertex leaf)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private bool CheckIfLeafIsPossible(Vertex leaf)
+        {
+            return worldDescription.CheckIfLeafIsPossible(leaf) && this.scenarioDescription.CheckIfLeafIsPossible(leaf);
         }
 
         public Task<QueryResult> ExecuteQueryAsync(Query query)

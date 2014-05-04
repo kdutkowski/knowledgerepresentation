@@ -112,5 +112,10 @@ namespace KnowledgeRepresentationReasoning.Queries
             }
             return answer;
         }
+
+        internal void Add(QueryResult queryResult)
+        {
+            _results.Add(queryResult);
+        }
     }
 }

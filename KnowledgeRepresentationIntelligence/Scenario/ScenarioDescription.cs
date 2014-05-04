@@ -70,5 +70,10 @@
         {
             throw new System.NotImplementedException();
         }
+
+        internal bool CheckIfLeafIsPossible(Logic.Vertex leaf)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
