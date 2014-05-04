@@ -78,6 +78,7 @@ namespace KnowledgeRepresentationReasoning
             QueryResultsContainer queryResultsContainer = new QueryResultsContainer(query.questionType);
 
             //tree initialization
+            ITree tree = new Tree();
 
             //generate next level if query can't answer yet
             while (!queryResultsContainer.CanAnswer())
