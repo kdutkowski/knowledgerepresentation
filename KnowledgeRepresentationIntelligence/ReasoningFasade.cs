@@ -78,7 +78,7 @@ namespace KnowledgeRepresentationReasoning
             throw new System.NotImplementedException();
         }
 
-        public Task<QueryResult> ExecuteQueryAsync(QueryResult query)
+        public Task<QueryResult> ExecuteQueryAsync(Query query)
         {
             throw new System.NotImplementedException();
         }
