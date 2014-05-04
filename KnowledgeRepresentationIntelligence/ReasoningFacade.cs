@@ -21,14 +21,14 @@ namespace KnowledgeRepresentationReasoning
     using Microsoft.Practices.ServiceLocation;
 
    
-    public class ReasoningFasade : IReasoning
+    public class ReasoningFacade : IReasoning
     {
         private IContainer Container { get; set; }
         private ILog logger { get; set; }
         private WorldDescription WorldDescription { get; set; }
         private ScenarioDescription ScenarioDescription { get; set; }
 
-        public ReasoningFasade()
+        public ReasoningFacade()
         {
             this.Initialize();
             logger = ServiceLocator.Current.GetInstance<ILog>();
@@ -111,7 +111,7 @@ namespace KnowledgeRepresentationReasoning
             // Autofac
             var builder = new ContainerBuilder();
             builder.RegisterModule(new LoggingModule());
-            builder.RegisterInstance(LogManager.GetLogger(typeof(ReasoningFasade))).As<ILog>();
+            builder.RegisterInstance(LogManager.GetLogger(typeof(ReasoningFacade))).As<ILog>();
             builder.RegisterType<Tree>().As<ITree>();
             builder.RegisterType<SimpleLogicExpression>().As<ILogicExpression>();
             Container = builder.Build();
