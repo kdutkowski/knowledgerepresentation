@@ -60,5 +60,15 @@
             }
             return true;
         }
+
+        internal Action GetActionAtTime(int t)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal List<ScenarioObservationRecord> GetNextObservationFromTime(int time)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

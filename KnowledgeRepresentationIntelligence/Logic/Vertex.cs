@@ -5,7 +5,7 @@ namespace KnowledgeRepresentationReasoning.Logic
     public class Vertex
     {
         public State State { get; private set; }
-        public Action Action { get; private set; }
+        public Action Action { get; set; }
         public int Time { get; private set; }
         private Vertex Root { get; set; }
         public bool IsPossible { get; set; }

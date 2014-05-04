@@ -28,10 +28,14 @@ namespace KnowledgeRepresentationReasoning
         private WorldDescription WorldDescription { get; set; }
         private ScenarioDescription ScenarioDescription { get; set; }
 
+        public int TInf { get; set; }
+
         public ReasoningFacade()
         {
             this.Initialize();
             logger = ServiceLocator.Current.GetInstance<ILog>();
+
+            TInf = 100;
         }
 
         public void AddWorldDescriptionRecord(WorldDescriptionRecord record)
@@ -78,8 +82,9 @@ namespace KnowledgeRepresentationReasoning
             QueryResultsContainer queryResultsContainer = new QueryResultsContainer(query.questionType);
 
             //tree initialization
-            ITree tree = new Tree();
+            ITree tree = new Tree(TInf);
             //add first level
+            tree.AddFirstLevel(WorldDescription, ScenarioDescription);
 
             //generate next level if query can't answer yet
             while (!queryResultsContainer.CanAnswer())
@@ -96,6 +101,8 @@ namespace KnowledgeRepresentationReasoning
                                     //if result == TRUE/FALSE add to resultContainer and delete child
                                     //else add child to queue in tree
                 //for ends
+
+
             }
 
             return queryResultsContainer.CollectResults();
