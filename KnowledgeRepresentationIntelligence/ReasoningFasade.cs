@@ -79,12 +79,23 @@ namespace KnowledgeRepresentationReasoning
 
             //tree initialization
             ITree tree = new Tree();
+            //add first level
 
             //generate next level if query can't answer yet
             while (!queryResultsContainer.CanAnswer())
             {
-                //TODO
-                //loop with creating tree levels
+                //for each leafs:
+                    //if leaf isPossible=true:
+                        //false - add FALSE to resultsContainer (can check answer)
+                        //true:
+                            //if leaf isEnded=true: add query answer (only TRUE/FALSE are valid) to resultsContainer (can check answer)
+                            //genereate childs of leaf
+                            //create next level in tree
+                            //for each child:
+                                //query validation:
+                                    //if result == TRUE/FALSE add to resultContainer and delete child
+                                    //else add child to queue in tree
+                //for ends
             }
 
             return queryResultsContainer.CollectResults();
