@@ -9,6 +9,7 @@ namespace KnowledgeRepresentationReasoning.Queries
     public class PerformingActionAtTimeQuery : Query
     {
         public PerformingActionAtTimeQuery()
+            : base()
         {
             queryType = QueryType.PerformingActionAtTime;
         }

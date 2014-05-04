@@ -1,6 +1,7 @@
 ﻿using KnowledgeRepresentationReasoning.Logic;
 using KnowledgeRepresentationReasoning.World;
 using log4net;
+using Microsoft.Practices.ServiceLocation;
 using System.Collections.Generic;
 namespace KnowledgeRepresentationReasoning.Queries
 {
@@ -10,6 +11,11 @@ namespace KnowledgeRepresentationReasoning.Queries
 
         public QueryType queryType { get; set; }
         public QuestionType questionType {get; set;}
+
+        protected Query()
+        {
+            logger = ServiceLocator.Current.GetInstance<ILog>();
+        }
 
         public abstract QueryResult CheckCondition(State state, Action action, int time);
     }

@@ -9,6 +9,7 @@ namespace KnowledgeRepresentationReasoning.Queries
     class ExecutableScenarioQuery : Query
     {
         public ExecutableScenarioQuery()
+            : base()
         {
             queryType = QueryType.ExecutableScenario;
         }

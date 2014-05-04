@@ -9,6 +9,7 @@ namespace KnowledgeRepresentationReasoning.Queries
     public class AccesibleConditionQuery : Query
     {
         public AccesibleConditionQuery()
+            : base()
         {
             queryType = QueryType.AccesibleCondition;
         }

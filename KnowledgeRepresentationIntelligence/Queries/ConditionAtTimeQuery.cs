@@ -15,6 +15,7 @@ namespace KnowledgeRepresentationReasoning.Queries
         private string[] _fluentNames;
 
         public ConditionAtTimeQuery(string condition, int time = -1)
+            : base()
         {
             queryType = QueryType.SatisfyConditionAtTime;
             _condition = condition;
