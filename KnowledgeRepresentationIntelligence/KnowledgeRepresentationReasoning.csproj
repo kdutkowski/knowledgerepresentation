@@ -71,7 +71,9 @@
     <Compile Include="Queries\QuestionType.cs" />
     <Compile Include="Queries\ConditionAtTimeQuery.cs" />
     <Compile Include="Queries\QueryResultsContainer.cs" />
+    <Compile Include="Scenario\ScenarioActionRecord.cs" />
     <Compile Include="Scenario\ScenarioDescriptionRecord.cs" />
+    <Compile Include="Scenario\ScenarioObservationRecord.cs" />
     <Compile Include="World\Action.cs" />
     <Compile Include="World\Interfaces\IWorldDescription.cs" />
     <Compile Include="World\Records\ActionCausesIfRecord.cs" />
