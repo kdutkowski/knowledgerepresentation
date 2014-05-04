@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace KnowledgeRepresentationReasoning.Queries
 {
-    class SatisfyConditionAtTimeQuery : Query
+    class ConditionAtTimeQuery : Query
     {
         private string _condition; 
         private int _time;
@@ -14,7 +14,7 @@ namespace KnowledgeRepresentationReasoning.Queries
         private SimpleLogicExpression _logicExp;
         private string[] _fluentNames;
 
-        public SatisfyConditionAtTimeQuery(string condition, int time = -1)
+        public ConditionAtTimeQuery(string condition, int time = -1)
         {
             queryType = QueryType.SatisfyConditionAtTime;
             _condition = condition;
@@ -28,6 +28,7 @@ namespace KnowledgeRepresentationReasoning.Queries
 
         public override QueryResult CheckCondition(World.State state, World.Action action, int time)
         {
+            logger.Info("Checking condition: " + _condition + "\nwith parameters:\nstate: " + state.ToString() + "\naction: " + action.ToString() + "\ntime: " + time);
             QueryResult result = QueryResult.None;
 
             if (time == _time || _time == -1)
@@ -36,6 +37,12 @@ namespace KnowledgeRepresentationReasoning.Queries
                 result = QueryResult.None;
             else if (_time < time)
                 result = QueryResult.False;
+
+            string logResult = "Return result: " + result;
+            if (QueryResult.None == result)
+                logger.Warn(logResult);
+            else
+                logger.Info(logResult);
 
             return result;
         }

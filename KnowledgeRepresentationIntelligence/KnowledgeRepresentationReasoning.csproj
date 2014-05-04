@@ -67,7 +67,7 @@
     <Compile Include="Queries\QueryResult.cs" />
     <Compile Include="Queries\QueryType.cs" />
     <Compile Include="Queries\QuestionType.cs" />
-    <Compile Include="Queries\SatisfyConditionAtTimeQuery.cs" />
+    <Compile Include="Queries\ConditionAtTimeQuery.cs" />
     <Compile Include="Scenario\ScenarioDescriptionRecord.cs" />
     <Compile Include="World\Action.cs" />
     <Compile Include="World\Interfaces\IWorldDescription.cs" />
