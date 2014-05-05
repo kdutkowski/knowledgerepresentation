@@ -167,7 +167,20 @@ namespace KnowledgeRepresentationReasoning
             int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
             int nextTime = GetNextTimestamp(leaf, scenarioDescription);
 
-            //check nearest observation
+            if (!CheckNearestObservation(leaf, actualTime, nextObservationTime, nextTime))
+            {
+                Vertex child = new Vertex();
+                child.IsPossible = false;
+                return new List<Vertex>() { child };
+            }
+
+            List<Implication> implication = (List<Implication>)worldDescription.GetImplications(leaf.Action, leaf.State, leaf.Time);
+
+            return vertices;
+        }
+
+        private bool CheckNearestObservation(Vertex leaf, int actualTime, int nextObservationTime, int nextTime)
+        {
             if (nextTime > nextObservationTime)
             {
                 ScenarioObservationRecord nextObservation = scenarioDescription.GetObservationFromTime(nextObservationTime);
@@ -176,16 +189,10 @@ namespace KnowledgeRepresentationReasoning
                     _logger.Warn("Leaf is incopatibile with observation!\n" +
                                     "State: " + leaf.State +
                                     "Observation: " + nextObservation);
-
-                    Vertex child = new Vertex();
-                    child.IsPossible = false;
-                    return new List<Vertex>() { child };
+                    return false;
                 }
             }
-
-            List<Implication> implication = (List<Implication>)worldDescription.GetImplications(leaf.Action, leaf.State, leaf.Time);
-
-            return vertices;
+            return true;
         }
 
         private int GetNextTimestamp(Vertex leaf, ScenarioDescription scenarioDescription)
