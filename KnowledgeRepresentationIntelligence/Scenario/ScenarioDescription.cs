@@ -53,7 +53,7 @@
         {
             foreach (ScenarioObservationRecord obs in observations)
             {
-                if (!obs.checkState(state, time))
+                if (!obs.CheckState(state, time))
                 {
                     return false;
                 }

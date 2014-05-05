@@ -163,18 +163,24 @@ namespace KnowledgeRepresentationReasoning
         {
             List<Vertex> vertices = new List<Vertex>();
 
-            int actualTime= leaf.Time;
+            Vertex child = new Vertex();
+            child.IsPossible = false;
+            List<Vertex> impossibleChild = new List<Vertex>() { child };
+
+            int actualTime = leaf.Time;
             int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
             int nextTime = GetNextTimestamp(leaf, scenarioDescription);
 
             if (!CheckNearestObservation(leaf, actualTime, nextObservationTime, nextTime))
-            {
-                Vertex child = new Vertex();
-                child.IsPossible = false;
-                return new List<Vertex>() { child };
-            }
+                return impossibleChild;
 
-            List<Implication> implication = (List<Implication>)worldDescription.GetImplications(leaf.Action, leaf.State, leaf.Time);
+            leaf.Update(nextTime);
+
+            if (!CheckIfLeafIsPossible(leaf))
+                return impossibleChild;
+
+            List<Implication> implications = (List<Implication>)worldDescription.GetImplications(leaf.Action, leaf.State, leaf.Time);
+            vertices = leaf.CreateChildsBasedOnImplications(implications);
 
             return vertices;
         }
@@ -184,7 +190,7 @@ namespace KnowledgeRepresentationReasoning
             if (nextTime > nextObservationTime)
             {
                 ScenarioObservationRecord nextObservation = scenarioDescription.GetObservationFromTime(nextObservationTime);
-                if (!nextObservation.checkState(leaf.State, actualTime))
+                if (!nextObservation.CheckState(leaf.State, actualTime))
                 {
                     _logger.Warn("Leaf is incopatibile with observation!\n" +
                                     "State: " + leaf.State +

@@ -32,5 +32,34 @@ namespace KnowledgeRepresentationReasoning.Logic
         {
             return NextActions.Min(action => action.StartAt);
         }
+
+        internal void Update(int nextTime)
+        {
+            UpdateStateOnFluentChange();
+            //int nextTime = UpdateAction();
+            //UpdateTime(nextTime);
+        }
+
+        private int UpdateAction()
+        {
+            int endTime = Action.StartAt + Action.Duration??-1;
+
+            return 0;
+        }
+
+        private void UpdateTime(int newTime)
+        {
+            Time = newTime;
+        }
+
+        private void UpdateStateOnFluentChange()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
