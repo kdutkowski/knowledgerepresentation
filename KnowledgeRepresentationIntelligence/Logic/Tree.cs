@@ -30,8 +30,9 @@ namespace KnowledgeRepresentationReasoning.Logic
             _TInf = timeInf;
         }
 
-        public int AddFirstLevel(World.WorldDescription WorldDescription, Scenario.ScenarioDescription ScenarioDescription)
+        public int AddFirstLevel(World.WorldDescription WorldDescription, Scenario.ScenarioDescription ScenarioDescription, out int numberOfImpossibleLeaf)
         {
+            numberOfImpossibleLeaf = 0;
             int t = 0;
 
             //states
@@ -47,8 +48,13 @@ namespace KnowledgeRepresentationReasoning.Logic
             Action action = ScenarioDescription.GetActionAtTime(t);
             if (action != null)
                 for (int i = 0; i < LastLevel.Count; ++i)
-                    LastLevel[0].Action = (Action)action.Clone();
-
+                {
+                    LastLevel[i].Action = (Action)action.Clone();
+                    if (!WorldDescription.CheckIfLeafIsPossible(LastLevel[i]))
+                    {
+                        ++numberOfImpossibleLeaf;
+                    }
+                }
             return t;
         }
 

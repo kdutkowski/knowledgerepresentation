@@ -9,7 +9,7 @@ namespace KnowledgeRepresentationReasoning.Queries
     class ConditionAtTimeQuery : Query
     {
         private string _condition; 
-        private int _time;
+        private int _time;              //Variable time in query, -1 means no time.
 
         private SimpleLogicExpression _logicExp;
         private string[] _fluentNames;
@@ -24,12 +24,12 @@ namespace KnowledgeRepresentationReasoning.Queries
             _logicExp.SetExpression(_condition);
             _fluentNames = _logicExp.GetFluentNames();
 
-            logger.Info("Creates SatisfyConditionAtTimeQuery query with parameters:\ncondition: " + condition + "\ntime: " + time);
+            _logger.Info("Creates "+ this.ToString());
         }
 
         public override QueryResult CheckCondition(World.State state, World.Action action, int time)
         {
-            logger.Info("Checking condition: " + _condition + "\nwith parameters:\nstate: " + state.ToString() + "\naction: " + action.ToString() + "\ntime: " + time);
+            _logger.Info("Checking condition: " + _condition + "\nwith parameters:\nstate: " + state.ToString() + "\naction: " + action.ToString() + "\ntime: " + time);
             QueryResult result = QueryResult.None;
 
             if (time == _time || _time == -1)
@@ -41,10 +41,10 @@ namespace KnowledgeRepresentationReasoning.Queries
 
             string logResult = "Return result: " + result;
             if (QueryResult.None == result)
-                logger.Warn(logResult);
+                _logger.Warn(logResult);
             else
-                logger.Info(logResult);
-
+                _logger.Info(logResult);
+ 
             return result;
         }
 
@@ -57,7 +57,7 @@ namespace KnowledgeRepresentationReasoning.Queries
                 result = QueryResult.True;
             else result = QueryResult.False;
 
-            logger.Info("Condition value:\ncondition: " + _condition + "result: " + result);
+            _logger.Info("Condition value:\ncondition: " + _condition + "result: " + result);
             return result;
         }
 
@@ -72,6 +72,13 @@ namespace KnowledgeRepresentationReasoning.Queries
             }
 
             return _logicExp.Evaluate(values);
+        }
+
+        public override string ToString()
+        {
+            return "Condition at Time Query:\n" +
+                    "condition: " + _condition + "\n"+
+                    "time: " + _time;
         }
     }
 }

@@ -7,14 +7,14 @@ namespace KnowledgeRepresentationReasoning.Queries
 {
     public abstract class Query
     {
-        internal ILog logger { get; set; }
+        internal ILog _logger { get; set; }
 
         public QueryType queryType { get; set; }
         public QuestionType questionType {get; set;}
 
         protected Query()
         {
-            logger = ServiceLocator.Current.GetInstance<ILog>();
+            _logger = ServiceLocator.Current.GetInstance<ILog>();
         }
 
         public abstract QueryResult CheckCondition(State state, Action action, int time);

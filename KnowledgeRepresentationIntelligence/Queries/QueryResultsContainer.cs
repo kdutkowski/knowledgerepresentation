@@ -1,4 +1,6 @@
 ﻿using KnowledgeRepresentationReasoning.Queries;
+using log4net;
+using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +10,13 @@ namespace KnowledgeRepresentationReasoning.Queries
 {
     class QueryResultsContainer : IQueryResultsContainer
     {
+        private ILog _logger;
         private QuestionType _questionType;
         private List<QueryResult> _results;
 
         public QueryResultsContainer(QuestionType questionType)
         {
+            _logger = ServiceLocator.Current.GetInstance<ILog>();
             _questionType = questionType;
             _results = new List<QueryResult>();
         }
@@ -30,14 +34,15 @@ namespace KnowledgeRepresentationReasoning.Queries
                 finalResult = CollectResultsForEver(finalResult);
             }
 
+            _logger.Info("Collect result: " + finalResult);
             return finalResult;
         }
 
         private QueryResult CollectResultsForEver(QueryResult finalResult)
         {
+            finalResult = QueryResult.False;
             foreach (var result in _results)
             {
-                finalResult = QueryResult.False;
                 if (QueryResult.True == result)
                 {
                     finalResult = QueryResult.True;
@@ -49,9 +54,9 @@ namespace KnowledgeRepresentationReasoning.Queries
 
         private QueryResult CollectResultsForAlways(QueryResult finalResult)
         {
+            finalResult = QueryResult.True;
             foreach (var result in _results)
             {
-                finalResult = QueryResult.True;
                 if (QueryResult.False == result)
                 {
                     finalResult = QueryResult.False;
@@ -74,6 +79,7 @@ namespace KnowledgeRepresentationReasoning.Queries
                 answer = CanAnswerForEver(answer);
             }
 
+            _logger.Info("Query can answer: " + answer);
             return answer;
         }
 
@@ -89,7 +95,7 @@ namespace KnowledgeRepresentationReasoning.Queries
                 if (result != QueryResult.True && result != QueryResult.False)
                 {
                     answer = false;
-                    break;
+                    //break;
                 }
             }
             return answer;
@@ -107,15 +113,19 @@ namespace KnowledgeRepresentationReasoning.Queries
                 if (result != QueryResult.True && result != QueryResult.False)
                 {
                     answer = false;
-                    break;
+                    //break;
                 }
             }
             return answer;
         }
 
-        internal void Add(QueryResult queryResult)
+        internal void Add(QueryResult queryResult, int count=0)
         {
-            _results.Add(queryResult);
+            while (count-- > 0)
+            {
+                _results.Add(queryResult);
+                _logger.Info("Adding query result: " + queryResult);
+            }
         }
     }
 }

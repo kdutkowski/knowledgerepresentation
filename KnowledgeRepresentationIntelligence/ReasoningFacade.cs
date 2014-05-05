@@ -1,4 +1,5 @@
 ﻿using log4net.Config;
+using System.Linq;
 
 [assembly: XmlConfigurator(Watch = true)]
 namespace KnowledgeRepresentationReasoning
@@ -85,22 +86,27 @@ namespace KnowledgeRepresentationReasoning
             //tree initialization
             Tree tree = new Tree(TInf);
             //add first level
-            tree.AddFirstLevel(worldDescription, scenarioDescription);
+            int numberOfImpossibleLeaf = 0;
+            tree.AddFirstLevel(worldDescription, scenarioDescription, out numberOfImpossibleLeaf);
+            
+            queryResultsContainer.Add(QueryResult.False, numberOfImpossibleLeaf);
+            if (queryResultsContainer.CanAnswer())
+                return queryResultsContainer.CollectResults();
 
             //generate next level if query can't answer yet
             while (!queryResultsContainer.CanAnswer())
             {
                 //for each leafs:
-                    //if leaf isPossible=true:
-                        //false - add FALSE to resultsContainer (can check answer)
-                        //true:
-                            //if leaf isEnded=true: add query answer (only TRUE/FALSE are valid) to resultsContainer (can check answer)
-                            //genereate childs for leaf
-                            //create next level in tree
-                            //for each child:
-                                //query validation:
-                                    //if result == TRUE/FALSE add to resultContainer and delete child
-                                    //else add child to queue in tree
+                    //genereate childs for leaf
+                    //create next level in tree
+                    //for each child:
+                        //if leaf isPossible=false:
+                            //add FALSE to resultsContainer (can check answer)
+                        //if leaf isEnded=true: add query answer (only TRUE/FALSE are valid) to resultsContainer (can check answer)
+                        //else
+                            //query validation:
+                                //if result == TRUE/FALSE add to resultContainer and delete child
+                                //else add child to queue in tree
                 //for ends
                 int childsCount = tree.LastLevel.Count;
                 for (int i = 0; i < childsCount; ++i)
@@ -120,7 +126,8 @@ namespace KnowledgeRepresentationReasoning
                             if (result != QueryResult.True && result != QueryResult.False)
                             {
                                 logger.Warn("Unexpected query result!");
-                                return QueryResult.Error;
+                                return QueryResult.Error; 
+                                //return QueryResult.False;
                             }
                             queryResultsContainer.Add(result);
                             if (queryResultsContainer.CanAnswer())
@@ -128,6 +135,7 @@ namespace KnowledgeRepresentationReasoning
                         }
                         tree.SaveLastLevel();
                         List<Vertex> nextLevel = GenerateChildsForLeaf(leaf);
+                        
                         foreach (var child in nextLevel)
                         {
                             QueryResult result = query.CheckCondition(child.State, child.Action, child.Time);
@@ -139,7 +147,6 @@ namespace KnowledgeRepresentationReasoning
                         }
                     }
                 }
-
             }
 
             return queryResultsContainer.CollectResults();

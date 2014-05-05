@@ -1,4 +1,5 @@
 ﻿using KnowledgeRepresentationReasoning.World;
+using System.Collections.Generic;
 
 namespace KnowledgeRepresentationReasoning.Logic
 {
@@ -10,6 +11,8 @@ namespace KnowledgeRepresentationReasoning.Logic
         private Vertex Root { get; set; }
         public bool IsPossible { get; set; }
         public bool IsEnded { get; set; }
+
+        public List<Action> NextActions { get; set; }
 
         public Vertex(State state, Action action, int time, Vertex root)
         {
