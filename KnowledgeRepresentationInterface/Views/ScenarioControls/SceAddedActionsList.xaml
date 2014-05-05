@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="350" d:DesignWidth="780">
+             d:DesignHeight="300" d:DesignWidth="720">
     <Grid>
         <Label Content="Added actions list" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
+        <GroupBox Header="Actions list" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="300" Width="720"/>
     </Grid>
 </UserControl>

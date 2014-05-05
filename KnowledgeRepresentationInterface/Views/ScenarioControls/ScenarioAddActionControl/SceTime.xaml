@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="60">
     <Grid>
-        <Label Content="Time" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Margin="5,10,0,0" FontWeight="Bold" FontSize="16"/>
+        <TextBox x:Name="TextBoxTime" Text="time" HorizontalAlignment="Left"  TextWrapping="Wrap" Height="30" VerticalAlignment="Top"  Margin="5,10,0,0" FontWeight="Normal" FontSize="16"/>
     </Grid>
 </UserControl>

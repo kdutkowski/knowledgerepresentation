@@ -6,6 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="200">
     <Grid>
-        <Label Content="Action" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
+        <!--TODO-->
+        <ComboBox x:Name ="ComboBoxStatements" Text="Action" HorizontalAlignment="Left"  Height="30" VerticalAlignment="Top" Width="180" RenderTransformOrigin="0.475,0.15" Margin="10,10,0,0"/>
     </Grid>
 </UserControl>

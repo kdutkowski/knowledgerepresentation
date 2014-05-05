@@ -7,9 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="170" d:DesignWidth="720">
     <Grid>
-        <Button x:Name ="ButtonAddAction" Content="Add action" HorizontalAlignment="Left" Margin="605,80,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.5,0.5" Height="30"/>
+        <Button x:Name ="ButtonAddAction" Content="Add action" HorizontalAlignment="Left" Margin="605,70,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.5,0.5" Height="30"/>
         <ScenarioControls:SceTime HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="60" Height="50"/>
         <ScenarioControls:SceFluents  HorizontalAlignment="Left" Margin="75,10,0,0" VerticalAlignment="Top" Width="320" Height="150"/>
         <ScenarioControls:SceAction HorizontalAlignment="Left" Margin="400,60,0,0" VerticalAlignment="Top" Width="200" Height="50"/>
+        <GroupBox Header="Add action" HorizontalAlignment="Left" Height="170" Margin="0,0,0,0" VerticalAlignment="Top" Width="720"/>
     </Grid>
 </UserControl>
