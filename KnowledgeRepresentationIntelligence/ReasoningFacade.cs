@@ -184,7 +184,7 @@ namespace KnowledgeRepresentationReasoning
             if (nextTime > nextObservationTime)
             {
                 ScenarioObservationRecord nextObservation = scenarioDescription.GetObservationFromTime(nextObservationTime);
-                if (!nextObservation.checkState(leaf.State, actualTime))
+                if (!nextObservation.CheckState(leaf.State, actualTime))
                 {
                     _logger.Warn("Leaf is incopatibile with observation!\n" +
                                     "State: " + leaf.State +

@@ -16,7 +16,7 @@
             Time = time;
         }
 
-        public bool checkState(State state, int time)
+        public bool CheckState(State state, int time)
         {
             //TODO type something here
             return true;
