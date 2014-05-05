@@ -21,6 +21,7 @@ namespace KnowledgeRepresentationReasoning
 
     using Microsoft.Practices.ServiceLocation;
     using System.Collections.Generic;
+    using System;
 
    
     public class ReasoningFacade : IReasoning
@@ -156,16 +157,24 @@ namespace KnowledgeRepresentationReasoning
         {
             List<Vertex> vertices = new List<Vertex>();
 
-            int nextTime = GetNextTimestamp(leaf, worldDescription, scenarioDescription);
+            int actualTime= leaf.Time;
+            int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
+            int nextTime = GetNextTimestamp(leaf, scenarioDescription);
+
+
 
             List<Implication> implication = (List<Implication>)worldDescription.GetImplications(leaf.Action, leaf.State, leaf.Time);
 
             return vertices;
         }
 
-        private int GetNextTimestamp(Vertex leaf, WorldDescription worldDescription, ScenarioDescription scenarioDescription)
+        private int GetNextTimestamp(Vertex leaf, ScenarioDescription scenarioDescription)
         {
-            throw new System.NotImplementedException();
+            int nextActionTime = scenarioDescription.GetNextActionTime(leaf.Time);
+            int actualActionEndTime = leaf.Action.GetEndTime()??Int32.MaxValue;
+            int nextActionStartTime = leaf.GetNextActionTime()??Int32.MaxValue;
+
+            return Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime));
         }
 
         private bool CheckIfLeafIsEnded(Vertex leaf)

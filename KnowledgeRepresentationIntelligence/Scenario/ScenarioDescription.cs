@@ -75,5 +75,25 @@
         {
             throw new System.NotImplementedException();
         }
+
+        /// <summary>
+        /// Methods return time from neariest observation.
+        /// </summary>
+        /// <param name="actualTime"></param>
+        /// <returns></returns>
+        internal int GetNextObservationTime(int actualTime)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Methods returns neariest action
+        /// </summary>
+        /// <param name="actualTime"></param>
+        /// <returns></returns>
+        internal int GetNextActionTime(int actualTime)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -37,5 +37,10 @@ namespace KnowledgeRepresentationReasoning.World
 
             return action;
         }
+
+        internal int? GetEndTime()
+        {
+            return StartAt + Duration;
+        }
     }
 }

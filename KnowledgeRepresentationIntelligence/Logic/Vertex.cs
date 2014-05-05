@@ -1,5 +1,6 @@
 ﻿using KnowledgeRepresentationReasoning.World;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KnowledgeRepresentationReasoning.Logic
 {
@@ -20,6 +21,11 @@ namespace KnowledgeRepresentationReasoning.Logic
             Action = action;
             Time = time;
             Root = root;
+        }
+
+        internal int? GetNextActionTime()
+        {
+            return NextActions.Min(action => action.StartAt);
         }
     }
 }
