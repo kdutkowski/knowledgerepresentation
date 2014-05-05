@@ -66,7 +66,7 @@
             throw new System.NotImplementedException();
         }
 
-        internal List<ScenarioObservationRecord> GetNextObservationFromTime(int time)
+        internal List<ScenarioObservationRecord> GetObservationFromTime(int time)
         {
             throw new System.NotImplementedException();
         }

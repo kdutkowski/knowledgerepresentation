@@ -2,6 +2,7 @@
 {
     using KnowledgeRepresentationReasoning.Expressions;
     using KnowledgeRepresentationReasoning.World;
+    using System.Collections.Generic;
 
     class ScenarioObservationRecord : ScenarioDescriptionRecord
     {
@@ -19,11 +20,6 @@
         {
             //TODO type something here
             return true;
-        }
-
-        internal static System.Collections.Generic.List<ScenarioObservationRecord> GetNextObservationFromTime(int t)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

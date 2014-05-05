@@ -154,6 +154,17 @@ namespace KnowledgeRepresentationReasoning
 
         private List<Vertex> GenerateChildsForLeaf(Vertex leaf)
         {
+            List<Vertex> vertices = new List<Vertex>();
+
+            int nextTime = GetNextTimestamp(leaf, worldDescription, scenarioDescription);
+
+            List<Implication> implication = (List<Implication>)worldDescription.GetImplications(leaf.Action, leaf.State, leaf.Time);
+
+            return vertices;
+        }
+
+        private int GetNextTimestamp(Vertex leaf, WorldDescription worldDescription, ScenarioDescription scenarioDescription)
+        {
             throw new System.NotImplementedException();
         }
 

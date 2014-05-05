@@ -62,7 +62,7 @@ namespace KnowledgeRepresentationReasoning.Logic
         {
             List<State> states = new List<State>();
 
-            List<ScenarioObservationRecord> observations = scenarioDescription.GetNextObservationFromTime(time);
+            List<ScenarioObservationRecord> observations = scenarioDescription.GetObservationFromTime(time);
             if (observations.Count == 0)
             {
                 _logger.Warn("Scenario has no observations!");
