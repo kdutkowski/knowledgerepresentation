@@ -27,7 +27,7 @@ namespace KnowledgeRepresentationReasoning
     public class ReasoningFacade : IReasoning
     {
         private IContainer Container { get; set; }
-        private ILog logger { get; set; }
+        private ILog _logger { get; set; }
         private WorldDescription worldDescription { get; set; }
         private ScenarioDescription scenarioDescription { get; set; }
 
@@ -36,7 +36,7 @@ namespace KnowledgeRepresentationReasoning
         public ReasoningFacade()
         {
             this.Initialize();
-            logger = ServiceLocator.Current.GetInstance<ILog>();
+            _logger = ServiceLocator.Current.GetInstance<ILog>();
 
             TInf = 100;
         }
@@ -126,7 +126,7 @@ namespace KnowledgeRepresentationReasoning
                             QueryResult result = query.CheckCondition(leaf.State, leaf.Action, leaf.Time);
                             if (result != QueryResult.True && result != QueryResult.False)
                             {
-                                logger.Warn("Unexpected query result!");
+                                _logger.Warn("Unexpected query result!");
                                 return QueryResult.Error; 
                                 //return QueryResult.False;
                             }
@@ -139,6 +139,12 @@ namespace KnowledgeRepresentationReasoning
                         
                         foreach (var child in nextLevel)
                         {
+                            if (!CheckIfLeafIsPossible(child))
+                            {
+                                queryResultsContainer.Add(QueryResult.False);
+                                if (queryResultsContainer.CanAnswer())
+                                    break;
+                            }
                             QueryResult result = query.CheckCondition(child.State, child.Action, child.Time);
                             if (result == QueryResult.True || result == QueryResult.False)
                             {
@@ -161,7 +167,21 @@ namespace KnowledgeRepresentationReasoning
             int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
             int nextTime = GetNextTimestamp(leaf, scenarioDescription);
 
+            //check nearest observation
+            if (nextTime > nextObservationTime)
+            {
+                ScenarioObservationRecord nextObservation = scenarioDescription.GetObservationFromTime(nextObservationTime);
+                if (!nextObservation.checkState(leaf.State, actualTime))
+                {
+                    _logger.Warn("Leaf is incopatibile with observation!\n" +
+                                    "State: " + leaf.State +
+                                    "Observation: " + nextObservation);
 
+                    Vertex child = new Vertex();
+                    child.IsPossible = false;
+                    return new List<Vertex>() { child };
+                }
+            }
 
             List<Implication> implication = (List<Implication>)worldDescription.GetImplications(leaf.Action, leaf.State, leaf.Time);
 

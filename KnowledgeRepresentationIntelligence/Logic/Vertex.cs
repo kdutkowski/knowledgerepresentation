@@ -23,6 +23,11 @@ namespace KnowledgeRepresentationReasoning.Logic
             Root = root;
         }
 
+        public Vertex()
+        {
+            // TODO: Complete member initialization
+        }
+
         internal int? GetNextActionTime()
         {
             return NextActions.Min(action => action.StartAt);

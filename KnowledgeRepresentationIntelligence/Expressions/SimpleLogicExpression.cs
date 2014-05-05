@@ -16,6 +16,24 @@ namespace KnowledgeRepresentationReasoning.Expressions
     internal class SimpleLogicExpression : ILogicExpression
     {
         private readonly char[] specialCharacters = new[] { '|', '&', '(', ')', '!' };
+        private ILogicExpression logicExpression;
+        private string _condition;
+
+        public SimpleLogicExpression(ILogicExpression logicExpression)
+        {
+            this.logicExpression = logicExpression;
+        }
+
+        public SimpleLogicExpression()
+        {
+            // TODO: Complete member initialization
+        }
+
+        public SimpleLogicExpression(string _condition)
+        {
+            // TODO: Complete member initialization
+            this._condition = _condition;
+        }
 
         private string _expression { get; set; }
 

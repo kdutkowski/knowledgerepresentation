@@ -62,19 +62,18 @@ namespace KnowledgeRepresentationReasoning.Logic
         {
             List<State> states = new List<State>();
 
-            List<ScenarioObservationRecord> observations = scenarioDescription.GetObservationFromTime(time);
-            if (observations.Count == 0)
+            ScenarioObservationRecord observation = scenarioDescription.GetObservationFromTime(time);
+            if (observation.Equals(null))
             {
                 _logger.Warn("Scenario has no observations!");
+                State state = new State();
+                state.AddFluents(fluentNames);
+                states.Add(state);
             }
             else
             {
-                time = observations[0].Time;
-                _logicExpression = new SimpleLogicExpression();
-                foreach (var observation in observations)
-                {
-                    _logicExpression.AddExpression(observation.Expr);
-                }
+                time = observation.Time;
+                _logicExpression = new SimpleLogicExpression(observation.Expr);
 
                 List<Fluent[]> possibleInitialValues = _logicExpression.CalculatePossibleFluents();
                 foreach (var valuation in possibleInitialValues)

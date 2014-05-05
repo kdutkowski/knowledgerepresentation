@@ -66,7 +66,12 @@
             throw new System.NotImplementedException();
         }
 
-        internal List<ScenarioObservationRecord> GetObservationFromTime(int time)
+        /// <summary>
+        /// Methods returns many oibservations as one in form: "(ob1) && (ob2)...".
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        internal ScenarioObservationRecord GetObservationFromTime(int time)
         {
             throw new System.NotImplementedException();
         }

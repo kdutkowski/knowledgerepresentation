@@ -20,8 +20,7 @@ namespace KnowledgeRepresentationReasoning.Queries
             queryType = QueryType.SatisfyConditionAtTime;
             _condition = condition;
             _time = time;
-            _logicExp = new SimpleLogicExpression();
-            _logicExp.SetExpression(_condition);
+            _logicExp = new SimpleLogicExpression(_condition);
             _fluentNames = _logicExp.GetFluentNames();
 
             _logger.Info("Creates "+ this.ToString());
