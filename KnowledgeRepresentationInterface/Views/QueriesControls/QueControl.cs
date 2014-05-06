@@ -12,9 +12,13 @@ namespace KnowledgeRepresentationInterface.Views.QueriesControls
     public abstract class QueControl:UserControl
     {
         protected int _timeInf;
-        protected List<string> _scenarioNames;
+        public List<string> _scenarioNames;
         protected List<WorldAction> _actions;
         protected List<Fluent> _fluents;
+
+        public QueControl()
+        {
+        }
 
         public  QueControl(int timeInf, List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
         {

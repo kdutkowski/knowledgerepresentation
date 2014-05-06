@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KnowledgeRepresentationInterface.Views.QueriesControls;
 using KnowledgeRepresentationReasoning.Queries;
 using KnowledgeRepresentationReasoning.World;
 
@@ -34,6 +35,8 @@ namespace KnowledgeRepresentationInterface.Views
         #endregion
 
         #region Visualization Properties
+        private Dictionary<QueryType, UserControl> QueriesControls;
+
         private QueryType _selectedQueryType;
         public QueryType SelectedQuestionType { get; set; }
         public QueryType SelectedQueryType
@@ -42,7 +45,7 @@ namespace KnowledgeRepresentationInterface.Views
             set
             {
                 _selectedQueryType = value;
-                //this.GruopBoxStatements.Content = StatementsControls[_selectedQueryType];
+                this.GroupBoxQuery.Content = QueriesControls[_selectedQueryType];
                 NotifyPropertyChanged("SelectedQueryType");
             }
         }
@@ -62,6 +65,7 @@ namespace KnowledgeRepresentationInterface.Views
             }
         }
 
+
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
@@ -69,6 +73,18 @@ namespace KnowledgeRepresentationInterface.Views
         public _Results()
         {
             InitializeComponent();
+            InitControls();
+        }
+
+        private void InitControls()
+        {
+            //todo zmienic userControl na QueControl
+            //todo zaimplementowac pozostale kontrolki
+            QueriesControls = new Dictionary<QueryType, UserControl>();
+            QueriesControls.Add(QueryType.SatisfyConditionAtTime, new QueConditionAtTime(_timeInf, _scenarioNames, _actions, _fluents));
+            QueriesControls.Add(QueryType.AccesibleCondition, new UserControl());
+            QueriesControls.Add(QueryType.ExecutableScenario, new UserControl());
+            QueriesControls.Add(QueryType.PerformingActionAtTime, new UserControl());
         }
         #endregion
 
@@ -79,6 +95,18 @@ namespace KnowledgeRepresentationInterface.Views
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        private void ButtonExecute_Click(object sender, RoutedEventArgs e)
+        {
+            //todo pozostałe typy
+            if (SelectedQueryType == QueryType.SatisfyConditionAtTime)
+            {
+                Query q = ((QueControl) QueriesControls[SelectedQueryType]).GetQuery();
+                QueryResult qr = Switcher.ExecuteQuery(q);
+                LabelResult.Content = qr;
+            }
+            
+        }
 
         #region Buttons Events
         

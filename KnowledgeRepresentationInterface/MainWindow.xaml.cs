@@ -1,4 +1,5 @@
 ﻿using KnowledgeRepresentationInterface.Views;
+using KnowledgeRepresentationReasoning.Queries;
 using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
 using System.Collections.Generic;
@@ -49,6 +50,10 @@ namespace KnowledgeRepresentationInterface
             this.Content = nextPage;
         }
 
+        public QueryResult ExecuteQuery(Query query)
+        {
+            return reasoning.ExecuteQuery(query);
+        }
 
         private void LoadWorldDescriptionRecords(List<WorldDescriptionRecord> statements)
         {

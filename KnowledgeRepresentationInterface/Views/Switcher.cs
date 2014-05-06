@@ -1,4 +1,5 @@
-﻿using KnowledgeRepresentationReasoning.World;
+﻿using KnowledgeRepresentationReasoning.Queries;
+using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
 using System.Collections.Generic;
 using System.Windows.Controls;
@@ -18,6 +19,11 @@ namespace KnowledgeRepresentationInterface
                                   List<WorldDescriptionRecord> statements)
         {
             pageSwitcher.Navigate(newPage, tInf, fluents, actions, statements);
+        }
+
+        public static QueryResult ExecuteQuery(Query query)
+        {
+            return pageSwitcher.ExecuteQuery(query);
         }
 
     }
