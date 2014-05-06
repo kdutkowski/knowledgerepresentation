@@ -30,6 +30,8 @@ namespace KnowledgeRepresentationReasoning.Logic
             _TInf = timeInf;
         }
 
+        //missing:
+        //- alpha triggers action
         public int AddFirstLevel(World.WorldDescription WorldDescription, Scenario.ScenarioDescription ScenarioDescription, out int numberOfImpossibleLeaf)
         {
             numberOfImpossibleLeaf = 0;
@@ -38,6 +40,11 @@ namespace KnowledgeRepresentationReasoning.Logic
             //states
             List<string> fluentNames = (List<string>)WorldDescription.GetFluentNames();
             List<State> states = CreateStatesBasedOnObservations(fluentNames, ScenarioDescription, ref t);
+
+            //
+            if (_TInf < t)
+                return -1;
+
             foreach (var state in states)
             {
                 Vertex newVertex = new Vertex(state, null, t, null);
