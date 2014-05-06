@@ -20,7 +20,7 @@
         ScenarioDescription GetScenarioDescription();
 
         QueryResult ExecuteQuery(Query query);
-        Task<QueryResult> ExecuteQueryAsync(QueryResult query);
+        Task<QueryResult> ExecuteQueryAsync(Query query);
 
         void Initialize();
     }

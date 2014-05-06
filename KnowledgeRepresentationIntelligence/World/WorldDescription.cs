@@ -61,5 +61,10 @@
             var releasedFluents = actionReleaseRecords.Where(t => t.IsFulfilled(state, action)).Select(t => t.GetResult(time));
             return releasedFluents;
         }
+
+        internal bool CheckIfLeafIsPossible(Logic.Vertex leaf)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

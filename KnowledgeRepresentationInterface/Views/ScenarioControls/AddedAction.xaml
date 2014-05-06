@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="KnowledgeRepresentationInterface.Views.ScenarioControls.AddedAction"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="710"
+             x:Name="uc_sce">
+    <Grid>
+        <Label x:Name="LabelTime"
+			HorizontalContentAlignment="Center"
+			Content="{Binding Time, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
+			VerticalAlignment="Top"
+			HorizontalAlignment="Left"
+			Width="50" 
+			Height="30" Margin="10,10,0,0"
+			FontWeight="Normal" FontSize="16"/>
+        
+        
+        <Label x:Name="LabelActionName"
+			HorizontalContentAlignment="Center"
+			Content="{Binding ActionName, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
+			VerticalAlignment="Top"
+			HorizontalAlignment="Right"
+			Width="200" 
+			Height="30" Margin="0,10,10,10"
+			FontWeight="Normal" FontSize="16"/>
+    </Grid>
+</UserControl>
