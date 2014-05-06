@@ -36,9 +36,9 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
             InitialAddedActions();
         }
 
-        public bool AddAction(int time, List<Fluent> fluents, string action)
+        public bool AddAction(int time, string action)
         {
-            AddedAction addedAction = new AddedAction() { ActionName = action, Time = time, Fluents = fluents };
+            AddedAction addedAction = new AddedAction() { ActionName = action, Time = time};
 
             if (ValidateAddedAction(addedAction))
             {
@@ -47,6 +47,8 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
             }
             return false;
         }
+
+
 
         private bool ValidateAddedAction(AddedAction addedAction)
         {
@@ -72,6 +74,24 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
         private void InitialAddedActions()
         {
             _addedActionsList = new List<AddedAction>();
+        }
+
+        internal bool AddObservation(int time, List<Fluent> fluents)
+        {
+            AddedAction addedAction = new AddedAction() { ActionName = String.Empty, Time = time , Fluents=fluents};
+
+            if (ValidateAddedObservation(addedAction))
+            {
+                AddAddedActionToList(addedAction);
+                AddActionToStackPanel(addedAction);
+            }
+            return false;
+        }
+
+        private bool ValidateAddedObservation(AddedAction addedAction)
+        {
+            //TODO validate observation
+            return true;
         }
     }
 }

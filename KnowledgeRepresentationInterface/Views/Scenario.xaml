@@ -6,17 +6,20 @@
              xmlns:ScenarioAddActionControl="clr-namespace:KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddActionControl" xmlns:ScenarioControls="clr-namespace:KnowledgeRepresentationInterface.Views.ScenarioControls" x:Class="KnowledgeRepresentationInterface.Views._Scenario" 
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-       <Grid Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
+    <Grid Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
         <Button x:Name ="ButtonNextPage" Content="Next page" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="ButtonNextPage_Click"/>
         <Label Content="Scenario" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
 
-        <GridSplitter HorizontalAlignment="Left" Height="4" Margin="40,220,0,40" VerticalAlignment="Top" Width="720" Background="DarkBlue"/>
+        <GridSplitter HorizontalAlignment="Left" Height="4" Margin="40,315,0,0" VerticalAlignment="Top" Width="720" Background="DarkBlue"/>
 
         <ScenarioAddActionControl:SceAddAction x:Name="ActionAdd" HorizontalAlignment="Left" Margin="40,43,0,0" VerticalAlignment="Top" Height="170" Width="720"/>
 
-        <ScenarioControls:SceAddedActionsList x:Name="ActionList" HorizontalAlignment="Left" Margin="40,229,0,0" VerticalAlignment="Top" Height="330" Width="720"/>
+        <ScenarioControls:SceAddedActionsList x:Name="ActionList" HorizontalAlignment="Left" Margin="40,324,0,0" VerticalAlignment="Top" Height="239" Width="720"/>
 
-        <Button x:Name ="ButtonAddAction" Content="Add action" HorizontalAlignment="Left" Margin="645,104,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.286,0.646" Height="30" Click="ButtonAddAction_Click"/>
+        <Button x:Name ="ButtonAddAction" Content="Add action" HorizontalAlignment="Left" Margin="638,65,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.286,0.646" Height="30" Click="ButtonAddAction_Click"/>
+
+        <ScenarioAddActionControl:SceAddObservations  x:Name="ObservationAdd" HorizontalAlignment="Left" Margin="40,139,0,0" VerticalAlignment="Top" Height="171"/>
+        <Button x:Name ="ButtonAddObservation" Content="Add observation" HorizontalAlignment="Left" Margin="638,198,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.286,0.646" Height="30" Click="ButtonAddObservation_Click" />
 
     </Grid>
 </UserControl>

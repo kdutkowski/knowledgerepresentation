@@ -63,41 +63,16 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         }
 
 
-        private List<Fluent> _fluents;
-        public List<Fluent> Fluents
-        {
-            get
-            {
-                GetFluentsValues();
-                return _fluents;
-            }
-            set
-            {
-                _fluents = value;
-            }
-        }
+
 
         public SceAddAction()
         {
             InitializeComponent();
         }
 
-        private void InitFluents()
-        {
-            foreach (var item in _fluents)
-            {
-                StackPanelFluents.Children.Add(new FluentValue { NameFluent = item.Name, Value = item.Value });
-            }
-        }
 
-        private void GetFluentsValues()
-        {
-            _fluents.Clear();
-            foreach (var item in StackPanelFluents.Children)
-            {
-                _fluents.Add(new Fluent() { Name = ((FluentValue)item).NameFluent, Value = ((FluentValue)item).Value });
-            }
-        }
+
+
 
         public void CleanValues()
         {
@@ -105,15 +80,12 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         }
 
 
-        public void SetFluents(List<Fluent> fluents)
-        {
-            _fluents = (fluents != null) ? fluents : new List<Fluent>();
-            InitFluents();
-        }
+
 
         public void SetActions(List<WorldAction> actions)
         {
             WARecordType = actions;
         }
     }
+
 }

@@ -24,14 +24,14 @@ namespace KnowledgeRepresentationInterface.Views
     /// </summary>
     public partial class _Scenario : UserControl
     {
-        private List<ScenarioDescription> _scenarioDescription;
+        private ScenarioDescription _scenarioDescription;
 
         public _Scenario(List<Fluent> fluents, List<WorldAction> actions  )
         {
             InitializeComponent();
-            ActionAdd.SetFluents(fluents);
+           ObservationAdd.SetFluents(fluents);
             ActionAdd.SetActions(actions);
-            _scenarioDescription = new List<ScenarioDescription>();
+            _scenarioDescription = new ScenarioDescription();
         }
 
         private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
@@ -41,13 +41,21 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddAction_Click(object sender, RoutedEventArgs e)
         {
-            if(ActionList.AddAction(ActionAdd.Time, ActionAdd.Fluents, ActionAdd.SelectedWARecordType.Id))
+            if(ActionList.AddAction(ActionAdd.Time, ActionAdd.SelectedWARecordType.Id))
             {
-                ScenarioDescription scenarioDescription = new ScenarioDescription();
-                scenarioDescription.addACS( ActionAdd.SelectedWARecordType, ActionAdd.Time);
+                _scenarioDescription.addACS( ActionAdd.SelectedWARecordType, ActionAdd.Time);
             }
 
-            //TODO add observation
+           
+        }
+
+        private void ButtonAddObservation_Click(object sender, RoutedEventArgs e)
+        {
+          
+            if (ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Fluents))
+            {
+                //TODO add observation
+            }
         }
 
     }

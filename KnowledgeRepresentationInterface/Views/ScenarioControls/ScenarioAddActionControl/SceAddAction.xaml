@@ -4,32 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ScenarioControls="clr-namespace:KnowledgeRepresentationInterface.Views.ScenarioControls" xmlns:local="clr-namespace:KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddActionControl" x:Class="KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddActionControl.SceAddAction" 
-             mc:Ignorable="d" 
-             d:DesignHeight="170" d:DesignWidth="720"
-             x:Name="uc_sce" >
-    <Grid>
-        <GroupBox Header="Add action" HorizontalAlignment="Left" Height="170" Margin="0,0,0,0" VerticalAlignment="Top" Width="720"/>
-       
+             mc:Ignorable="d" d:DesignWidth="720"
+             x:Name="uc_sce" Height="85" >
+    <Grid Margin="0,0,0,0">
+        <GroupBox Header="Action occurrences" HorizontalAlignment="Left" Height="81" Margin="0,0,0,0" VerticalAlignment="Top" Width="720"/>
+
         <TextBox x:Name="TextBoxTime"
 			TextAlignment="Center"
 			Text="{Binding Time, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
-			Width="50" TextWrapping="Wrap"
-			Height="30" Margin="10,60,0,0"
+			Width="100" TextWrapping="Wrap"
+			Height="30" Margin="10,20,0,0"
 			FontWeight="Normal" FontSize="16"/>
         <ComboBox x:Name ="ComboBoxStatements" SelectedItem="{Binding SelectedWDRecordType, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}"
 			ItemsSource="{Binding WDRecordType, ElementName=uc_sce}"
-			HorizontalAlignment="Left"  Height="30" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.475,0.15" Margin="400,60,0,0"/>
-        <Grid HorizontalAlignment="Left" Height="109" Margin="65,20,0,0" VerticalAlignment="Top" Width="330">
-            <ScrollViewer HorizontalAlignment="Left" Height="109" VerticalAlignment="Top" Width="330" HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto">
-                <StackPanel x:Name="StackPanelFluents">
+			HorizontalAlignment="Left"  Height="30" VerticalAlignment="Top" Width="400" RenderTransformOrigin="0.475,0.15" Margin="115,20,0,0"/>
 
-                </StackPanel>
-            </ScrollViewer>
-        </Grid>
-
-        <Label x:Name="LabelValidation" Content="Validation" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top" Width="700" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
+        <Label x:Name="LabelValidation" Content="Validation" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="700" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
 
 
     </Grid>
