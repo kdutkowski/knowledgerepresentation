@@ -17,5 +17,10 @@
             }
             return false;
         }
+
+        public override string ToString()
+        {
+            return "(" + Id + ", " + Duration + ")";
+        }
     }
 }

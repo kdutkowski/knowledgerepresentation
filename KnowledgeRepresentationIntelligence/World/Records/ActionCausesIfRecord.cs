@@ -44,5 +44,10 @@
             this.logicExpression.SetExpression(resultExpression);
             return this.logicExpression.CalculatePossibleFluents();
         }
+
+        public override string ToString()
+        {
+            return action.ToString() + " causes " + resultExpression + " if " + ifExpression;
+        }
     }
 }

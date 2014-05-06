@@ -13,24 +13,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using KnowledgeRepresentationReasoning.World.Records;
+using Action = KnowledgeRepresentationReasoning.World.Action;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
     /// <summary>
     /// Interaction logic for EnvImpossibleAt.xaml
     /// </summary>
-    public partial class EnvImpossibleAt : UserControl, IEnvControl
+    public partial class EnvImpossibleAt
     {
         public EnvImpossibleAt()
         {
             InitializeComponent();
         }
 
-        public WorldDescriptionRecord getWorldDescriptionRecord()
+        public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             throw new NotImplementedException();
         }
-        public void CleanValues()
+        public override void CleanValues()
         {
             throw new NotImplementedException();
         }

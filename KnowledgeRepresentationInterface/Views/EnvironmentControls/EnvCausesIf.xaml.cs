@@ -13,75 +13,59 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using KnowledgeRepresentationReasoning.World.Records;
-
+using Action = KnowledgeRepresentationReasoning.World.Action;
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
     /// <summary>
     /// Interaction logic for EnvCausesIf.xaml
     /// </summary>
-    public partial class EnvCausesIf : UserControl, IEnvControl
+    public partial class EnvCausesIf
     {
-        public KnowledgeRepresentationReasoning.World.Action action;
-        public String formulaEffect;
-        public String formulaIf;
+        #region Properties
+        private Action _action;
+        private String _expressionEffect;
+        private String _expressionIf;
+        #endregion
 
+        #region Constructor
         public EnvCausesIf()
         {
             InitializeComponent();
         }
-
-        public WorldDescriptionRecord getWorldDescriptionRecord()
+        #endregion
+        public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
-            //WorldDescriptionRecord wdr = new WorldDescriptionRecord();
-            //wdr.Type = WorldDescriptionRecordType.ActionCausesIf;
-            //return
-            bool worked1 = parseAction();
-            bool worked2 = parseFormulaEffect();
-            bool worked3 = parseFormulaIf();
-            throw new NotImplementedException();
+            string errorString;
+            bool worked1 = ParseAction(TextBoxAction.Text, out _action, out errorString);
+            LabelValidation.Content = errorString;
+
+            bool worked2 = parseExpressionEffect();
+            bool worked3 = parseExpressionIf();
+
+            if (worked1 && worked2 && worked3)
+            {
+                return new ActionCausesIfRecord(_action, _expressionEffect, _expressionIf);
+            }
+            throw new TypeLoadException("Validation error");
         }
 
-        //public bool Validate()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public void CleanValues()
+        public override void CleanValues()
         {
-            formulaEffect = "";
-            formulaIf = "";
-            action.Duration = null;
-            action.Id = "";
+            _expressionEffect = "";
+            _expressionIf = "";
+            _action.Duration = null;
+            _action.Id = "";
 
             TextBoxAction.Text = "(Action, duration)";
             TextBoxFormEffect.Text = "Alfa";
             TextBoxFormIf.Text = "Pi";
         }
 
-
-        private bool parseAction()
-        {
-            string actionString = TextBoxAction.Text;
-            try
-            {
-                var act = actionString.Replace("(", "").Replace(")", "").Split(',');
-                action = new KnowledgeRepresentationReasoning.World.Action();
-                action.Id = act[0];
-                action.Duration = Int32.Parse(act[1]);
-                return true;
-            }
-            catch (Exception e)
-            {
-                LabelValidation.Content = "Action in a wrong format!";
-                return false;
-            }
-        }
-
-        private bool parseFormulaEffect()
+        private bool parseExpressionEffect()
         {
             
-            formulaEffect = TextBoxFormEffect.Text;
-            if (formulaEffect == "")
+            _expressionEffect = TextBoxFormEffect.Text;
+            if (_expressionEffect == "")
             {
                 LabelValidation.Content = "All fields are reqiured";
                 return false;
@@ -89,10 +73,10 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
             return true;
         }
 
-        private bool parseFormulaIf()
+        private bool parseExpressionIf()
         {
-            formulaIf = TextBoxFormIf.Text;
-            if (formulaIf == "")
+            _expressionIf = TextBoxFormIf.Text;
+            if (_expressionIf == "")
             {
                 LabelValidation.Content = "All fields are reqiured";
                 return false;

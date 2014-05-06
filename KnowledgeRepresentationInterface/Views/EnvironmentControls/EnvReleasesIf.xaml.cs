@@ -13,23 +13,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using KnowledgeRepresentationReasoning.World.Records;
+using Action = KnowledgeRepresentationReasoning.World.Action;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
     /// <summary>
     /// Interaction logic for EnvReleasesIf.xaml
     /// </summary>
-    public partial class EnvReleasesIf : UserControl, IEnvControl
+    public partial class EnvReleasesIf
     {
         public EnvReleasesIf()
         {
             InitializeComponent();
         }
-        public WorldDescriptionRecord getWorldDescriptionRecord()
+        public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             throw new NotImplementedException();
         }
-        public void CleanValues()
+        public override void CleanValues()
         {
             throw new NotImplementedException();
         }

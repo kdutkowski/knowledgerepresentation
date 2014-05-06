@@ -25,10 +25,10 @@ namespace KnowledgeRepresentationInterface.Views
             InitializeComponent();
         }
 
-        private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
-        {
-            Switcher.Switch(new _Environment());
-        }
+        //private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Switcher.Switch(new _Environment());
+        //}
 
         //#region ISwitchable Members
         //public void UtilizeState(object state)
