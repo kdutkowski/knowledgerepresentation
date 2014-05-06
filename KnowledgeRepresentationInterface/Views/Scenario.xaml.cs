@@ -76,7 +76,7 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddObservation_Click(object sender, RoutedEventArgs e)
         {
-            if (ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Fluents))
+            if (ObservationAdd.Fluents.Count>0 && ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Fluents))
             {
                 //TODO add observations
                 //_scenarioObservationRecordList.Add(new ScenarioObservationRecord(expr, ObservationAdd.Time));

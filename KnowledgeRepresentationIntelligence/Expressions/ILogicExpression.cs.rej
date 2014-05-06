@@ -1,0 +1,9 @@
+diff a/KnowledgeRepresentationIntelligence/Expressions/ILogicExpression.cs b/KnowledgeRepresentationIntelligence/Expressions/ILogicExpression.cs	(rejected hunks)
+@@ -5,7 +5,6 @@
+ 
+     using KnowledgeRepresentationReasoning.World;
+ 
+-    internal interface ILogicExpression
+     public interface ILogicExpression
+     {
+         bool Evaluate();
