@@ -76,10 +76,10 @@
     </Compile>
     <Compile Include="Views\EnvironmentControls\EnvControl.cs" />
     <Compile Include="Views\ISwitchable.cs" />
-    <Compile Include="Views\ScenarioControls\AddedAction.xaml.cs">
+    <Compile Include="Views\ScenarioControls\ScenarioAddedActionListControl\AddedAction.xaml.cs">
       <DependentUpon>AddedAction.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ScenarioControls\SceAddedActionsList.xaml.cs">
+    <Compile Include="Views\ScenarioControls\ScenarioAddedActionListControl\SceAddedActionsList.xaml.cs">
       <DependentUpon>SceAddedActionsList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\FluentValue.xaml.cs">
@@ -147,11 +147,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ScenarioControls\AddedAction.xaml">
+    <Page Include="Views\ScenarioControls\ScenarioAddedActionListControl\AddedAction.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ScenarioControls\SceAddedActionsList.xaml">
+    <Page Include="Views\ScenarioControls\ScenarioAddedActionListControl\SceAddedActionsList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

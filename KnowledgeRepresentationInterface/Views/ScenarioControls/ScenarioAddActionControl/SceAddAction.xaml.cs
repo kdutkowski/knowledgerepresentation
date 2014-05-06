@@ -64,7 +64,9 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         private List<Fluent> _fluents;
         public List<Fluent> Fluents
         {
-            get { return _fluents; }
+            get {
+                GetFluentsValues();
+                return _fluents; }
             set
             {
                 _fluents = value;
@@ -80,15 +82,28 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         private void InitFluents()
         {
             _fluents = GetFluents();
+            _fluents.Add(new Fluent() { Name = "a", Value = true });
+            _fluents.Add(new Fluent() { Name = "ab", Value = true });
+            _fluents.Add(new Fluent() { Name = "abc", Value = false });
+            _fluents.Add(new Fluent() { Name = "ac", Value = true });
             foreach (var item in _fluents)
             {
                 StackPanelFluents.Children.Add(new FluentValue { NameFluent=item.Name, Value=item.Value});
             }
         }
 
+        private void GetFluentsValues()
+        {
+            _fluents.Clear();
+            foreach (var item in StackPanelFluents.Children)
+            {
+                _fluents.Add(new Fluent() { Name = ((FluentValue)item).NameFluent, Value = ((FluentValue)item).Value });
+            }
+        }
+
         private List<Fluent> GetFluents()
         {
-            //TODO get fluents
+            //TODO get fluents from previous page
             return new List<Fluent>();
         }
 

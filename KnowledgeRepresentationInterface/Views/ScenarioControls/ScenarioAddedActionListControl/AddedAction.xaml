@@ -15,8 +15,16 @@
 			Width="50" 
 			Height="30" Margin="10,10,0,0"
 			FontWeight="Normal" FontSize="16"/>
-        
-        
+
+        <Label x:Name="LabelFluents"
+			HorizontalContentAlignment="Center"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Left"
+			Width="430" 
+			Height="30" Margin="65,10,0,0"
+			FontWeight="Normal" FontSize="16"/>
+
+
         <Label x:Name="LabelActionName"
 			HorizontalContentAlignment="Center"
 			Content="{Binding ActionName, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 

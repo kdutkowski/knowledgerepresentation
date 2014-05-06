@@ -45,13 +45,14 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
         }
 
 
-        //TODO show fluents
         private List<Fluent> _fluents;
 
         public List<Fluent> Fluents
         {
             get { return _fluents; }
-            set { _fluents = value; }
+            set { _fluents = value;
+            ShowFluents();
+            }
         }
         
 
@@ -60,6 +61,18 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
         public AddedAction()
         {
             InitializeComponent();
+           
+        }
+
+        private void ShowFluents()
+        {
+            if (_fluents != null)
+            {
+                foreach (var item in _fluents)
+                {
+                    LabelFluents.Content += item.Name + ": " + (item.Value ? "T" : "F") + ", ";
+                }
+            }
         }
 
         public void CleanValues()
