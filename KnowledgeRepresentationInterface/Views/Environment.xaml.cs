@@ -174,6 +174,10 @@ namespace KnowledgeRepresentationInterface.Views
             catch (TypeLoadException exception)
             {
             }
+            catch(NotImplementedException exception)
+            {
+                //TODO when implemented everywhere - delete this catch
+            }
             
             
         }
