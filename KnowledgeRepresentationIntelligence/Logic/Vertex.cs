@@ -72,9 +72,31 @@ namespace KnowledgeRepresentationReasoning.Logic
             throw new System.NotImplementedException();
         }
 
-        internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, int p)
+        internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, World.WorldAction worldAction, int nextTime)
         {
-            throw new System.NotImplementedException();
+            List<Vertex> childs = new List<Vertex>();
+
+            foreach (var implication in implications)
+            {
+                Vertex child = new Vertex(this);
+                child.State = implication.FutureState;
+                if (WorldAction.GetEndTime() == nextTime)
+                {
+                    WorldAction = null;
+                }
+                if (nextTime == worldAction.StartAt)
+                    this.WorldAction = (WorldAction)worldAction.Clone();
+
+                child.NextActions = new List<WorldAction>();
+                child.NextActions.AddRange(implication.TriggeredActions);
+
+                child.Time = nextTime;
+                child.IsPossible = child.ValidateActions();
+
+                childs.Add(child);
+            }
+
+            return childs;
         }
     }
 }
