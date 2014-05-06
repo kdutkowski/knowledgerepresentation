@@ -14,6 +14,7 @@
         {
             Expr = expr;
             Time = time;
+            
         }
 
 
@@ -28,7 +29,7 @@
 
             if (!time.Equals(Time)) return true;
 
-            for (int i = 0; i < state.Fluents.Capacity;i++ )
+            for (int i = 0; i < state.Fluents.Count;i++ )
             {
                 foreach(Fluent[] fluents in Expr.CalculatePossibleFluents()){
                     foreach(Fluent exprF in fluents){
