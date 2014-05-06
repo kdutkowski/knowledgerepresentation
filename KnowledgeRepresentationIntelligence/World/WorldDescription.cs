@@ -32,6 +32,13 @@
         // TODO: Niech ta metoda zwraca jedno Implication (trzeba poprawic w dalszym kodzie)
         public List<Implication> GetImplications(Vertex leaf, int nextTime)
         {
+            //TODO
+            //algorithm returns list, each element represent another path
+            //if action will end in nexTime
+                //check causes & releases -> creates states
+            //check triggers
+            //check invokes
+            //impossible doesn't take place here.
 
             throw new NotImplementedException();
         }
