@@ -29,5 +29,10 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         {
             throw new NotImplementedException();
         }
+
+        private void ButtonAddAction_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

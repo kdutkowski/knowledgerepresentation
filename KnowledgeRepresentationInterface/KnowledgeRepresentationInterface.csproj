@@ -79,19 +79,10 @@
     <Compile Include="Views\ScenarioControls\SceAddedActionsList.xaml.cs">
       <DependentUpon>SceAddedActionsList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\SceAction.xaml.cs">
-      <DependentUpon>SceAction.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\SceAddAction.xaml.cs">
       <DependentUpon>SceAddAction.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\SceFluents.xaml.cs">
-      <DependentUpon>SceFluents.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ScenarioControls\ISceControl.cs" />
-    <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\SceTime.xaml.cs">
-      <DependentUpon>SceTime.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Switcher.cs" />
     <Compile Include="Views\Environment.xaml.cs">
       <DependentUpon>Environment.xaml</DependentUpon>
@@ -154,19 +145,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ScenarioControls\ScenarioAddActionControl\SceAction.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\ScenarioControls\ScenarioAddActionControl\SceAddAction.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ScenarioControls\ScenarioAddActionControl\SceFluents.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ScenarioControls\ScenarioAddActionControl\SceTime.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
