@@ -35,12 +35,15 @@ namespace KnowledgeRepresentationReasoning
 
         public ReasoningFacade()
         {
+            worldDescription = new WorldDescription();
+            scenarioDescription = new ScenarioDescription();
             _logger = ServiceLocator.Current.GetInstance<ILog>();
             TInf = 100;
         }
 
         public void AddWorldDescriptionRecord(WorldDescriptionRecord record)
         {
+            worldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(record.Type, record));
         }
 
         public void RemoveWorldDescriptionRecord(WorldDescriptionRecord record)
@@ -55,7 +58,7 @@ namespace KnowledgeRepresentationReasoning
 
         public WorldDescription GetWorldDescription()
         {
-            throw new System.NotImplementedException();
+            return worldDescription;
         }
 
         public void AddScenarioDescriptionRecord(ScenarioDescriptionRecord record)
@@ -75,7 +78,7 @@ namespace KnowledgeRepresentationReasoning
 
         public ScenarioDescription GetScenarioDescription()
         {
-            throw new System.NotImplementedException();
+            return scenarioDescription;
         }
 
         public QueryResult ExecuteQuery(Query query)
