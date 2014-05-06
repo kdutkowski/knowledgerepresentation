@@ -126,7 +126,7 @@ namespace KnowledgeRepresentationReasoning
                 return queryResultsContainer.CollectResults();
 
             //generate next level if query can't answer yet
-            while (!queryResultsContainer.CanAnswer())
+            while (!queryResultsContainer.CanAnswer() && tree.LastLevel.Count > 0)
             {
                 //for each leafs:
                     //genereate childs for leaf
@@ -149,6 +149,7 @@ namespace KnowledgeRepresentationReasoning
                         queryResultsContainer.Add(QueryResult.False);
                         if (queryResultsContainer.CanAnswer())
                             break;
+                        //tree.LastLevel.Remove(i);
                     }
                     else
                     {
@@ -165,7 +166,8 @@ namespace KnowledgeRepresentationReasoning
                         //    if (queryResultsContainer.CanAnswer())
                         //        break;
                         //}
-                        tree.SaveLastLevel();
+                        tree.SaveChild(i);
+                        tree.DeleteChild(i);
                         List<Vertex> nextLevel = GenerateChildsForLeaf(leaf);
                         
                         foreach (var child in nextLevel)
@@ -199,16 +201,16 @@ namespace KnowledgeRepresentationReasoning
             List<Vertex> impossibleChild = new List<Vertex>() { child };
 
             int actualTime = leaf.Time;
-            int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
             int nextTime = GetNextTimestamp(leaf, scenarioDescription);
 
+            int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
             if (!CheckNearestObservation(leaf, actualTime, nextObservationTime, nextTime))
                 return impossibleChild;
 
-            leaf.Update(nextTime);
+            //leaf.Update(nextTime);
 
-            if (!CheckIfLeafIsPossible(leaf))
-                return impossibleChild;
+            //if (!CheckIfLeafIsPossible(leaf))
+            //    return impossibleChild;
 
             var implications = worldDescription.GetImplications(leaf);
             vertices = leaf.CreateChildsBasedOnImplications(implications);
@@ -218,7 +220,7 @@ namespace KnowledgeRepresentationReasoning
 
         private bool CheckNearestObservation(Vertex leaf, int actualTime, int nextObservationTime, int nextTime)
         {
-            if (nextTime > nextObservationTime)
+            if (actualTime <= nextObservationTime && nextObservationTime < nextTime)
             {
                 ScenarioObservationRecord nextObservation = scenarioDescription.GetObservationFromTime(nextObservationTime);
                 if (!nextObservation.CheckState(leaf.State, actualTime))
@@ -252,7 +254,7 @@ namespace KnowledgeRepresentationReasoning
 
         private bool CheckIfLeafIsPossible(Vertex leaf)
         {
-            return worldDescription.Validate(leaf) && this.scenarioDescription.CheckIfLeafIsPossible(leaf);
+            return leaf.IsPossible && worldDescription.Validate(leaf) && this.scenarioDescription.CheckIfLeafIsPossible(leaf);
         }
 
         public Task<QueryResult> ExecuteQueryAsync(Query query)

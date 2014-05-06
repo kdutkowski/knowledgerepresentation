@@ -72,19 +72,20 @@ namespace KnowledgeRepresentationReasoning.Queries
 
             if (QuestionType.Always == _questionType)
             {
-                answer = CanAnswerForAlways(answer);
+                answer = CanAnswerForAlways();
             }
             else if (QuestionType.Ever == _questionType)
             {
-                answer = CanAnswerForEver(answer);
+                answer = CanAnswerForEver();
             }
 
             _logger.Info("Query can answer: " + answer);
             return answer;
         }
 
-        private bool CanAnswerForEver(bool answer)
+        private bool CanAnswerForEver()
         {
+            bool answer = false;
             foreach (var result in _results)
             {
                 if (QueryResult.True == result)
@@ -92,17 +93,18 @@ namespace KnowledgeRepresentationReasoning.Queries
                     answer = true;
                     break;
                 }
-                if (result != QueryResult.True && result != QueryResult.False)
-                {
-                    answer = false;
-                    //break;
-                }
+                //if (result != QueryResult.True && result != QueryResult.False)
+                //{
+                //    answer = false;
+                //    //break;
+                //}
             }
             return answer;
         }
 
-        private bool CanAnswerForAlways(bool answer)
+        private bool CanAnswerForAlways()
         {
+            bool answer = false;
             foreach (var result in _results)
             {
                 if (QueryResult.False == result)
@@ -110,11 +112,11 @@ namespace KnowledgeRepresentationReasoning.Queries
                     answer = true;
                     break;
                 }
-                if (result != QueryResult.True && result != QueryResult.False)
-                {
-                    answer = false;
-                    //break;
-                }
+                //if (result != QueryResult.True && result != QueryResult.False)
+                //{
+                //    answer = false;
+                //    //break;
+                //}
             }
             return answer;
         }
