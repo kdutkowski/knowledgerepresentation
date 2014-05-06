@@ -38,16 +38,12 @@ namespace KnowledgeRepresentationInterface.Views
         }
         #endregion
 
-        //private List<ScenarioActionRecord> _scenarioActionRecordList;
-        //private List<ScenarioObservationRecord> _scenarioObservationRecordList;
 
         public _Scenario(List<Fluent> fluents, List<WorldAction> actions  )
         {
             InitializeComponent();
            ObservationAdd.SetFluents(fluents);
             ActionAdd.SetActions(actions);
-           // _scenarioObservationRecordList = new List<ScenarioObservationRecord>();
-          //  _scenarioActionRecordList = new List<ScenarioActionRecord>();
         }
 
         private string _scenarioName;
@@ -70,7 +66,7 @@ namespace KnowledgeRepresentationInterface.Views
         {
             if (ActionAdd.SelectedWARecordType != null && ActionList.AddAction(ActionAdd.Time, ActionAdd.SelectedWARecordType.Id))
             {
-              //  _scenarioActionRecordList.Add(new ScenarioActionRecord(ActionAdd.SelectedWARecordType, ActionAdd.Time));
+                //_scenarioActionRecordList.Add(new ScenarioActionRecord(ActionAdd.SelectedWARecordType, ActionAdd.Time));
             }
 
            
