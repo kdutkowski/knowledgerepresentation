@@ -31,7 +31,8 @@ namespace KnowledgeRepresentationReasoning.Logic
         }
 
         //missing:
-        //- alpha triggers action
+        //- add T_inf
+        //- action can't be before first observation -> interface validation!
         public int AddFirstLevel(World.WorldDescription WorldDescription, Scenario.ScenarioDescription ScenarioDescription, out int numberOfImpossibleLeaf)
         {
             numberOfImpossibleLeaf = 0;
@@ -40,10 +41,6 @@ namespace KnowledgeRepresentationReasoning.Logic
             //states
             List<string> fluentNames = (List<string>)WorldDescription.GetFluentNames();
             List<State> states = CreateStatesBasedOnObservations(fluentNames, ScenarioDescription, ref t);
-
-            //
-            if (_TInf < t)
-                return -1;
 
             foreach (var state in states)
             {
@@ -65,10 +62,11 @@ namespace KnowledgeRepresentationReasoning.Logic
             return t;
         }
 
-        private List<State> CreateStatesBasedOnObservations(List<string> fluentNames, Scenario.ScenarioDescription scenarioDescription, ref int time)
+        private List<State> CreateStatesBasedOnObservations(List<string> fluentNames, ScenarioDescription scenarioDescription, ref int time)
         {
             List<State> states = new List<State>();
 
+            time = scenarioDescription.GetNextObservationTime(0);
             ScenarioObservationRecord observation = scenarioDescription.GetObservationFromTime(time);
             if (observation.Equals(null))
             {
@@ -89,7 +87,15 @@ namespace KnowledgeRepresentationReasoning.Logic
                     state.AddFluents(fluentNames);
                     foreach (var fluent in valuation)
                     {
-                        state.Fluents.First(f => f.Name == fluent.Name).Value = fluent.Value;
+                        try
+                        {
+                            state.Fluents.First(f => f.Name == fluent.Name).Value = fluent.Value;
+                        }
+                        catch (System.Exception)
+                        {
+                            _logger.Error("Fluent " + fluent.Name + " doesn't exist!");
+                        }
+                        
                     }
                     states.Add(state);
                 }
@@ -115,6 +121,22 @@ namespace KnowledgeRepresentationReasoning.Logic
         internal void Add(Vertex leaf)
         {
             LastLevel.Add(leaf);
+        }
+
+        internal void SaveChild(Vertex leaf)
+        {
+            Vertex one = new Vertex(leaf);
+            _allVertices.Add(one);
+        }
+
+        internal void SaveChild(int i)
+        {
+            SaveChild(LastLevel[i]);
+        }
+
+        internal void DeleteChild(int i)
+        {
+            LastLevel.RemoveAt(i);
         }
     }
 }

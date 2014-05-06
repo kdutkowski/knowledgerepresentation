@@ -5,7 +5,7 @@
 
     using KnowledgeRepresentationReasoning.World;
 
-    internal interface ILogicExpression
+    public interface ILogicExpression
     {
         bool Evaluate();
         bool Evaluate(IEnumerable<Tuple<string, bool>> values);
