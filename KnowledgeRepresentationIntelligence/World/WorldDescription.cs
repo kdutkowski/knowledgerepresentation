@@ -43,13 +43,27 @@
             throw new NotImplementedException();
         }
 
-        // TODO: Zaimplementować walidację czy dany wezel jest prawidlowy wzgledem opisu swiata czyli czy w danym czasie
-        // wykonanie akcji jest możliwe, czy stan taki w danym czasie i przy danej akcji jest mozliwy
-        public bool Validate(Logic.Vertex leaf)
+        public bool Validate(Vertex leaf)
         {
-            
-
-            throw new NotImplementedException();
+            var impossibleActionAtRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ImpossibleActionAt)
+                                                   .Select(t => t.Item2 as ImpossibleActionAtRecord).ToList();
+            var impossibleActionIfRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ImpossibleActionIf)
+                                                   .Select(t => t.Item2 as ImpossibleActionIfRecord).ToList();
+            foreach (var IAAR in impossibleActionAtRecords)
+            {
+                if (IAAR.IsFulfilled(leaf.Time) && IAAR.GetResult() == leaf.WorldAction)
+                {
+                    return false;
+                }
+            }
+            foreach (var IAIR in impossibleActionIfRecords)
+            {
+                if (IAIR.IsFulfilled(leaf.State) && IAIR.GetResult() == leaf.WorldAction)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private InitialRecord GetSummarizedInitialRecord()
