@@ -33,19 +33,19 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
             InitializeComponent();
         }
         #endregion
+
+
         public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             string errorString;
-            bool worked1 = ParseAction(TextBoxAction.Text, out _action, out errorString);
-            LabelValidation.Content = errorString;
-
-            bool worked2 = parseExpressionEffect();
-            bool worked3 = parseExpressionIf();
-
-            if (worked1 && worked2 && worked3)
+            if( ParseAction(TextBoxAction.Text, out _action, out errorString)
+                && ParseExpression(TextBoxFormEffect.Text, out _expressionEffect, out errorString)
+                && ParseExpression(TextBoxFormIf.Text, out _expressionIf, out errorString))
             {
                 return new ActionCausesIfRecord(_action, _expressionEffect, _expressionIf);
             }
+
+            LabelValidation.Content = errorString;
             throw new TypeLoadException("Validation error");
         }
 
@@ -53,42 +53,19 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         {
             _expressionEffect = "";
             _expressionIf = "";
-            _action.Duration = null;
-            _action.Id = "";
+            _action = null;
 
             TextBoxAction.Text = "(Action, duration)";
             TextBoxFormEffect.Text = "Alfa";
             TextBoxFormIf.Text = "Pi";
+            LabelValidation.Content = "";
         }
 
         public override List<Action> GetAllCreatedActions()
         {
-            var actions  =new List<Action>();
-            actions.Add(_action);
-            return actions;
+            return new List<Action> {_action};
         }
 
-        private bool parseExpressionEffect()
-        {
-            
-            _expressionEffect = TextBoxFormEffect.Text;
-            if (_expressionEffect == "")
-            {
-                LabelValidation.Content = "All fields are reqiured";
-                return false;
-            }
-            return true;
-        }
-
-        private bool parseExpressionIf()
-        {
-            _expressionIf = TextBoxFormIf.Text;
-            if (_expressionIf == "")
-            {
-                LabelValidation.Content = "All fields are reqiured";
-                return false;
-            }
-            return true;
-        }
+        
     }
 }

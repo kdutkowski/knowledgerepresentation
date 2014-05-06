@@ -21,6 +21,8 @@ namespace KnowledgeRepresentationInterface.Views
     public partial class _Environment : UserControl, INotifyPropertyChanged//, ISwitchable
     {
         #region Properties
+
+        private int _timeInf;
         private List<Fluent> _fluents;
         private List<Action> _actions; 
         private List<WorldDescriptionRecord> _statements;
@@ -118,6 +120,10 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
         {
+            if (!ValidateTimeInf())
+                return;
+            ParseFluentsToInitialRecords();
+
             Switcher.Switch(new _Scenario(_fluents, _actions));
         }
 
@@ -129,6 +135,7 @@ namespace KnowledgeRepresentationInterface.Views
                 f.Name = TextBoxFluents.Text;
                 _fluents.Add(f);
                 FluentString += TextBoxFluents.Text;
+                LabelFluentsValidation.Content = "";
             }
             else
             {
@@ -147,6 +154,7 @@ namespace KnowledgeRepresentationInterface.Views
                 _strFluent = "";
                 
                 FluentString = tmp;
+                LabelFluentsValidation.Content = "";
             }
             else
             {
@@ -164,6 +172,7 @@ namespace KnowledgeRepresentationInterface.Views
                 _actions = _actions.Distinct(new ActionEqualityComparer()).ToList();
                 _statements.Add(wdr);
                 StatementsString += wdr.ToString();
+                StatementsControls[SelectedWDRecordType].CleanValues();
             }
             catch (TypeLoadException exception)
             {
@@ -173,7 +182,30 @@ namespace KnowledgeRepresentationInterface.Views
         }
         #endregion
 
-        
+        #region Adding data into reasoning module
+
+        private void ParseFluentsToInitialRecords()
+        {
+            foreach (var f in _fluents)
+            {
+                var ir = new InitialRecord(f.Name);
+                _statements.Add(ir);
+            }
+        }
+
+        private bool ValidateTimeInf()
+        {
+            if (!Int32.TryParse(TextBoxTimeInf.Text, out _timeInf))
+            {
+                LabelTimeInfValidation.Content = "It is necessary to fill default end time value.";
+                return false;
+            }
+            LabelTimeInfValidation.Content = "";
+            return true;
+        }
+
+        #endregion
+
 
         //#region ISwitchable Members
         //public void UtilizeState(object state)
