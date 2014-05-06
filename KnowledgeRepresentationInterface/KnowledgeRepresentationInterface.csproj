@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="Views\EnvironmentControls\EnvControl.cs" />
     <Compile Include="Views\Helpers\ActionEqualityComparer.cs" />
+    <Compile Include="Views\QueriesControls\QueControl.cs" />
     <Compile Include="Views\ScenarioControls\ScenarioAddedActionListControl\AddedAction.xaml.cs">
       <DependentUpon>AddedAction.xaml</DependentUpon>
     </Compile>

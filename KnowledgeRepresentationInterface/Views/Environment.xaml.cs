@@ -120,6 +120,8 @@ namespace KnowledgeRepresentationInterface.Views
             if (!ValidateTimeInf())
                 return;
             ParseFluentsToInitialRecords();
+            string summary = "Time infinity: " + _timeInf + "\r\n" + "Fluents:\r\n" + FluentString + "\r\nStatements:\r\n" +
+                             StatementsString;
 
             Switcher.Switch(new _Scenario(_fluents, _actions), _timeInf, _fluents, _actions, _statements);
         }

@@ -11,7 +11,7 @@
     <Grid Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
 
         <Button x:Name ="ButtonNextPage" Content="Next page" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="ButtonNextPage_Click"/>
-        <Label Content="Environment" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
+        <Label x:Name="LabelEnvironment"  Content="Environment" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
         <GridSplitter HorizontalAlignment="Left" Height="500" Margin="148,40,0,0" VerticalAlignment="Top" Width="4" Background="DarkBlue"/>
         <GridSplitter HorizontalAlignment="Left" Height="500" Margin="467,45,0,0" VerticalAlignment="Top" Width="4" Background="DarkBlue"/>
 
@@ -33,10 +33,10 @@
         <Label x:Name="LabelStatements" Content="{Binding StatementsString, ElementName=uc_env, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="160,70,0,0" VerticalAlignment="Top" MaxWidth="300"/>
         <Button x:Name ="ButtonAddStatement" Content="Add Statement" HorizontalAlignment="Left" Margin="520,0,0,49" VerticalAlignment="Bottom" Width="112" Click="ButtonAddStatement_Click"/>
         <Button x:Name ="ButtonRemoveStatement" Content="Remove Statement" HorizontalAlignment="Left" Margin="637,0,0,49" VerticalAlignment="Bottom" Width="112"/>
-        
-        <Label Name ="LabelTimeInf" Content="Time Infinity" HorizontalAlignment="Left" Margin="498,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.316,0.538" FontWeight="Bold"/>
-        <TextBox Name="TextBoxTimeInf" Text="time infinity" HorizontalAlignment="Left" Height="26" Margin="594,12,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="175" FontWeight="Bold"/>
-        <Label Name="LabelTimeInfValidation" Content="" HorizontalAlignment="Left" Margin="498,40,0,0" VerticalAlignment="Top" Width="271" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic"/>
+
+        <Label x:Name ="LabelTimeInf" Content="Time Infinity" HorizontalAlignment="Left" Margin="498,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.316,0.538" FontWeight="Bold"/>
+        <TextBox x:Name="TextBoxTimeInf" Text="time infinity" HorizontalAlignment="Left" Height="26" Margin="594,12,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="175" FontWeight="Bold"/>
+        <Label x:Name="LabelTimeInfValidation" Content="" HorizontalAlignment="Left" Margin="498,40,0,0" VerticalAlignment="Top" Width="271" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic"/>
 
 
     </Grid>

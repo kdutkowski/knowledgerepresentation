@@ -4,10 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-            d:DesignHeight="600" d:DesignWidth="800">
-    <Grid>
+            d:DesignHeight="600" d:DesignWidth="800"
+             x:Name="uc_res">
+    <Grid Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
         <!--<Button Name ="ButtonNextPage" Content="Next page" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="ButtonNextPage_Click"/>-->
-        <Label Content="Results" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Margin="10,10,0,0"/>
+        <Label x:Name="LabelQueries" Content="Queries" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
+        <GridSplitter HorizontalAlignment="Left" Height="500" Margin="300,40,0,0" VerticalAlignment="Top" Width="4" Background="DarkBlue"/>
+        <Label x:Name="LabelSummaryName" Content="Summary:" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="LabelSummary" Content="Summary Content" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" MaxWidth="280"/>
+        
+        <Label x:Name="LabelQuestionTypeName" Content="Select question type:" HorizontalAlignment="Left" Margin="329,50,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name ="ComboBoxQuestionType" SelectedItem="{Binding SelectedQuestionType, ElementName=uc_res, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding QuestionRecordType, ElementName=uc_res}" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="290" RenderTransformOrigin="0.475,0.15" Margin="459,53,0,0"/>
 
+        <Label x:Name="LabelQueryTypeName" Content="Select query type:" HorizontalAlignment="Left" Margin="329,87,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name ="ComboBoxQueries" SelectedItem="{Binding SelectedQueryType, ElementName=uc_res, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding QueryRecordType, ElementName=uc_res}" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="290" RenderTransformOrigin="0.475,0.15" Margin="459,90,0,0"/>
+        <GroupBox x:Name="GroupBoxQuery" Header="Query" HorizontalAlignment="Left" Margin="336,130,0,0" VerticalAlignment="Top" Height="316" Width="431"/>
+        
+        <Label x:Name ="LabelResultName"  Content="Query result:" HorizontalAlignment="Left" Margin="339,478,0,0" VerticalAlignment="Top" Width="110"/>
+        <Label x:Name="LabelResult"  Content="" HorizontalAlignment="Left" Margin="459,478,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.765,0.008" Width="308" FontWeight="Bold"/>
+        <Button x:Name="ButtonExecute"  Content="Execute query" HorizontalAlignment="Left" Margin="336,451,0,0" VerticalAlignment="Top" Width="431" FontWeight="Bold"/>
+        
     </Grid>
 </UserControl>
