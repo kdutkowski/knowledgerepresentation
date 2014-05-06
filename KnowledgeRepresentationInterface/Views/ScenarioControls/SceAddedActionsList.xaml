@@ -6,7 +6,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="720">
     <Grid>
-        <Label Content="Added actions list" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
-        <GroupBox Header="Actions list" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="300" Width="720"/>
+         <GroupBox Header="Actions list" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="300" Width="720">
+            <ScrollViewer HorizontalAlignment="Left" Height="290" VerticalAlignment="Top" Width="710" HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
+                <StackPanel x:Name="StackPanelActionList" Height="274">
+
+                </StackPanel>
+            </ScrollViewer>
+        </GroupBox>
     </Grid>
 </UserControl>

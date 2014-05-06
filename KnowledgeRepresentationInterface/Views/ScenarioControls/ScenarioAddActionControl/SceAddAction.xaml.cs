@@ -62,12 +62,15 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         }
 
         private List<Fluent> _fluents;
+        public List<Fluent> Fluents
+        {
+            get { return _fluents; }
+            set
+            {
+                _fluents = value;
+            }
+        }
 
-
-
-        
-        
-        
         public SceAddAction()
         {
             InitializeComponent();
@@ -77,12 +80,15 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         private void InitFluents()
         {
             _fluents = GetFluents();
-           
+            foreach (var item in _fluents)
+            {
+                StackPanelFluents.Children.Add(new FluentValue { NameFluent=item.Name, Value=item.Value});
+            }
         }
 
         private List<Fluent> GetFluents()
         {
-            //TODO 
+            //TODO get fluents
             return new List<Fluent>();
         }
 
@@ -91,9 +97,5 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
             throw new NotImplementedException();
         }
 
-        private void ButtonAddAction_Click(object sender, RoutedEventArgs e)
-        {
-            LabelValidation.Content = String.Empty;
-        }
     }
 }

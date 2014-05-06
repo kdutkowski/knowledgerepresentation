@@ -76,6 +76,9 @@
     </Compile>
     <Compile Include="Views\EnvironmentControls\IEnvControl.cs" />
     <Compile Include="Views\ISwitchable.cs" />
+    <Compile Include="Views\ScenarioControls\AddedAction.xaml.cs">
+      <DependentUpon>AddedAction.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ScenarioControls\SceAddedActionsList.xaml.cs">
       <DependentUpon>SceAddedActionsList.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Results.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ScenarioControls\AddedAction.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
