@@ -74,6 +74,13 @@ namespace KnowledgeRepresentationReasoning.Logic
 
         internal bool ValidateActions()
         {
+            foreach (WorldAction wa in this.NextActions)
+            {
+                if (this.WorldAction.StartAt < wa.StartAt && wa.StartAt < this.WorldAction.GetEndTime()) return false;
+                if (this.WorldAction.StartAt < wa.GetEndTime() && wa.GetEndTime() < this.WorldAction.GetEndTime()) return false;
+            }
+
+
             throw new System.NotImplementedException();
         }
     }
