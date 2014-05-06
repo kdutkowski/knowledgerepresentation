@@ -57,7 +57,7 @@ namespace KnowledgeRepresentationReasoning.Logic
                 for (int i = 0; i < LastLevel.Count; ++i)
                 {
                     LastLevel[i].Action = (Action)action.Clone();
-                    if (!WorldDescription.CheckIfLeafIsPossible(LastLevel[i]))
+                    if (!WorldDescription.Validate(LastLevel[i]))
                     {
                         ++numberOfImpossibleLeaf;
                     }

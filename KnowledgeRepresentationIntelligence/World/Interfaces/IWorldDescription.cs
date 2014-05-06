@@ -8,6 +8,8 @@
 
         IEnumerable<string> GetFluentNames();
 
-        IEnumerable<Implication> GetImplications(Action action, State state, int time);
+        IEnumerable<Implication> GetImplications(Logic.Vertex leaf);
+
+        bool Validate(Logic.Vertex leaf);
     }
 }
