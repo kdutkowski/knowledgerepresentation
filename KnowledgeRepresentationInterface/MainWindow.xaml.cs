@@ -21,6 +21,8 @@ namespace KnowledgeRepresentationInterface
         private List<WorldDescriptionRecord> _statements;
 
 
+        private ReasoningFacade _reasoningFacade;
+
 
         public MainWindow()
         {
@@ -28,6 +30,7 @@ namespace KnowledgeRepresentationInterface
             Switcher.pageSwitcher = this;
             Switcher.Switch(new _Environment());
             ReasoningFacade.Initialize();
+            _reasoningFacade = new ReasoningFacade();
         }
 
         //
@@ -43,8 +46,17 @@ namespace KnowledgeRepresentationInterface
             _fluents = fluents;
             _actions = actions;
             _statements = statements;
+            LoadWorldDescriptionRecords(statements);
             this.Content = nextPage;
         }
 
+
+        private void LoadWorldDescriptionRecords(List<WorldDescriptionRecord> statements)
+        {
+            foreach (var worldDescriptionRecord in statements)
+            {
+                _reasoningFacade.AddWorldDescriptionRecord(worldDescriptionRecord);
+            }
+        }
     }
 }
