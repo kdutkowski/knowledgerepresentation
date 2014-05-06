@@ -23,7 +23,7 @@
         public bool CheckIfActiveAt(int time)
         {
 
-            if (time>Action.StartAt&&time<Action.GetEndTime()) return true;
+            if (time>=Action.StartAt&&time<Action.GetEndTime()) return true;
             else return false;
         }
     }
