@@ -67,11 +67,6 @@ namespace KnowledgeRepresentationReasoning.Logic
             Time = newTime;
         }
 
-        internal bool ValidateActions()
-        {
-            throw new System.NotImplementedException();
-        }
-
         internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, World.WorldAction worldAction, int nextTime)
         {
             List<Vertex> childs = new List<Vertex>();
@@ -97,6 +92,19 @@ namespace KnowledgeRepresentationReasoning.Logic
             }
 
             return childs;
+
+        }
+        internal bool ValidateActions()
+        {
+
+            foreach (WorldAction wa in this.NextActions)
+            {
+                if (this.WorldAction.StartAt <= wa.StartAt && wa.StartAt < this.WorldAction.GetEndTime()) return false;
+                if (this.WorldAction.StartAt < wa.GetEndTime() && wa.GetEndTime() <= this.WorldAction.GetEndTime()) return false;
+            }
+
+
+            return true;
         }
     }
 }
