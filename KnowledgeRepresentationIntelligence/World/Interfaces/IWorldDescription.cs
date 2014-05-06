@@ -2,12 +2,16 @@
 {
     using System.Collections.Generic;
 
+    using KnowledgeRepresentationReasoning.Logic;
+
     public interface IWorldDescription
     {
         IEnumerable<State> GetInitialStates();
 
         IEnumerable<string> GetFluentNames();
 
-        IEnumerable<Implication> GetImplications(Action action, State state, int time);
+        List<Implication> GetImplications(Vertex leaf);
+
+        bool Validate(Logic.Vertex leaf);
     }
 }

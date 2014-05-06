@@ -1,37 +1,63 @@
-﻿using System;
+﻿using KnowledgeRepresentationReasoning.World.Records;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using KnowledgeRepresentationReasoning.World.Records;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
+    using KnowledgeRepresentationReasoning.World;
+
     /// <summary>
     /// Interaction logic for EnvInvokesAfterIf.xaml
     /// </summary>
-    public partial class EnvInvokesAfterIf : UserControl, IEnvControl
+    public partial class EnvInvokesAfterIf
     {
+        #region Properties
+
+        private WorldAction worldAction;
+        private WorldAction _result;
+        private string _expressionIf;
+        private int _timeToResult;
+
+        #endregion
+
         public EnvInvokesAfterIf()
         {
             InitializeComponent();
         }
-        public WorldDescriptionRecord getWorldDescriptionRecord()
+
+        public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
-            throw new NotImplementedException();
+            string errorString;
+            if (ParseAction(TextBoxActionStart.Text, out this.worldAction, out errorString)
+                && ParseAction(TextBoxActionInvoked.Text, out _result, out errorString)
+                && ParseExpression(TextBoxFormIf.Text, out _expressionIf, out errorString)
+                && ParseTimeLenght(TextBoxTime.Text, out _timeToResult, out errorString))
+            {
+                return new ActionInvokesAfterIfRecord(this.worldAction, _result, _timeToResult, _expressionIf);
+            }
+
+            LabelValidation.Content = errorString;
+            throw new TypeLoadException("Validation error");
         }
-        public void CleanValues()
+
+        public override void CleanValues()
         {
-            throw new NotImplementedException();
+            this.worldAction = null;
+            _result = null;
+            _expressionIf = "";
+            _timeToResult = 0;
+
+            TextBoxActionStart.Text = "(Action, duration)";
+            TextBoxActionInvoked.Text = "(Action2, duration2)";
+            TextBoxFormIf.Text = "Pi";
+            TextBoxTime.Text = "time lenght";
+            LabelValidation.Content = "";
+
+        }
+
+        public override List<WorldAction> GetAllCreatedActions()
+        {
+            return new List<WorldAction>() {this.worldAction, _result};
         }
     }
 }

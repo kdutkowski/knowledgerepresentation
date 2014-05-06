@@ -52,12 +52,12 @@ namespace KnowledgeRepresentationReasoning.Logic
             }
 
             //action
-            Action action = ScenarioDescription.GetActionAtTime(t);
-            if (action != null)
+            WorldAction worldAction = ScenarioDescription.GetActionAtTime(t);
+            if (worldAction != null)
                 for (int i = 0; i < LastLevel.Count; ++i)
                 {
-                    LastLevel[i].Action = (Action)action.Clone();
-                    if (!WorldDescription.CheckIfLeafIsPossible(LastLevel[i]))
+                    LastLevel[i].WorldAction = (WorldAction)worldAction.Clone();
+                    if (!WorldDescription.Validate(LastLevel[i]))
                     {
                         ++numberOfImpossibleLeaf;
                     }
@@ -80,7 +80,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             else
             {
                 time = observation.Time;
-                _logicExpression = new SimpleLogicExpression(observation.Expr);
+                _logicExpression = new SimpleLogicExpression(observation.Expr as SimpleLogicExpression);
 
                 List<Fluent[]> possibleInitialValues = _logicExpression.CalculatePossibleFluents();
                 foreach (var valuation in possibleInitialValues)

@@ -4,12 +4,18 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using KnowledgeRepresentationReasoning.Logic;
     using KnowledgeRepresentationReasoning.World.Interfaces;
     using KnowledgeRepresentationReasoning.World.Records;
 
     public class WorldDescription : IWorldDescription
     {
         public List<Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>> Descriptions;
+
+        public WorldDescription()
+        {
+            Descriptions = new List<Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>>();
+        }
 
         public IEnumerable<string> GetFluentNames()
         {
@@ -21,12 +27,17 @@
             return this.GetSummarizedInitialRecord().PossibleFluents.Select(t => new State { Fluents = t.ToList() });
         }
 
-        public IEnumerable<Implication> GetImplications(Action action, State state, int time)
+        // TODO: Zaimplementować metodę zwracającą rezultat przejścia przez dany węzeł w drzewie (czyli co się stanie jak w danym stanie
+        // wykonamy daną akcję w jakimś czasie (według opisu świata)
+        // TODO: Niech ta metoda zwraca jedno Implication (trzeba poprawic w dalszym kodzie)
+        public List<Implication> GetImplications(Vertex leaf)
         {
             throw new NotImplementedException();
         }
 
-        public bool Validate(Action action, State state, int time)
+        // TODO: Zaimplementować walidację czy dany wezel jest prawidlowy wzgledem opisu swiata czyli czy w danym czasie
+        // wykonanie akcji jest możliwe, czy stan taki w danym czasie i przy danej akcji jest mozliwy
+        public bool Validate(Logic.Vertex leaf)
         {
             throw new NotImplementedException();
         }
@@ -40,31 +51,34 @@
             return initialRecords.Select(t => (t.Item2 as InitialRecord)).Aggregate((x, y) => x.ConcatOr(y));
         }
 
-        private IEnumerable<Action> GetTriggeredActions(Action action, State state, int time)
+        private IEnumerable<WorldAction> GetTriggeredActions(WorldAction worldAction, State state, int time)
         {
             var actionInvokesRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ActionInvokesAfterIf)
                 .Select(t => t.Item2 as ActionInvokesAfterIfRecord).ToList();
             var expressionTriggersRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ExpressionTriggersAction)
                 .Select(t => t.Item2 as ExpressionTriggersActionRecord).ToList();
 
-            var triggeredActions = actionInvokesRecords.Where(t => t.IsFulfilled(state, action)).Select(t => t.GetResult(time)).ToList();
+            var triggeredActions = actionInvokesRecords.Where(t => t.IsFulfilled(state, worldAction)).Select(t => t.GetResult(time)).ToList();
             triggeredActions.AddRange(expressionTriggersRecords.Where(t => t.IsFulfilled(state)).Select(t => t.GetResult(time)));
 
             return triggeredActions;
         }
 
-        private IEnumerable<Fluent> GetReleasedFluents(Action action, State state, int time)
+        private IEnumerable<Fluent> GetReleasedFluents(WorldAction worldAction, State state, int time)
         {
             var actionReleaseRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ActionReleasesIf)
                                                    .Select(t => t.Item2 as ActionReleasesIfRecord).ToList();
 
-            var releasedFluents = actionReleaseRecords.Where(t => t.IsFulfilled(state, action)).Select(t => t.GetResult(time));
+            var releasedFluents = actionReleaseRecords.Where(t => t.IsFulfilled(state, worldAction)).Select(t => t.GetResult(time));
             return releasedFluents;
         }
 
-        internal bool CheckIfLeafIsPossible(Logic.Vertex leaf)
+        // TODO: Zaimplementować za pomocą GetReleasedFluents oraz pobierając odpowiednie fluenty zmieniane przez
+        // akcję poprzez rekordy ActionCausesIfRecord, metodę zwracającą możliwe stany po wykonaniu akcji
+        // (uwzględnić to ze pewne fluenty zostaną uwolnione (wtedy stan rozdziela się na dwa możliwe z 0 i 1 jako
+        // wartością fluenta
+        private List<State> GetPossibleFutureStates(WorldAction worldAction, State state, int time)
         {
-            //check impossible 
             throw new NotImplementedException();
         }
     }

@@ -1,103 +1,65 @@
-﻿using System;
+﻿using KnowledgeRepresentationReasoning.World.Records;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using KnowledgeRepresentationReasoning.World.Records;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
+    using KnowledgeRepresentationReasoning.World;
+
     /// <summary>
     /// Interaction logic for EnvCausesIf.xaml
     /// </summary>
-    public partial class EnvCausesIf : UserControl, IEnvControl
+    public partial class EnvCausesIf
     {
-        public KnowledgeRepresentationReasoning.World.Action action;
-        public String formulaEffect;
-        public String formulaIf;
+        #region Properties
+
+        private WorldAction worldAction;
+        private String _expressionEffect;
+        private String _expressionIf;
+
+        #endregion
+
+        #region Constructor
 
         public EnvCausesIf()
         {
             InitializeComponent();
         }
 
-        public WorldDescriptionRecord getWorldDescriptionRecord()
+        #endregion
+
+
+        public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
-            //WorldDescriptionRecord wdr = new WorldDescriptionRecord();
-            //wdr.Type = WorldDescriptionRecordType.ActionCausesIf;
-            //return
-            bool worked1 = parseAction();
-            bool worked2 = parseFormulaEffect();
-            bool worked3 = parseFormulaIf();
-            throw new NotImplementedException();
+            string errorString;
+            if (ParseAction(TextBoxAction.Text, out this.worldAction, out errorString)
+                && ParseExpression(TextBoxFormEffect.Text, out _expressionEffect, out errorString)
+                && ParseExpression(TextBoxFormIf.Text, out _expressionIf, out errorString))
+            {
+                return new ActionCausesIfRecord(this.worldAction, _expressionEffect, _expressionIf);
+            }
+
+            LabelValidation.Content = errorString;
+            throw new TypeLoadException("Validation error");
         }
 
-        //public bool Validate()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public void CleanValues()
+        public override void CleanValues()
         {
-            formulaEffect = "";
-            formulaIf = "";
-            action.Duration = null;
-            action.Id = "";
+            _expressionEffect = "";
+            _expressionIf = "";
+            this.worldAction = null;
 
             TextBoxAction.Text = "(Action, duration)";
             TextBoxFormEffect.Text = "Alfa";
             TextBoxFormIf.Text = "Pi";
+            LabelValidation.Content = "";
         }
 
-
-        private bool parseAction()
+        public override List<WorldAction> GetAllCreatedActions()
         {
-            string actionString = TextBoxAction.Text;
-            try
-            {
-                var act = actionString.Replace("(", "").Replace(")", "").Split(',');
-                action = new KnowledgeRepresentationReasoning.World.Action();
-                action.Id = act[0];
-                action.Duration = Int32.Parse(act[1]);
-                return true;
-            }
-            catch (Exception e)
-            {
-                LabelValidation.Content = "Action in a wrong format!";
-                return false;
-            }
+            return new List<WorldAction> {this.worldAction};
         }
 
-        private bool parseFormulaEffect()
-        {
-            
-            formulaEffect = TextBoxFormEffect.Text;
-            if (formulaEffect == "")
-            {
-                LabelValidation.Content = "All fields are reqiured";
-                return false;
-            }
-            return true;
-        }
 
-        private bool parseFormulaIf()
-        {
-            formulaIf = TextBoxFormIf.Text;
-            if (formulaIf == "")
-            {
-                LabelValidation.Content = "All fields are reqiured";
-                return false;
-            }
-            return true;
-        }
     }
 }

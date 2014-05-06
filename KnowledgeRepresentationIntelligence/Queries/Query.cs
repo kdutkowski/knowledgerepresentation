@@ -17,6 +17,6 @@ namespace KnowledgeRepresentationReasoning.Queries
             _logger = ServiceLocator.Current.GetInstance<ILog>();
         }
 
-        public abstract QueryResult CheckCondition(State state, Action action, int time);
+        public abstract QueryResult CheckCondition(State state, WorldAction worldAction, int time);
     }
 }

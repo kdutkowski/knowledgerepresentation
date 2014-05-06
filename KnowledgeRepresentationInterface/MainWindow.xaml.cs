@@ -1,58 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using KnowledgeRepresentationInterface.Views;
+﻿using KnowledgeRepresentationInterface.Views;
 using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace KnowledgeRepresentationInterface
 {
+    using KnowledgeRepresentationReasoning;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        int T_inf;
-        List<Fluent> fluents;
-        List<WorldDescriptionRecord> statements;
+        private int _timeInf;
+        private List<Fluent> _fluents;
+        private List<WorldAction> _actions;
+        private List<WorldDescriptionRecord> _statements;
 
-       
+
+        private Reasoning reasoning;
+
 
         public MainWindow()
         {
             InitializeComponent();
             Switcher.pageSwitcher = this;
             Switcher.Switch(new _Environment());
+            Reasoning.Initialize();
+            this.reasoning = new Reasoning();
         }
 
+        //
         public void Navigate(UserControl nextPage)
         {
             this.Content = nextPage;
         }
 
-        //public void Navigate(UserControl nextPage, object state)
-        //{
-        //    this.Content = nextPage;
-        //    ISwitchable s = nextPage as ISwitchable;
+        public void Navigate(UserControl nextPage, int tInf, List<Fluent> fluents, List<WorldAction> actions,
+                             List<WorldDescriptionRecord> statements)
+        {
+            _timeInf = tInf;
+            _fluents = fluents;
+            _actions = actions;
+            _statements = statements;
+            LoadWorldDescriptionRecords(statements);
+            this.Content = nextPage;
+        }
 
-        //    if (s != null)
-        //        s.UtilizeState(state);
-        //    else
-        //        throw new ArgumentException("NextPage is not ISwitchable! "
-        //          + nextPage.Name.ToString());
-        //}
+
+        private void LoadWorldDescriptionRecords(List<WorldDescriptionRecord> statements)
+        {
+            foreach (var worldDescriptionRecord in statements)
+            {
+                this.reasoning.AddWorldDescriptionRecord(worldDescriptionRecord);
+            }
+        }
     }
 }

@@ -44,5 +44,10 @@
         {
             return this.logicExpression.GetFluentNames();
         }
+
+        public override string ToString()
+        {
+            return "Initially " + expression;
+        }
     }
 }

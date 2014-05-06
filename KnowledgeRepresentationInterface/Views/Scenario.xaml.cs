@@ -13,14 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using KnowledgeRepresentationReasoning.World;
+using KnowledgeRepresentationReasoning.World.Records;
+
 namespace KnowledgeRepresentationInterface.Views
 {
     /// <summary>
     /// Interaction logic for _Scenario.xaml
     /// </summary>
-    public partial class _Scenario : UserControl//, ISwitchable
+    public partial class _Scenario : UserControl
     {
-        public _Scenario()
+        public _Scenario(List<Fluent> fluents, List<WorldAction> actions  )
         {
             InitializeComponent();
         }
@@ -37,11 +40,5 @@ namespace KnowledgeRepresentationInterface.Views
             //TODO add observation
         }
 
-        //#region ISwitchable Members
-        //public void UtilizeState(object state)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //#endregion
     }
 }

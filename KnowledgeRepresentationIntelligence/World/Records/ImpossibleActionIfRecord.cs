@@ -7,20 +7,18 @@
 
     using Microsoft.Practices.ServiceLocation;
 
-    using Action = KnowledgeRepresentationReasoning.World.Action;
-
     public class ImpossibleActionIfRecord : WorldDescriptionRecord
     {
         private readonly ILogicExpression logicExpression;
         private readonly string ifExpression;
-        private readonly Action action;
+        private readonly WorldAction worldAction;
 
-        public ImpossibleActionIfRecord(Action action, string ifExpression) 
+        public ImpossibleActionIfRecord(WorldAction worldAction, string ifExpression) 
             : base(WorldDescriptionRecordType.ImpossibleActionIf)
         {
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
             this.ifExpression = ifExpression;
-            this.action = action;
+            this.worldAction = worldAction;
         }
 
         public bool IsFulfilled(State state)
@@ -31,9 +29,9 @@
             return this.logicExpression.Evaluate(values);
         }
 
-        public Action GetResult()
+        public WorldAction GetResult()
         {
-            return this.action;
+            return this.worldAction;
         }
     }
 }

@@ -19,18 +19,18 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     /// <summary>
     /// Interaction logic for EnvTriggers.xaml
     /// </summary>
-    public partial class EnvTriggers : UserControl, IEnvControl
+    public partial class EnvTriggers
     {
         public EnvTriggers()
         {
             InitializeComponent();
         }
 
-        public WorldDescriptionRecord getWorldDescriptionRecord()
+        public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             throw new NotImplementedException();
         }
-        public void CleanValues()
+        public override void CleanValues()
         {
             throw new NotImplementedException();
         }

@@ -18,23 +18,18 @@ namespace KnowledgeRepresentationInterface.Views
     /// <summary>
     /// Interaction logic for _Results.xaml
     /// </summary>
-    public partial class _Results : UserControl//, ISwitchable
+    public partial class _Results : UserControl
     {
         public _Results()
         {
             InitializeComponent();
         }
 
-        private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
-        {
-            Switcher.Switch(new _Environment());
-        }
-
-        //#region ISwitchable Members
-        //public void UtilizeState(object state)
+        //private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
         //{
-        //    throw new NotImplementedException();
+        //    Switcher.Switch(new _Environment());
         //}
-        //#endregion
+
+        
     }
 }

@@ -21,9 +21,9 @@
             observations.Add(OBS);
         }
 
-        public void addACS(Action action, int time)
+        public void addACS(WorldAction worldAction, int time)
         {
-            ScenarioActionRecord ACS = new ScenarioActionRecord(action, time);
+            ScenarioActionRecord ACS = new ScenarioActionRecord(worldAction, time);
             actions.Add(ACS);
         }
 
@@ -49,7 +49,7 @@
             return records;
         }
 
-        public bool CheckRecords(State state, Action action, int time)
+        public bool CheckRecords(State state, WorldAction worldAction, int time)
         {
             foreach (ScenarioObservationRecord obs in observations)
             {
@@ -61,11 +61,11 @@
             return true;
         }
 
-        internal Action GetActionAtTime(int t)
+        internal WorldAction GetActionAtTime(int t)
         {
             foreach (ScenarioActionRecord sar in this.actions)
             {
-                if (sar.Time.Equals(t)) return sar.Action;
+                if (sar.Time.Equals(t)) return sar.WorldAction;
 
             }
 
@@ -101,7 +101,7 @@
 
         internal bool CheckIfLeafIsPossible(Logic.Vertex leaf)
         {
-            throw new System.NotImplementedException();
+            return CheckRecords(leaf.State, null, leaf.Time);
         }
 
         /// <summary>
@@ -114,10 +114,11 @@
             int result = int.MaxValue;
             foreach (ScenarioObservationRecord sor in this.observations)
             {
-                if (sor.Time>actualTime)
+                if (sor.Time>=actualTime)
                     if(sor.Time<result)result=sor.Time;
 
             }
+            if (result == int.MaxValue) result = -1;
             return result;
            
             //throw new System.NotImplementedException();

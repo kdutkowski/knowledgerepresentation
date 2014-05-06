@@ -7,20 +7,18 @@
 
     using Microsoft.Practices.ServiceLocation;
 
-    using Action = KnowledgeRepresentationReasoning.World.Action;
-
     public class ExpressionTriggersActionRecord : WorldDescriptionRecord
     {
         private readonly ILogicExpression logicExpression;
         private readonly string ifExpression;
-        private readonly Action action;
+        private readonly WorldAction worldAction;
 
-        public ExpressionTriggersActionRecord(Action action, string ifExpression) 
+        public ExpressionTriggersActionRecord(WorldAction worldAction, string ifExpression) 
             : base(WorldDescriptionRecordType.ExpressionTriggersAction)
         {
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
             this.ifExpression = ifExpression;
-            this.action = action;
+            this.worldAction = worldAction;
         }
 
         public bool IsFulfilled(State state)
@@ -32,10 +30,10 @@
             return this.logicExpression.Evaluate(values);
         }
 
-        public Action GetResult(int time)
+        public WorldAction GetResult(int time)
         {
-            this.action.StartAt = time;
-            return this.action;
+            this.worldAction.StartAt = time;
+            return this.worldAction;
         }
     }
 }

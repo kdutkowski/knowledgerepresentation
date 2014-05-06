@@ -4,13 +4,13 @@
 
     class ScenarioActionRecord : ScenarioDescriptionRecord
     {
-        public Action Action { get; set; }
+        public WorldAction WorldAction { get; set; }
         public int Time { get; set; }
 
-        public ScenarioActionRecord(Action action, int time)
+        public ScenarioActionRecord(WorldAction worldAction, int time)
             : base()
         {
-            Action = action;
+            this.WorldAction = worldAction;
             Time = time;
         }
 
@@ -23,7 +23,7 @@
         public bool CheckIfActiveAt(int time)
         {
 
-            if (time>Action.StartAt&&time<Action.GetEndTime()) return true;
+            if (time>=this.WorldAction.StartAt&&time<this.WorldAction.GetEndTime()) return true;
             else return false;
         }
     }

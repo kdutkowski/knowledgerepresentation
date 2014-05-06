@@ -2,13 +2,13 @@
 {
     public class ImpossibleActionAtRecord : WorldDescriptionRecord
     {
-        private readonly Action action;
+        private readonly WorldAction worldAction;
         private readonly int time;
 
-        public ImpossibleActionAtRecord(Action action, int time)
+        public ImpossibleActionAtRecord(WorldAction worldAction, int time)
             : base(WorldDescriptionRecordType.ImpossibleActionAt)
         {
-            this.action = action;
+            this.worldAction = worldAction;
             this.time = time;
         }
 
@@ -17,9 +17,9 @@
             return this.time == currentTime;
         }
 
-        public Action GetResult()
+        public WorldAction GetResult()
         {
-            return this.action;
+            return this.worldAction;
         }
     }
 }

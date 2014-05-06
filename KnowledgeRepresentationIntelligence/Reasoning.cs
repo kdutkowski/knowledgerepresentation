@@ -24,25 +24,26 @@ namespace KnowledgeRepresentationReasoning
     using System;
 
    
-    public class ReasoningFacade : IReasoning
+    public class Reasoning : IReasoning
     {
-        private IContainer Container { get; set; }
+        private static IContainer Container { get; set; }
         private ILog _logger { get; set; }
         private WorldDescription worldDescription { get; set; }
         private ScenarioDescription scenarioDescription { get; set; }
 
         public int TInf { get; set; }
 
-        public ReasoningFacade()
+        public Reasoning()
         {
-            this.Initialize();
+            worldDescription = new WorldDescription();
+            scenarioDescription = new ScenarioDescription();
             _logger = ServiceLocator.Current.GetInstance<ILog>();
-
             TInf = 100;
         }
 
         public void AddWorldDescriptionRecord(WorldDescriptionRecord record)
         {
+            worldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(record.Type, record));
         }
 
         public void RemoveWorldDescriptionRecord(WorldDescriptionRecord record)
@@ -57,7 +58,7 @@ namespace KnowledgeRepresentationReasoning
 
         public WorldDescription GetWorldDescription()
         {
-            throw new System.NotImplementedException();
+            return worldDescription;
         }
 
         public void AddScenarioDescriptionRecord(ScenarioDescriptionRecord record)
@@ -77,7 +78,7 @@ namespace KnowledgeRepresentationReasoning
 
         public ScenarioDescription GetScenarioDescription()
         {
-            throw new System.NotImplementedException();
+            return scenarioDescription;
         }
 
         public QueryResult ExecuteQuery(Query query)
@@ -145,7 +146,7 @@ namespace KnowledgeRepresentationReasoning
                                 if (queryResultsContainer.CanAnswer())
                                     break;
                             }
-                            QueryResult result = query.CheckCondition(child.State, child.Action, child.Time);
+                            QueryResult result = query.CheckCondition(child.State, child.WorldAction, child.Time);
                             if (result == QueryResult.True || result == QueryResult.False)
                             {
                                 queryResultsContainer.Add(result);
@@ -179,7 +180,7 @@ namespace KnowledgeRepresentationReasoning
             if (!CheckIfLeafIsPossible(leaf))
                 return impossibleChild;
 
-            List<Implication> implications = (List<Implication>)worldDescription.GetImplications(leaf.Action, leaf.State, leaf.Time);
+            var implications = worldDescription.GetImplications(leaf);
             vertices = leaf.CreateChildsBasedOnImplications(implications);
 
             return vertices;
@@ -204,7 +205,7 @@ namespace KnowledgeRepresentationReasoning
         private int GetNextTimestamp(Vertex leaf, ScenarioDescription scenarioDescription)
         {
             int nextActionTime = scenarioDescription.GetNextActionTime(leaf.Time);
-            int actualActionEndTime = leaf.Action.GetEndTime()??Int32.MaxValue;
+            int actualActionEndTime = leaf.WorldAction.GetEndTime()??Int32.MaxValue;
             int nextActionStartTime = leaf.GetNextActionTime()??Int32.MaxValue;
 
             return Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime));
@@ -214,14 +215,14 @@ namespace KnowledgeRepresentationReasoning
         {
             bool isEnded = false;
 
-            bool noAction = leaf.Action.Equals(null);
+            bool noAction = leaf.WorldAction.Equals(null);
 
             return isEnded;
         }
 
         private bool CheckIfLeafIsPossible(Vertex leaf)
         {
-            return worldDescription.CheckIfLeafIsPossible(leaf) && this.scenarioDescription.CheckIfLeafIsPossible(leaf);
+            return worldDescription.Validate(leaf) && this.scenarioDescription.CheckIfLeafIsPossible(leaf);
         }
 
         public Task<QueryResult> ExecuteQueryAsync(Query query)
@@ -229,12 +230,12 @@ namespace KnowledgeRepresentationReasoning
             throw new System.NotImplementedException();
         }
 
-        public void Initialize()
+        public static void Initialize()
         {
             // Autofac
             var builder = new ContainerBuilder();
             builder.RegisterModule(new LoggingModule());
-            builder.RegisterInstance(LogManager.GetLogger(typeof(ReasoningFacade))).As<ILog>();
+            builder.RegisterInstance(LogManager.GetLogger(typeof(Reasoning))).As<ILog>();
             builder.RegisterType<Tree>().As<ITree>();
             builder.RegisterType<SimpleLogicExpression>().As<ILogicExpression>();
             Container = builder.Build();
