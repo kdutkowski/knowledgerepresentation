@@ -52,11 +52,11 @@ namespace KnowledgeRepresentationReasoning.Logic
             }
 
             //action
-            Action action = ScenarioDescription.GetActionAtTime(t);
-            if (action != null)
+            WorldAction worldAction = ScenarioDescription.GetActionAtTime(t);
+            if (worldAction != null)
                 for (int i = 0; i < LastLevel.Count; ++i)
                 {
-                    LastLevel[i].Action = (Action)action.Clone();
+                    LastLevel[i].WorldAction = (WorldAction)worldAction.Clone();
                     if (!WorldDescription.Validate(LastLevel[i]))
                     {
                         ++numberOfImpossibleLeaf;

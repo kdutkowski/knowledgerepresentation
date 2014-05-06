@@ -7,18 +7,18 @@ namespace KnowledgeRepresentationReasoning.Logic
     public class Vertex
     {
         public State State { get; private set; }
-        public Action Action { get; set; }
+        public WorldAction WorldAction { get; set; }
         public int Time { get; private set; }
         private Vertex Root { get; set; }
         public bool IsPossible { get; set; }
         public bool IsEnded { get; set; }
 
-        public List<Action> NextActions { get; set; }
+        public List<WorldAction> NextActions { get; set; }
 
-        public Vertex(State state, Action action, int time, Vertex root)
+        public Vertex(State state, WorldAction worldAction, int time, Vertex root)
         {
             State = state;
-            Action = action;
+            this.WorldAction = worldAction;
             Time = time;
             Root = root;
         }
@@ -42,7 +42,7 @@ namespace KnowledgeRepresentationReasoning.Logic
 
         private int UpdateAction()
         {
-            int endTime = Action.StartAt + Action.Duration??-1;
+            int endTime = this.WorldAction.StartAt + this.WorldAction.Duration??-1;
 
             return 0;
         }

@@ -4,7 +4,6 @@ using KnowledgeRepresentationReasoning.World.Records;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Action = KnowledgeRepresentationReasoning.World.Action;
 
 namespace KnowledgeRepresentationInterface
 {
@@ -17,11 +16,11 @@ namespace KnowledgeRepresentationInterface
     {
         private int _timeInf;
         private List<Fluent> _fluents;
-        private List<Action> _actions;
+        private List<WorldAction> _actions;
         private List<WorldDescriptionRecord> _statements;
 
 
-        private ReasoningFacade _reasoningFacade;
+        private Reasoning reasoning;
 
 
         public MainWindow()
@@ -29,8 +28,8 @@ namespace KnowledgeRepresentationInterface
             InitializeComponent();
             Switcher.pageSwitcher = this;
             Switcher.Switch(new _Environment());
-            ReasoningFacade.Initialize();
-            _reasoningFacade = new ReasoningFacade();
+            Reasoning.Initialize();
+            this.reasoning = new Reasoning();
         }
 
         //
@@ -39,7 +38,7 @@ namespace KnowledgeRepresentationInterface
             this.Content = nextPage;
         }
 
-        public void Navigate(UserControl nextPage, int tInf, List<Fluent> fluents, List<Action> actions,
+        public void Navigate(UserControl nextPage, int tInf, List<Fluent> fluents, List<WorldAction> actions,
                              List<WorldDescriptionRecord> statements)
         {
             _timeInf = tInf;
@@ -55,7 +54,7 @@ namespace KnowledgeRepresentationInterface
         {
             foreach (var worldDescriptionRecord in statements)
             {
-                _reasoningFacade.AddWorldDescriptionRecord(worldDescriptionRecord);
+                this.reasoning.AddWorldDescriptionRecord(worldDescriptionRecord);
             }
         }
     }

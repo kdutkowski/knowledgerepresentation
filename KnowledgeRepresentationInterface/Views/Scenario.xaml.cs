@@ -16,8 +16,6 @@ using System.Windows.Shapes;
 using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
 
-using Action = KnowledgeRepresentationReasoning.World.Action;
-
 namespace KnowledgeRepresentationInterface.Views
 {
     /// <summary>
@@ -25,7 +23,7 @@ namespace KnowledgeRepresentationInterface.Views
     /// </summary>
     public partial class _Scenario : UserControl
     {
-        public _Scenario(List<Fluent> fluents, List<Action> actions  )
+        public _Scenario(List<Fluent> fluents, List<WorldAction> actions  )
         {
             InitializeComponent();
         }

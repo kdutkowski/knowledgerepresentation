@@ -1,10 +1,11 @@
 ﻿using KnowledgeRepresentationReasoning.World.Records;
 using System;
 using System.Collections.Generic;
-using Action = KnowledgeRepresentationReasoning.World.Action;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
+    using KnowledgeRepresentationReasoning.World;
+
     /// <summary>
     /// Interaction logic for EnvCausesIf.xaml
     /// </summary>
@@ -12,7 +13,7 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     {
         #region Properties
 
-        private Action _action;
+        private WorldAction worldAction;
         private String _expressionEffect;
         private String _expressionIf;
 
@@ -31,11 +32,11 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             string errorString;
-            if (ParseAction(TextBoxAction.Text, out _action, out errorString)
+            if (ParseAction(TextBoxAction.Text, out this.worldAction, out errorString)
                 && ParseExpression(TextBoxFormEffect.Text, out _expressionEffect, out errorString)
                 && ParseExpression(TextBoxFormIf.Text, out _expressionIf, out errorString))
             {
-                return new ActionCausesIfRecord(_action, _expressionEffect, _expressionIf);
+                return new ActionCausesIfRecord(this.worldAction, _expressionEffect, _expressionIf);
             }
 
             LabelValidation.Content = errorString;
@@ -46,7 +47,7 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         {
             _expressionEffect = "";
             _expressionIf = "";
-            _action = null;
+            this.worldAction = null;
 
             TextBoxAction.Text = "(Action, duration)";
             TextBoxFormEffect.Text = "Alfa";
@@ -54,9 +55,9 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
             LabelValidation.Content = "";
         }
 
-        public override List<Action> GetAllCreatedActions()
+        public override List<WorldAction> GetAllCreatedActions()
         {
-            return new List<Action> {_action};
+            return new List<WorldAction> {this.worldAction};
         }
 
 

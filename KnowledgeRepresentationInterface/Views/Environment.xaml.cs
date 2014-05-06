@@ -11,8 +11,6 @@ using KnowledgeRepresentationInterface.Views.Helpers;
 using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
 
-using Action = KnowledgeRepresentationReasoning.World.Action;
-
 namespace KnowledgeRepresentationInterface.Views
 {
     /// <summary>
@@ -24,7 +22,7 @@ namespace KnowledgeRepresentationInterface.Views
 
         private int _timeInf;
         private List<Fluent> _fluents;
-        private List<Action> _actions; 
+        private List<WorldAction> _actions; 
         private List<WorldDescriptionRecord> _statements;
         private WorldDescriptionRecordType _selectedWDRecordType;
 
@@ -86,7 +84,7 @@ namespace KnowledgeRepresentationInterface.Views
         public _Environment()
         {
             _fluents = new List<Fluent>();
-            _actions = new List<Action>();
+            _actions = new List<WorldAction>();
             _statements = new List<WorldDescriptionRecord>();
             InitControls();
             InitializeComponent();

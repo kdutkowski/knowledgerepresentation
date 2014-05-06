@@ -2,7 +2,7 @@
 
 namespace KnowledgeRepresentationReasoning.World
 {
-    public class Action: ICloneable
+    public class WorldAction : ICloneable
     {
         public string Id { get; set; }
         public int? Duration { get; set; }
@@ -11,9 +11,9 @@ namespace KnowledgeRepresentationReasoning.World
 
         public override bool Equals(object obj)
         {
-            if (obj is Action)
+            if (obj is WorldAction)
             {
-                var action = obj as Action;
+                var action = obj as WorldAction;
                 if (action.Id.Equals(this.Id) && action.Duration.Equals(this.Duration))
                     return true;
             }
@@ -22,13 +22,13 @@ namespace KnowledgeRepresentationReasoning.World
 
         public object Clone()
         {
-            Action action = new Action();
-            action.Id = Id;
-            action.Duration = Duration;
-            action.TriggeredAfter = TriggeredAfter;
-            action.StartAt = StartAt;
+            WorldAction worldAction = new WorldAction();
+            worldAction.Id = Id;
+            worldAction.Duration = Duration;
+            worldAction.TriggeredAfter = TriggeredAfter;
+            worldAction.StartAt = StartAt;
 
-            return action;
+            return worldAction;
         }
 
         internal int? GetEndTime()

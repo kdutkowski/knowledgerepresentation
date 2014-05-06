@@ -7,28 +7,26 @@
 
     using Microsoft.Practices.ServiceLocation;
 
-    using Action = KnowledgeRepresentationReasoning.World.Action;
-
     public class ActionReleasesIfRecord : WorldDescriptionRecord
     {
         private readonly ILogicExpression logicExpression;
         private readonly string ifExpression;
-        private readonly Action action;
+        private readonly WorldAction worldAction;
         private readonly Fluent fluent;
 
-        public ActionReleasesIfRecord(Action action, Fluent fluent, string ifExpression) 
+        public ActionReleasesIfRecord(WorldAction worldAction, Fluent fluent, string ifExpression) 
             : base(WorldDescriptionRecordType.ActionReleasesIf)
         {
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
             this.ifExpression = ifExpression;
-            this.action = action;
+            this.worldAction = worldAction;
             this.fluent = fluent;
         }
 
-        public bool IsFulfilled(State state, Action endedAction)
+        public bool IsFulfilled(State state, WorldAction endedWorldAction)
         {
             // Sprawdzamy czy to dana akcja się skończyła
-            if (!endedAction.Equals(action)) 
+            if (!endedWorldAction.Equals(this.worldAction)) 
                 return false;
             // Sprawdzamy czy zachodzi warunek
             this.logicExpression.SetExpression(ifExpression);

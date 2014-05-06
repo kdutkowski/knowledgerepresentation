@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Action = KnowledgeRepresentationReasoning.World.Action;
 namespace KnowledgeRepresentationInterface.Views.Helpers
 {
-    class ActionEqualityComparer : IEqualityComparer<Action>
+    using KnowledgeRepresentationReasoning.World;
+
+    class ActionEqualityComparer : IEqualityComparer<WorldAction>
     {
-        public bool Equals(Action x, Action y)
+        public bool Equals(WorldAction x, WorldAction y)
         {
             return ((x.Id == y.Id) && (x.Duration == y.Duration));
         }
 
-        public int GetHashCode(Action obj)
+        public int GetHashCode(WorldAction obj)
         {
             return base.GetHashCode();
         }

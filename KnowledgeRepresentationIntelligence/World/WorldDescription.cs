@@ -51,25 +51,25 @@
             return initialRecords.Select(t => (t.Item2 as InitialRecord)).Aggregate((x, y) => x.ConcatOr(y));
         }
 
-        private IEnumerable<Action> GetTriggeredActions(Action action, State state, int time)
+        private IEnumerable<WorldAction> GetTriggeredActions(WorldAction worldAction, State state, int time)
         {
             var actionInvokesRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ActionInvokesAfterIf)
                 .Select(t => t.Item2 as ActionInvokesAfterIfRecord).ToList();
             var expressionTriggersRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ExpressionTriggersAction)
                 .Select(t => t.Item2 as ExpressionTriggersActionRecord).ToList();
 
-            var triggeredActions = actionInvokesRecords.Where(t => t.IsFulfilled(state, action)).Select(t => t.GetResult(time)).ToList();
+            var triggeredActions = actionInvokesRecords.Where(t => t.IsFulfilled(state, worldAction)).Select(t => t.GetResult(time)).ToList();
             triggeredActions.AddRange(expressionTriggersRecords.Where(t => t.IsFulfilled(state)).Select(t => t.GetResult(time)));
 
             return triggeredActions;
         }
 
-        private IEnumerable<Fluent> GetReleasedFluents(Action action, State state, int time)
+        private IEnumerable<Fluent> GetReleasedFluents(WorldAction worldAction, State state, int time)
         {
             var actionReleaseRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ActionReleasesIf)
                                                    .Select(t => t.Item2 as ActionReleasesIfRecord).ToList();
 
-            var releasedFluents = actionReleaseRecords.Where(t => t.IsFulfilled(state, action)).Select(t => t.GetResult(time));
+            var releasedFluents = actionReleaseRecords.Where(t => t.IsFulfilled(state, worldAction)).Select(t => t.GetResult(time));
             return releasedFluents;
         }
 
@@ -77,7 +77,7 @@
         // akcję poprzez rekordy ActionCausesIfRecord, metodę zwracającą możliwe stany po wykonaniu akcji
         // (uwzględnić to ze pewne fluenty zostaną uwolnione (wtedy stan rozdziela się na dwa możliwe z 0 i 1 jako
         // wartością fluenta
-        private List<State> GetPossibleFutureStates(Action action, State state, int time)
+        private List<State> GetPossibleFutureStates(WorldAction worldAction, State state, int time)
         {
             throw new NotImplementedException();
         }

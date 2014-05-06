@@ -8,29 +8,27 @@
 
     using Microsoft.Practices.ServiceLocation;
 
-    using Action = KnowledgeRepresentationReasoning.World.Action;
-
     public class ActionCausesIfRecord : WorldDescriptionRecord
     {
         private readonly ILogicExpression logicExpression;
         private readonly string resultExpression;
         private readonly string ifExpression;
-        private readonly Action action;
+        private readonly WorldAction worldAction;
 
 
-        public ActionCausesIfRecord(Action action, string resultExpression, string ifExpression) 
+        public ActionCausesIfRecord(WorldAction worldAction, string resultExpression, string ifExpression) 
             : base(WorldDescriptionRecordType.ActionCausesIf)
         {
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
             this.resultExpression = resultExpression;
             this.ifExpression = ifExpression;
-            this.action = action;
+            this.worldAction = worldAction;
         }
 
-        public bool IsFulfilled(State state, Action startedAction)
+        public bool IsFulfilled(State state, WorldAction startedWorldAction)
         {
             // Sprawdzamy czy to dana akcja się rozpoczęła
-            if (!startedAction.Equals(action))
+            if (!startedWorldAction.Equals(this.worldAction))
                 return false;
             // Sprawdzamy czy zachodzi warunek
             this.logicExpression.SetExpression(ifExpression);
@@ -47,7 +45,7 @@
 
         public override string ToString()
         {
-            return action.ToString() + " causes " + resultExpression + " if " + ifExpression;
+            return this.worldAction.ToString() + " causes " + resultExpression + " if " + ifExpression;
         }
     }
 }

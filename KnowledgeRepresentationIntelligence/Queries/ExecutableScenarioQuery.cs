@@ -14,7 +14,7 @@ namespace KnowledgeRepresentationReasoning.Queries
             queryType = QueryType.ExecutableScenario;
         }
 
-        public override QueryResult CheckCondition(World.State state, World.Action action, int time)
+        public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
         {
             throw new NotImplementedException();
         }

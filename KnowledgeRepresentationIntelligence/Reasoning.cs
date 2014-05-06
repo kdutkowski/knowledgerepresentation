@@ -24,7 +24,7 @@ namespace KnowledgeRepresentationReasoning
     using System;
 
    
-    public class ReasoningFacade : IReasoning
+    public class Reasoning : IReasoning
     {
         private static IContainer Container { get; set; }
         private ILog _logger { get; set; }
@@ -33,7 +33,7 @@ namespace KnowledgeRepresentationReasoning
 
         public int TInf { get; set; }
 
-        public ReasoningFacade()
+        public Reasoning()
         {
             worldDescription = new WorldDescription();
             scenarioDescription = new ScenarioDescription();
@@ -146,7 +146,7 @@ namespace KnowledgeRepresentationReasoning
                                 if (queryResultsContainer.CanAnswer())
                                     break;
                             }
-                            QueryResult result = query.CheckCondition(child.State, child.Action, child.Time);
+                            QueryResult result = query.CheckCondition(child.State, child.WorldAction, child.Time);
                             if (result == QueryResult.True || result == QueryResult.False)
                             {
                                 queryResultsContainer.Add(result);
@@ -205,7 +205,7 @@ namespace KnowledgeRepresentationReasoning
         private int GetNextTimestamp(Vertex leaf, ScenarioDescription scenarioDescription)
         {
             int nextActionTime = scenarioDescription.GetNextActionTime(leaf.Time);
-            int actualActionEndTime = leaf.Action.GetEndTime()??Int32.MaxValue;
+            int actualActionEndTime = leaf.WorldAction.GetEndTime()??Int32.MaxValue;
             int nextActionStartTime = leaf.GetNextActionTime()??Int32.MaxValue;
 
             return Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime));
@@ -215,7 +215,7 @@ namespace KnowledgeRepresentationReasoning
         {
             bool isEnded = false;
 
-            bool noAction = leaf.Action.Equals(null);
+            bool noAction = leaf.WorldAction.Equals(null);
 
             return isEnded;
         }
@@ -235,7 +235,7 @@ namespace KnowledgeRepresentationReasoning
             // Autofac
             var builder = new ContainerBuilder();
             builder.RegisterModule(new LoggingModule());
-            builder.RegisterInstance(LogManager.GetLogger(typeof(ReasoningFacade))).As<ILog>();
+            builder.RegisterInstance(LogManager.GetLogger(typeof(Reasoning))).As<ILog>();
             builder.RegisterType<Tree>().As<ITree>();
             builder.RegisterType<SimpleLogicExpression>().As<ILogicExpression>();
             Container = builder.Build();

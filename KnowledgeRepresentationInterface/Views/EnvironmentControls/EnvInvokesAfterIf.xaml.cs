@@ -1,10 +1,11 @@
 ﻿using KnowledgeRepresentationReasoning.World.Records;
 using System;
 using System.Collections.Generic;
-using Action = KnowledgeRepresentationReasoning.World.Action;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
+    using KnowledgeRepresentationReasoning.World;
+
     /// <summary>
     /// Interaction logic for EnvInvokesAfterIf.xaml
     /// </summary>
@@ -12,8 +13,8 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     {
         #region Properties
 
-        private Action _action;
-        private Action _result;
+        private WorldAction worldAction;
+        private WorldAction _result;
         private string _expressionIf;
         private int _timeToResult;
 
@@ -27,12 +28,12 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             string errorString;
-            if (ParseAction(TextBoxActionStart.Text, out _action, out errorString)
+            if (ParseAction(TextBoxActionStart.Text, out this.worldAction, out errorString)
                 && ParseAction(TextBoxActionInvoked.Text, out _result, out errorString)
                 && ParseExpression(TextBoxFormIf.Text, out _expressionIf, out errorString)
                 && ParseTimeLenght(TextBoxTime.Text, out _timeToResult, out errorString))
             {
-                return new ActionInvokesAfterIfRecord(_action, _result, _timeToResult, _expressionIf);
+                return new ActionInvokesAfterIfRecord(this.worldAction, _result, _timeToResult, _expressionIf);
             }
 
             LabelValidation.Content = errorString;
@@ -41,7 +42,7 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 
         public override void CleanValues()
         {
-            _action = null;
+            this.worldAction = null;
             _result = null;
             _expressionIf = "";
             _timeToResult = 0;
@@ -54,9 +55,9 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 
         }
 
-        public override List<Action> GetAllCreatedActions()
+        public override List<WorldAction> GetAllCreatedActions()
         {
-            return new List<Action>() {_action, _result};
+            return new List<WorldAction>() {this.worldAction, _result};
         }
     }
 }

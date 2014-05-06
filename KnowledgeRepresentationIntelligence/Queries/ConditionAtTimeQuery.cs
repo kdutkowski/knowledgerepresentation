@@ -26,9 +26,9 @@ namespace KnowledgeRepresentationReasoning.Queries
             _logger.Info("Creates "+ this.ToString());
         }
 
-        public override QueryResult CheckCondition(World.State state, World.Action action, int time)
+        public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
         {
-            _logger.Info("Checking condition: " + _condition + "\nwith parameters:\nstate: " + state.ToString() + "\naction: " + action.ToString() + "\ntime: " + time);
+            _logger.Info("Checking condition: " + _condition + "\nwith parameters:\nstate: " + state.ToString() + "\naction: " + worldAction.ToString() + "\ntime: " + time);
             QueryResult result = QueryResult.None;
 
             if (time == _time || _time == -1)

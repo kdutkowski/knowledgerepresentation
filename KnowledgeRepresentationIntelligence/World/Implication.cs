@@ -5,7 +5,7 @@
     public class Implication
     {
         // Przyszłe akcje
-        public List<Action> TriggeredActions { get; set; }
+        public List<WorldAction> TriggeredActions { get; set; }
 
         // Możliwe przyszłe stany
         public List<State> FutureStates { get; set; }

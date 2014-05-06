@@ -2,7 +2,6 @@
 using KnowledgeRepresentationReasoning.World.Records;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using Action = KnowledgeRepresentationReasoning.World.Action;
 
 namespace KnowledgeRepresentationInterface
 {
@@ -15,7 +14,7 @@ namespace KnowledgeRepresentationInterface
             pageSwitcher.Navigate(newPage);
         }
 
-        public static void Switch(UserControl newPage, int tInf, List<Fluent> fluents, List<Action> actions,
+        public static void Switch(UserControl newPage, int tInf, List<Fluent> fluents, List<WorldAction> actions,
                                   List<WorldDescriptionRecord> statements)
         {
             pageSwitcher.Navigate(newPage, tInf, fluents, actions, statements);

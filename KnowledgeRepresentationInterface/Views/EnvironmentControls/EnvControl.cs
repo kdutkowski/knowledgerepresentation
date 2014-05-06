@@ -2,32 +2,33 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using Action = KnowledgeRepresentationReasoning.World.Action;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
+    using KnowledgeRepresentationReasoning.World;
+
     public abstract class EnvControl : UserControl
     {
         public abstract WorldDescriptionRecord GetWorldDescriptionRecord();
 
-        public virtual List<Action> GetAllCreatedActions()
+        public virtual List<WorldAction> GetAllCreatedActions()
         {
-            return new List<Action>();
+            return new List<WorldAction>();
         }
 
         public abstract void CleanValues();
 
-        protected virtual bool ParseAction(string actionText, out Action action, out string errorInfo)
+        protected virtual bool ParseAction(string actionText, out WorldAction worldAction, out string errorInfo)
         {
             string actionString = actionText; // TextBoxAction.Text;
-            action = new Action();
+            worldAction = new WorldAction();
             errorInfo = "";
             try
             {
                 var act = actionString.Replace("(", "").Replace(")", "").Split(',');
 
-                action.Id = act[0];
-                action.Duration = Int32.Parse(act[1]);
+                worldAction.Id = act[0];
+                worldAction.Duration = Int32.Parse(act[1]);
                 return true;
             }
             catch (Exception e)

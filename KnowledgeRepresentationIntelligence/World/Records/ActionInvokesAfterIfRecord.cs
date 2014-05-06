@@ -7,30 +7,28 @@
 
     using Microsoft.Practices.ServiceLocation;
 
-    using Action = KnowledgeRepresentationReasoning.World.Action;
-
     public class ActionInvokesAfterIfRecord : WorldDescriptionRecord
     {
         private readonly ILogicExpression logicExpression;
         private readonly string ifExpression;
-        private readonly Action action;
-        private readonly Action result;
+        private readonly WorldAction worldAction;
+        private readonly WorldAction result;
         private readonly int after;
 
-        public ActionInvokesAfterIfRecord(Action action, Action result, int after, string ifExpression) 
+        public ActionInvokesAfterIfRecord(WorldAction worldAction, WorldAction result, int after, string ifExpression) 
             : base(WorldDescriptionRecordType.ActionInvokesAfterIf)
         {
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
             this.ifExpression = ifExpression;
-            this.action = action;
+            this.worldAction = worldAction;
             this.result = result;
             this.after = after;
         }
 
-        public bool IsFulfilled(State state, Action endedAction)
+        public bool IsFulfilled(State state, WorldAction endedWorldAction)
         {
             // Sprawdzamy czy to dana akcja się skończyła
-            if (!endedAction.Equals(action))
+            if (!endedWorldAction.Equals(this.worldAction))
                 return false;
             // Sprawdzamy czy zachodzi warunek
             this.logicExpression.SetExpression(ifExpression);
@@ -39,15 +37,15 @@
             return this.logicExpression.Evaluate(values);
         }
 
-        public Action GetResult(int time)
+        public WorldAction GetResult(int time)
         {
-            this.result.StartAt = time + after + action.Duration;
+            this.result.StartAt = time + after + this.worldAction.Duration;
             return this.result;
         }
 
         public override string ToString()
         {
-            return action.ToString() + " invokes " + result.ToString() + " after " + after + " if " + ifExpression;
+            return this.worldAction.ToString() + " invokes " + result.ToString() + " after " + after + " if " + ifExpression;
         }
     }
 }
