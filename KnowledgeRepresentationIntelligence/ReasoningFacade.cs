@@ -26,7 +26,7 @@ namespace KnowledgeRepresentationReasoning
    
     public class ReasoningFacade : IReasoning
     {
-        private IContainer Container { get; set; }
+        private static IContainer Container { get; set; }
         private ILog _logger { get; set; }
         private WorldDescription worldDescription { get; set; }
         private ScenarioDescription scenarioDescription { get; set; }
@@ -35,9 +35,7 @@ namespace KnowledgeRepresentationReasoning
 
         public ReasoningFacade()
         {
-            this.Initialize();
             _logger = ServiceLocator.Current.GetInstance<ILog>();
-
             TInf = 100;
         }
 
@@ -229,7 +227,7 @@ namespace KnowledgeRepresentationReasoning
             throw new System.NotImplementedException();
         }
 
-        public void Initialize()
+        public static void Initialize()
         {
             // Autofac
             var builder = new ContainerBuilder();

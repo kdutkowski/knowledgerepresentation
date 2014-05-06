@@ -80,7 +80,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             else
             {
                 time = observation.Time;
-                _logicExpression = new SimpleLogicExpression(observation.Expr);
+                _logicExpression = new SimpleLogicExpression(observation.Expr as SimpleLogicExpression);
 
                 List<Fluent[]> possibleInitialValues = _logicExpression.CalculatePossibleFluents();
                 foreach (var valuation in possibleInitialValues)

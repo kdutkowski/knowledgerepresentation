@@ -18,8 +18,12 @@ using KnowledgeRepresentationInterface.Views;
 using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
 
+using Action = KnowledgeRepresentationReasoning.World.Action;
+
 namespace KnowledgeRepresentationInterface
 {
+    using KnowledgeRepresentationReasoning;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -36,6 +40,7 @@ namespace KnowledgeRepresentationInterface
             InitializeComponent();
             Switcher.pageSwitcher = this;
             Switcher.Switch(new _Environment());
+            ReasoningFacade.Initialize();
         }
 
         public void Navigate(UserControl nextPage)
