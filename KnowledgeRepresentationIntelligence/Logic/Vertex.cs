@@ -67,21 +67,24 @@ namespace KnowledgeRepresentationReasoning.Logic
             Time = newTime;
         }
 
-        internal bool ValidateActions()
+        internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications)
         {
             throw new System.NotImplementedException();
         }
 
-        internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, int p)
+        internal bool ValidateActions()
         {
+
             foreach (WorldAction wa in this.NextActions)
             {
-                if (this.WorldAction.StartAt < wa.StartAt && wa.StartAt < this.WorldAction.GetEndTime()) return false;
-                if (this.WorldAction.StartAt < wa.GetEndTime() && wa.GetEndTime() < this.WorldAction.GetEndTime()) return false;
+                if (this.WorldAction.StartAt <= wa.StartAt && wa.StartAt < this.WorldAction.GetEndTime()) return false;
+                if (this.WorldAction.StartAt < wa.GetEndTime() && wa.GetEndTime() <= this.WorldAction.GetEndTime()) return false;
             }
 
 
-            throw new System.NotImplementedException();
+            return true;
+
+            //throw new System.NotImplementedException();
         }
     }
 }
