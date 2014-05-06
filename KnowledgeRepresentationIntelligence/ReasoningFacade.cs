@@ -121,19 +121,19 @@ namespace KnowledgeRepresentationReasoning
                     }
                     else
                     {
-                        if (CheckIfLeafIsEnded(leaf))
-                        {
-                            QueryResult result = query.CheckCondition(leaf.State, leaf.Action, leaf.Time);
-                            if (result != QueryResult.True && result != QueryResult.False)
-                            {
-                                _logger.Warn("Unexpected query result!");
-                                return QueryResult.Error; 
-                                //return QueryResult.False;
-                            }
-                            queryResultsContainer.Add(result);
-                            if (queryResultsContainer.CanAnswer())
-                                break;
-                        }
+                        //if (CheckIfLeafIsEnded(leaf))
+                        //{
+                        //    QueryResult result = query.CheckCondition(leaf.State, leaf.Action, leaf.Time);
+                        //    if (result != QueryResult.True && result != QueryResult.False)
+                        //    {
+                        //        _logger.Warn("Unexpected query result!");
+                        //        return QueryResult.Error; 
+                        //        //return QueryResult.False;
+                        //    }
+                        //    queryResultsContainer.Add(result);
+                        //    if (queryResultsContainer.CanAnswer())
+                        //        break;
+                        //}
                         tree.SaveLastLevel();
                         List<Vertex> nextLevel = GenerateChildsForLeaf(leaf);
                         
@@ -212,7 +212,11 @@ namespace KnowledgeRepresentationReasoning
 
         private bool CheckIfLeafIsEnded(Vertex leaf)
         {
-            throw new System.NotImplementedException();
+            bool isEnded = false;
+
+            bool noAction = leaf.Action.Equals(null);
+
+            return isEnded;
         }
 
         private bool CheckIfLeafIsPossible(Vertex leaf)

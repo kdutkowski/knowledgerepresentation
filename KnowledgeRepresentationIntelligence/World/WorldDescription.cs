@@ -64,6 +64,7 @@
 
         internal bool CheckIfLeafIsPossible(Logic.Vertex leaf)
         {
+            //check impossible 
             throw new NotImplementedException();
         }
     }
