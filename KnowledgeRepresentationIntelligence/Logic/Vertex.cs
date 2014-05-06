@@ -28,6 +28,16 @@ namespace KnowledgeRepresentationReasoning.Logic
             // TODO: Complete member initialization
         }
 
+        public Vertex(Vertex leaf)
+        {
+            State = leaf.State;
+            WorldAction = leaf.WorldAction;
+            Time = leaf.Time;
+            Root = leaf.Root;
+            IsPossible = leaf.IsPossible;
+            IsEnded = leaf.IsEnded;
+        }
+
         internal int? GetNextActionTime()
         {
             return NextActions.Min(action => action.StartAt);
@@ -35,9 +45,14 @@ namespace KnowledgeRepresentationReasoning.Logic
 
         internal void Update(int nextTime)
         {
-            UpdateStateOnFluentChange();
+            UpdateStateOnFluentChange(nextTime);
             //int nextTime = UpdateAction();
-            //UpdateTime(nextTime);
+            UpdateTime(nextTime);
+        }
+
+        private void UpdateStateOnFluentChange(int nextTime)
+        {
+            
         }
 
         private int UpdateAction()
@@ -50,11 +65,6 @@ namespace KnowledgeRepresentationReasoning.Logic
         private void UpdateTime(int newTime)
         {
             Time = newTime;
-        }
-
-        private void UpdateStateOnFluentChange()
-        {
-            throw new System.NotImplementedException();
         }
 
         internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications)
