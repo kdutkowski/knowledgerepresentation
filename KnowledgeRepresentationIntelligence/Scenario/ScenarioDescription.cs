@@ -99,7 +99,7 @@
 
         internal bool CheckIfLeafIsPossible(Logic.Vertex leaf)
         {
-            throw new System.NotImplementedException();
+            return CheckRecords(leaf.State, null, leaf.Time);
         }
 
         /// <summary>
@@ -112,10 +112,11 @@
             int result = int.MaxValue;
             foreach (ScenarioObservationRecord sor in this.observations)
             {
-                if (sor.Time>actualTime)
+                if (sor.Time>=actualTime)
                     if(sor.Time<result)result=sor.Time;
 
             }
+            if (result == int.MaxValue) result = -1;
             return result;
            
             //throw new System.NotImplementedException();
