@@ -85,6 +85,8 @@ namespace KnowledgeRepresentationInterface.Views
         public _Environment()
         {
             _fluents = new List<Fluent>();
+            _actions = new List<Action>();
+            _statements = new List<WorldDescriptionRecord>();
             InitControls();
             InitializeComponent();
         }

@@ -12,7 +12,7 @@
         protected WorldDescriptionRecord(WorldDescriptionRecordType type)
         {
             Type = type;
-            logger = ServiceLocator.Current.GetInstance<ILog>();
+            //logger = ServiceLocator.Current.GetInstance<ILog>();
         }
     }
 }
