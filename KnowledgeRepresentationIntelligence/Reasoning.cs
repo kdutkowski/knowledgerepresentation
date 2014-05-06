@@ -213,7 +213,7 @@ namespace KnowledgeRepresentationReasoning
             //    return impossibleChild;
 
             var implications = worldDescription.GetImplications(leaf, nextTime);
-            vertices = leaf.CreateChildsBasedOnImplications(implications);
+            vertices = leaf.CreateChildsBasedOnImplications(implications, scenarioDescription.GetNextActionTime(nextTime));
 
             return vertices;
         }

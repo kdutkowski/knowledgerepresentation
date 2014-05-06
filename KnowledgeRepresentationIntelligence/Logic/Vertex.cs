@@ -67,12 +67,12 @@ namespace KnowledgeRepresentationReasoning.Logic
             Time = newTime;
         }
 
-        internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications)
+        internal bool ValidateActions()
         {
             throw new System.NotImplementedException();
         }
 
-        internal bool ValidateActions()
+        internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, int p)
         {
             throw new System.NotImplementedException();
         }
