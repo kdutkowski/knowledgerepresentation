@@ -79,6 +79,9 @@
     <Compile Include="Views\ScenarioControls\SceAddedActionsList.xaml.cs">
       <DependentUpon>SceAddedActionsList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\FluentValue.xaml.cs">
+      <DependentUpon>FluentValue.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\SceAddAction.xaml.cs">
       <DependentUpon>SceAddAction.xaml</DependentUpon>
     </Compile>
@@ -142,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ScenarioControls\SceAddedActionsList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ScenarioControls\ScenarioAddActionControl\FluentValue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
