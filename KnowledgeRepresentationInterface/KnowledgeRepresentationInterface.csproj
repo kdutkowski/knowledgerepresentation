@@ -75,6 +75,7 @@
       <DependentUpon>EnvImpossibleIf.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EnvironmentControls\EnvControl.cs" />
+    <Compile Include="Views\Helpers\ActionEqualityComparer.cs" />
     <Compile Include="Views\ISwitchable.cs" />
     <Compile Include="Views\ScenarioControls\ScenarioAddedActionListControl\AddedAction.xaml.cs">
       <DependentUpon>AddedAction.xaml</DependentUpon>

@@ -12,6 +12,12 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     public abstract class EnvControl : UserControl
     {
         public abstract WorldDescriptionRecord GetWorldDescriptionRecord();
+
+        public virtual List<Action> GetAllCreatedActions()
+        {
+            return new List<Action>();
+        }
+
         public abstract void CleanValues();
 
         protected virtual bool ParseAction(string actionText, out Action action, out string errorInfo)

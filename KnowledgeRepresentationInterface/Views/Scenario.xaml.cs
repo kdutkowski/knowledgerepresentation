@@ -13,6 +13,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using KnowledgeRepresentationReasoning.World;
+using KnowledgeRepresentationReasoning.World.Records;
+
+using Action = KnowledgeRepresentationReasoning.World.Action;
+
 namespace KnowledgeRepresentationInterface.Views
 {
     /// <summary>
@@ -20,7 +25,7 @@ namespace KnowledgeRepresentationInterface.Views
     /// </summary>
     public partial class _Scenario : UserControl//, ISwitchable
     {
-        public _Scenario()
+        public _Scenario(List<Fluent> fluents, List<Action> actions  )
         {
             InitializeComponent();
         }

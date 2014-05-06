@@ -7,8 +7,11 @@ using System.Windows;
 using System.Windows.Controls;
 
 using KnowledgeRepresentationInterface.Views.EnvironmentControls;
+using KnowledgeRepresentationInterface.Views.Helpers;
 using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
+
+using Action = KnowledgeRepresentationReasoning.World.Action;
 
 namespace KnowledgeRepresentationInterface.Views
 {
@@ -19,6 +22,7 @@ namespace KnowledgeRepresentationInterface.Views
     {
         #region Properties
         private List<Fluent> _fluents;
+        private List<Action> _actions; 
         private List<WorldDescriptionRecord> _statements;
         private WorldDescriptionRecordType _selectedWDRecordType;
 
@@ -112,14 +116,14 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new _Scenario());
+            Switcher.Switch(new _Scenario(_fluents, _actions));
         }
 
         private void ButtonAddFluent_Click(object sender, RoutedEventArgs e)
         {
             if (!_fluents.Exists(f => (f.Name == TextBoxFluents.Text)))
             {//validation
-                Fluent f = new Fluent();
+                var f = new Fluent();
                 f.Name = TextBoxFluents.Text;
                 _fluents.Add(f);
                 FluentString += TextBoxFluents.Text;
@@ -154,6 +158,8 @@ namespace KnowledgeRepresentationInterface.Views
             try
             {
                 wdr = StatementsControls[SelectedWDRecordType].GetWorldDescriptionRecord();
+                _actions.AddRange(StatementsControls[SelectedWDRecordType].GetAllCreatedActions());
+                _actions = _actions.Distinct(new ActionEqualityComparer()).ToList();
                 _statements.Add(wdr);
                 StatementsString += wdr.ToString();
             }

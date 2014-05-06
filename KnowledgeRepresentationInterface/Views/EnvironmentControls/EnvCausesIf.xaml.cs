@@ -61,6 +61,13 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
             TextBoxFormIf.Text = "Pi";
         }
 
+        public override List<Action> GetAllCreatedActions()
+        {
+            var actions  =new List<Action>();
+            actions.Add(_action);
+            return actions;
+        }
+
         private bool parseExpressionEffect()
         {
             
