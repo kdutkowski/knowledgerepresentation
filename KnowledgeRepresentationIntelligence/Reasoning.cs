@@ -254,7 +254,7 @@ namespace KnowledgeRepresentationReasoning
 
         private bool CheckIfLeafIsPossible(Vertex leaf)
         {
-            return leaf.IsPossible && worldDescription.Validate(leaf) && this.scenarioDescription.CheckIfLeafIsPossible(leaf);
+            return leaf.IsPossible && leaf.ValidateActions() && worldDescription.Validate(leaf) && this.scenarioDescription.CheckIfLeafIsPossible(leaf);
         }
 
         public Task<QueryResult> ExecuteQueryAsync(Query query)

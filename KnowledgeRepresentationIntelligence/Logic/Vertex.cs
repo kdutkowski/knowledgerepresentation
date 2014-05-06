@@ -71,5 +71,10 @@ namespace KnowledgeRepresentationReasoning.Logic
         {
             throw new System.NotImplementedException();
         }
+
+        internal bool ValidateActions()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
