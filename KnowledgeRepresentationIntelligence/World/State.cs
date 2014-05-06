@@ -11,6 +11,14 @@
             Fluents = new List<Fluent>();
         }
 
+        public object Clone()
+        {
+            State res = new State();
+            res.Fluents = new List<Fluent>(this.Fluents);
+            return res;
+        }
+
+
         public override string ToString()
         {
             string description = "State with " + Fluents.Count + " fluents:";
@@ -31,5 +39,8 @@
                 Fluents.Add(newFluent);
             }
         }
+
+
+
     }
 }

@@ -32,6 +32,7 @@
         // TODO: Niech ta metoda zwraca jedno Implication (trzeba poprawic w dalszym kodzie)
         public List<Implication> GetImplications(Vertex leaf)
         {
+
             throw new NotImplementedException();
         }
 
@@ -39,6 +40,8 @@
         // wykonanie akcji jest możliwe, czy stan taki w danym czasie i przy danej akcji jest mozliwy
         public bool Validate(Logic.Vertex leaf)
         {
+            
+
             throw new NotImplementedException();
         }
 
@@ -79,7 +82,37 @@
         // wartością fluenta
         private List<State> GetPossibleFutureStates(WorldAction worldAction, State state, int time)
         {
-            throw new NotImplementedException();
+            IEnumerable<Fluent> rfs = GetReleasedFluents(worldAction, state, time);
+
+            List<State> results=new List<State>(2^(rfs.Count()));
+
+            State template = (State)state.Clone();
+
+            //we remove released fluents
+            foreach (Fluent f in rfs)
+            {
+                template.Fluents.Remove(f);
+            }
+
+            foreach (Fluent f in rfs)
+            {
+                //for each new released fluent, we create 2 states: one with f=true and second with f=false
+
+               
+                    State trueOne = (State)template.Clone();
+                    trueOne.Fluents.Add(new Fluent(f.Name, true));
+                    results.Add(trueOne);
+
+                    State falseOne = (State)template.Clone();
+                    falseOne.Fluents.Add(new Fluent(f.Name, false));
+                    results.Add(falseOne);
+                
+
+            }
+
+
+            return results;
+//            throw new NotImplementedException();
         }
     }
 }
