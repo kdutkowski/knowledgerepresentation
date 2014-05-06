@@ -177,7 +177,7 @@ namespace KnowledgeRepresentationReasoning
             if (!CheckIfLeafIsPossible(leaf))
                 return impossibleChild;
 
-            List<Implication> implications = (List<Implication>)worldDescription.GetImplications(leaf.Action, leaf.State, leaf.Time);
+            List<Implication> implications = (List<Implication>)worldDescription.GetImplications(leaf);
             vertices = leaf.CreateChildsBasedOnImplications(implications);
 
             return vertices;
@@ -219,7 +219,7 @@ namespace KnowledgeRepresentationReasoning
 
         private bool CheckIfLeafIsPossible(Vertex leaf)
         {
-            return worldDescription.CheckIfLeafIsPossible(leaf) && this.scenarioDescription.CheckIfLeafIsPossible(leaf);
+            return worldDescription.Validate(leaf) && this.scenarioDescription.CheckIfLeafIsPossible(leaf);
         }
 
         public Task<QueryResult> ExecuteQueryAsync(Query query)

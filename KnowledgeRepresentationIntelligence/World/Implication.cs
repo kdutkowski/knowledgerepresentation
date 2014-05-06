@@ -4,16 +4,10 @@
 
     public class Implication
     {
-        // Jakie akcje do wykonania
+        // Przyszłe akcje
         public List<Action> TriggeredActions { get; set; }
 
-        // Jakie fluenty do uwolnienia
-        public List<Fluent> FluentsToRelease { get; set; }
-
-        // Przyszły stan bez uwzględnienia uwolnionych fluentów
-        public State State { get; set; }
-
-        // Czas w którym się znajdziemy
-        public int Time { get; set; }
+        // Możliwe przyszłe stany
+        public List<State> FutureStates { get; set; }
     }
 }

@@ -39,7 +39,6 @@
 
         public Fluent GetResult(int time)
         {
-            this.fluent.ReleaseAt = time + action.Duration;
             return this.fluent;
         }
     }

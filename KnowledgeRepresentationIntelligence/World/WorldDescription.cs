@@ -21,12 +21,12 @@
             return this.GetSummarizedInitialRecord().PossibleFluents.Select(t => new State { Fluents = t.ToList() });
         }
 
-        public IEnumerable<Implication> GetImplications(Action action, State state, int time)
+        public IEnumerable<Implication> GetImplications(Logic.Vertex leaf)
         {
             throw new NotImplementedException();
         }
 
-        public bool Validate(Action action, State state, int time)
+        public bool Validate(Logic.Vertex leaf)
         {
             throw new NotImplementedException();
         }
@@ -60,12 +60,6 @@
 
             var releasedFluents = actionReleaseRecords.Where(t => t.IsFulfilled(state, action)).Select(t => t.GetResult(time));
             return releasedFluents;
-        }
-
-        internal bool CheckIfLeafIsPossible(Logic.Vertex leaf)
-        {
-            //check impossible 
-            throw new NotImplementedException();
         }
     }
 }
