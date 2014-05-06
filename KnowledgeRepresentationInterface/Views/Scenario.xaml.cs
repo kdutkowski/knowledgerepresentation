@@ -23,7 +23,7 @@ namespace KnowledgeRepresentationInterface.Views
     /// <summary>
     /// Interaction logic for _Scenario.xaml
     /// </summary>
-    public partial class _Scenario : UserControl//, ISwitchable
+    public partial class _Scenario : UserControl
     {
         public _Scenario(List<Fluent> fluents, List<Action> actions  )
         {
@@ -42,11 +42,5 @@ namespace KnowledgeRepresentationInterface.Views
             //TODO add observation
         }
 
-        //#region ISwitchable Members
-        //public void UtilizeState(object state)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //#endregion
     }
 }

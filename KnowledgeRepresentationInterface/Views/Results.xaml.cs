@@ -18,7 +18,7 @@ namespace KnowledgeRepresentationInterface.Views
     /// <summary>
     /// Interaction logic for _Results.xaml
     /// </summary>
-    public partial class _Results : UserControl//, ISwitchable
+    public partial class _Results : UserControl
     {
         public _Results()
         {
@@ -30,11 +30,6 @@ namespace KnowledgeRepresentationInterface.Views
         //    Switcher.Switch(new _Environment());
         //}
 
-        //#region ISwitchable Members
-        //public void UtilizeState(object state)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //#endregion
+        
     }
 }

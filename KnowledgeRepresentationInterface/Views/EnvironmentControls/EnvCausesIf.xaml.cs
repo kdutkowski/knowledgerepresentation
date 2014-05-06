@@ -1,19 +1,8 @@
-﻿using System;
+﻿using KnowledgeRepresentationReasoning.World.Records;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using KnowledgeRepresentationReasoning.World.Records;
 using Action = KnowledgeRepresentationReasoning.World.Action;
+
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
     /// <summary>
@@ -22,23 +11,27 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     public partial class EnvCausesIf
     {
         #region Properties
+
         private Action _action;
         private String _expressionEffect;
         private String _expressionIf;
+
         #endregion
 
         #region Constructor
+
         public EnvCausesIf()
         {
             InitializeComponent();
         }
+
         #endregion
 
 
         public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             string errorString;
-            if( ParseAction(TextBoxAction.Text, out _action, out errorString)
+            if (ParseAction(TextBoxAction.Text, out _action, out errorString)
                 && ParseExpression(TextBoxFormEffect.Text, out _expressionEffect, out errorString)
                 && ParseExpression(TextBoxFormIf.Text, out _expressionIf, out errorString))
             {
@@ -66,6 +59,6 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
             return new List<Action> {_action};
         }
 
-        
+
     }
 }

@@ -18,7 +18,7 @@ namespace KnowledgeRepresentationInterface.Views
     /// <summary>
     /// Interaction logic for _Environment.xaml
     /// </summary>
-    public partial class _Environment : UserControl, INotifyPropertyChanged//, ISwitchable
+    public partial class _Environment : UserControl, INotifyPropertyChanged
     {
         #region Properties
 
@@ -34,7 +34,6 @@ namespace KnowledgeRepresentationInterface.Views
             set
             {
                 _selectedWDRecordType = value;
-                //this.GruopBoxStatements.Content
                 this.GruopBoxStatements.Content = StatementsControls[_selectedWDRecordType];
                 NotifyPropertyChanged("SelectedWDRecordType");
             }
@@ -124,7 +123,7 @@ namespace KnowledgeRepresentationInterface.Views
                 return;
             ParseFluentsToInitialRecords();
 
-            Switcher.Switch(new _Scenario(_fluents, _actions));
+            Switcher.Switch(new _Scenario(_fluents, _actions), _timeInf, _fluents, _actions, _statements);
         }
 
         private void ButtonAddFluent_Click(object sender, RoutedEventArgs e)
@@ -205,14 +204,6 @@ namespace KnowledgeRepresentationInterface.Views
         }
 
         #endregion
-
-
-        //#region ISwitchable Members
-        //public void UtilizeState(object state)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //#endregion
 
         
     }

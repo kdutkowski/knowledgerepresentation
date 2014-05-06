@@ -1,10 +1,7 @@
-﻿using System;
+﻿using KnowledgeRepresentationReasoning.World.Records;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using KnowledgeRepresentationReasoning.World.Records;
 using Action = KnowledgeRepresentationReasoning.World.Action;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls

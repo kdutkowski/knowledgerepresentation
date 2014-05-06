@@ -20,7 +20,7 @@
         public ActionInvokesAfterIfRecord(Action action, Action result, int after, string ifExpression) 
             : base(WorldDescriptionRecordType.ActionInvokesAfterIf)
         {
-            //this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
+            this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
             this.ifExpression = ifExpression;
             this.action = action;
             this.result = result;

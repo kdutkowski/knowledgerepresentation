@@ -21,7 +21,7 @@
         public ActionCausesIfRecord(Action action, string resultExpression, string ifExpression) 
             : base(WorldDescriptionRecordType.ActionCausesIf)
         {
-            //this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
+            this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
             this.resultExpression = resultExpression;
             this.ifExpression = ifExpression;
             this.action = action;
