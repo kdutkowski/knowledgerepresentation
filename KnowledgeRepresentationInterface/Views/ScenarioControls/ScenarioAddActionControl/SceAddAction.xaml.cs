@@ -52,7 +52,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
             set
             {
                 _selectedWARecordType = value;
-                NotifyPropertyChanged("SelectedWARecordType");
+                OnPropertyChanged("SelectedWARecordType");
             }
         }
 
@@ -61,29 +61,18 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
             get;
             set;
         }
-
-
-
-
         public SceAddAction()
         {
             InitializeComponent();
         }
-
-
-
-
-
         public void CleanValues()
         {
             throw new NotImplementedException();
         }
 
-
-
-
         public void SetActions(List<WorldAction> actions)
         {
+           
             WARecordType = actions;
         }
     }

@@ -2,7 +2,7 @@
 {
     using KnowledgeRepresentationReasoning.World;
 
-    class ScenarioActionRecord : ScenarioDescriptionRecord
+    class  ScenarioActionRecord : ScenarioDescriptionRecord
     {
         public WorldAction WorldAction { get; set; }
         public int Time { get; set; }
