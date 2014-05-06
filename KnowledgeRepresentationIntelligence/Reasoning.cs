@@ -48,7 +48,11 @@ namespace KnowledgeRepresentationReasoning
 
         public void RemoveWorldDescriptionRecord(WorldDescriptionRecord record)
         {
-            throw new System.NotImplementedException();
+            var removeRecords = worldDescription.Descriptions.Where(t => t.Item2.Id == record.Id).ToList();
+            for (int i = 0; i < removeRecords.Count; i++)
+            {
+                worldDescription.Descriptions.Remove(removeRecords[i]);
+            }
         }
 
         public void UpdateWorldDescriptionRecord(WorldDescriptionRecord record)
@@ -63,12 +67,38 @@ namespace KnowledgeRepresentationReasoning
 
         public void AddScenarioDescriptionRecord(ScenarioDescriptionRecord record)
         {
-            throw new System.NotImplementedException();
+            if (record is ScenarioActionRecord)
+            {
+                ScenarioActionRecord add = record as ScenarioActionRecord;
+                scenarioDescription.addACS(add.WorldAction, add.Time);
+            }
+            else if (record is ScenarioObservationRecord)
+            {
+                ScenarioObservationRecord add = record as ScenarioObservationRecord;
+                scenarioDescription.addObservation(add.Expr, add.Time);
+            }
         }
 
         public void RemoveScenarioDescriptionRecord(ScenarioDescriptionRecord record)
         {
-            throw new System.NotImplementedException();
+            if (record is ScenarioActionRecord)
+            {
+                ScenarioActionRecord remove = record as ScenarioActionRecord;
+                var removeRecords = scenarioDescription.actions.Where(t => t.Id == remove.Id).ToList();
+                for (int i = 0; i < removeRecords.Count; i++)
+                {
+                    scenarioDescription.actions.Remove(removeRecords[i]);
+                }
+            }
+            else if (record is ScenarioObservationRecord)
+            {
+                ScenarioObservationRecord remove = record as ScenarioObservationRecord;
+                var removeRecords = scenarioDescription.observations.Where(t => t.Id == remove.Id).ToList();
+                for (int i = 0; i < removeRecords.Count; i++)
+                {
+                    scenarioDescription.observations.Remove(removeRecords[i]);
+                }
+            }
         }
 
         public void UpdateScenarioDescriptionRecord(ScenarioDescriptionRecord record)

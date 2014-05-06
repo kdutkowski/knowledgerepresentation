@@ -4,7 +4,7 @@
     using KnowledgeRepresentationReasoning.World;
     using System.Collections.Generic;
 
-    class ScenarioObservationRecord : ScenarioDescriptionRecord
+    public class ScenarioObservationRecord : ScenarioDescriptionRecord
     {
         public ILogicExpression Expr { get; set; }
         public int Time { get; set; }

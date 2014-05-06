@@ -6,8 +6,8 @@
 
     public class ScenarioDescription
     {
-        private List<ScenarioActionRecord> actions;
-        private List<ScenarioObservationRecord> observations;
+        public List<ScenarioActionRecord> actions { get; set; }
+        public List<ScenarioObservationRecord> observations { get; set; }
 
         public ScenarioDescription()
         {
