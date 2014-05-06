@@ -30,6 +30,13 @@ namespace KnowledgeRepresentationInterface.Views
             Switcher.Switch(new _Results());
         }
 
+        private void ButtonAddAction_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO name of action
+            ActionList.AddAction(Action.Time, Action.Fluents, "action");
+            //TODO add observation
+        }
+
         //#region ISwitchable Members
         //public void UtilizeState(object state)
         //{

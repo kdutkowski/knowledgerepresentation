@@ -121,19 +121,19 @@ namespace KnowledgeRepresentationReasoning
                     }
                     else
                     {
-                        if (CheckIfLeafIsEnded(leaf))
-                        {
-                            QueryResult result = query.CheckCondition(leaf.State, leaf.Action, leaf.Time);
-                            if (result != QueryResult.True && result != QueryResult.False)
-                            {
-                                _logger.Warn("Unexpected query result!");
-                                return QueryResult.Error; 
-                                //return QueryResult.False;
-                            }
-                            queryResultsContainer.Add(result);
-                            if (queryResultsContainer.CanAnswer())
-                                break;
-                        }
+                        //if (CheckIfLeafIsEnded(leaf))
+                        //{
+                        //    QueryResult result = query.CheckCondition(leaf.State, leaf.Action, leaf.Time);
+                        //    if (result != QueryResult.True && result != QueryResult.False)
+                        //    {
+                        //        _logger.Warn("Unexpected query result!");
+                        //        return QueryResult.Error; 
+                        //        //return QueryResult.False;
+                        //    }
+                        //    queryResultsContainer.Add(result);
+                        //    if (queryResultsContainer.CanAnswer())
+                        //        break;
+                        //}
                         tree.SaveLastLevel();
                         List<Vertex> nextLevel = GenerateChildsForLeaf(leaf);
                         
@@ -163,18 +163,24 @@ namespace KnowledgeRepresentationReasoning
         {
             List<Vertex> vertices = new List<Vertex>();
 
-            int actualTime= leaf.Time;
+            Vertex child = new Vertex();
+            child.IsPossible = false;
+            List<Vertex> impossibleChild = new List<Vertex>() { child };
+
+            int actualTime = leaf.Time;
             int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
             int nextTime = GetNextTimestamp(leaf, scenarioDescription);
 
             if (!CheckNearestObservation(leaf, actualTime, nextObservationTime, nextTime))
-            {
-                Vertex child = new Vertex();
-                child.IsPossible = false;
-                return new List<Vertex>() { child };
-            }
+                return impossibleChild;
 
-            List<Implication> implication = (List<Implication>)worldDescription.GetImplications(leaf.Action, leaf.State, leaf.Time);
+            leaf.Update(nextTime);
+
+            if (!CheckIfLeafIsPossible(leaf))
+                return impossibleChild;
+
+            List<Implication> implications = (List<Implication>)worldDescription.GetImplications(leaf.Action, leaf.State, leaf.Time);
+            vertices = leaf.CreateChildsBasedOnImplications(implications);
 
             return vertices;
         }
@@ -206,7 +212,11 @@ namespace KnowledgeRepresentationReasoning
 
         private bool CheckIfLeafIsEnded(Vertex leaf)
         {
-            throw new System.NotImplementedException();
+            bool isEnded = false;
+
+            bool noAction = leaf.Action.Equals(null);
+
+            return isEnded;
         }
 
         private bool CheckIfLeafIsPossible(Vertex leaf)
