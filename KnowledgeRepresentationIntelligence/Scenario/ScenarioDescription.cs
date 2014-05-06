@@ -63,17 +63,38 @@
 
         internal Action GetActionAtTime(int t)
         {
-            throw new System.NotImplementedException();
+            foreach (ScenarioActionRecord sar in this.actions)
+            {
+                if (sar.Time.Equals(t)) return sar.Action;
+
+            }
+
+            return null;
+
+
+
+            //throw new System.NotImplementedException();
         }
 
         /// <summary>
-        /// Methods returns many oibservations as one in form: "(ob1) && (ob2)...".
+        /// Methods returns many observations as one in form: "(ob1) && (ob2)...", null if no observations found.
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         internal ScenarioObservationRecord GetObservationFromTime(int time)
         {
-            throw new System.NotImplementedException();
+            //List<ScenarioObservationRecord> matches = new List<ScenarioObservationRecord>(observations.Count);
+            foreach (ScenarioObservationRecord sor in this.observations)
+            {
+                if (sor.Time.Equals(time)) return sor;
+                
+            }
+
+            return null;
+
+            //throw new System.NotImplementedException();
+
+            
         }
 
         internal bool CheckIfLeafIsPossible(Logic.Vertex leaf)
@@ -88,17 +109,39 @@
         /// <returns></returns>
         internal int GetNextObservationTime(int actualTime)
         {
-            throw new System.NotImplementedException();
+            int result = int.MaxValue;
+            foreach (ScenarioObservationRecord sor in this.observations)
+            {
+                if (sor.Time>actualTime)
+                    if(sor.Time<result)result=sor.Time;
+
+            }
+            return result;
+           
+            //throw new System.NotImplementedException();
+
         }
 
         /// <summary>
-        /// Methods returns neariest action
+        /// Methods returns neariest action in or after actualTime, or -1 if no action is found
         /// </summary>
         /// <param name="actualTime"></param>
         /// <returns></returns>
         internal int GetNextActionTime(int actualTime)
         {
-            throw new System.NotImplementedException();
+            int result = int.MaxValue;
+            foreach (ScenarioObservationRecord sor in this.observations)
+            {
+                if (sor.Time >= actualTime)
+                    if (sor.Time < result) result = sor.Time;
+
+            }
+
+            if(result==int.MaxValue)result=-1;
+            return result;
+
+            //throw new System.NotImplementedException();
+
         }
     }
 }
