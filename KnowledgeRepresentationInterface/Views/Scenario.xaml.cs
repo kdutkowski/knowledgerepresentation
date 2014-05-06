@@ -41,13 +41,15 @@ namespace KnowledgeRepresentationInterface.Views
         //private List<ScenarioActionRecord> _scenarioActionRecordList;
         //private List<ScenarioObservationRecord> _scenarioObservationRecordList;
 
-        public _Scenario(List<Fluent> fluents, List<WorldAction> actions  )
+        public _Scenario(List<Fluent> fluents, List<WorldAction> actions)
         {
+            
+            
             InitializeComponent();
-           ObservationAdd.SetFluents(fluents);
+            ObservationAdd.SetFluents(fluents);
             ActionAdd.SetActions(actions);
-           // _scenarioObservationRecordList = new List<ScenarioObservationRecord>();
-          //  _scenarioActionRecordList = new List<ScenarioActionRecord>();
+            // _scenarioObservationRecordList = new List<ScenarioObservationRecord>();
+            //  _scenarioActionRecordList = new List<ScenarioActionRecord>();
         }
 
         private string _scenarioName;

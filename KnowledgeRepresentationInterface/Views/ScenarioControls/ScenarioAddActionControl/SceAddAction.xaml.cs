@@ -46,6 +46,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         }
         private WorldAction _selectedWARecordType;
 
+       
         public WorldAction SelectedWARecordType
         {
             get { return _selectedWARecordType; }
@@ -55,11 +56,14 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
                 OnPropertyChanged("SelectedWARecordType");
             }
         }
-
-        public List<WorldAction> WARecordType
-        {
-            get;
-            set;
+        
+        private List<WorldAction> _actions = new List<WorldAction>();
+        public IEnumerable<WorldAction> WARecordType 
+        {   
+            get { return _actions.Cast<WorldAction>(); }
+            set { _actions = value.ToList();
+            OnPropertyChanged("WARecordType");
+            }
         }
         public SceAddAction()
         {
@@ -72,8 +76,8 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
 
         public void SetActions(List<WorldAction> actions)
         {
-           
-            WARecordType = actions;
+            //_actions = actions;
+            WARecordType = actions as IEnumerable<WorldAction>;
         }
     }
 

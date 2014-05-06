@@ -17,10 +17,24 @@
 			Width="100" TextWrapping="Wrap"
 			Height="30" Margin="10,20,0,0"
 			FontWeight="Normal" FontSize="16"/>
-        
+
         <ComboBox x:Name ="ComboBoxStatements" SelectedItem="{Binding SelectedWARecordType, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
-                  ItemsSource="{Binding WARecordType, ElementName=uc_sce}"
-                 HorizontalAlignment="Left"  Height="30" VerticalAlignment="Top" Width="400" RenderTransformOrigin="0.475,0.15" Margin="115,20,0,0"/>
+                  ItemsSource="{Binding WARecordType, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}"
+                 HorizontalAlignment="Left"  Height="30" VerticalAlignment="Top" Width="400" RenderTransformOrigin="0.475,0.15" Margin="115,20,0,0">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="("/>
+                        <TextBlock Text="{Binding Id}" />
+                        <TextBlock Text=", "/>
+                        <TextBlock Text="{Binding Duration}"/>
+                        <TextBlock Text=")"/>
+                    </StackPanel>
+
+                </DataTemplate>
+                
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
         <Label x:Name="LabelValidation" Content="Validation" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="700" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
 
