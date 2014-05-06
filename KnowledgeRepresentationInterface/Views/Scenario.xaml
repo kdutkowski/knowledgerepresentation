@@ -12,7 +12,7 @@
 
         <GridSplitter HorizontalAlignment="Left" Height="4" Margin="40,220,0,40" VerticalAlignment="Top" Width="720" Background="DarkBlue"/>
 
-        <ScenarioAddActionControl:SceAddAction x:Name="Action" HorizontalAlignment="Left" Margin="40,43,0,0" VerticalAlignment="Top" Height="170" Width="720"/>
+        <ScenarioAddActionControl:SceAddAction x:Name="ActionAdd" HorizontalAlignment="Left" Margin="40,43,0,0" VerticalAlignment="Top" Height="170" Width="720"/>
 
         <ScenarioControls:SceAddedActionsList x:Name="ActionList" HorizontalAlignment="Left" Margin="40,229,0,0" VerticalAlignment="Top" Height="330" Width="720"/>
 

@@ -26,6 +26,8 @@ namespace KnowledgeRepresentationInterface.Views
         public _Scenario(List<Fluent> fluents, List<WorldAction> actions  )
         {
             InitializeComponent();
+            ActionAdd.SetFluents(fluents);
+            ActionAdd.SetActions(actions);
         }
 
         private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
@@ -36,7 +38,7 @@ namespace KnowledgeRepresentationInterface.Views
         private void ButtonAddAction_Click(object sender, RoutedEventArgs e)
         {
             //TODO name of action
-            ActionList.AddAction(Action.Time, Action.Fluents, "action");
+            ActionList.AddAction(ActionAdd.Time, ActionAdd.Fluents, "action");
             //TODO add observation
         }
 

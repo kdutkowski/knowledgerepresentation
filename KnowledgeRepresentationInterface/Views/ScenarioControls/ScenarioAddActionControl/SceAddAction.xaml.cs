@@ -38,35 +38,39 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         public int Time
         {
             get { return _time; }
-            set { _time = value;
-             OnPropertyChanged("Time");}
-        }
-
-        private WorldDescriptionRecordType _selectedWDRecordType;
-        public WorldDescriptionRecordType SelectedWDRecordType
-        {
-            get { return _selectedWDRecordType; }
             set
             {
-                _selectedWDRecordType = value;
-                NotifyPropertyChanged("SelectedWDRecordType");
+                _time = value;
+                OnPropertyChanged("Time");
             }
         }
-        public IEnumerable<WorldDescriptionRecordType> WDRecordType
+        private WorldAction _selectedWARecordType;
+
+        public WorldAction SelectedWARecordType
         {
-            get
+            get { return _selectedWARecordType; }
+            set
             {
-                IEnumerable<WorldDescriptionRecordType> tmp = Enum.GetValues(typeof(WorldDescriptionRecordType)).Cast<WorldDescriptionRecordType>();
-                return tmp;
+                _selectedWARecordType = value;
+                NotifyPropertyChanged("SelectedWARecordType");
             }
         }
+
+        public List<WorldAction> WARecordType
+        {
+            get;
+            set;
+        }
+
 
         private List<Fluent> _fluents;
         public List<Fluent> Fluents
         {
-            get {
+            get
+            {
                 GetFluentsValues();
-                return _fluents; }
+                return _fluents;
+            }
             set
             {
                 _fluents = value;
@@ -76,19 +80,13 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         public SceAddAction()
         {
             InitializeComponent();
-            InitFluents();
         }
 
         private void InitFluents()
         {
-            _fluents = GetFluents();
-            _fluents.Add(new Fluent() { Name = "a", Value = true });
-            _fluents.Add(new Fluent() { Name = "ab", Value = true });
-            _fluents.Add(new Fluent() { Name = "abc", Value = false });
-            _fluents.Add(new Fluent() { Name = "ac", Value = true });
             foreach (var item in _fluents)
             {
-                StackPanelFluents.Children.Add(new FluentValue { NameFluent=item.Name, Value=item.Value});
+                StackPanelFluents.Children.Add(new FluentValue { NameFluent = item.Name, Value = item.Value });
             }
         }
 
@@ -101,16 +99,21 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
             }
         }
 
-        private List<Fluent> GetFluents()
-        {
-            //TODO get fluents from previous page
-            return new List<Fluent>();
-        }
-
         public void CleanValues()
         {
             throw new NotImplementedException();
         }
 
+
+        public void SetFluents(List<Fluent> fluents)
+        {
+            _fluents = (fluents != null) ? fluents : new List<Fluent>();
+            InitFluents();
+        }
+
+        public void SetActions(List<WorldAction> actions)
+        {
+            WARecordType = actions;
+        }
     }
 }
