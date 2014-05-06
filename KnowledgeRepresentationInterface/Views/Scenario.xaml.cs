@@ -38,16 +38,14 @@ namespace KnowledgeRepresentationInterface.Views
         }
         #endregion
 
-        //private List<ScenarioActionRecord> _scenarioActionRecordList;
-        //private List<ScenarioObservationRecord> _scenarioObservationRecordList;
+        private ScenarioDescription _scenarioDescription;
 
         public _Scenario(List<Fluent> fluents, List<WorldAction> actions  )
         {
             InitializeComponent();
            ObservationAdd.SetFluents(fluents);
             ActionAdd.SetActions(actions);
-           // _scenarioObservationRecordList = new List<ScenarioObservationRecord>();
-          //  _scenarioActionRecordList = new List<ScenarioActionRecord>();
+            _scenarioDescription = new ScenarioDescription();
         }
 
         private string _scenarioName;
@@ -70,7 +68,7 @@ namespace KnowledgeRepresentationInterface.Views
         {
             if (ActionAdd.SelectedWARecordType != null && ActionList.AddAction(ActionAdd.Time, ActionAdd.SelectedWARecordType.Id))
             {
-              //  _scenarioActionRecordList.Add(new ScenarioActionRecord(ActionAdd.SelectedWARecordType, ActionAdd.Time));
+                _scenarioDescription.addACS(ActionAdd.SelectedWARecordType, ActionAdd.Time);
             }
 
            
@@ -80,6 +78,7 @@ namespace KnowledgeRepresentationInterface.Views
         {
             if (ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Fluents))
             {
+                //TODO add observations
                 //_scenarioObservationRecordList.Add(new ScenarioObservationRecord(expr, ObservationAdd.Time));
             }
         }
@@ -87,6 +86,11 @@ namespace KnowledgeRepresentationInterface.Views
         private void Button_Click(object sender, RoutedEventArgs e)
         {
            //TODO add scenario
+        }
+
+        public ScenarioDescription GetScenarioDescription()
+        {
+            return _scenarioDescription;
         }
 
     }
