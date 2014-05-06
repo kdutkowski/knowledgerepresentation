@@ -30,7 +30,7 @@
         // TODO: Zaimplementować metodę zwracającą rezultat przejścia przez dany węzeł w drzewie (czyli co się stanie jak w danym stanie
         // wykonamy daną akcję w jakimś czasie (według opisu świata)
         // TODO: Niech ta metoda zwraca jedno Implication (trzeba poprawic w dalszym kodzie)
-        public List<Implication> GetImplications(Vertex leaf)
+        public List<Implication> GetImplications(Vertex leaf, int nextTime)
         {
 
             throw new NotImplementedException();

@@ -212,7 +212,7 @@ namespace KnowledgeRepresentationReasoning
             //if (!CheckIfLeafIsPossible(leaf))
             //    return impossibleChild;
 
-            var implications = worldDescription.GetImplications(leaf);
+            var implications = worldDescription.GetImplications(leaf, nextTime);
             vertices = leaf.CreateChildsBasedOnImplications(implications);
 
             return vertices;
