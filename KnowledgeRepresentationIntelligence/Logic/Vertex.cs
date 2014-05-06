@@ -94,17 +94,45 @@ namespace KnowledgeRepresentationReasoning.Logic
             return childs;
 
         }
+
+
+        class WorldComparer : IComparer<WorldAction>
+        {
+            int compare(WorldAction a, WorldAction b)
+            {
+                if (a.StartAt == b.StartAt) return 0;
+                if (a.StartAt > b.StartAt) return 1;
+                else return -1;
+
+            }
+        }
+
         internal bool ValidateActions()
         {
 
-            foreach (WorldAction wa in this.NextActions)
+            NextActions.Sort(new WorldComparer());
+            for (int i = 0; i < NextActions.Count; i++)
             {
-                if (this.WorldAction.StartAt <= wa.StartAt && wa.StartAt < this.WorldAction.GetEndTime()) return false;
-                if (this.WorldAction.StartAt < wa.GetEndTime() && wa.GetEndTime() <= this.WorldAction.GetEndTime()) return false;
+                if (this.WorldAction.StartAt <= this.NextActions[i].StartAt &&
+                    this.NextActions[i].StartAt < this.WorldAction.GetEndTime()) return false;
+
+                if (this.WorldAction.StartAt < this.NextActions[i].GetEndTime() &&
+                    this.NextActions[i].GetEndTime() <= this.WorldAction.GetEndTime()) return false;
+
+                if (i < NextActions.Count - 1)
+                {
+                    if (this.NextActions[i].StartAt <= this.NextActions[i + 1].StartAt &&
+                    this.NextActions[i].GetEndTime() > this.NextActions[i + 1].StartAt) return false;
+
+                    if (this.NextActions[i].StartAt < this.NextActions[i + 1].GetEndTime() &&
+                        this.NextActions[i].GetEndTime() > this.NextActions[i + 1].GetEndTime()) return false;
+
+                }
             }
 
-
             return true;
+
+
         }
     }
 }
