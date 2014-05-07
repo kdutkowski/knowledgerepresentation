@@ -98,12 +98,11 @@ namespace KnowledgeRepresentationReasoning.Logic
 
         class WorldComparer : IComparer<WorldAction>
         {
-            int compare(WorldAction a, WorldAction b)
+            public int Compare(WorldAction a, WorldAction b)
             {
                 if (a.StartAt == b.StartAt) return 0;
                 if (a.StartAt > b.StartAt) return 1;
                 else return -1;
-
             }
         }
 
