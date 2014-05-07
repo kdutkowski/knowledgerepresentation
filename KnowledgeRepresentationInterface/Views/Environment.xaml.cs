@@ -166,6 +166,10 @@ namespace KnowledgeRepresentationInterface.Views
             WorldDescriptionRecord wdr;
             try
             {
+                if (!StatementsControls.ContainsKey(SelectedWDRecordType)) //TODO hotfix
+                {
+                    return;
+                }
                 wdr = StatementsControls[SelectedWDRecordType].GetWorldDescriptionRecord();
                 _actions.AddRange(StatementsControls[SelectedWDRecordType].GetAllCreatedActions());
                 _actions = _actions.Distinct(new ActionEqualityComparer()).ToList();
