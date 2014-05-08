@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Records="clr-namespace:KnowledgeRepresentationReasoning.World.Records;assembly=KnowledgeRepresentationReasoning"
-             x:Class="KnowledgeRepresentationInterface.Views._Environment" 
+             x:Class="KnowledgeRepresentationInterface.Views.Environment" 
              mc:Ignorable="d" 
              d:DesignHeight="572" d:DesignWidth="794"
              x:Name="uc_env">

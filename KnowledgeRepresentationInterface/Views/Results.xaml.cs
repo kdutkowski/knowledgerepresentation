@@ -21,9 +21,9 @@ using KnowledgeRepresentationReasoning.World;
 namespace KnowledgeRepresentationInterface.Views
 {
     /// <summary>
-    /// Interaction logic for _Results.xaml
+    /// Interaction logic for Results.xaml
     /// </summary>
-    public partial class _Results : UserControl
+    public partial class Results : UserControl
     {
         #region Properties
 
@@ -70,7 +70,7 @@ namespace KnowledgeRepresentationInterface.Views
         #endregion
 
         #region Constructor
-        public _Results()
+        public Results()
         {
             InitializeComponent();
             InitControls();

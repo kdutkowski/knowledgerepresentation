@@ -21,45 +21,74 @@ namespace KnowledgeRepresentationInterface
         private List<WorldDescriptionRecord> _statements;
 
 
-        private Reasoning reasoning;
+        private Reasoning _reasoning;
+
+        private List<UserControl> _pages;
+        private int actualPage = 0;
 
 
         public MainWindow()
         {
             InitializeComponent();
+            _pages = new List<UserControl>()
+                         {
+                             new Environment(),
+                             new Scenario(),
+                             new Results()
+                         };
             Switcher.pageSwitcher = this;
-            Switcher.Switch(new _Environment());
+            this.Navigate(_pages[actualPage]);
             Reasoning.Initialize();
-            this.reasoning = new Reasoning();
+            this._reasoning = new Reasoning();
         }
 
-        //
-        public void Navigate(UserControl nextPage)
+
+        private void Navigate(UserControl nextPage)
         {
             this.Content = nextPage;
         }
 
-        public void Navigate(UserControl nextPage, int tInf, List<Fluent> fluents, List<WorldAction> actions,
-                             List<WorldDescriptionRecord> statements)
+        public void NextPage()
+        {
+            if (actualPage >= _pages.Count)
+                return;
+            actualPage++;
+            this.Navigate(_pages[actualPage]);
+        }
+
+        public void NextPage(int tInf, List<Fluent> fluents, List<WorldAction> actions,
+                            List<WorldDescriptionRecord> statements)
         {
             _timeInf = tInf;
             _fluents = fluents;
             _actions = actions;
             _statements = statements;
             LoadWorldDescriptionRecords(statements);
-            this.Content = nextPage;
+            actualPage++;
+            ((Scenario)_pages[actualPage]).Initialize(_fluents, _actions);
+            this.Navigate(_pages[actualPage]);
+        }
+
+
+        public void PrevPage()
+        {
+            if (actualPage <= 0)
+                return;
+            actualPage--;
+            this.Navigate(_pages[actualPage]);
         }
 
         public QueryResult ExecuteQuery(Query query)
         {
-            return reasoning.ExecuteQuery(query);
+            return _reasoning.ExecuteQuery(query);
         }
 
+       
         private void LoadWorldDescriptionRecords(List<WorldDescriptionRecord> statements)
         {
             foreach (var worldDescriptionRecord in statements)
             {
-                this.reasoning.AddWorldDescriptionRecord(worldDescriptionRecord);
+                this._reasoning.AddWorldDescriptionRecord(worldDescriptionRecord);
             }
         }
     }

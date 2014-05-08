@@ -1,30 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
 using KnowledgeRepresentationReasoning.World;
-using KnowledgeRepresentationReasoning.World.Records;
 using KnowledgeRepresentationReasoning.Scenario;
-using KnowledgeRepresentationReasoning.Expressions;
 using System.ComponentModel;
 
 namespace KnowledgeRepresentationInterface.Views
 {
     /// <summary>
-    /// Interaction logic for _Scenario.xaml
+    /// Interaction logic for Scenario.xaml
     /// </summary>
-    public partial class _Scenario : UserControl, INotifyPropertyChanged
+    public partial class Scenario : UserControl, INotifyPropertyChanged
     {
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -40,16 +26,22 @@ namespace KnowledgeRepresentationInterface.Views
 
         private ScenarioDescription _scenarioDescription;
 
-        public _Scenario(List<Fluent> fluents, List<WorldAction> actions)
+        
+        #region Initialization
+        public Scenario()
         {
             
             
             InitializeComponent();
+        }
+
+        public void Initialize(List<Fluent> fluents, List<WorldAction> actions)
+        {
             ObservationAdd.SetFluents(fluents);
             ActionAdd.SetActions(actions);
             _scenarioDescription = new ScenarioDescription();
         }
-
+        #endregion
         private string _scenarioName;
 
         public string ScenarioName
@@ -63,7 +55,7 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new _Results());
+            Switcher.NextPage();
         }
 
         private void ButtonAddAction_Click(object sender, RoutedEventArgs e)

@@ -14,9 +14,9 @@ using KnowledgeRepresentationReasoning.World.Records;
 namespace KnowledgeRepresentationInterface.Views
 {
     /// <summary>
-    /// Interaction logic for _Environment.xaml
+    /// Interaction logic for Environment.xaml
     /// </summary>
-    public partial class _Environment : UserControl, INotifyPropertyChanged
+    public partial class Environment : UserControl, INotifyPropertyChanged
     {
         #region Properties
 
@@ -81,7 +81,7 @@ namespace KnowledgeRepresentationInterface.Views
         #endregion
 
         #region Constructor
-        public _Environment()
+        public Environment()
         {
             _fluents = new List<Fluent>();
             _actions = new List<WorldAction>();
@@ -123,7 +123,7 @@ namespace KnowledgeRepresentationInterface.Views
             string summary = "Time infinity: " + _timeInf + "\r\n" + "Fluents:\r\n" + FluentString + "\r\nStatements:\r\n" +
                              StatementsString;
 
-            Switcher.Switch(new _Scenario(_fluents, _actions), _timeInf, _fluents, _actions, _statements);
+            Switcher.NextPage(_timeInf, _fluents, _actions, _statements);
         }
 
         private void ButtonAddFluent_Click(object sender, RoutedEventArgs e)
