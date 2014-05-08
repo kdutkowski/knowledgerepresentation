@@ -27,19 +27,36 @@
             return this.GetSummarizedInitialRecord().PossibleFluents.Select(t => new State { Fluents = t.ToList() });
         }
 
-        // TODO: Zaimplementować metodę zwracającą rezultat przejścia przez dany węzeł w drzewie (czyli co się stanie jak w danym stanie
-        // wykonamy daną akcję w jakimś czasie (według opisu świata)
         // TODO: Niech ta metoda zwraca jedno Implication (trzeba poprawic w dalszym kodzie)
-        public List<Implication> GetImplications(Vertex leaf)
+        public List<Implication> GetImplications(Vertex leaf, int nextTime)
         {
-            throw new NotImplementedException();
+            var triggeredActions = this.GetTriggeredActions(leaf.WorldAction, leaf.State, leaf.Time);
+            var possibleFutureStates = this.GetPossibleFutureStates(leaf.WorldAction, leaf.State, leaf.Time);
+            return possibleFutureStates.Select(possibleFutureState => 
+                new Implication { FutureState = possibleFutureState, TriggeredActions = triggeredActions.ToList() }).ToList();
         }
 
-        // TODO: Zaimplementować walidację czy dany wezel jest prawidlowy wzgledem opisu swiata czyli czy w danym czasie
-        // wykonanie akcji jest możliwe, czy stan taki w danym czasie i przy danej akcji jest mozliwy
-        public bool Validate(Logic.Vertex leaf)
+        public bool Validate(Vertex leaf)
         {
-            throw new NotImplementedException();
+            var impossibleActionAtRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ImpossibleActionAt)
+                                                   .Select(t => t.Item2 as ImpossibleActionAtRecord).ToList();
+            var impossibleActionIfRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ImpossibleActionIf)
+                                                   .Select(t => t.Item2 as ImpossibleActionIfRecord).ToList();
+            foreach (var IAAR in impossibleActionAtRecords)
+            {
+                if (IAAR.IsFulfilled(leaf.Time) && IAAR.GetResult() == leaf.WorldAction)
+                {
+                    return false;
+                }
+            }
+            foreach (var IAIR in impossibleActionIfRecords)
+            {
+                if (IAIR.IsFulfilled(leaf.State) && IAIR.GetResult() == leaf.WorldAction)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private InitialRecord GetSummarizedInitialRecord()
@@ -73,13 +90,43 @@
             return releasedFluents;
         }
 
-        // TODO: Zaimplementować za pomocą GetReleasedFluents oraz pobierając odpowiednie fluenty zmieniane przez
-        // akcję poprzez rekordy ActionCausesIfRecord, metodę zwracającą możliwe stany po wykonaniu akcji
-        // (uwzględnić to ze pewne fluenty zostaną uwolnione (wtedy stan rozdziela się na dwa możliwe z 0 i 1 jako
-        // wartością fluenta
-        private List<State> GetPossibleFutureStates(WorldAction worldAction, State state, int time)
+        private IEnumerable<State> GetPossibleFutureStates(WorldAction worldAction, State state, int time)
         {
-            throw new NotImplementedException();
+            // Get released fluents
+            var releasedFluents = GetReleasedFluents(worldAction, state, time);
+
+            // Get possible state changes from ActionCausesIf records
+            var actionCausesRec = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ActionCausesIf)
+                            .Select(t => t.Item2 as ActionCausesIfRecord).ToList();
+            var causedStatesX = actionCausesRec.Where(t => t.IsFulfilled(state, worldAction)).Aggregate((x, y) => x.Concat(y));
+            var causedStates = causedStatesX.GetResult();
+            var possibleStateChanges = new List<State>(causedStates.Select(t => new State { Fluents = t.ToList() }));
+
+            // Get all future states excluding released fluents changes
+            var possibleFutureStates = new List<State>();
+            foreach (var stateChange in possibleStateChanges)
+            {
+                var template = (State)state.Clone();
+                template.Fluents.RemoveAll(t => stateChange.Fluents.Any(x => x.Name == t.Name));
+                template.Fluents.AddRange(stateChange.Fluents);
+                possibleFutureStates.Add(template);
+            }
+
+            // Include released fluents
+            foreach (var fluent in releasedFluents)
+            {
+                var statesToAdd = new List<State>();
+                foreach (var futureState in possibleFutureStates)
+                {
+                    var copy = (State)futureState.Clone();
+                    var fluentToRelease = copy.Fluents.First(t => t.Name == fluent.Name);
+                    fluentToRelease.Value = !fluentToRelease.Value;
+                    statesToAdd.Add(copy);
+                }
+                possibleFutureStates.AddRange(statesToAdd);
+            }
+
+            return possibleFutureStates;
         }
     }
 }

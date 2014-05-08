@@ -6,8 +6,8 @@
 
     public class ScenarioDescription
     {
-        private List<ScenarioActionRecord> actions;
-        private List<ScenarioObservationRecord> observations;
+        public List<ScenarioActionRecord> actions { get; set; }
+        public List<ScenarioObservationRecord> observations { get; set; }
 
         public ScenarioDescription()
         {
@@ -77,7 +77,9 @@
         }
 
         /// <summary>
-        /// Methods returns many observations as one in form: "(ob1) && (ob2)...", null if no observations found.
+        /// Now: Returns first observation found, TO DO: 
+        /// Method returns many observations as one in form: "(ob1) && (ob2)...".
+        /// Returns null if no observations found.
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>

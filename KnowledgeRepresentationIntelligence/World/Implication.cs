@@ -7,7 +7,7 @@
         // Przyszłe akcje
         public List<WorldAction> TriggeredActions { get; set; }
 
-        // Możliwe przyszłe stany
-        public List<State> FutureStates { get; set; }
+        // Możliwe przyszły stan
+        public State FutureState { get; set; }
     }
 }

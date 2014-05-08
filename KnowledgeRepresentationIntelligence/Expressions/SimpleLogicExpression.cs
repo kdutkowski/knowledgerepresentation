@@ -80,7 +80,7 @@ namespace KnowledgeRepresentationReasoning.Expressions
             {
                 var possibleFluents = new Fluent[numberOfFluents];
                 for (int i = 0; i < numberOfFluents; i++)
-                    possibleFluents[i] = new Fluent { Id = i.ToString(), Name = fluentNames[i], Value = code[i] };
+                    possibleFluents[i] = new Fluent { Name = fluentNames[i], Value = code[i] };
                 if (this.Evaluate(possibleFluents.Select(t => new Tuple<string, bool>(t.Name, t.Value))))
                     result.Add(possibleFluents);
             }

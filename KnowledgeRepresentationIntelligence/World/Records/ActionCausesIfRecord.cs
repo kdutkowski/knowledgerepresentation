@@ -37,6 +37,17 @@
             return this.logicExpression.Evaluate(values);
         }
 
+        public ActionCausesIfRecord Concat(ActionCausesIfRecord record)
+        {
+            if (worldAction.Equals(record.worldAction))
+            {
+                return new ActionCausesIfRecord(worldAction,
+                    "(" + resultExpression + ") && (" + record.resultExpression + ")",
+                    "(" + ifExpression + ") && (" + record.ifExpression + ")");
+            }
+            return null;
+        }
+
         public List<Fluent[]> GetResult()
         {
             this.logicExpression.SetExpression(resultExpression);

@@ -28,6 +28,16 @@ namespace KnowledgeRepresentationReasoning.Logic
             // TODO: Complete member initialization
         }
 
+        public Vertex(Vertex leaf)
+        {
+            State = leaf.State;
+            WorldAction = leaf.WorldAction;
+            Time = leaf.Time;
+            Root = leaf.Root;
+            IsPossible = leaf.IsPossible;
+            IsEnded = leaf.IsEnded;
+        }
+
         internal int? GetNextActionTime()
         {
             return NextActions.Min(action => action.StartAt);
@@ -35,9 +45,14 @@ namespace KnowledgeRepresentationReasoning.Logic
 
         internal void Update(int nextTime)
         {
-            UpdateStateOnFluentChange();
+            UpdateStateOnFluentChange(nextTime);
             //int nextTime = UpdateAction();
-            //UpdateTime(nextTime);
+            UpdateTime(nextTime);
+        }
+
+        private void UpdateStateOnFluentChange(int nextTime)
+        {
+            
         }
 
         private int UpdateAction()
@@ -52,14 +67,71 @@ namespace KnowledgeRepresentationReasoning.Logic
             Time = newTime;
         }
 
-        private void UpdateStateOnFluentChange()
+        internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, World.WorldAction worldAction, int nextTime)
         {
-            throw new System.NotImplementedException();
+            List<Vertex> childs = new List<Vertex>();
+
+            foreach (var implication in implications)
+            {
+                Vertex child = new Vertex(this);
+                child.State = implication.FutureState;
+                if (WorldAction.GetEndTime() == nextTime)
+                {
+                    WorldAction = null;
+                }
+                if (nextTime == worldAction.StartAt)
+                    this.WorldAction = (WorldAction)worldAction.Clone();
+
+                child.NextActions = new List<WorldAction>();
+                child.NextActions.AddRange(implication.TriggeredActions);
+
+                child.Time = nextTime;
+                child.IsPossible = child.ValidateActions();
+
+                childs.Add(child);
+            }
+
+            return childs;
+
         }
 
-        internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications)
+
+        class WorldComparer : IComparer<WorldAction>
         {
-            throw new System.NotImplementedException();
+            public int Compare(WorldAction a, WorldAction b)
+            {
+                if (a.StartAt == b.StartAt) return 0;
+                if (a.StartAt > b.StartAt) return 1;
+                else return -1;
+            }
+        }
+
+        internal bool ValidateActions()
+        {
+
+            NextActions.Sort(new WorldComparer());
+            for (int i = 0; i < NextActions.Count; i++)
+            {
+                if (this.WorldAction.StartAt <= this.NextActions[i].StartAt &&
+                    this.NextActions[i].StartAt < this.WorldAction.GetEndTime()) return false;
+
+                if (this.WorldAction.StartAt < this.NextActions[i].GetEndTime() &&
+                    this.NextActions[i].GetEndTime() <= this.WorldAction.GetEndTime()) return false;
+
+                if (i < NextActions.Count - 1)
+                {
+                    if (this.NextActions[i].StartAt <= this.NextActions[i + 1].StartAt &&
+                    this.NextActions[i].GetEndTime() > this.NextActions[i + 1].StartAt) return false;
+
+                    if (this.NextActions[i].StartAt < this.NextActions[i + 1].GetEndTime() &&
+                        this.NextActions[i].GetEndTime() > this.NextActions[i + 1].GetEndTime()) return false;
+
+                }
+            }
+
+            return true;
+
+
         }
     }
 }

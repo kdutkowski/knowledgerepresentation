@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace KnowledgeRepresentationReasoning.Queries
 {
-    public class ConditionAtTimeQuery : Query
+    class ConditionAtTimeQuery : Query
     {
         private string _condition; 
         private int _time;              //Variable time in query, -1 means no time.
