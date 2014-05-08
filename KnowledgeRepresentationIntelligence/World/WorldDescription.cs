@@ -1,6 +1,7 @@
 ﻿namespace KnowledgeRepresentationReasoning.World
 {
     using System;
+    using System.CodeDom;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -27,20 +28,13 @@
             return this.GetSummarizedInitialRecord().PossibleFluents.Select(t => new State { Fluents = t.ToList() });
         }
 
-        // TODO: Zaimplementować metodę zwracającą rezultat przejścia przez dany węzeł w drzewie (czyli co się stanie jak w danym stanie
-        // wykonamy daną akcję w jakimś czasie (według opisu świata)
         // TODO: Niech ta metoda zwraca jedno Implication (trzeba poprawic w dalszym kodzie)
         public List<Implication> GetImplications(Vertex leaf, int nextTime)
         {
-            //TODO
-            //algorithm returns list, each element represent another path
-            //if action will end in nexTime
-                //check causes & releases -> creates states
-            //check triggers
-            //check invokes
-            //impossible doesn't take place here.
-
-            throw new NotImplementedException();
+            var triggeredActions = this.GetTriggeredActions(leaf.WorldAction, leaf.State, leaf.Time);
+            var possibleFutureStates = this.GetPossibleFutureStates(leaf.WorldAction, leaf.State, leaf.Time);
+            return possibleFutureStates.Select(possibleFutureState => 
+                new Implication { FutureState = possibleFutureState, TriggeredActions = triggeredActions.ToList() }).ToList();
         }
 
         public bool Validate(Vertex leaf)
@@ -97,43 +91,42 @@
             return releasedFluents;
         }
 
-        // TODO: Zaimplementować za pomocą GetReleasedFluents oraz pobierając odpowiednie fluenty zmieniane przez
-        // akcję poprzez rekordy ActionCausesIfRecord, metodę zwracającą możliwe stany po wykonaniu akcji
-        // (uwzględnić to ze pewne fluenty zostaną uwolnione (wtedy stan rozdziela się na dwa możliwe z 0 i 1 jako
-        // wartością fluenta
-        private List<State> GetPossibleFutureStates(WorldAction worldAction, State state, int time)
+        private IEnumerable<State> GetPossibleFutureStates(WorldAction worldAction, State state, int time)
         {
-            IEnumerable<Fluent> rfs = GetReleasedFluents(worldAction, state, time);
+            // Get released fluents
+            var releasedFluents = GetReleasedFluents(worldAction, state, time);
 
-            List<State> results=new List<State>(2^(rfs.Count()));
+            // Get possible state changes from ActionCausesIf records
+            var actionCausesRec = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ActionCausesIf)
+                                           .Select(t => t.Item2 as ActionCausesIfRecord).ToList();
+            var causedStates = actionCausesRec.Where(t => t.IsFulfilled(state, worldAction)).Aggregate((x,y) => x.Concat(y)).GetResult();
+            var possibleStateChanges = new List<State>(causedStates.Select(t => new State { Fluents = t.ToList() }));
 
-            State template = (State)state.Clone();
-
-            //we remove released fluents
-            foreach (Fluent f in rfs)
+            // Get all future states excluding released fluents changes
+            var possibleFutureStates = new List<State>();
+            foreach (var stateChange in possibleStateChanges)
             {
-                template.Fluents.Remove(f);
+                var template = (State)state.Clone();
+                template.Fluents.RemoveAll(t => stateChange.Fluents.Any(x => x.Name == t.Name));
+                template.Fluents.AddRange(stateChange.Fluents);
+                possibleFutureStates.Add(template);
             }
 
-            foreach (Fluent f in rfs)
+            // Include released fluents
+            foreach (var fluent in releasedFluents)
             {
-                //for each new released fluent, we create 2 states: one with f=true and second with f=false
-
-               
-                    State trueOne = (State)template.Clone();
-                    trueOne.Fluents.Add(new Fluent(f.Name, true));
-                    results.Add(trueOne);
-
-                    State falseOne = (State)template.Clone();
-                    falseOne.Fluents.Add(new Fluent(f.Name, false));
-                    results.Add(falseOne);
-                
-
+                var statesToAdd = new List<State>();
+                foreach (var futureState in possibleFutureStates)
+                {
+                    var copy = (State)futureState.Clone();
+                    var fluentToRelease = copy.Fluents.First(t => t.Name == fluent.Name);
+                    fluentToRelease.Value = !fluentToRelease.Value;
+                    statesToAdd.Add(copy);
+                }
+                possibleFutureStates.AddRange(statesToAdd);
             }
 
-
-            return results;
-//            throw new NotImplementedException();
+            return possibleFutureStates;
         }
     }
 }
