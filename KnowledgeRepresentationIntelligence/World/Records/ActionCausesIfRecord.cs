@@ -42,8 +42,8 @@
             if (worldAction.Equals(record.worldAction))
             {
                 return new ActionCausesIfRecord(worldAction,
-                    resultExpression + " && " + record.resultExpression,
-                    ifExpression + " && " + record.ifExpression);
+                    "(" + resultExpression + ") && (" + record.resultExpression + ")",
+                    "(" + ifExpression + ") && (" + record.ifExpression + ")");
             }
             return null;
         }

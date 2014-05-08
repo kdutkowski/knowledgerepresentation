@@ -30,6 +30,8 @@
         private WorldAction action_B_3 = new WorldAction { Duration = 3, Id = "B" };
         private WorldAction action_C_5 = new WorldAction { Duration = 5, Id = "C" };
 
+        private State _state;
+
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
@@ -40,7 +42,15 @@
         [SetUp]
         public void SetUp()
         {
-            var fluent_a = new Fluent { Name = "a", Value = true };
+            _state = new State{ 
+                Fluents = new List<Fluent>{   
+                    new Fluent { Name = "a", Value = true },
+                    new Fluent { Name = "b", Value = true },
+                    new Fluent { Name = "c", Value = true },
+                    new Fluent { Name = "e", Value = true }
+                }};
+
+            var fluent_c = new Fluent { Name = "c", Value = true };
 
             _worldDescription = new WorldDescription();
 
@@ -50,27 +60,17 @@
             // ACTION CAUSES IF
             _worldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(WorldDescriptionRecordType.ActionCausesIf, new ActionCausesIfRecord(action_A_2, "a && !b", "c")));
             _worldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(WorldDescriptionRecordType.ActionCausesIf, new ActionCausesIfRecord(action_B_3, "a || b", "e")));
-            _worldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(WorldDescriptionRecordType.ActionCausesIf, new ActionCausesIfRecord(action_B_3, "!b && c", "e")));
+            _worldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(WorldDescriptionRecordType.ActionCausesIf, new ActionCausesIfRecord(action_B_3, "!b && !c", "e")));
 
             // RELEASE FLUENT
-            _worldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(WorldDescriptionRecordType.ActionReleasesIf, new ActionReleasesIfRecord(action_B_3, fluent_a, "e || c")));
+            _worldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(WorldDescriptionRecordType.ActionReleasesIf, new ActionReleasesIfRecord(action_B_3, fluent_c, "e || c")));
 
         }
 
         [Test]
         public void GetImplications_GetPossibleFutureStates_Simple_Test()
         {
-            var state = new State
-                        {
-                            Fluents = new List<Fluent>
-                                      {
-                                          new Fluent { Name = "a", Value = true },
-                                          new Fluent { Name = "b", Value = true },
-                                          new Fluent { Name = "c", Value = true },
-                                          new Fluent { Name = "e", Value = true },
-                                      }
-                        };
-            var leaf = new Vertex(state, action_A_2, 10, null);
+            var leaf = new Vertex(_state, action_A_2, 10, null);
 
             var implication = _worldDescription.GetImplications(leaf, 0);
             Assert.AreEqual(1, implication.Count);
@@ -80,6 +80,45 @@
             Assert.IsFalse(futureState.Fluents.First(t => t.Name == "b").Value);
             Assert.IsTrue(futureState.Fluents.First(t => t.Name == "c").Value);
             Assert.IsTrue(futureState.Fluents.First(t => t.Name == "e").Value);
+        }
+
+        [Test]
+        public void GetImplications_GetPossibleFutureStates_WithOneRelease_Test()   
+        {
+            // EXPECTED RESULT: a = true, b = false, c = false, e = true OR a = true, b = false, c = true, e = true
+
+            var expectedState_1 = new State{ 
+                Fluents = new List<Fluent>{   
+                    new Fluent { Name = "a", Value = true },
+                    new Fluent { Name = "b", Value = false },
+                    new Fluent { Name = "c", Value = false },
+                    new Fluent { Name = "e", Value = true }
+                }};
+
+            var expectedState_2 = new State{ 
+                Fluents = new List<Fluent>{   
+                    new Fluent { Name = "a", Value = true },
+                    new Fluent { Name = "b", Value = false },
+                    new Fluent { Name = "c", Value = true },
+                    new Fluent { Name = "e", Value = true }
+                }};
+
+            var leaf = new Vertex(_state, action_B_3, 10, null);
+            var implication = _worldDescription.GetImplications(leaf, 0);
+            
+            Assert.AreEqual(2, implication.Count);
+            Assert.NotNull(implication[0].FutureState);
+            Assert.NotNull(implication[1].FutureState);
+
+            var futureState_1 = implication[0].FutureState;
+            var futureState_2 = implication[1].FutureState;
+
+            var eq_1_1 = futureState_1.Equals(expectedState_1);
+            var eq_1_2 = futureState_1.Equals(expectedState_2);
+            var eq_2_1 = futureState_2.Equals(expectedState_1);
+            var eq_2_2 = futureState_2.Equals(expectedState_2);
+
+            Assert.IsTrue( (eq_1_1 && eq_2_2) ^ (eq_1_2 && eq_2_1) );
         }
 
         public void Initialize()

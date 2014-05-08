@@ -18,9 +18,24 @@
 
         public override string ToString()
         {
-            string description = "Fluent: " + Name + " , value: " + Value;
+            string description = "Fluent: " + Name + " , value: " + Value + " ";
 
             return description;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Fluent)
+            {
+                var fluent = obj as Fluent;
+                if (Name.Equals(fluent.Name)) return true;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
         }
     }
 }

@@ -97,8 +97,9 @@
 
             // Get possible state changes from ActionCausesIf records
             var actionCausesRec = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ActionCausesIf)
-                                           .Select(t => t.Item2 as ActionCausesIfRecord).ToList();
-            var causedStates = actionCausesRec.Where(t => t.IsFulfilled(state, worldAction)).Aggregate((x,y) => x.Concat(y)).GetResult();
+                            .Select(t => t.Item2 as ActionCausesIfRecord).ToList();
+            var causedStatesX = actionCausesRec.Where(t => t.IsFulfilled(state, worldAction)).Aggregate((x, y) => x.Concat(y));
+            var causedStates = causedStatesX.GetResult();
             var possibleStateChanges = new List<State>(causedStates.Select(t => new State { Fluents = t.ToList() }));
 
             // Get all future states excluding released fluents changes
