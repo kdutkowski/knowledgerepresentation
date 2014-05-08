@@ -40,7 +40,7 @@
         [SetUp]
         public void SetUp()
         {
-            var fluent_a = new Fluent { Id = "a", Name = "a", Value = true };
+            var fluent_a = new Fluent { Name = "a", Value = true };
 
             _worldDescription = new WorldDescription();
 
@@ -64,10 +64,10 @@
                         {
                             Fluents = new List<Fluent>
                                       {
-                                          new Fluent { Id = "a", Name = "a", Value = true },
-                                          new Fluent { Id = "b", Name = "b", Value = true },
-                                          new Fluent { Id = "c", Name = "c", Value = true },
-                                          new Fluent { Id = "e", Name = "e", Value = true },
+                                          new Fluent { Name = "a", Value = true },
+                                          new Fluent { Name = "b", Value = true },
+                                          new Fluent { Name = "c", Value = true },
+                                          new Fluent { Name = "e", Value = true },
                                       }
                         };
             var leaf = new Vertex(state, action_A_2, 10, null);
