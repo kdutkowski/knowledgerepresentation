@@ -149,7 +149,7 @@ namespace KnowledgeRepresentationReasoning
                         queryResultsContainer.Add(QueryResult.False);
                         if (queryResultsContainer.CanAnswer())
                             break;
-                        //tree.LastLevel.Remove(i);
+                        tree.DeleteChild(i);
                     }
                     else
                     {
