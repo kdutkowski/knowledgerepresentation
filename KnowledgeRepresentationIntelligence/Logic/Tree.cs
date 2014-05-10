@@ -39,7 +39,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             int t = 0;
 
             //states
-            List<string> fluentNames = (List<string>)WorldDescription.GetFluentNames();
+            List<string> fluentNames = WorldDescription.GetFluentNames().ToList<string>();
             List<State> states = CreateStatesBasedOnObservations(fluentNames, ScenarioDescription, ref t);
 
             foreach (var state in states)
@@ -68,7 +68,7 @@ namespace KnowledgeRepresentationReasoning.Logic
 
             time = scenarioDescription.GetNextObservationTime(0);
             ScenarioObservationRecord observation = scenarioDescription.GetObservationFromTime(time);
-            if (observation.Equals(null))
+            if (observation == null)
             {
                 _logger.Warn("Scenario has no observations!");
                 State state = new State();

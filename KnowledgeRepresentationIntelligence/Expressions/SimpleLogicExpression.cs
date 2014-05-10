@@ -16,11 +16,11 @@ namespace KnowledgeRepresentationReasoning.Expressions
     internal class SimpleLogicExpression : ILogicExpression
     {
         private readonly char[] specialCharacters = new[] { '|', '&', '(', ')', '!' };
-        private readonly string _condition;
+        private string _expression { get; set; }
 
         public SimpleLogicExpression(SimpleLogicExpression logicExpression)
         {
-            this._condition = logicExpression._condition;
+            this._expression = logicExpression._expression;
         }
 
         public SimpleLogicExpression()
@@ -28,13 +28,11 @@ namespace KnowledgeRepresentationReasoning.Expressions
             // TODO: Complete member initialization
         }
 
-        public SimpleLogicExpression(string _condition)
+        public SimpleLogicExpression(string expression)
         {
             // TODO: Complete member initialization
-            this._condition = _condition;
+            this._expression = expression;
         }
-
-        private string _expression { get; set; }
 
         public bool Evaluate()
         {
