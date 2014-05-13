@@ -34,16 +34,13 @@ namespace KnowledgeRepresentationReasoning.Expressions
             this._expression = expression;
         }
 
-        public bool Evaluate()
-        {
-            if (this._expression.Equals(string.Empty)) return false;            
-            var expression = new CompiledExpression(this._expression);
-            return (bool)expression.Eval();
-        }
-
         public bool Evaluate(IEnumerable<Tuple<string, bool>> values)
         {
-            if (this._expression.Equals(string.Empty)) return false;
+            if (_expression == null || _expression.Equals(string.Empty))
+            {
+                return true;
+            }
+
             var expression = new CompiledExpression(this._expression);
             expression.RegisterType("h", typeof(ExpressionHelper));
             if (values != null)
@@ -51,6 +48,25 @@ namespace KnowledgeRepresentationReasoning.Expressions
                 foreach (var value in values)
                 {
                     expression.RegisterType(value.Item1, value.Item2);
+                }
+            }
+            return (bool)expression.Eval();
+        }
+
+        public bool Evaluate(State state)
+        {
+            if (_expression == null || _expression.Equals(string.Empty))
+            {
+                return true;
+            }
+
+            var expression = new CompiledExpression(this._expression);
+            expression.RegisterType("h", typeof(ExpressionHelper));
+            if (state != null)
+            {
+                foreach (var fluent in state.Fluents)
+                {
+                    expression.RegisterType(fluent.Name, fluent.Value);
                 }
             }
             return (bool)expression.Eval();

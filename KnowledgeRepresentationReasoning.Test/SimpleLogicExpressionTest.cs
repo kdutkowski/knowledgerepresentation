@@ -2,6 +2,7 @@
 {
     using System;
     using KnowledgeRepresentationReasoning.Expressions;
+    using KnowledgeRepresentationReasoning.World;
     using NUnit.Framework;
 
     [TestFixture]
@@ -15,11 +16,12 @@
         }
 
         [Test]
-        public void EmptyExpressionShouldReturnFalse_Test()
+        public void EmptyExpressionShouldReturnTrue_Test()
         {
-            bool result = _expression.Evaluate(null);
+            State st = new State();
+            bool result = _expression.Evaluate(st);
 
-            Assert.False(result);
+            Assert.True(result);
         }
 
         [Test]

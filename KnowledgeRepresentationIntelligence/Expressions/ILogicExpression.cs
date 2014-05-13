@@ -7,8 +7,8 @@
 
     public interface ILogicExpression
     {
-        bool Evaluate();
         bool Evaluate(IEnumerable<Tuple<string, bool>> values);
+        bool Evaluate(State state);
         void SetExpression(string expression);
         string[] GetFluentNames();
         List<Fluent[]> CalculatePossibleFluents();
