@@ -30,8 +30,8 @@ namespace KnowledgeRepresentationReasoning.Logic
 
         public Vertex(Vertex leaf)
         {
-            State = leaf.State;
-            WorldAction = leaf.WorldAction;
+            State = (State)leaf.State.Clone();
+            WorldAction = (WorldAction)leaf.WorldAction.Clone();
             Time = leaf.Time;
             Root = leaf.Root;
             IsPossible = leaf.IsPossible;
@@ -75,7 +75,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             {
                 Vertex child = new Vertex(this);
                 child.State = implication.FutureState;
-                if (WorldAction.GetEndTime() == nextTime)
+                if (WorldAction.GetEndTime() <= nextTime)
                 {
                     WorldAction = null;
                 }

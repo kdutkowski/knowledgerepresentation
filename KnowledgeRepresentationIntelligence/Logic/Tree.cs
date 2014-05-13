@@ -77,7 +77,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             }
             else
             {
-                time = observation.Time;
+                //time = observation.Time;
                 _logicExpression = new SimpleLogicExpression(observation.Expr as SimpleLogicExpression);
 
                 List<Fluent[]> possibleInitialValues = _logicExpression.CalculatePossibleFluents();
@@ -91,11 +91,11 @@ namespace KnowledgeRepresentationReasoning.Logic
                         {
                             state.Fluents.First(f => f.Name == fluent.Name).Value = fluent.Value;
                         }
-                        catch (System.Exception)
+                        catch (System.ArgumentNullException arg)
                         {
                             _logger.Error("Fluent " + fluent.Name + " doesn't exist!");
                         }
-                        
+
                     }
                     states.Add(state);
                 }
@@ -136,6 +136,7 @@ namespace KnowledgeRepresentationReasoning.Logic
 
         internal void DeleteChild(int i)
         {
+            SaveChild(i);
             LastLevel.RemoveAt(i);
         }
     }

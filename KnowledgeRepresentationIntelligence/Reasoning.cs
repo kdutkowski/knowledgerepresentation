@@ -122,54 +122,35 @@ namespace KnowledgeRepresentationReasoning
             tree.AddFirstLevel(worldDescription, scenarioDescription, out numberOfImpossibleLeaf);
             
             queryResultsContainer.Add(QueryResult.False, numberOfImpossibleLeaf);
-            if (queryResultsContainer.CanAnswer())
-                return queryResultsContainer.CollectResults();
 
             //generate next level if query can't answer yet
-            while (!queryResultsContainer.CanAnswer() && tree.LastLevel.Count > 0)
+            while (!queryResultsContainer.CanAnswer() && tree.LastLevel.Count> 0)
             {
-                //for each leafs:
-                    //genereate childs for leaf
-                    //create next level in tree
-                    //for each child:
-                        //if leaf isPossible=false:
-                            //add FALSE to resultsContainer (can check answer)
-                        //if leaf isEnded=true: add query answer (only TRUE/FALSE are valid) to resultsContainer (can check answer)
-                        //else
-                            //query validation:
-                                //if result == TRUE/FALSE add to resultContainer and delete child
-                                //else add child to queue in tree
-                //for ends
                 int childsCount = tree.LastLevel.Count;
                 for (int i = 0; i < childsCount; ++i)
                 {
                     Vertex leaf = tree.LastLevel[i];
                     if (!CheckIfLeafIsPossible(leaf))
                     {
+                        tree.DeleteChild(i);
                         queryResultsContainer.Add(QueryResult.False);
                         if (queryResultsContainer.CanAnswer())
+                        {
                             break;
-                        tree.DeleteChild(i);
+                        }
                     }
                     else
                     {
-                        //if (CheckIfLeafIsEnded(leaf))
-                        //{
-                        //    QueryResult result = query.CheckCondition(leaf.State, leaf.Action, leaf.Time);
-                        //    if (result != QueryResult.True && result != QueryResult.False)
-                        //    {
-                        //        _logger.Warn("Unexpected query result!");
-                        //        return QueryResult.Error; 
-                        //        //return QueryResult.False;
-                        //    }
-                        //    queryResultsContainer.Add(result);
-                        //    if (queryResultsContainer.CanAnswer())
-                        //        break;
-                        //}
-                        tree.SaveChild(i);
+                        //tree.SaveChild(i);
                         tree.DeleteChild(i);
-                        List<Vertex> nextLevel = GenerateChildsForLeaf(leaf);
-                        
+                        bool isEnded = false;
+                        List<Vertex> nextLevel = GenerateChildsForLeaf(leaf, out isEnded);
+
+                        if (isEnded)
+                        {
+                            tree.DeleteChild(i);
+                            continue;
+                        }
                         foreach (var child in nextLevel)
                         {
                             if (!CheckIfLeafIsPossible(child))
@@ -192,8 +173,9 @@ namespace KnowledgeRepresentationReasoning
             return queryResultsContainer.CollectResults();
         }
 
-        private List<Vertex> GenerateChildsForLeaf(Vertex leaf)
+        private List<Vertex> GenerateChildsForLeaf(Vertex leaf, out bool isEnded)
         {
+            isEnded = false;
             List<Vertex> vertices = new List<Vertex>();
 
             Vertex child = new Vertex();
@@ -203,16 +185,22 @@ namespace KnowledgeRepresentationReasoning
             int actualTime = leaf.Time;
             int nextTime = GetNextTimestamp(leaf, scenarioDescription);
 
-            int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
-            if (!CheckNearestObservation(leaf, actualTime, nextObservationTime, nextTime))
-                return impossibleChild;
+            while (actualTime <= nextTime)
+            {
+                int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
+                if (!CheckNearestObservation(leaf, actualTime, nextObservationTime, nextTime))
+                    return impossibleChild;
 
-            //leaf.Update(nextTime);
-
-            //if (!CheckIfLeafIsPossible(leaf))
-            //    return impossibleChild;
+                actualTime = nextObservationTime;
+            }
 
             var implications = worldDescription.GetImplications(leaf, nextTime);
+            if (implications.Count == 0)
+            {
+                isEnded = true;
+                return new List<Vertex>() { };
+            }
+
             vertices = leaf.CreateChildsBasedOnImplications(implications, scenarioDescription.GetActionAtTime(nextTime), nextTime);
 
             return vertices;
@@ -237,10 +225,12 @@ namespace KnowledgeRepresentationReasoning
         private int GetNextTimestamp(Vertex leaf, ScenarioDescription scenarioDescription)
         {
             int nextActionTime = scenarioDescription.GetNextActionTime(leaf.Time);
-            int actualActionEndTime = leaf.WorldAction.GetEndTime()??Int32.MaxValue;
-            int nextActionStartTime = leaf.GetNextActionTime()??Int32.MaxValue;
+            nextActionTime = nextActionTime < 0 ? int.MaxValue : nextActionTime;
+            int actualActionEndTime = leaf.WorldAction.GetEndTime() ?? Int32.MaxValue;
+            int nextActionStartTime = leaf.GetNextActionTime() ?? Int32.MaxValue;
+            int min = Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime)) ;
 
-            return Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime));
+            return min > TInf ? TInf : min;
         }
 
         private bool CheckIfLeafIsEnded(Vertex leaf)

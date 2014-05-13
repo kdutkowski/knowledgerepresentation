@@ -121,7 +121,7 @@ namespace KnowledgeRepresentationReasoning.Queries
             return answer;
         }
 
-        internal void Add(QueryResult queryResult, int count=0)
+        internal void Add(QueryResult queryResult, int count=1)
         {
             while (count-- > 0)
             {

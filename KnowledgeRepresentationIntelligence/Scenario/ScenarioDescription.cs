@@ -1,4 +1,6 @@
-﻿namespace KnowledgeRepresentationReasoning.Scenario
+﻿using System.Linq;
+
+namespace KnowledgeRepresentationReasoning.Scenario
 {
     using KnowledgeRepresentationReasoning.Expressions;
     using KnowledgeRepresentationReasoning.World;
@@ -63,17 +65,14 @@
 
         internal WorldAction GetActionAtTime(int t)
         {
-            foreach (ScenarioActionRecord sar in this.actions)
+            try
             {
-                if (sar.Time.Equals(t)) return sar.WorldAction;
-
+                return actions.Find(action => action.Time == t).WorldAction;
             }
-
-            return null;
-
-
-
-            //throw new System.NotImplementedException();
+            catch (System.ArgumentNullException)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -85,18 +84,14 @@
         /// <returns></returns>
         internal ScenarioObservationRecord GetObservationFromTime(int time)
         {
-            //List<ScenarioObservationRecord> matches = new List<ScenarioObservationRecord>(observations.Count);
             foreach (ScenarioObservationRecord sor in this.observations)
             {
-                if (sor.Time.Equals(time)) return sor;
-                
+                if (sor.Time.Equals(time))
+                {
+                    return sor;
+                }
             }
-
             return null;
-
-            //throw new System.NotImplementedException();
-
-            
         }
 
         internal bool CheckIfLeafIsPossible(Logic.Vertex leaf)
@@ -114,15 +109,21 @@
             int result = int.MaxValue;
             foreach (ScenarioObservationRecord sor in this.observations)
             {
-                if (sor.Time>=actualTime)
-                    if(sor.Time<result)result=sor.Time;
+                if (sor.Time >= actualTime)
+                {
+                    if (sor.Time < result)
+                    {
+                        result = sor.Time;
+                    }
+                }
 
             }
-            if (result == int.MaxValue) result = -1;
-            return result;
-           
-            //throw new System.NotImplementedException();
+            if (result == int.MaxValue)
+            {
+                result = -1;
+            }
 
+            return result;
         }
 
         /// <summary>
