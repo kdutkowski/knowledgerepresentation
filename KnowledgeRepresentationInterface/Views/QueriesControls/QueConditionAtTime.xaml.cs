@@ -30,18 +30,18 @@ namespace KnowledgeRepresentationInterface.Views.QueriesControls
             RegisterName("queContr_cond", this);
         }
         public QueConditionAtTime(int timeInf, List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
-            :base(timeInf, scenarioNames, actions, fluents)
+            : base(timeInf, scenarioNames, actions, fluents)
         {
             scenarioNames = new List<string>() { "aaa", "vvv" };
             InitializeComponent();
             RegisterName("queContr_cond", this);
-            
+
         }
 
         public override Query GetQuery()
         {
             QuestionType questionType = QuestionType.Always;
-           return new ConditionAtTimeQuery(questionType, TextBoxCondition.Text, Int32.Parse(TextBoxTime.Text));
+            return new ConditionAtTimeQuery(questionType, TextBoxCondition.Text, Int32.Parse(TextBoxTime.Text));
         }
     }
 }
