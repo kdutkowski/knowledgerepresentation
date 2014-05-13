@@ -70,6 +70,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ConditionAtTimeQueryTests.cs" />
     <Compile Include="InitialRecordTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleLogicExpressionTest.cs" />
