@@ -1,19 +1,21 @@
-﻿using KnowledgeRepresentationReasoning.Logic;
-using KnowledgeRepresentationReasoning.World;
+﻿using KnowledgeRepresentationReasoning.World;
 using log4net;
 using Microsoft.Practices.ServiceLocation;
-using System.Collections.Generic;
+
 namespace KnowledgeRepresentationReasoning.Queries
 {
     public abstract class Query
     {
-        internal ILog _logger { get; set; }
+        protected ILog _logger { get; set; }
 
-        public QueryType queryType { get; set; }
-        public QuestionType questionType {get; set;}
+        protected QueryType _queryType { get; set; }
+        public QuestionType questionType { get; private set; }
 
-        protected Query()
+        protected Query(QueryType queryType, QuestionType questionType)
         {
+            _queryType = queryType;
+            this.questionType = questionType;
+
             _logger = ServiceLocator.Current.GetInstance<ILog>();
         }
 

@@ -40,7 +40,8 @@ namespace KnowledgeRepresentationInterface.Views.QueriesControls
 
         public override Query GetQuery()
         {
-           return new ConditionAtTimeQuery(TextBoxCondition.Text, Int32.Parse(TextBoxTime.Text));
+            QuestionType questionType = QuestionType.Always;
+           return new ConditionAtTimeQuery(questionType, TextBoxCondition.Text, Int32.Parse(TextBoxTime.Text));
         }
     }
 }

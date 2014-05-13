@@ -8,11 +8,8 @@ namespace KnowledgeRepresentationReasoning.Queries
 {
     public class PerformingActionAtTimeQuery : Query
     {
-        public PerformingActionAtTimeQuery()
-            : base()
-        {
-            queryType = QueryType.PerformingActionAtTime;
-        }
+        public PerformingActionAtTimeQuery(QuestionType questionType)
+            : base(QueryType.PerformingActionAtTime, questionType){}
 
         public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
         {

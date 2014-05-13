@@ -14,10 +14,9 @@ namespace KnowledgeRepresentationReasoning.Queries
         private SimpleLogicExpression _logicExp;
         private string[] _fluentNames;
 
-        public ConditionAtTimeQuery(string condition, int time = -1)
-            : base()
+        public ConditionAtTimeQuery(QuestionType questionType, string condition, int time = -1)
+            : base(QueryType.SatisfyConditionAtTime, questionType)
         {
-            queryType = QueryType.SatisfyConditionAtTime;
             _condition = condition;
             _time = time;
             _logicExp = new SimpleLogicExpression(_condition);

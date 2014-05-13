@@ -8,10 +8,10 @@ namespace KnowledgeRepresentationReasoning.Queries
 {
     public class AccesibleConditionQuery : Query
     {
-        public AccesibleConditionQuery()
-            : base()
+        public AccesibleConditionQuery(QuestionType questionType)
+            : base(QueryType.AccesibleCondition, questionType)
         {
-            queryType = QueryType.AccesibleCondition;
+            _queryType = QueryType.AccesibleCondition;
         }
 
         public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
