@@ -84,14 +84,15 @@ namespace KnowledgeRepresentationReasoning.Scenario
         /// <returns></returns>
         internal ScenarioObservationRecord GetObservationFromTime(int time)
         {
-            foreach (ScenarioObservationRecord sor in this.observations)
+            ScenarioObservationRecord observation = new ScenarioObservationRecord(new SimpleLogicExpression(""), time);
+            foreach (ScenarioObservationRecord obs in this.observations)
             {
-                if (sor.Time.Equals(time))
+                if (obs.Time.Equals(time))
                 {
-                    return sor;
+                    observation.Expr.AddExpression(obs.Expr);
                 }
             }
-            return null;
+            return observation;
         }
 
         internal bool CheckIfLeafIsPossible(Logic.Vertex leaf)
