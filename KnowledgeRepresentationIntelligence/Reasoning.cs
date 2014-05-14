@@ -141,7 +141,6 @@ namespace KnowledgeRepresentationReasoning
                     }
                     else
                     {
-                        //tree.SaveChild(i);
                         tree.DeleteChild(i);
                         bool isEnded = false;
                         List<Vertex> nextLevel = GenerateChildsForLeaf(leaf, out isEnded);
@@ -159,7 +158,7 @@ namespace KnowledgeRepresentationReasoning
                                 if (queryResultsContainer.CanQuickAnswer())
                                     break;
                             }
-                            QueryResult result = query.CheckCondition(child.State, child.WorldAction, child.Time);
+                            QueryResult result = query.CheckCondition(child.State, child.ActualWorldAction, child.Time);
                             if (result == QueryResult.True || result == QueryResult.False)
                             {
                                 queryResultsContainer.AddMany(result);
@@ -182,9 +181,9 @@ namespace KnowledgeRepresentationReasoning
             child.IsPossible = false;
             List<Vertex> impossibleChild = new List<Vertex>() { child };
 
-            int actualTime = leaf.Time;
             int nextTime = GetNextTimestamp(leaf, scenarioDescription);
 
+            int actualTime = leaf.Time;
             while (actualTime <= nextTime)
             {
                 int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
@@ -195,13 +194,15 @@ namespace KnowledgeRepresentationReasoning
             }
 
             var implications = worldDescription.GetImplications(leaf, nextTime);
-            if (implications.Count == 0)
+            WorldAction nextAction = scenarioDescription.GetActionAtTime(nextTime);
+
+            if(leaf.CheckIsFinished(implications.Count, nextAction))
             {
-                isEnded = true;
-                return new List<Vertex>() { };
+                leaf.IsEnded = true;
+                return vertices;
             }
 
-            vertices = leaf.CreateChildsBasedOnImplications(implications, scenarioDescription.GetActionAtTime(nextTime), nextTime);
+            vertices = leaf.CreateChildsBasedOnImplications(implications, nextAction, nextTime);
 
             return vertices;
         }
@@ -226,20 +227,11 @@ namespace KnowledgeRepresentationReasoning
         {
             int nextActionTime = scenarioDescription.GetNextActionTime(leaf.Time);
             nextActionTime = nextActionTime < 0 ? int.MaxValue : nextActionTime;
-            int actualActionEndTime = leaf.WorldAction.GetEndTime() < 0 ? int.MaxValue : leaf.WorldAction.GetEndTime();
+            int actualActionEndTime = leaf.ActualWorldAction.GetEndTime() < 0 ? int.MaxValue : leaf.ActualWorldAction.GetEndTime();
             int nextActionStartTime = leaf.GetNextActionTime() < 0 ? int.MaxValue : leaf.GetNextActionTime();
             int min = Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime));
 
             return min > TInf ? TInf : min;
-        }
-
-        private bool CheckIfLeafIsEnded(Vertex leaf)
-        {
-            bool isEnded = false;
-
-            bool noAction = leaf.WorldAction.Equals(null);
-
-            return isEnded;
         }
 
         private bool CheckIfLeafIsPossible(Vertex leaf)

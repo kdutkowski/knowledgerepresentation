@@ -27,11 +27,10 @@
             return this.GetSummarizedInitialRecord().PossibleFluents.Select(t => new State { Fluents = t.ToList() });
         }
 
-        // TODO: Niech ta metoda zwraca jedno Implication (trzeba poprawic w dalszym kodzie)
         public List<Implication> GetImplications(Vertex leaf, int nextTime)
         {
-            var triggeredActions = this.GetTriggeredActions(leaf.WorldAction, leaf.State, leaf.Time);
-            var possibleFutureStates = this.GetPossibleFutureStates(leaf.WorldAction, leaf.State, leaf.Time);
+            var triggeredActions = this.GetTriggeredActions(leaf.ActualWorldAction, leaf.State, leaf.Time);
+            var possibleFutureStates = this.GetPossibleFutureStates(leaf.ActualWorldAction, leaf.State, leaf.Time);
             return possibleFutureStates.Select(possibleFutureState => 
                 new Implication { FutureState = possibleFutureState, TriggeredActions = triggeredActions.ToList() }).ToList();
         }
@@ -44,14 +43,14 @@
                                                    .Select(t => t.Item2 as ImpossibleActionIfRecord).ToList();
             foreach (var IAAR in impossibleActionAtRecords)
             {
-                if (IAAR.IsFulfilled(leaf.Time) && IAAR.GetResult() == leaf.WorldAction)
+                if (IAAR.IsFulfilled(leaf.Time) && IAAR.GetResult() == leaf.ActualWorldAction)
                 {
                     return false;
                 }
             }
             foreach (var IAIR in impossibleActionIfRecords)
             {
-                if (IAIR.IsFulfilled(leaf.State) && IAIR.GetResult() == leaf.WorldAction)
+                if (IAIR.IsFulfilled(leaf.State) && IAIR.GetResult() == leaf.ActualWorldAction)
                 {
                     return false;
                 }
