@@ -62,6 +62,15 @@ namespace KnowledgeRepresentationInterface.Views
 
         #endregion
 
+        #region | METHODS |
+
+        private void CleanValues()
+        {
+            ActionAdd.CleanValues();
+        }
+
+        #endregion
+
         #region | EVENTS |
 
         private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
@@ -71,12 +80,19 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddAction_Click(object sender, RoutedEventArgs e)
         {
-            if (ActionAdd.SelectedWARecordType != null && ActionList.AddAction(ActionAdd.Time, ActionAdd.SelectedWARecordType.Id))
+            if (ActionAdd.SelectedWARecordType == null)
+            {
+                ActionAdd.LabelValidation.Content = "It is necessary to choose an action.";
+            }
+            else if (ActionList.AddAction(ActionAdd.Time, ActionAdd.SelectedWARecordType.Id))
             {
                 _scenarioDescription.addACS(ActionAdd.SelectedWARecordType, ActionAdd.Time);
+                CleanValues();
             }
-
-           
+            else
+            {
+                ActionAdd.LabelValidation.Content = "Action with this name and time already exists.";
+            }
         }
 
         private void ButtonAddObservation_Click(object sender, RoutedEventArgs e)
@@ -95,10 +111,6 @@ namespace KnowledgeRepresentationInterface.Views
             ScenarioName = string.Empty;
         }
 
-        public ScenarioDescription GetScenarioDescription()
-        {
-            return _scenarioDescription;
-        }
 
         #endregion
     }

@@ -95,7 +95,6 @@
     <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\SceAddAction.xaml.cs">
       <DependentUpon>SceAddAction.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ScenarioControls\ISceControl.cs" />
     <Compile Include="Views\Switcher.cs" />
     <Compile Include="Views\Environment.xaml.cs">
       <DependentUpon>Environment.xaml</DependentUpon>

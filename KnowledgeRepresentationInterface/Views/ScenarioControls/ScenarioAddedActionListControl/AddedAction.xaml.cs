@@ -9,7 +9,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
     /// <summary>
     /// Interaction logic for AddedAction.xaml
     /// </summary>
-    public partial class AddedAction : UserControl, ISceControl, INotifyPropertyChanged
+    public partial class AddedAction : UserControl, INotifyPropertyChanged
     {
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -34,6 +34,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
                 OnPropertyChanged("Time");
             }
         }
+
 
         private string _actionName;
 
@@ -66,10 +67,6 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
            
         }
 
-        public void CleanValues()
-        {
-            throw new NotImplementedException();
-        }
     }
 
 }

@@ -13,7 +13,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
     /// <summary>
     /// Interaction logic for SceAddAction.xaml
     /// </summary>
-    public partial class SceAddAction : UserControl, ISceControl, INotifyPropertyChanged
+    public partial class SceAddAction : UserControl, INotifyPropertyChanged
     {
 
         //TODO implement validation Time
@@ -70,15 +70,17 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         {
             InitializeComponent();
         }
-        public void CleanValues()
-        {
-            throw new NotImplementedException();
-        }
 
         public void SetActions(List<WorldAction> actions)
         {
             //_actions = actions;
             WARecordType = actions as IEnumerable<WorldAction>;
+        }
+
+        internal void CleanValues()
+        {
+            LabelValidation.Content = String.Empty;
+            SelectedWARecordType = null;
         }
     }
 

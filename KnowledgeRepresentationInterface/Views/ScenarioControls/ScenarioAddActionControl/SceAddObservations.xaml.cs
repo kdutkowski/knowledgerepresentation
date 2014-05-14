@@ -21,7 +21,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
     /// <summary>
     /// Interaction logic for SceAddObservations.xaml
     /// </summary>
-    public partial class SceAddObservations : UserControl, ISceControl, INotifyPropertyChanged
+    public partial class SceAddObservations : UserControl, INotifyPropertyChanged
     {
         #region  | PropertyChanged |
         public event PropertyChangedEventHandler PropertyChanged;
@@ -75,9 +75,6 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         }
 
 
-        public void CleanValues()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

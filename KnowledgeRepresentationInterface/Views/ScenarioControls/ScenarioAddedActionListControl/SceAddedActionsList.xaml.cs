@@ -43,13 +43,18 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
             {
                 AddAddedActionToList(addedAction);
                 AddActionToStackPanel(addedAction);
+                return true;
             }
             return false;
         }
 
         private bool ValidateAddedAction(AddedAction addedAction)
         {
-            //TODO validate action
+            foreach (AddedAction item in _addedActionsList)
+            {
+                if (addedAction.Name == item.Name && addedAction.Time == item.Time)
+                    return false;
+            }
             return true;
         }
 
