@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using KnowledgeRepresentationReasoning.Expressions;
+using KnowledgeRepresentationReasoning.Scenario;
+using KnowledgeRepresentationReasoning.World;
+using KnowledgeRepresentationReasoning.World.Records;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using KnowledgeRepresentationReasoning.World;
-using KnowledgeRepresentationReasoning.Scenario;
-using System.ComponentModel;
-using KnowledgeRepresentationReasoning.Expressions;
 
 namespace KnowledgeRepresentationInterface.Views
 {
@@ -58,6 +59,17 @@ namespace KnowledgeRepresentationInterface.Views
             ActionAdd.SetActions(actions);
             _scenarioDescription = new ScenarioDescription();
             _savedScenarios = new List<ScenarioDescription>();
+            StackPanelFluents.Children.Add(new Label() { Content="Fluents:"});
+            foreach (Fluent item in fluents)
+            {
+                StackPanelFluents.Children.Add(new Label() { Content = item.Name });
+            }
+            StackPanelStatements.Children.Add(new Label() { Content = "Statements:" });
+            foreach (WorldAction item in actions)
+            {
+                StackPanelStatements.Children.Add(new Label() { Content ="("+ item.Id+ ", "+item.Duration+")" });
+            }
+
         }
 
         #endregion

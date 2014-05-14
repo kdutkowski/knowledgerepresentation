@@ -3,17 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" d:DesignWidth="720"
+             mc:Ignorable="d" d:DesignWidth="520"
               x:Name="uc_sce" Height="87">
     <Grid>
-        <GroupBox Header="Add observations" HorizontalAlignment="Left" Height="81" Margin="0,0,0,0" VerticalAlignment="Top" Width="720"/>
+        <GroupBox Header="Add observations" HorizontalAlignment="Left" Height="81" Margin="0,0,0,0" VerticalAlignment="Top" Width="520"/>
 
         <TextBox x:Name="TextBoxTime"
 			TextAlignment="Center"
 			Text="{Binding Time, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
-			Width="100" TextWrapping="Wrap"
+			Width="40" TextWrapping="Wrap"
 			Height="30" Margin="10,20,0,0"
 			FontWeight="Normal" FontSize="16"/>
 
@@ -22,12 +22,12 @@
 			Text="{Binding Expression, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
-			Width="400" TextWrapping="Wrap"
-			Height="30" Margin="115,20,0,0"
+			Width="320" TextWrapping="Wrap"
+			Height="30" Margin="55,20,0,0"
 			FontWeight="Normal" FontSize="16"/>
 
 
-        <Label x:Name="LabelValidation" Content="Validation" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="700" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
+        <Label x:Name="LabelValidation" Content="Validation" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="500" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
 
 
     </Grid>
