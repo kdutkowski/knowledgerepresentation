@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="510"
+             d:DesignHeight="50" d:DesignWidth="710"
              x:Name="uc_sce">
     <Grid>
         <Label x:Name="LabelTime"
@@ -12,19 +12,16 @@
 			Content="{Binding Time, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
-			Width="30" 
+			Width="50" 
 			Height="30" Margin="10,10,0,0"
 			FontWeight="Normal" FontSize="16"/>
 
-
-
         <Label x:Name="LabelFluents"
 			HorizontalContentAlignment="Center"
-               Content="{Binding Expression, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
-			Width="295" 
-			Height="30" Margin="40,10,0,0"
+			Width="430" 
+			Height="30" Margin="65,10,0,0"
 			FontWeight="Normal" FontSize="16"/>
 
 
@@ -33,8 +30,8 @@
 			Content="{Binding ActionName, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
 			VerticalAlignment="Top"
 			HorizontalAlignment="Right"
-			Width="160" 
-			Height="30" Margin="0,10,10,0"
+			Width="200" 
+			Height="30" Margin="0,10,10,10"
 			FontWeight="Normal" FontSize="16"/>
     </Grid>
 </UserControl>

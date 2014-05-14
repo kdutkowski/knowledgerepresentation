@@ -13,7 +13,7 @@ namespace KnowledgeRepresentationReasoning.Expressions
     using KnowledgeRepresentationReasoning.Helpers;
     using KnowledgeRepresentationReasoning.World;
 
-    internal class SimpleLogicExpression : ILogicExpression
+    public class SimpleLogicExpression : ILogicExpression
     {
         private readonly char[] specialCharacters = new[] { '|', '&', '(', ')', '!' };
         private readonly string _condition;

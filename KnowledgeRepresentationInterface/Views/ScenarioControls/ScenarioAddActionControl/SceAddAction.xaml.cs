@@ -12,7 +12,7 @@
     /// <summary>
     /// Interaction logic for SceAddAction.xaml
     /// </summary>
-    public partial class SceAddAction : UserControl, ISceControl, INotifyPropertyChanged
+    public partial class SceAddAction : UserControl, INotifyPropertyChanged
     {
         //TODO implement validation Time
         #region PropertyChanged
@@ -70,14 +70,16 @@
         {
             InitializeComponent();
         }
-        public void CleanValues()
-        {
-            throw new NotImplementedException();
-        }
 
         public void SetActions(List<WorldAction> actions)
         {
             WARecordType = actions;
+        }
+
+        internal void CleanValues()
+        {
+            LabelValidation.Content = String.Empty;
+            SelectedWARecordType = null;
         }
     }
 

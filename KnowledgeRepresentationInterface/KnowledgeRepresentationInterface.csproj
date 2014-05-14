@@ -98,13 +98,9 @@
     <Compile Include="Views\ScenarioControls\ScenarioAddedActionListControl\SceAddedActionsList.xaml.cs">
       <DependentUpon>SceAddedActionsList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\FluentValue.xaml.cs">
-      <DependentUpon>FluentValue.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\SceAddAction.xaml.cs">
       <DependentUpon>SceAddAction.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ScenarioControls\ISceControl.cs" />
     <Compile Include="Views\Switcher.cs" />
     <Compile Include="Views\Environment.xaml.cs">
       <DependentUpon>Environment.xaml</DependentUpon>
@@ -188,10 +184,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ScenarioControls\ScenarioAddedActionListControl\SceAddedActionsList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ScenarioControls\ScenarioAddActionControl\FluentValue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -23,11 +23,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
     {
         private List<AddedAction> _addedActionsList;
 
-        public List<AddedAction> AddedActionsList
-        {
-            get { return _addedActionsList; }
-            set { _addedActionsList = value; }
-        }
+        
         
         public SceAddedActionsList()
         {
@@ -43,18 +39,15 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
             {
                 AddAddedActionToList(addedAction);
                 AddActionToStackPanel(addedAction);
-                return true;
             }
             return false;
         }
 
+
+
         private bool ValidateAddedAction(AddedAction addedAction)
         {
-            foreach (AddedAction item in _addedActionsList)
-            {
-                if (addedAction.Name == item.Name && addedAction.Time == item.Time)
-                    return false;
-            }
+            //TODO validate action
             return true;
         }
 
@@ -78,14 +71,15 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
             _addedActionsList = new List<AddedAction>();
         }
 
-        internal bool AddObservation(int time, string expression)
+        public bool AddObservation(int time, List<Fluent> fluents)
         {
-            AddedAction addedAction = new AddedAction() { ActionName = String.Empty, Time = time , Expression=expression};
+            AddedAction addedActionObservation = new AddedAction() { ActionName = String.Empty, Time = time , Fluents=fluents};
 
-            if (ValidateAddedObservation(addedAction))
+            if (ValidateAddedObservation(addedActionObservation))
             {
-                AddAddedActionToList(addedAction);
-                AddActionToStackPanel(addedAction);
+                AddAddedActionToList(addedActionObservation);
+                AddActionToStackPanel(addedActionObservation);
+                return true;
             }
             return false;
         }

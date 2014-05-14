@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using KnowledgeRepresentationReasoning.Expressions;
+using KnowledgeRepresentationReasoning.Scenario;
+using KnowledgeRepresentationReasoning.World;
+using KnowledgeRepresentationReasoning.World.Records;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using KnowledgeRepresentationReasoning.World;
-using KnowledgeRepresentationReasoning.Scenario;
-using System.ComponentModel;
 
 namespace KnowledgeRepresentationInterface.Views
 {
@@ -54,10 +56,29 @@ namespace KnowledgeRepresentationInterface.Views
 
         public void Initialize(List<Fluent> fluents, List<WorldAction> actions)
         {
-            ObservationAdd.SetFluents(fluents);
             ActionAdd.SetActions(actions);
             _scenarioDescription = new ScenarioDescription();
             _savedScenarios = new List<ScenarioDescription>();
+            StackPanelFluents.Children.Add(new Label() { Content="Fluents:"});
+            foreach (Fluent item in fluents)
+            {
+                StackPanelFluents.Children.Add(new Label() { Content = item.Name });
+            }
+            StackPanelStatements.Children.Add(new Label() { Content = "Statements:" });
+            foreach (WorldAction item in actions)
+            {
+                StackPanelStatements.Children.Add(new Label() { Content ="("+ item.Id+ ", "+item.Duration+")" });
+            }
+
+        }
+
+        #endregion
+
+        #region | METHODS |
+
+        private void CleanValues()
+        {
+            ActionAdd.CleanValues();
         }
 
         #endregion
@@ -71,17 +92,26 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddAction_Click(object sender, RoutedEventArgs e)
         {
-            if (ActionAdd.SelectedWARecordType != null && ActionList.AddAction(ActionAdd.Time, ActionAdd.SelectedWARecordType.Id))
+            if (ActionAdd.SelectedWARecordType == null)
+            {
+                ActionAdd.LabelValidation.Content = "It is necessary to choose an action.";
+            }
+            else if (ActionList.AddAction(ActionAdd.Time, ActionAdd.SelectedWARecordType.Id))
             {
                 _scenarioDescription.addACS(ActionAdd.SelectedWARecordType, ActionAdd.Time);
+                CleanValues();
+            }
+            else
+            {
+                ActionAdd.LabelValidation.Content = "Action with this name and time already exists.";
             }
         }
 
         private void ButtonAddObservation_Click(object sender, RoutedEventArgs e)
         {
-            if (ObservationAdd.Fluents.Count > 0 && ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Fluents))
+            if (ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Expression))
             {
-                // TODO: dodać do _scenarioDescription
+                _scenarioDescription.observations.Add(new ScenarioObservationRecord(new SimpleLogicExpression(ObservationAdd.Expression), ObservationAdd.Time));
             }
         }
 
@@ -93,10 +123,6 @@ namespace KnowledgeRepresentationInterface.Views
             ScenarioName = string.Empty;
         }
 
-        public ScenarioDescription GetScenarioDescription()
-        {
-            return _scenarioDescription;
-        }
 
         #endregion
     }

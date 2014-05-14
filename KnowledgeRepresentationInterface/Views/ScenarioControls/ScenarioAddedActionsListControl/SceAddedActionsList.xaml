@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="285" d:DesignWidth="520">
+             d:DesignHeight="200" d:DesignWidth="720">
     <Grid>
-        <GroupBox Header="Scenario" VerticalAlignment="Top" Height="285">
-            <ScrollViewer HorizontalAlignment="Right" Height="262" VerticalAlignment="Top" Width="500" HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
-                <StackPanel x:Name="StackPanelActionList" Height="274" Width="492">
+        <GroupBox Header="Scenario" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="200" Width="720">
+            <ScrollViewer HorizontalAlignment="Left" Height="171" VerticalAlignment="Top" Width="710" HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" Margin="0,0,-2,0">
+                <StackPanel x:Name="StackPanelActionList" Height="171">
 
                 </StackPanel>
             </ScrollViewer>
