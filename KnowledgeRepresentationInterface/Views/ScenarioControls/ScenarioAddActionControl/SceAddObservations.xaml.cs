@@ -23,7 +23,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
     /// </summary>
     public partial class SceAddObservations : UserControl, ISceControl, INotifyPropertyChanged
     {
-        #region PropertyChanged
+        #region  | PropertyChanged |
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
@@ -43,7 +43,9 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         public SceAddObservations()
         {
             InitializeComponent();
+            InitExpression();
         }
+
         private int _time;
         public int Time
         {
@@ -55,41 +57,23 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
             }
         }
 
-        private List<Fluent> _fluents;
-        public List<Fluent> Fluents
+        private string _expression;
+        public string Expression
         {
-            get
-            {
-                GetFluentsValues();
-                return _fluents;
-            }
+            get { return _expression; }
             set
             {
-                _fluents = value;
-            }
-        }
-        private void GetFluentsValues()
-        {
-            _fluents.Clear();
-            foreach (var item in StackPanelFluents.Children)
-            {
-                _fluents.Add(new Fluent() { Name = ((FluentValue)item).NameFluent, Value = ((FluentValue)item).Value });
+                _expression = value;
+                OnPropertyChanged("Expression");
             }
         }
 
-        private void InitFluents()
+
+        private void InitExpression()
         {
-            foreach (var item in _fluents)
-            {
-                StackPanelFluents.Children.Add(new FluentValue { NameFluent = item.Name, Value = item.Value });
-            }
+            TextBoxExpression.Text = "Expression";
         }
 
-        public void SetFluents(List<Fluent> fluents)
-        {
-            _fluents = (fluents != null) ? fluents : new List<Fluent>();
-            InitFluents();
-        }
 
         public void CleanValues()
         {

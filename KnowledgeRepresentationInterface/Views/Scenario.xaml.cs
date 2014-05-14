@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.Scenario;
 using System.ComponentModel;
+using KnowledgeRepresentationReasoning.Expressions;
 
 namespace KnowledgeRepresentationInterface.Views
 {
@@ -54,7 +55,6 @@ namespace KnowledgeRepresentationInterface.Views
 
         public void Initialize(List<Fluent> fluents, List<WorldAction> actions)
         {
-            ObservationAdd.SetFluents(fluents);
             ActionAdd.SetActions(actions);
             _scenarioDescription = new ScenarioDescription();
             _savedScenarios = new List<ScenarioDescription>();
@@ -81,9 +81,9 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddObservation_Click(object sender, RoutedEventArgs e)
         {
-            if (ObservationAdd.Fluents.Count > 0 && ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Fluents))
+            if (ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Expression))
             {
-                // TODO: dodać do _scenarioDescription
+                _scenarioDescription.observations.Add(new ScenarioObservationRecord(new SimpleLogicExpression(ObservationAdd.Expression), ObservationAdd.Time));
             }
         }
 

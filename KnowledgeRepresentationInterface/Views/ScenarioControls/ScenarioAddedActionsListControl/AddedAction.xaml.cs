@@ -45,15 +45,13 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
         }
 
 
-        private string _expression;
+        private List<Fluent> _fluents;
 
-        public string Expression
+        public List<Fluent> Fluents
         {
-            get { return _expression; }
-            set
-            {
-                _expression = value;
-                OnPropertyChanged("Expression");
+            get { return _fluents; }
+            set { _fluents = value;
+            ShowFluents();
             }
         }
         
@@ -64,6 +62,17 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
         {
             InitializeComponent();
            
+        }
+
+        private void ShowFluents()
+        {
+            if (_fluents != null)
+            {
+                foreach (var item in _fluents)
+                {
+                    LabelFluents.Content += item.Name + ": " + (item.Value ? "T" : "F") + ", ";
+                }
+            }
         }
 
         public void CleanValues()
