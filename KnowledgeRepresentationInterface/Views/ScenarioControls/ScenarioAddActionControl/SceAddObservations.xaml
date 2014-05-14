@@ -11,7 +11,7 @@
 
         <TextBox x:Name="TextBoxTime"
 			TextAlignment="Center"
-			Text="{Binding Time, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
+			Text="{Binding Time, ElementName=uc_sce,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
 			Width="50" TextWrapping="Wrap"

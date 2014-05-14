@@ -76,7 +76,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
             _addedActionsList = new List<AddedAction>();
         }
 
-        internal bool AddObservation(int time, List<Fluent> fluents)
+        public bool AddObservation(int time, List<Fluent> fluents)
         {
             AddedAction addedAction = new AddedAction() { ActionName = String.Empty, Time = time , Fluents=fluents};
 
@@ -84,6 +84,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
             {
                 AddAddedActionToList(addedAction);
                 AddActionToStackPanel(addedAction);
+                return true;
             }
             return false;
         }

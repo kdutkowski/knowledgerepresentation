@@ -74,6 +74,7 @@ namespace KnowledgeRepresentationInterface.Views
             {
                 //TODO add observations
                 //_scenarioObservationRecordList.Add(new ScenarioObservationRecord(expr, ObservationAdd.Time));
+                ObservationAdd.CleanValues();
             }
         }
 
