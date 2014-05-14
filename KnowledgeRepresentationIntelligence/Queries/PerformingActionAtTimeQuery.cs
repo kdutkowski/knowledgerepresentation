@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KnowledgeRepresentationReasoning.Queries
+﻿namespace KnowledgeRepresentationReasoning.Queries
 {
+    using System;
+
+    using KnowledgeRepresentationReasoning.World;
+
     public class PerformingActionAtTimeQuery : Query
     {
-        public PerformingActionAtTimeQuery()
+        public PerformingActionAtTimeQuery(WorldAction action, int time = -1)
             : base()
         {
             queryType = QueryType.PerformingActionAtTime;

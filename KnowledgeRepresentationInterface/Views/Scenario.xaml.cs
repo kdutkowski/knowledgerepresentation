@@ -12,7 +12,27 @@ namespace KnowledgeRepresentationInterface.Views
     /// </summary>
     public partial class Scenario : UserControl, INotifyPropertyChanged
     {
-        #region PropertyChanged
+        #region | PROPERTIES |
+
+        private ScenarioDescription _scenarioDescription;
+        private List<ScenarioDescription> _savedScenarios;
+
+        private string _scenarioName;
+
+        public string ScenarioName
+        {
+            get { return _scenarioName; }
+            set
+            {
+                _scenarioName = value;
+                OnPropertyChanged("ScenarioName");
+            }
+        }
+
+        #endregion
+
+        #region | PropertyChanged |
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
@@ -22,16 +42,13 @@ namespace KnowledgeRepresentationInterface.Views
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
         #endregion
 
-        private ScenarioDescription _scenarioDescription;
+        #region | INITIALIZATION |
 
-        
-        #region Initialization
         public Scenario()
         {
-            
-            
             InitializeComponent();
         }
 
@@ -40,18 +57,12 @@ namespace KnowledgeRepresentationInterface.Views
             ObservationAdd.SetFluents(fluents);
             ActionAdd.SetActions(actions);
             _scenarioDescription = new ScenarioDescription();
+            _savedScenarios = new List<ScenarioDescription>();
         }
-        #endregion
-        private string _scenarioName;
 
-        public string ScenarioName
-        {
-            get { return _scenarioName; }
-            set { _scenarioName = value;
-            OnPropertyChanged("ScenarioName");
-            }
-        }
-        
+        #endregion
+
+        #region | EVENTS |
 
         private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
         {
@@ -70,16 +81,18 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddObservation_Click(object sender, RoutedEventArgs e)
         {
-            if (ObservationAdd.Fluents.Count>0 && ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Fluents))
+            if (ObservationAdd.Fluents.Count > 0 && ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Fluents))
             {
-                //TODO add observations
-                //_scenarioObservationRecordList.Add(new ScenarioObservationRecord(expr, ObservationAdd.Time));
+                // TODO: dodać do _scenarioDescription
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           //TODO add scenario
+            _scenarioDescription.Name = ScenarioName;
+            _savedScenarios.Add(_scenarioDescription);
+            _scenarioDescription = new ScenarioDescription();
+            ScenarioName = string.Empty;
         }
 
         public ScenarioDescription GetScenarioDescription()
@@ -87,5 +100,6 @@ namespace KnowledgeRepresentationInterface.Views
             return _scenarioDescription;
         }
 
+        #endregion
     }
 }

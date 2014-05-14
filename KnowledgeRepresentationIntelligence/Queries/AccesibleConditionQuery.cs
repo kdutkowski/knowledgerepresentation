@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KnowledgeRepresentationReasoning.Queries
+﻿namespace KnowledgeRepresentationReasoning.Queries
 {
+    using System;
+
     public class AccesibleConditionQuery : Query
     {
-        public AccesibleConditionQuery()
+        public AccesibleConditionQuery(string condition)
             : base()
         {
             queryType = QueryType.AccesibleCondition;

@@ -6,6 +6,7 @@
 
     public class ScenarioDescription
     {
+        public string Name { get; set; }
         public List<ScenarioActionRecord> actions { get; set; }
         public List<ScenarioObservationRecord> observations { get; set; }
 
@@ -15,7 +16,14 @@
             observations = new List<ScenarioObservationRecord>();
         }
 
-        internal void addObservation(ILogicExpression expr, int time)
+        public ScenarioDescription(string name)
+        {
+            Name = name;
+            actions = new List<ScenarioActionRecord>();
+            observations = new List<ScenarioObservationRecord>();
+        }
+
+        public void addObservation(ILogicExpression expr, int time)
         {
             ScenarioObservationRecord OBS = new ScenarioObservationRecord(expr, time);
             observations.Add(OBS);

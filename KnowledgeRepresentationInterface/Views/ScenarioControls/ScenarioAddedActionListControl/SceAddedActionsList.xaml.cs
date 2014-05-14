@@ -29,7 +29,6 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
             set { _addedActionsList = value; }
         }
         
-        
         public SceAddedActionsList()
         {
             InitializeComponent();
@@ -47,8 +46,6 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
             }
             return false;
         }
-
-
 
         private bool ValidateAddedAction(AddedAction addedAction)
         {

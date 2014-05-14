@@ -58,6 +58,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         }
         
         private List<WorldAction> _actions = new List<WorldAction>();
+        
         public IEnumerable<WorldAction> WARecordType 
         {   
             get { return _actions.Cast<WorldAction>(); }
