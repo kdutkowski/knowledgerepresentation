@@ -4,10 +4,7 @@
     {
         True,
         False,
-        TemporaryTrue,
-        TemporaryFalse,
         Undefined,
-        None,
         Error
     }
 }

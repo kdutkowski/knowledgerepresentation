@@ -9,6 +9,6 @@ namespace KnowledgeRepresentationReasoning.Queries
     {
         QueryResult CollectResults();
 
-        bool CanAnswer();
+        bool CanQuickAnswer();
     }
 }
