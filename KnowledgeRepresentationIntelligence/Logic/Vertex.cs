@@ -21,53 +21,52 @@ namespace KnowledgeRepresentationReasoning.Logic
             this.WorldAction = worldAction;
             Time = time;
             Root = root;
-        }
 
-        public Vertex()
-        {
-            // TODO: Complete member initialization
+            Initialize();
         }
 
         public Vertex(Vertex leaf)
         {
+            Initialize();
+
             State = (State)leaf.State.Clone();
             WorldAction = (WorldAction)leaf.WorldAction.Clone();
             Time = leaf.Time;
             Root = leaf.Root;
             IsPossible = leaf.IsPossible;
             IsEnded = leaf.IsEnded;
+            NextActions = leaf.NextActions.ToList();
         }
 
-        internal int? GetNextActionTime()
+        public Vertex()
         {
-            return NextActions.Min(action => action.StartAt);
+            Initialize();
         }
 
-        internal void Update(int nextTime)
+        private void Initialize()
         {
-            UpdateStateOnFluentChange(nextTime);
-            //int nextTime = UpdateAction();
-            UpdateTime(nextTime);
+            IsPossible = true;
+            IsEnded = false;
+            NextActions = new List<WorldAction>();
         }
 
-        private void UpdateStateOnFluentChange(int nextTime)
+        public int GetNextActionTime()
         {
-            
+            int nextTimeAction = -1;
+
+            if (NextActions.Count > 0)
+            {
+                int? nextTime = NextActions.Min(x => x.StartAt);
+                if (nextTime.HasValue)
+                {
+                    nextTimeAction = nextTime.Value;
+                }
+            }
+
+            return nextTimeAction;
         }
 
-        private int UpdateAction()
-        {
-            int endTime = this.WorldAction.StartAt + this.WorldAction.Duration??-1;
-
-            return 0;
-        }
-
-        private void UpdateTime(int newTime)
-        {
-            Time = newTime;
-        }
-
-        internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, World.WorldAction worldAction, int nextTime)
+        public List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, World.WorldAction worldAction, int nextTime)
         {
             List<Vertex> childs = new List<Vertex>();
 
@@ -90,13 +89,10 @@ namespace KnowledgeRepresentationReasoning.Logic
 
                 childs.Add(child);
             }
-
             return childs;
-
         }
 
-
-        class WorldComparer : IComparer<WorldAction>
+        private class WorldActionTimeComparer : IComparer<WorldAction>
         {
             public int Compare(WorldAction a, WorldAction b)
             {
@@ -106,10 +102,10 @@ namespace KnowledgeRepresentationReasoning.Logic
             }
         }
 
-        internal bool ValidateActions()
+        public bool ValidateActions()
         {
-
-            NextActions.Sort(new WorldComparer());
+            SortActionsByStartTime(NextActions);
+            
             for (int i = 0; i < NextActions.Count; i++)
             {
                 if (this.WorldAction.StartAt <= this.NextActions[i].StartAt &&
@@ -128,10 +124,12 @@ namespace KnowledgeRepresentationReasoning.Logic
 
                 }
             }
-
             return true;
+        }
 
-
+        private void SortActionsByStartTime(List<World.WorldAction> NextActions)
+        {
+            NextActions.Sort(new WorldActionTimeComparer());
         }
     }
 }

@@ -31,19 +31,23 @@ namespace KnowledgeRepresentationReasoning.World
             return worldAction;
         }
 
-        internal int? GetEndTime()
+        public int GetEndTime()
         {
-            return StartAt + Duration;
+            int time = -1;
+            int? endTime = StartAt + Duration;
+
+            if (endTime.HasValue)
+            {
+                time = endTime.Value;
+            }
+
+            return time;
         }
 
         public override string ToString()
         {
-            return "(" + Id + ", " + Duration + ")";
-            /*
             string description = "Action (" + Id + ", " + Duration + ") with start time: " + StartAt;
-
             return description;
-             * */
         }
     }
 }

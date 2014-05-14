@@ -121,10 +121,10 @@ namespace KnowledgeRepresentationReasoning
             int numberOfImpossibleLeaf = 0;
             tree.AddFirstLevel(worldDescription, scenarioDescription, out numberOfImpossibleLeaf);
             
-            queryResultsContainer.Add(QueryResult.False, numberOfImpossibleLeaf);
+            queryResultsContainer.AddMany(QueryResult.False, numberOfImpossibleLeaf);
 
             //generate next level if query can't answer yet
-            while (!queryResultsContainer.CanAnswer() && tree.LastLevel.Count> 0)
+            while (!queryResultsContainer.CanQuickAnswer() && tree.LastLevel.Count> 0)
             {
                 int childsCount = tree.LastLevel.Count;
                 for (int i = 0; i < childsCount; ++i)
@@ -133,8 +133,8 @@ namespace KnowledgeRepresentationReasoning
                     if (!CheckIfLeafIsPossible(leaf))
                     {
                         tree.DeleteChild(i);
-                        queryResultsContainer.Add(QueryResult.False);
-                        if (queryResultsContainer.CanAnswer())
+                        queryResultsContainer.AddMany(QueryResult.False);
+                        if (queryResultsContainer.CanQuickAnswer())
                         {
                             break;
                         }
@@ -155,14 +155,14 @@ namespace KnowledgeRepresentationReasoning
                         {
                             if (!CheckIfLeafIsPossible(child))
                             {
-                                queryResultsContainer.Add(QueryResult.False);
-                                if (queryResultsContainer.CanAnswer())
+                                queryResultsContainer.AddMany(QueryResult.False);
+                                if (queryResultsContainer.CanQuickAnswer())
                                     break;
                             }
                             QueryResult result = query.CheckCondition(child.State, child.WorldAction, child.Time);
                             if (result == QueryResult.True || result == QueryResult.False)
                             {
-                                queryResultsContainer.Add(result);
+                                queryResultsContainer.AddMany(result);
                             }
                             else tree.Add(child);
                         }
@@ -226,9 +226,9 @@ namespace KnowledgeRepresentationReasoning
         {
             int nextActionTime = scenarioDescription.GetNextActionTime(leaf.Time);
             nextActionTime = nextActionTime < 0 ? int.MaxValue : nextActionTime;
-            int actualActionEndTime = leaf.WorldAction.GetEndTime() ?? Int32.MaxValue;
-            int nextActionStartTime = leaf.GetNextActionTime() ?? Int32.MaxValue;
-            int min = Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime)) ;
+            int actualActionEndTime = leaf.WorldAction.GetEndTime() < 0 ? int.MaxValue : leaf.WorldAction.GetEndTime();
+            int nextActionStartTime = leaf.GetNextActionTime() < 0 ? int.MaxValue : leaf.GetNextActionTime();
+            int min = Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime));
 
             return min > TInf ? TInf : min;
         }

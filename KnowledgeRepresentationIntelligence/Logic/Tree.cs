@@ -91,7 +91,7 @@ namespace KnowledgeRepresentationReasoning.Logic
                         {
                             state.Fluents.First(f => f.Name == fluent.Name).Value = fluent.Value;
                         }
-                        catch (System.ArgumentNullException arg)
+                        catch (System.ArgumentNullException )
                         {
                             _logger.Error("Fluent " + fluent.Name + " doesn't exist!");
                         }
