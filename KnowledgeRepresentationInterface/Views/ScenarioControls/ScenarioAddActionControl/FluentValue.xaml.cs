@@ -22,6 +22,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
     /// </summary>
     public partial class FluentValue : UserControl, INotifyPropertyChanged
     {
+        
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -45,20 +46,40 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         
         }
 
-        private bool _value;
-
-        public bool Value
+        private fluentEnum _selectedMyEnumType;
+        public fluentEnum SelectedMyEnumType
         {
-            get { return _value; }
-            set { _value = value;
-            OnPropertyChanged("Value");
+            get { return _selectedMyEnumType; }
+            set
+            {
+                _selectedMyEnumType = value;
+                OnPropertyChanged("SelectedMyEnumType");
             }
         }
+
+        private IEnumerable<fluentEnum> _myEnumTypeValues;
+
+        public IEnumerable<fluentEnum> MyEnumTypeValues
+        {
+            set
+            {
+                _myEnumTypeValues = Enum.GetValues(typeof(fluentEnum))
+                    .Cast<fluentEnum>();
+                OnPropertyChanged("MyEnumTypeValues");
+            }
+            get
+            {
+                return Enum.GetValues(typeof(fluentEnum))
+                    .Cast<fluentEnum>();
+            }
+        }
+
 
         
         public FluentValue()
         {
             InitializeComponent();
+            ComboBosValue.ItemsSource = MyEnumTypeValues;
         }
     }
 }

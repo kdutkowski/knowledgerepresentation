@@ -80,6 +80,7 @@
       <DependentUpon>QueConditionAtTime.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QueriesControls\QueControl.cs" />
+    <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\FluentEnum.cs" />
     <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\SceAddObservations.xaml.cs">
       <DependentUpon>SceAddObservations.xaml</DependentUpon>
     </Compile>

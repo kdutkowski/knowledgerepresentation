@@ -73,7 +73,8 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
             _fluents.Clear();
             foreach (var item in StackPanelFluents.Children)
             {
-                _fluents.Add(new Fluent() { Name = ((FluentValue)item).NameFluent, Value = ((FluentValue)item).Value });
+                if (((FluentValue)item).SelectedMyEnumType != fluentEnum.O)
+                    _fluents.Add(new Fluent() { Name = ((FluentValue)item).NameFluent, Value = ((FluentValue)item).SelectedMyEnumType == fluentEnum.T ? true : false });
             }
         }
 
@@ -81,7 +82,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         {
             foreach (var item in _fluents)
             {
-                StackPanelFluents.Children.Add(new FluentValue { NameFluent = item.Name, Value = item.Value });
+                StackPanelFluents.Children.Add(new FluentValue { NameFluent = item.Name, SelectedMyEnumType = (item.Value) ? fluentEnum.T : fluentEnum.F });
             }
         }
 
@@ -93,7 +94,11 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
 
         public void CleanValues()
         {
-            throw new NotImplementedException();
+            Time = 0;
+            foreach (var item in StackPanelFluents.Children)
+            {
+                ((FluentValue)item).SelectedMyEnumType=fluentEnum.O;
+            }
         }
     }
 }

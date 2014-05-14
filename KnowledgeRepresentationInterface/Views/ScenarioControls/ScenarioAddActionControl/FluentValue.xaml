@@ -11,9 +11,10 @@
         <Label x:Name="LabelName" 
                Content="{Binding NameFluent, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
                  HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Margin="10,0,0,0" HorizontalContentAlignment="Right" />
-        <TextBox x:Name="TextBoxValue" 
-                 Text="{Binding Value, Mode=TwoWay, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
-                 HorizontalAlignment="Left" Height="20" Margin="235,2,0,0" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Width="55"/>
 
+        <ComboBox x:Name="ComboBosValue" SelectedItem="{Binding SelectedMyEnumType,  ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding MyEnumTypeValues, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" Margin="235,0,10,0"/>
+
+    
     </Grid>
 </UserControl>
