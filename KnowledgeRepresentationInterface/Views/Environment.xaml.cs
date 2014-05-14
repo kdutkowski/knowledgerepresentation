@@ -120,8 +120,11 @@ namespace KnowledgeRepresentationInterface.Views
             if (!ValidateTimeInf())
                 return;
             ParseFluentsToInitialRecords();
+
+            /*
             string summary = "Time infinity: " + _timeInf + "\r\n" + "Fluents:\r\n" + FluentString + "\r\nStatements:\r\n" +
                              StatementsString;
+            */
 
             Switcher.NextPage(_timeInf, _fluents, _actions, _statements);
         }
@@ -129,9 +132,8 @@ namespace KnowledgeRepresentationInterface.Views
         private void ButtonAddFluent_Click(object sender, RoutedEventArgs e)
         {
             if (!_fluents.Exists(f => (f.Name == TextBoxFluents.Text)))
-            {//validation
-                var f = new Fluent();
-                f.Name = TextBoxFluents.Text;
+            {
+                var f = new Fluent { Name = this.TextBoxFluents.Text };
                 _fluents.Add(f);
                 FluentString += TextBoxFluents.Text;
                 LabelFluentsValidation.Content = "";
@@ -180,13 +182,8 @@ namespace KnowledgeRepresentationInterface.Views
             catch (TypeLoadException exception)
             {
             }
-            catch(NotImplementedException exception)
-            {
-                //TODO when implemented everywhere - delete this catch
-            }
-            
-            
         }
+
         #endregion
 
         #region Adding data into reasoning module
@@ -212,7 +209,5 @@ namespace KnowledgeRepresentationInterface.Views
         }
 
         #endregion
-
-        
     }
 }

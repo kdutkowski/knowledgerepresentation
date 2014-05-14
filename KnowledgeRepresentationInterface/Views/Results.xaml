@@ -11,8 +11,11 @@
         <!--<Button Name ="ButtonNextPage" Content="Next page" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="ButtonNextPage_Click"/>-->
         <Label x:Name="LabelQueries" Content="Queries" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
         <GridSplitter HorizontalAlignment="Left" Height="500" Margin="300,40,0,0" VerticalAlignment="Top" Width="4" Background="DarkBlue"/>
-        <Label x:Name="LabelSummaryName" Content="Summary:" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="LabelSummary" Content="Summary Content" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" MaxWidth="280"/>
+
+        <Label x:Name="LabelSummaryFluents" Content="Fluents:" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="LabelFluents" Content="{Binding FluentsString, ElementName=uc_res, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" MaxWidth="280"/>
+        <Label x:Name="LabelSummaryActions" Content="Actions:" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="LabelActions" Content="{Binding ActionsString, ElementName=uc_res, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" MaxWidth="280"/>
 
         <Label x:Name="LabelQuestionTypeName" Content="Select question type:" HorizontalAlignment="Left" Margin="329,50,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name ="ComboBoxQuestionType" 

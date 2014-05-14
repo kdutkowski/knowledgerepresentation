@@ -27,18 +27,14 @@ namespace KnowledgeRepresentationInterface.Views
     /// </summary>
     public partial class Results : UserControl
     {
-        #region Properties
+        #region | PROPERTIES |
 
         private int _timeInf;
         private readonly List<string> _scenarioNames; 
-        private List<WorldAction> _actions;
-        private List<Fluent> _fluents; 
+        private readonly List<WorldAction> _actions;
+        private readonly List<Fluent> _fluents;
 
-        #endregion
-
-        #region Visualization Properties
         private Dictionary<QueryType, QueControl> QueriesControls;
-
         private QueryType _selectedQueryType;
         public QueryType SelectedQuestionType { get; set; }
         public QueryType SelectedQueryType
@@ -59,6 +55,7 @@ namespace KnowledgeRepresentationInterface.Views
                 return Enum.GetValues(typeof(QueryType)).Cast<QueryType>();
             }
         }
+
         public IEnumerable<QuestionType> QuestionRecordType
         {
             get
@@ -71,7 +68,8 @@ namespace KnowledgeRepresentationInterface.Views
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
-        #region Constructor
+        #region | CONSTRUCTOR & INITIALIZATION |
+
         public Results()
         {
             _scenarioNames = new List<string>();
@@ -106,32 +104,35 @@ namespace KnowledgeRepresentationInterface.Views
                 foreach (var queriesControl in QueriesControls.Values)
                     queriesControl.SelectedScenario = _scenarioNames.First();
             }
+            LabelFluents.Content = this._fluents.Aggregate(string.Empty, (current, fluent) => current + (fluent.Name + " "));
+            LabelActions.Content = this._actions.Aggregate(string.Empty, (current, action) => current + (action.ToString() + " "));
         }
 
         #endregion
 
-        #region Property Changed
-        protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
+        #region | EVENTS |
 
         private void ButtonExecute_Click(object sender, RoutedEventArgs e)
         {
             //todo pozostałe typy
             if (SelectedQueryType == QueryType.SatisfyConditionAtTime)
             {
-                Query q = ((QueControl) QueriesControls[SelectedQueryType]).GetQuery();
+                Query q = ((QueControl)QueriesControls[SelectedQueryType]).GetQuery();
                 QueryResult qr = Switcher.ExecuteQuery(q);
                 LabelResult.Content = qr;
             }
-            
+
         }
 
-        #region Buttons Events
-        
+        #endregion
+
+        #region | OTHER |
+
+        protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         #endregion
     }
