@@ -7,7 +7,7 @@ namespace KnowledgeRepresentationReasoning.Logic
     public class Vertex
     {
         public State State { get; private set; }
-        public WorldAction WorldAction { get; set; }
+        public WorldAction ActualWorldAction { get; set; }
         public int Time { get; private set; }
         private Vertex Root { get; set; }
         public bool IsPossible { get; set; }
@@ -18,7 +18,7 @@ namespace KnowledgeRepresentationReasoning.Logic
         public Vertex(State state, WorldAction worldAction, int time, Vertex root)
         {
             State = state;
-            this.WorldAction = worldAction;
+            this.ActualWorldAction = worldAction;
             Time = time;
             Root = root;
 
@@ -30,7 +30,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             Initialize();
 
             State = (State)leaf.State.Clone();
-            WorldAction = (WorldAction)leaf.WorldAction.Clone();
+            ActualWorldAction = (WorldAction)leaf.ActualWorldAction.Clone();
             Time = leaf.Time;
             Root = leaf.Root;
             IsPossible = leaf.IsPossible;
@@ -66,20 +66,40 @@ namespace KnowledgeRepresentationReasoning.Logic
             return nextTimeAction;
         }
 
-        public List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, World.WorldAction worldAction, int nextTime)
+        public List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, World.WorldAction nextAction, int nextTime)
         {
             List<Vertex> childs = new List<Vertex>();
+
+            if (ActualWorldAction.GetEndTime() <= nextTime)
+            {
+                ActualWorldAction = null;
+            }
+
+            WorldAction leafAction = ActualWorldAction;
+            if (NextActions.Count > 0)
+            {
+                SortActionsByStartTime(NextActions);
+                if (NextActions[0].StartAt < nextTime)
+                {
+                    leafAction = NextActions[0];
+                }
+            }
 
             foreach (var implication in implications)
             {
                 Vertex child = new Vertex(this);
+                child.Root = this;
                 child.State = implication.FutureState;
-                if (WorldAction.GetEndTime() <= nextTime)
+
+                if (nextAction != null)
                 {
-                    WorldAction = null;
+                    if (nextTime == nextAction.StartAt)
+                    {
+                        this.ActualWorldAction = (WorldAction)nextAction.Clone();
+                    }
+                    this.IsPossible = false;
+                    return childs;
                 }
-                if (nextTime == worldAction.StartAt)
-                    this.WorldAction = (WorldAction)worldAction.Clone();
 
                 child.NextActions = new List<WorldAction>();
                 child.NextActions.AddRange(implication.TriggeredActions);
@@ -92,6 +112,44 @@ namespace KnowledgeRepresentationReasoning.Logic
             return childs;
         }
 
+        public bool ValidateActions()
+        {
+            bool result = true;
+            SortActionsByStartTime(NextActions);
+
+            for (int i = 0; i < NextActions.Count; ++i)
+            {
+                WorldAction nextAction = NextActions[i];
+
+                if (nextAction.GetEndTime() != nextAction.StartAt + nextAction.Duration)
+                {
+                    result = false;
+                    break;
+                }
+
+                if (ActualWorldAction != null && nextAction.StartAt < ActualWorldAction.GetEndTime())
+                {
+                    result = false;
+                    break;
+                }
+         
+                if (i < NextActions.Count - 1)
+                {
+                    if (NextActions[i + 1].StartAt.HasValue && NextActions[i + 1].StartAt < nextAction.GetEndTime())
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+            }
+            return result;
+        }
+
+        private void SortActionsByStartTime(List<World.WorldAction> NextActions)
+        {
+            NextActions.Sort(new WorldActionTimeComparer());
+        }
+
         private class WorldActionTimeComparer : IComparer<WorldAction>
         {
             public int Compare(WorldAction a, WorldAction b)
@@ -102,34 +160,12 @@ namespace KnowledgeRepresentationReasoning.Logic
             }
         }
 
-        public bool ValidateActions()
+        public bool CheckIsFinished(int implicationCounter, WorldAction nextAction)
         {
-            SortActionsByStartTime(NextActions);
-            
-            for (int i = 0; i < NextActions.Count; i++)
-            {
-                if (this.WorldAction.StartAt <= this.NextActions[i].StartAt &&
-                    this.NextActions[i].StartAt < this.WorldAction.GetEndTime()) return false;
-
-                if (this.WorldAction.StartAt < this.NextActions[i].GetEndTime() &&
-                    this.NextActions[i].GetEndTime() <= this.WorldAction.GetEndTime()) return false;
-
-                if (i < NextActions.Count - 1)
-                {
-                    if (this.NextActions[i].StartAt <= this.NextActions[i + 1].StartAt &&
-                    this.NextActions[i].GetEndTime() > this.NextActions[i + 1].StartAt) return false;
-
-                    if (this.NextActions[i].StartAt < this.NextActions[i + 1].GetEndTime() &&
-                        this.NextActions[i].GetEndTime() > this.NextActions[i + 1].GetEndTime()) return false;
-
-                }
-            }
-            return true;
-        }
-
-        private void SortActionsByStartTime(List<World.WorldAction> NextActions)
-        {
-            NextActions.Sort(new WorldActionTimeComparer());
+            return implicationCounter == 0 
+                    && nextAction == null 
+                    && NextActions.Count == 0 
+                    && ActualWorldAction.GetEndTime() == Time;
         }
     }
 }
