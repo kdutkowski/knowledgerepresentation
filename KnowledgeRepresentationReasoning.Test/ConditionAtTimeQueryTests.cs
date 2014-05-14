@@ -58,7 +58,7 @@ namespace KnowledgeRepresentationReasoning.Test
         }
 
         [TestMethod]
-        public void CheckConditionAtTimeNoTimeFalse()
+        public void CheckConditionAtTimeNoTimeQueryResultUndefined()
         {
             int time = 0;
             _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa && bb");
@@ -68,7 +68,7 @@ namespace KnowledgeRepresentationReasoning.Test
 
             QueryResult result = _query.CheckCondition(state, null, time);
 
-            Assert.AreEqual(QueryResult.False, result);
+            Assert.AreEqual(QueryResult.Undefined, result);
         }
 
         [TestMethod]
