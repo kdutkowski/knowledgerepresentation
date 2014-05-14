@@ -20,6 +20,8 @@ using KnowledgeRepresentationReasoning.World;
 
 namespace KnowledgeRepresentationInterface.Views
 {
+    using KnowledgeRepresentationReasoning.Scenario;
+
     /// <summary>
     /// Interaction logic for Results.xaml
     /// </summary>
@@ -28,14 +30,14 @@ namespace KnowledgeRepresentationInterface.Views
         #region Properties
 
         private int _timeInf;
-        private List<string> _scenarioNames; 
+        private readonly List<string> _scenarioNames; 
         private List<WorldAction> _actions;
         private List<Fluent> _fluents; 
 
         #endregion
 
         #region Visualization Properties
-        private Dictionary<QueryType, UserControl> QueriesControls;
+        private Dictionary<QueryType, QueControl> QueriesControls;
 
         private QueryType _selectedQueryType;
         public QueryType SelectedQuestionType { get; set; }
@@ -72,20 +74,40 @@ namespace KnowledgeRepresentationInterface.Views
         #region Constructor
         public Results()
         {
+            _scenarioNames = new List<string>();
+            _actions = new List<WorldAction>();
+            _fluents = new List<Fluent>();
             InitializeComponent();
             InitControls();
         }
 
         private void InitControls()
         {
-            //todo zmienic userControl na QueControl
-            //todo zaimplementowac pozostale kontrolki
-            QueriesControls = new Dictionary<QueryType, UserControl>();
-            QueriesControls.Add(QueryType.SatisfyConditionAtTime, new QueConditionAtTime(_timeInf, _scenarioNames, _actions, _fluents));
-            QueriesControls.Add(QueryType.AccesibleCondition, new UserControl());
-            QueriesControls.Add(QueryType.ExecutableScenario, new UserControl());
-            QueriesControls.Add(QueryType.PerformingActionAtTime, new UserControl());
+            QueriesControls = new Dictionary<QueryType, QueControl>
+                              {
+                                  { QueryType.SatisfyConditionAtTime, new QueConditionAtTime(this._scenarioNames, this._actions, this._fluents) },
+                                  { QueryType.AccesibleCondition, new QueAccesibleCondition(this._scenarioNames, this._actions, this._fluents) },
+                                  { QueryType.ExecutableScenario, new QueExecutableScenario(this._scenarioNames, this._actions, this._fluents) }, 
+                                  { QueryType.PerformingActionAtTime, new QueActionAtTime(this._scenarioNames, this._actions, this._fluents) }
+                              };
         }
+
+        public void Initialize(int tInf, List<Fluent> fluents, List<WorldAction> actions, List<ScenarioDescription> savedScenarios)
+        {
+            _timeInf = tInf;
+            this._actions.AddRange(actions);
+            if(this._actions.Any())
+                ((QueActionAtTime)QueriesControls[QueryType.PerformingActionAtTime]).SelectedAction = this._actions.First();
+            this._fluents.AddRange(fluents);
+            foreach (var scenario in savedScenarios)
+                _scenarioNames.Add(scenario.Name);
+            if (_scenarioNames.Count > 0)
+            {
+                foreach (var queriesControl in QueriesControls.Values)
+                    queriesControl.SelectedScenario = _scenarioNames.First();
+            }
+        }
+
         #endregion
 
         #region Property Changed

@@ -5,13 +5,15 @@ using System.Collections.Generic;
 
 namespace KnowledgeRepresentationInterface
 {
+    using KnowledgeRepresentationReasoning.Scenario;
+
     public static class Switcher
     {
         public static MainWindow pageSwitcher;
 
-        public static void NextPage()
+        public static void NextPage(List<ScenarioDescription> savedScenarios)
         {
-            pageSwitcher.NextPage();
+            pageSwitcher.NextPage(savedScenarios);
         }
 
         public static void NextPage(int tInf, List<Fluent> fluents, List<WorldAction> action, List<WorldDescriptionRecord> statements)

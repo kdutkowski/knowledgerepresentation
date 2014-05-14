@@ -66,7 +66,7 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.NextPage();
+            Switcher.NextPage(_savedScenarios);
         }
 
         private void ButtonAddAction_Click(object sender, RoutedEventArgs e)
@@ -75,8 +75,6 @@ namespace KnowledgeRepresentationInterface.Views
             {
                 _scenarioDescription.addACS(ActionAdd.SelectedWARecordType, ActionAdd.Time);
             }
-
-           
         }
 
         private void ButtonAddObservation_Click(object sender, RoutedEventArgs e)

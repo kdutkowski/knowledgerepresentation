@@ -1,31 +1,27 @@
-﻿using KnowledgeRepresentationReasoning.Queries;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using KnowledgeRepresentationReasoning.World;
-
-namespace KnowledgeRepresentationInterface.Views.QueriesControls
+﻿namespace KnowledgeRepresentationInterface.Views.QueriesControls
 {
-    public abstract class QueControl:UserControl
-    {
-        protected int _timeInf;
-        public List<string> _scenarioNames;
-        protected List<WorldAction> _actions;
-        protected List<Fluent> _fluents;
+    using System.Collections.Generic;
+    using System.Windows.Controls;
 
-        public QueControl()
+    using KnowledgeRepresentationReasoning.Queries;
+    using KnowledgeRepresentationReasoning.World;
+
+    public abstract class QueControl : UserControl
+    {
+        public string SelectedScenario { get; set; }
+        public List<string> ScenarioNames { get; set; }
+        public List<WorldAction> Actions { get; set; }
+        public List<Fluent> Fluents { get; set; }
+
+        protected QueControl()
         {
         }
 
-        public  QueControl(int timeInf, List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
+        protected QueControl(List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
         {
-            _timeInf = timeInf;
-            _scenarioNames = scenarioNames;
-            _actions = actions;
-            _fluents = fluents;
+            ScenarioNames = scenarioNames;
+            Actions = actions;
+            Fluents = fluents;
         }
 
         public abstract Query GetQuery();

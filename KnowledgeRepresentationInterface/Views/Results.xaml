@@ -27,10 +27,7 @@
 			HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="290" RenderTransformOrigin="0.475,0.15" Margin="459,90,0,0"/>
         <GroupBox x:Name="GroupBoxQuery" Header="Query" HorizontalAlignment="Left" Margin="336,130,0,0" VerticalAlignment="Top" Height="316" Width="431">
 
-            <!--<QueriesControls:QueConditionAtTime HorizontalAlignment="Left" Height="294" VerticalAlignment="Top" Width="419"/>-->
-
         </GroupBox>
-
         <Label x:Name ="LabelResultName"  Content="Query result:" HorizontalAlignment="Left" Margin="339,478,0,0" VerticalAlignment="Top" Width="110"/>
         <Label x:Name="LabelResult"  Content="" HorizontalAlignment="Left" Margin="459,478,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.765,0.008" Width="308" FontWeight="Bold"/>
         <Button x:Name="ButtonExecute"  Content="Execute query" HorizontalAlignment="Left" Margin="336,451,0,0" VerticalAlignment="Top" Width="431" FontWeight="Bold" Click="ButtonExecute_Click"/>

@@ -1,23 +1,25 @@
 ﻿namespace KnowledgeRepresentationInterface.Views.QueriesControls
 {
-    using System;
     using System.Collections.Generic;
 
     using KnowledgeRepresentationReasoning.Queries;
     using KnowledgeRepresentationReasoning.World;
 
     /// <summary>
-    /// Interaction logic for QueConditionAtTime.xaml
+    /// Interaction logic for QueActionAtTime.xaml
     /// </summary>
-    public partial class QueConditionAtTime : QueControl
+    public partial class QueActionAtTime : QueControl
     {
-        public QueConditionAtTime()
+        public WorldAction SelectedAction { get; set; }
+
+        public QueActionAtTime()
         {
             InitializeComponent();
             RegisterName("queContr_cond", this);
         }
-        public QueConditionAtTime(List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
-            :base(scenarioNames, actions, fluents)
+
+        public QueActionAtTime(List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
+            : base(scenarioNames, actions, fluents)
         {
             InitializeComponent();
             RegisterName("queContr_cond", this);
@@ -25,7 +27,7 @@
 
         public override Query GetQuery()
         {
-           return new ConditionAtTimeQuery(TextBoxCondition.Text, Int32.Parse(TextBoxTime.Text));
+            throw new System.NotImplementedException();
         }
     }
 }

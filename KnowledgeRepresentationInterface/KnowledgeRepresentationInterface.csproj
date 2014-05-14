@@ -76,10 +76,19 @@
     </Compile>
     <Compile Include="Views\EnvironmentControls\EnvControl.cs" />
     <Compile Include="Views\Helpers\ActionEqualityComparer.cs" />
+    <Compile Include="Views\QueriesControls\QueAccesibleCondition.xaml.cs">
+      <DependentUpon>QueAccesibleCondition.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\QueriesControls\QueActionAtTime.xaml.cs">
+      <DependentUpon>QueActionAtTime.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\QueriesControls\QueConditionAtTime.xaml.cs">
       <DependentUpon>QueConditionAtTime.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QueriesControls\QueControl.cs" />
+    <Compile Include="Views\QueriesControls\QueExecutableScenario.xaml.cs">
+      <DependentUpon>QueExecutableScenario.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\SceAddObservations.xaml.cs">
       <DependentUpon>SceAddObservations.xaml</DependentUpon>
     </Compile>
@@ -146,7 +155,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\QueriesControls\QueAccesibleCondition.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\QueriesControls\QueActionAtTime.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\QueriesControls\QueConditionAtTime.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\QueriesControls\QueExecutableScenario.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

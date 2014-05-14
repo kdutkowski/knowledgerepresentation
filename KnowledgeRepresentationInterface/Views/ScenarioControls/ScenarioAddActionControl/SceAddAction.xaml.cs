@@ -1,21 +1,19 @@
-﻿using KnowledgeRepresentationReasoning.World;
-using KnowledgeRepresentationReasoning.World.Records;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
-
-namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddActionControl
+﻿namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddActionControl
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
+    using System.Windows.Controls;
+
+    using KnowledgeRepresentationReasoning.World;
+
     /// <summary>
     /// Interaction logic for SceAddAction.xaml
     /// </summary>
     public partial class SceAddAction : UserControl, ISceControl, INotifyPropertyChanged
     {
-
         //TODO implement validation Time
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -61,9 +59,11 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         
         public IEnumerable<WorldAction> WARecordType 
         {   
-            get { return _actions.Cast<WorldAction>(); }
-            set { _actions = value.ToList();
-            OnPropertyChanged("WARecordType");
+            get { return this._actions; }
+            set 
+            { 
+                _actions = value.ToList();
+                OnPropertyChanged("WARecordType");
             }
         }
         public SceAddAction()
@@ -77,8 +77,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
 
         public void SetActions(List<WorldAction> actions)
         {
-            //_actions = actions;
-            WARecordType = actions as IEnumerable<WorldAction>;
+            WARecordType = actions;
         }
     }
 

@@ -7,16 +7,16 @@
     using KnowledgeRepresentationReasoning.World;
 
     /// <summary>
-    /// Interaction logic for QueConditionAtTime.xaml
+    /// Interaction logic for QueExecutableScenario.xaml
     /// </summary>
-    public partial class QueConditionAtTime : QueControl
+    public partial class QueExecutableScenario : QueControl
     {
-        public QueConditionAtTime()
+        public QueExecutableScenario()
         {
             InitializeComponent();
             RegisterName("queContr_cond", this);
         }
-        public QueConditionAtTime(List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
+        public QueExecutableScenario(List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
             :base(scenarioNames, actions, fluents)
         {
             InitializeComponent();
@@ -25,7 +25,7 @@
 
         public override Query GetQuery()
         {
-           return new ConditionAtTimeQuery(TextBoxCondition.Text, Int32.Parse(TextBoxTime.Text));
+           throw new NotImplementedException();
         }
     }
 }

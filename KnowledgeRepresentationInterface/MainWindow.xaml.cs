@@ -9,6 +9,7 @@ using System.Windows.Controls;
 namespace KnowledgeRepresentationInterface
 {
     using KnowledgeRepresentationReasoning;
+    using KnowledgeRepresentationReasoning.Scenario;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -19,7 +20,7 @@ namespace KnowledgeRepresentationInterface
         private List<Fluent> _fluents;
         private List<WorldAction> _actions;
         private List<WorldDescriptionRecord> _statements;
-
+        private List<ScenarioDescription> _savedScenarios;
 
         private Reasoning _reasoning;
 
@@ -48,11 +49,13 @@ namespace KnowledgeRepresentationInterface
             this.Content = nextPage;
         }
 
-        public void NextPage()
+        public void NextPage(List<ScenarioDescription> savedScenarios)
         {
+            _savedScenarios = savedScenarios;
             if (actualPage >= _pages.Count)
                 return;
             actualPage++;
+            ((Results)_pages[actualPage]).Initialize(_timeInf, _fluents, _actions, _savedScenarios);
             this.Navigate(_pages[actualPage]);
         }
 
