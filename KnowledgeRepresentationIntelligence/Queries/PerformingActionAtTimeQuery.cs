@@ -24,7 +24,7 @@ namespace KnowledgeRepresentationReasoning.Queries
         public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
         {
             _logger.Info("Checking Action: " + _WorldAction.ToString()+"at time: "+_time + "\nwith parameters:\nstate: " + state.ToString() + "\naction: " + worldAction??worldAction.ToString() + "\ntime: " + time);
-            QueryResult result = QueryResult.None;
+            QueryResult result = QueryResult.Undefined;
             if (time==_time || _time==-1)
             {
                 if (this._WorldAction==null)
@@ -42,7 +42,7 @@ namespace KnowledgeRepresentationReasoning.Queries
                 result = QueryResult.Undefined;
 
               string logResult = "Method result: " + result;
-            if (QueryResult.None == result)
+            if (QueryResult.Undefined == result)
                 _logger.Warn(logResult);
             else
                 _logger.Info(logResult);
