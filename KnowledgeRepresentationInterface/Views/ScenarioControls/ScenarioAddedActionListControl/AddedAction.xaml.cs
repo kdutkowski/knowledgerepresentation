@@ -45,6 +45,17 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
                 OnPropertyChanged("ActionName"); }
         }
 
+        private int? _Duration;
+        public int? Duration
+        {
+            get { return _Duration; }
+            set
+            {
+                _Duration = value;
+                OnPropertyChanged("Duration");
+            }
+        }
+
 
         private string _expression;
 

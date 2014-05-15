@@ -101,6 +101,7 @@
     <Compile Include="Views\ScenarioControls\ScenarioAddActionControl\SceAddAction.xaml.cs">
       <DependentUpon>SceAddAction.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ScenarioControls\StringExistsValidator .cs" />
     <Compile Include="Views\Switcher.cs" />
     <Compile Include="Views\Environment.xaml.cs">
       <DependentUpon>Environment.xaml</DependentUpon>

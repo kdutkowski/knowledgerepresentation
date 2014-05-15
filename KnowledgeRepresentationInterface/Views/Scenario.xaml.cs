@@ -2,6 +2,7 @@
 using KnowledgeRepresentationReasoning.Scenario;
 using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -14,6 +15,8 @@ namespace KnowledgeRepresentationInterface.Views
     /// </summary>
     public partial class Scenario : UserControl, INotifyPropertyChanged
     {
+        private string SCENARIONAMETEXTBOXCONTENT = "Scenario name";
+
         #region | PROPERTIES |
 
         private ScenarioDescription _scenarioDescription;
@@ -59,16 +62,22 @@ namespace KnowledgeRepresentationInterface.Views
             ActionAdd.SetActions(actions);
             _scenarioDescription = new ScenarioDescription();
             _savedScenarios = new List<ScenarioDescription>();
-            StackPanelFluents.Children.Add(new Label() { Content="Fluents:"});
+            ScenarioName = SCENARIONAMETEXTBOXCONTENT;
+
+            StackPanelFluents.Children.Add(new Label() { Content="Fluents:", FontSize=10});
             foreach (Fluent item in fluents)
             {
                 StackPanelFluents.Children.Add(new Label() { Content = item.Name });
             }
-            StackPanelStatements.Children.Add(new Label() { Content = "Statements:" });
+
+            StackPanelStatements.Children.Add(new Label() { Content = "Actions:", FontSize=10});
             foreach (WorldAction item in actions)
             {
-                StackPanelStatements.Children.Add(new Label() { Content ="("+ item.Id+ ", "+item.Duration+")" });
+                StackPanelStatements.Children.Add(new Label() { Content = "(" + item.Id + ", " + item.Duration + ")", FontSize = 10 });
             }
+
+
+            StackPanelScenarios.Children.Add(new Label() { Content = "Scenarios:", FontSize = 10 });
 
         }
 
@@ -79,6 +88,8 @@ namespace KnowledgeRepresentationInterface.Views
         private void CleanValues()
         {
             ActionAdd.CleanValues();
+            ActionList.CleanValues();
+            LabelValidationScenario.Content = "Validation";
         }
 
         #endregion
@@ -96,10 +107,10 @@ namespace KnowledgeRepresentationInterface.Views
             {
                 ActionAdd.LabelValidation.Content = "It is necessary to choose an action.";
             }
-            else if (ActionList.AddAction(ActionAdd.Time, ActionAdd.SelectedWARecordType.Id))
+            else if (ActionList.AddAction(ActionAdd.Time, ActionAdd.SelectedWARecordType.Id,ActionAdd.SelectedWARecordType.Duration))
             {
                 _scenarioDescription.addACS(ActionAdd.SelectedWARecordType, ActionAdd.Time);
-                CleanValues();
+                ActionAdd.CleanValues();
             }
             else
             {
@@ -115,15 +126,32 @@ namespace KnowledgeRepresentationInterface.Views
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            _scenarioDescription.Name = ScenarioName;
-            _savedScenarios.Add(_scenarioDescription);
-            _scenarioDescription = new ScenarioDescription();
-            ScenarioName = string.Empty;
-        }
-
 
         #endregion
+
+        private void AddScenario_Click(object sender, RoutedEventArgs e)
+        {
+            if (ScenarioName != String.Empty)
+            {
+                foreach (ScenarioDescription item in _savedScenarios)
+                {
+                    if (item.Name == ScenarioName)
+                    {
+                        LabelValidationScenario.Content = "Scenario with this name already exists.";
+                        return;
+                    }
+                }
+                _scenarioDescription.Name = ScenarioName;
+                StackPanelScenarios.Children.Add(new Label() { Content = ScenarioName, FontSize = 10 });
+                _savedScenarios.Add(_scenarioDescription);
+                _scenarioDescription = new ScenarioDescription();
+                ScenarioName = SCENARIONAMETEXTBOXCONTENT;
+                CleanValues();
+            }
+            else
+            {
+                LabelValidationScenario.Content = "It is necessary to fill scenario name.";
+            }
+        }
     }
 }

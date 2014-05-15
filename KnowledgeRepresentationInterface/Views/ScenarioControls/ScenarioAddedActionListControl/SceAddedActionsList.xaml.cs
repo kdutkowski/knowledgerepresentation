@@ -21,6 +21,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
     /// </summary>
     public partial class SceAddedActionsList : UserControl
     {
+        
         private List<AddedAction> _addedActionsList;
 
         public List<AddedAction> AddedActionsList
@@ -35,9 +36,9 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
             InitialAddedActions();
         }
 
-        public bool AddAction(int time, string action)
+        public bool AddAction(int time, string action,int? duration)
         {
-            AddedAction addedAction = new AddedAction() { ActionName = action, Time = time};
+            AddedAction addedAction = new AddedAction() { ActionName = action, Time = time,Duration=duration};
 
             if (ValidateAddedAction(addedAction))
             {
@@ -52,7 +53,7 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
         {
             foreach (AddedAction item in _addedActionsList)
             {
-                if (addedAction.Name == item.Name && addedAction.Time == item.Time)
+                if (addedAction.Name == item.Name && addedAction.Time == item.Time && addedAction.Duration == item.Duration)
                     return false;
             }
             return true;
@@ -94,6 +95,12 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
         {
             //TODO validate observation
             return true;
+        }
+
+        internal void CleanValues()
+        {
+            InitialAddedActions();
+            StackPanelActionList.Children.Clear();
         }
     }
 }

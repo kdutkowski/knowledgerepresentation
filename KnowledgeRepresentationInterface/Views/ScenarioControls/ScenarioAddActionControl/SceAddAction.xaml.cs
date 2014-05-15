@@ -78,7 +78,7 @@
 
         internal void CleanValues()
         {
-            LabelValidation.Content = String.Empty;
+            LabelValidation.Content = "Validation";
             SelectedWARecordType = null;
         }
     }
