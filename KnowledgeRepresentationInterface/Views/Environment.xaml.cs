@@ -126,7 +126,7 @@ namespace KnowledgeRepresentationInterface.Views
                              StatementsString;
             */
 
-            Switcher.NextPage(_timeInf, _fluents, _actions, _statements);
+            Switcher.NextPage(_timeInf, _fluents, _actions, _statements,_strStatement);
         }
 
         private void ButtonAddFluent_Click(object sender, RoutedEventArgs e)

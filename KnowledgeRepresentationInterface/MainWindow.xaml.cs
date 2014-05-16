@@ -27,6 +27,8 @@ namespace KnowledgeRepresentationInterface
         private List<UserControl> _pages;
         private int actualPage = 0;
 
+        private System.String _strStatement;
+
 
         public MainWindow()
         {
@@ -60,15 +62,16 @@ namespace KnowledgeRepresentationInterface
         }
 
         public void NextPage(int tInf, List<Fluent> fluents, List<WorldAction> actions,
-                            List<WorldDescriptionRecord> statements)
+                            List<WorldDescriptionRecord> statements, System.String strStatement)
         {
             _timeInf = tInf;
             _fluents = fluents;
             _actions = actions;
             _statements = statements;
+            _strStatement = strStatement;
             LoadWorldDescriptionRecords(statements);
             actualPage++;
-            ((Scenario)_pages[actualPage]).Initialize(_fluents, _actions);
+            ((Scenario)_pages[actualPage]).Initialize(_fluents, _actions, _strStatement);
             this.Navigate(_pages[actualPage]);
         }
 

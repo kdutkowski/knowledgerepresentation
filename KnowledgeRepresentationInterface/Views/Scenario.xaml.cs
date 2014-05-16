@@ -64,28 +64,38 @@ namespace KnowledgeRepresentationInterface.Views
             InitializeComponent();
         }
 
-        public void Initialize(List<Fluent> fluents, List<WorldAction> actions)
+        public void Initialize(List<Fluent> fluents, List<WorldAction> actions, string statements)
         {
             ActionAdd.SetActions(actions);
             _scenarioDescription = new ScenarioDescription();
             _savedScenarios = new List<ScenarioDescription>();
             ScenarioName = SCENARIONAMETEXTBOXCONTENT;
 
-            StackPanelFluents.Children.Add(new Label() { Content="Fluents:", FontSize=10});
+            InitializeFluents(fluents);
+            InitializeActions(statements);
+
+            StackPanelScenarios.Children.Add(new Label() { Content = "Scenarios:", FontSize = 10 });
+        }
+
+        private void InitializeActions(String statements)
+        {
+            StackPanelStatements.Children.Add(new Label() { Content = "Statements:", FontSize = 10 });
+            StackPanelStatements.Children.Add(new Label() { Content = statements, FontSize = 10 });
+
+            //foreach (WorldAction item in actions)
+            //{
+            //    StackPanelStatements.Children.Add(new Label() { Content = "(" + item.Id + ", " + item.Duration + ")", FontSize = 10 });
+            //}
+        }
+
+        private void InitializeFluents(List<Fluent> fluents)
+        {
+
+            StackPanelFluents.Children.Add(new Label() { Content = "Fluents:", FontSize = 10 });
             foreach (Fluent item in fluents)
             {
                 StackPanelFluents.Children.Add(new Label() { Content = item.Name });
             }
-
-            StackPanelStatements.Children.Add(new Label() { Content = "Actions:", FontSize=10});
-            foreach (WorldAction item in actions)
-            {
-                StackPanelStatements.Children.Add(new Label() { Content = "(" + item.Id + ", " + item.Duration + ")", FontSize = 10 });
-            }
-
-
-            StackPanelScenarios.Children.Add(new Label() { Content = "Scenarios:", FontSize = 10 });
-
         }
 
         #endregion

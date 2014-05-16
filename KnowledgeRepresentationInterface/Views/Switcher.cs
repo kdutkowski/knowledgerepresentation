@@ -16,9 +16,9 @@ namespace KnowledgeRepresentationInterface
             pageSwitcher.NextPage(savedScenarios);
         }
 
-        public static void NextPage(int tInf, List<Fluent> fluents, List<WorldAction> action, List<WorldDescriptionRecord> statements)
+        public static void NextPage(int tInf, List<Fluent> fluents, List<WorldAction> action, List<WorldDescriptionRecord> statements, System.String strStatement)
         {
-            pageSwitcher.NextPage(tInf, fluents, action, statements);
+            pageSwitcher.NextPage(tInf, fluents, action, statements, strStatement);
         }
 
         public static void PrevPage()
