@@ -80,6 +80,7 @@
         {
             LabelValidation.Content = "Validation";
             SelectedWARecordType = null;
+            Time = 0;
         }
     }
 

@@ -95,6 +95,7 @@ namespace KnowledgeRepresentationInterface.Views
         private void CleanValues()
         {
             ActionAdd.CleanValues();
+            ObservationAdd.CleanValues();
             ActionList.CleanValues();
             LabelValidationScenario.Content = "Validation";
         }
@@ -134,7 +135,7 @@ namespace KnowledgeRepresentationInterface.Views
             else if (ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Expression))
             {
                 _scenarioDescription.observations.Add(new ScenarioObservationRecord(new SimpleLogicExpression(ObservationAdd.Expression), ObservationAdd.Time));
-                ObservationAdd.LabelValidation.Content = "Validation";
+                ObservationAdd.CleanValues();
             }
         }
 

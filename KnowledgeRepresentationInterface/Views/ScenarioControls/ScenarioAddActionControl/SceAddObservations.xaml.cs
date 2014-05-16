@@ -83,6 +83,13 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
         }
 
 
-        
+
+
+        internal void CleanValues()
+        {
+            LabelValidation.Content = "Validation";
+            TextBoxExpression.Text = "Expression";
+            Time = 0;
+        }
     }
 }
