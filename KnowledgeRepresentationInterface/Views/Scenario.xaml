@@ -27,18 +27,12 @@
 
         <Label x:Name="LabelValidationScenario" Content="Validation" HorizontalAlignment="Left" Margin="335,529,0,0" VerticalAlignment="Top" Width="225" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
 
-        <TextBox x:Name="TextBoxScenarioName"    HorizontalAlignment="Left" Height="23" Margin="40,532,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120">
-            <TextBox.Text>
-                <Binding  ElementName="uc_sce"
-                          Path="ScenarioName"
-                          Mode="TwoWay"
-                          UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validators:StringExistsValidator ValidatesOnTargetUpdated="True"/>
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
+        <TextBox x:Name="TextBoxScenarioName"
+			TextAlignment="Center"
+			Text="{Binding ScenarioName, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" 
+			 HorizontalAlignment="Left" Height="23" Margin="40,532,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        
+        
         <Button x:Name="AddScenario" Content="Add scenario" HorizontalAlignment="Left" Margin="210,532,0,0" VerticalAlignment="Top" Width="120" Height="23" Click="AddScenario_Click"/>
         <ScrollViewer  HorizontalAlignment="Left" Height="185" Margin="565,43,0,0" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" Width="195">
             <StackPanel x:Name="StackPanelFluents" Height="170" Width="189">

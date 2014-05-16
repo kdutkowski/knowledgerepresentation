@@ -19,7 +19,7 @@
 
         <TextBox x:Name="TextBoxExpression"
 			TextAlignment="Center"
-			Text="{Binding Expression, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
+			Text="{Binding Expression, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" 
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
 			Width="320" TextWrapping="Wrap"

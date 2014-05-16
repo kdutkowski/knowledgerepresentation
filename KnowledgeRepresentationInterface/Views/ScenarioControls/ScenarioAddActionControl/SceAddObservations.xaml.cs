@@ -64,7 +64,15 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
             set
             {
                 _expression = value;
+                if (value == String.Empty)
+                {
+                    LabelValidation.Content = "It is necessary to fill expression.";
+                    throw new ArgumentException("");
+                }
+                else
+                    LabelValidation.Content = "Validation";
                 OnPropertyChanged("Expression");
+                
             }
         }
 

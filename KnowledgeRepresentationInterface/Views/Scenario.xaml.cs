@@ -30,6 +30,13 @@ namespace KnowledgeRepresentationInterface.Views
             set
             {
                 _scenarioName = value;
+                if (value == String.Empty)
+                {
+                    LabelValidationScenario.Content = "It is necessary to fill scenario name.";
+                    throw new ArgumentException("");
+                }
+                else
+                    LabelValidationScenario.Content = "Validation";
                 OnPropertyChanged("ScenarioName");
             }
         }
@@ -120,9 +127,14 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddObservation_Click(object sender, RoutedEventArgs e)
         {
-            if (ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Expression))
+            if (ObservationAdd.Expression == String.Empty)
+            {
+                ObservationAdd.LabelValidation.Content = "It is necessary to fill expression.";
+            }
+            else if (ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Expression))
             {
                 _scenarioDescription.observations.Add(new ScenarioObservationRecord(new SimpleLogicExpression(ObservationAdd.Expression), ObservationAdd.Time));
+                ObservationAdd.LabelValidation.Content = "Validation";
             }
         }
 
