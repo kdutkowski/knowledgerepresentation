@@ -36,7 +36,7 @@ namespace KnowledgeRepresentationInterface.Views
 
         private Dictionary<QueryType, QueControl> QueriesControls;
         private QueryType _selectedQueryType;
-        public QueryType SelectedQuestionType { get; set; }
+        public QuestionType SelectedQuestionType { get; set; }
         public QueryType SelectedQueryType
         {
             get { return _selectedQueryType; }
@@ -118,6 +118,7 @@ namespace KnowledgeRepresentationInterface.Views
             if (SelectedQueryType == QueryType.SatisfyConditionAtTime)
             {
                 Query q = ((QueControl)QueriesControls[SelectedQueryType]).GetQuery();
+                q.questionType = SelectedQuestionType;
                 QueryResult qr = Switcher.ExecuteQuery(q);
                 LabelResult.Content = qr;
             }
