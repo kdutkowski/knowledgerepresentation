@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -21,10 +23,13 @@ namespace KnowledgeRepresentationInterface.Views
         #region Properties
 
         private int _timeInf;
-        private List<Fluent> _fluents;
-        private List<WorldAction> _actions; 
-        private List<WorldDescriptionRecord> _statements;
+        private ObservableCollection<Fluent> _fluents;
+        private ObservableCollection<WorldAction> _actions; 
+        private ObservableCollection<WorldDescriptionRecord> _statements;
         private WorldDescriptionRecordType _selectedWDRecordType;
+        private Dictionary<WorldDescriptionRecordType, EnvControl> StatementsControls;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public WorldDescriptionRecordType SelectedWDRecordType
         {
@@ -36,40 +41,25 @@ namespace KnowledgeRepresentationInterface.Views
                 NotifyPropertyChanged("SelectedWDRecordType");
             }
         }
-        #endregion
 
-        #region Properties to show summary
-        private String _strFluent;
-        private String _strStatement;
-        private Dictionary<WorldDescriptionRecordType, EnvControl> StatementsControls;
-
-        public String FluentString
+        public ObservableCollection<Fluent> Fluents
         {
-            get
-            {
-                return _strFluent;
-            }
-            set
-            {
-                if (value != "")
-                    _strFluent = value + "\r\n";
-                NotifyPropertyChanged("FluentString");
-            }
-        }
-        public String StatementsString
-        {
-            get
-            {
-                return _strStatement;
-            }
-            set
-            {
-                if (value != "")
-                    _strStatement = value + "\r\n";
-                NotifyPropertyChanged("StatementsString");
-            }
+            get { return _fluents; }
+            set { _fluents = value; }
         }
 
+        public ObservableCollection<WorldAction> Actions
+        {
+            get { return _actions; }
+            set { _actions = value; }
+        }
+
+        public ObservableCollection<WorldDescriptionRecord> Statements
+        {
+            get { return _statements; }
+            set { _statements = value; }
+        }
+       
         public IEnumerable<WorldDescriptionRecordType> WDRecordType
         {
             get
@@ -77,15 +67,15 @@ namespace KnowledgeRepresentationInterface.Views
                 return Enum.GetValues(typeof(WorldDescriptionRecordType)).Cast<WorldDescriptionRecordType>().Where(t => t != WorldDescriptionRecordType.Initially);
             }
         }
-        public event PropertyChangedEventHandler PropertyChanged;
+        
         #endregion
 
         #region Constructor
         public Environment()
         {
-            _fluents = new List<Fluent>();
-            _actions = new List<WorldAction>();
-            _statements = new List<WorldDescriptionRecord>();
+            _fluents = new ObservableCollection<Fluent>();
+            _actions = new ObservableCollection<WorldAction>();
+            _statements = new ObservableCollection<WorldDescriptionRecord>();
             InitControls();
             InitializeComponent();
         }
@@ -112,7 +102,7 @@ namespace KnowledgeRepresentationInterface.Views
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-
+        
         #region Buttons events
 
         private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
@@ -126,62 +116,84 @@ namespace KnowledgeRepresentationInterface.Views
                              StatementsString;
             */
 
-            Switcher.NextPage(_timeInf, _fluents, _actions, _statements,_strStatement);
+            Switcher.NextPage(_timeInf, _fluents.ToList(), _actions.ToList(), _statements.ToList(), "");//,_strStatement);
         }
 
         private void ButtonAddFluent_Click(object sender, RoutedEventArgs e)
         {
-            if (!_fluents.Exists(f => (f.Name == TextBoxFluents.Text)))
+            if (!Fluents.Contains(Fluents.FirstOrDefault(f => (f.Name == TextBoxFluents.Text))))
             {
                 var f = new Fluent { Name = this.TextBoxFluents.Text };
-                _fluents.Add(f);
-                FluentString += TextBoxFluents.Text;
-                LabelFluentsValidation.Content = "";
+                Fluents.Add(f);
+                LabelFluentsActionsValidation.Content = "";
             }
             else
             {
-                LabelFluentsValidation.Content = "Fluent with this name already exists.";
+                LabelFluentsActionsValidation.Content = "Fluent with this name already exists.";
             }
         }
 
         private void ButtonRemoveFluent_Click(object sender, RoutedEventArgs e)
         {
-            if (_fluents.Exists(f => (f.Name == TextBoxFluents.Text)))
+            if (ListBoxFluents.SelectedIndex == -1)
+                return;
+            var fluent = (Fluent)ListBoxFluents.SelectedValue;
+            Fluents.Remove(fluent);
+        }
+
+        private void ButtonAddAction_Click(object sender, RoutedEventArgs e)
+        {
+            int duration;
+            if (!int.TryParse(TextBoxActionDuration.Text, out duration))
             {
-                _fluents.Remove(_fluents.FirstOrDefault(f => (f.Name == TextBoxFluents.Text)));
-                string tmp = "";
-                for (int i = 0; i < _fluents.Count; i++)
-                    tmp += (i != 0 ? "\r\n" : "") + _fluents[i].Name;
-                _strFluent = "";
-                
-                FluentString = tmp;
-                LabelFluentsValidation.Content = "";
+                LabelFluentsActionsValidation.Content = "Duration should be an integer.";
+                return;
+            }
+            if (!Actions.Contains(Actions.FirstOrDefault(f => (f.Id == TextBoxActionName.Text && f.Duration == duration))))
+            {
+                var action = new WorldAction {Id = TextBoxActionName.Text, Duration = duration};
+                Actions.Add(action);
+                LabelFluentsActionsValidation.Content = "";
+
             }
             else
             {
-                LabelFluentsValidation.Content = "Fluent with this name does not exist.";
+                LabelFluentsActionsValidation.Content = "Such action already exists.";
             }
+        }
+
+        private void ButtonRemoveAction_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListBoxActions.SelectedIndex == -1)
+                return;
+            var action = (WorldAction)ListBoxActions.SelectedValue;
+            Actions.Remove(action);
         }
 
         private void ButtonAddStatement_Click(object sender, RoutedEventArgs e)
         {
-            WorldDescriptionRecord wdr;
             try
             {
                 if (!StatementsControls.ContainsKey(SelectedWDRecordType)) //TODO hotfix
                 {
                     return;
                 }
-                wdr = StatementsControls[SelectedWDRecordType].GetWorldDescriptionRecord();
-                _actions.AddRange(StatementsControls[SelectedWDRecordType].GetAllCreatedActions());
-                _actions = _actions.Distinct(new ActionEqualityComparer()).ToList();
-                _statements.Add(wdr);
-                StatementsString += wdr.ToString();
+                WorldDescriptionRecord wdr = StatementsControls[SelectedWDRecordType].GetWorldDescriptionRecord();
+                Statements.Add(wdr);
                 StatementsControls[SelectedWDRecordType].CleanValues();
             }
             catch (TypeLoadException exception)
             {
             }
+        }
+
+        private void ButtonRemoveStatement_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListBoxStatements.SelectedIndex == -1)
+                return;
+
+            var wdr = (WorldDescriptionRecord)ListBoxStatements.SelectedValue;
+            Statements.Remove(wdr);
         }
 
         #endregion
@@ -209,5 +221,11 @@ namespace KnowledgeRepresentationInterface.Views
         }
 
         #endregion
+
+       
+
+       
+
+        
     }
 }

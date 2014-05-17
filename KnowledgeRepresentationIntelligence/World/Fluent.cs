@@ -16,13 +16,7 @@
             // TODO: Complete member initialization
         }
 
-        public override string ToString()
-        {
-            string description = "Fluent: " + Name + " , value: " + Value + " ";
-
-            return description;
-        }
-
+        
         public override bool Equals(object obj)
         {
             if (obj is Fluent)
@@ -37,5 +31,12 @@
         {
             return Name.GetHashCode();
         }
+
+        public override string ToString()
+        {
+
+            return Name;// +": " + Value;
+        }
+
     }
 }
