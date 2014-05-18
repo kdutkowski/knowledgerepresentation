@@ -1,13 +1,17 @@
-﻿namespace KnowledgeRepresentationReasoning.Queries
-{
-    using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+namespace KnowledgeRepresentationReasoning.Queries
+{
     public class AccesibleConditionQuery : Query
     {
-        public AccesibleConditionQuery(string condition)
-            : base()
+        public AccesibleConditionQuery(QuestionType questionType)
+            : base(QueryType.AccesibleCondition, questionType)
         {
-            queryType = QueryType.AccesibleCondition;
+            _queryType = QueryType.AccesibleCondition;
         }
 
         public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)

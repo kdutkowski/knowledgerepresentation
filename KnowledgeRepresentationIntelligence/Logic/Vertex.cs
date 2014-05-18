@@ -1,4 +1,7 @@
-﻿using KnowledgeRepresentationReasoning.World;
+﻿using KnowledgeRepresentationReasoning.Scenario;
+using KnowledgeRepresentationReasoning.World;
+using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,97 +9,165 @@ namespace KnowledgeRepresentationReasoning.Logic
 {
     public class Vertex
     {
-        public State State { get; private set; }
-        public WorldAction WorldAction { get; set; }
+        public State ActualState { get; private set; }
+        public WorldAction ActualWorldAction { get; set; }
         public int Time { get; private set; }
         private Vertex Root { get; set; }
         public bool IsPossible { get; set; }
-        public bool IsEnded { get; set; }
-
         public List<WorldAction> NextActions { get; set; }
+
+        private ILog _logger;
 
         public Vertex(State state, WorldAction worldAction, int time, Vertex root)
         {
-            State = state;
-            this.WorldAction = worldAction;
+            ActualState = state;
+            this.ActualWorldAction = worldAction;
             Time = time;
             Root = root;
-        }
 
-        public Vertex()
-        {
-            // TODO: Complete member initialization
+            Initialize();
         }
 
         public Vertex(Vertex leaf)
         {
-            State = leaf.State;
-            WorldAction = leaf.WorldAction;
+            Initialize();
+
+            ActualState = (State)leaf.ActualState.Clone();
+            ActualWorldAction = (WorldAction)leaf.ActualWorldAction.Clone();
             Time = leaf.Time;
             Root = leaf.Root;
             IsPossible = leaf.IsPossible;
-            IsEnded = leaf.IsEnded;
+            NextActions = leaf.NextActions.ToList();
         }
 
-        internal int? GetNextActionTime()
+        public Vertex()
         {
-            return NextActions.Min(action => action.StartAt);
+            Initialize();
         }
 
-        internal void Update(int nextTime)
+        private void Initialize()
         {
-            UpdateStateOnFluentChange(nextTime);
-            //int nextTime = UpdateAction();
-            UpdateTime(nextTime);
+            IsPossible = true;
+            NextActions = new List<WorldAction>();
+
+            _logger = Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetInstance<ILog>();
         }
 
-        private void UpdateStateOnFluentChange(int nextTime)
+        public int GetNextActionTime()
         {
-            
+            int nextTimeAction = -1;
+
+            if (NextActions.Count > 0)
+            {
+                int? nextTime = NextActions.Min(x => x.StartAt);
+                if (nextTime.HasValue)
+                {
+                    nextTimeAction = nextTime.Value;
+                }
+            }
+
+            return nextTimeAction;
         }
 
-        private int UpdateAction()
-        {
-            int endTime = this.WorldAction.StartAt + this.WorldAction.Duration??-1;
-
-            return 0;
-        }
-
-        private void UpdateTime(int newTime)
-        {
-            Time = newTime;
-        }
-
-        internal List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, World.WorldAction worldAction, int nextTime)
+        public List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, World.WorldAction nextActionFromScenario, int nextTime)
         {
             List<Vertex> childs = new List<Vertex>();
+
+            if (ActualWorldAction.GetEndTime() < nextTime)
+            {
+                return GetImpossibleChilds();
+            }
+
+            if (ActualWorldAction.GetEndTime() == nextTime)
+            {
+                ActualWorldAction = null;
+            }
+
+            WorldAction leafAction = ActualWorldAction;
+            if (NextActions.Count > 0)
+            {
+                SortActionsByStartTime(NextActions);
+                if (NextActions[0].StartAt < nextTime)
+                {
+                    leafAction = NextActions[0];
+                }
+            }
 
             foreach (var implication in implications)
             {
                 Vertex child = new Vertex(this);
-                child.State = implication.FutureState;
-                if (WorldAction.GetEndTime() == nextTime)
+                child.Root = this;
+                child.ActualState = implication.FutureState;
+
+                if (nextActionFromScenario != null)
                 {
-                    WorldAction = null;
+                    if (nextTime == nextActionFromScenario.StartAt)
+                    {
+                        this.ActualWorldAction = (WorldAction)nextActionFromScenario.Clone();
+                    }
+                    this.IsPossible = false;
+                    return childs;
                 }
-                if (nextTime == worldAction.StartAt)
-                    this.WorldAction = (WorldAction)worldAction.Clone();
 
                 child.NextActions = new List<WorldAction>();
                 child.NextActions.AddRange(implication.TriggeredActions);
+                child.SetActionSTime();
 
                 child.Time = nextTime;
                 child.IsPossible = child.ValidateActions();
 
                 childs.Add(child);
             }
-
             return childs;
-
         }
 
+        private void SetActionSTime()
+        {
+            foreach (var action in NextActions)
+            {
+                action.StartAt = Time + action.TriggeredAfter;
+            }
+        }
 
-        class WorldComparer : IComparer<WorldAction>
+        public bool ValidateActions()
+        {
+            bool result = true;
+            SortActionsByStartTime(NextActions);
+
+            for (int i = 0; i < NextActions.Count; ++i)
+            {
+                WorldAction nextAction = NextActions[i];
+
+                if (nextAction.GetEndTime() != nextAction.StartAt + nextAction.Duration)
+                {
+                    result = false;
+                    break;
+                }
+
+                if (ActualWorldAction != null && nextAction.StartAt < ActualWorldAction.GetEndTime())
+                {
+                    result = false;
+                    break;
+                }
+
+                if (i < NextActions.Count - 1)
+                {
+                    if (NextActions[i + 1].StartAt.HasValue && NextActions[i + 1].StartAt < nextAction.GetEndTime())
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+            }
+            return result;
+        }
+
+        private void SortActionsByStartTime(List<World.WorldAction> NextActions)
+        {
+            NextActions.Sort(new WorldActionTimeComparer());
+        }
+
+        private class WorldActionTimeComparer : IComparer<WorldAction>
         {
             public int Compare(WorldAction a, WorldAction b)
             {
@@ -106,32 +177,72 @@ namespace KnowledgeRepresentationReasoning.Logic
             }
         }
 
-        internal bool ValidateActions()
+        internal List<Vertex> GenerateChildsForLeaf(WorldDescription worldDescription, ScenarioDescription scenarioDescription, int TInf)
         {
+            List<Vertex> vertices = new List<Vertex>();
 
-            NextActions.Sort(new WorldComparer());
-            for (int i = 0; i < NextActions.Count; i++)
+            int nextTime = GetNextTimestamp(scenarioDescription, TInf);
+
+            if (!CheckNearestObservations(scenarioDescription, nextTime))
+                return GetImpossibleChilds();
+
+            var implications = worldDescription.GetImplications(this, nextTime);
+            WorldAction nextAction = scenarioDescription.GetActionAtTime(nextTime);
+
+            vertices = CreateChildsBasedOnImplications(implications, nextAction, nextTime);
+
+            return vertices;
+        }
+
+        private bool CheckNearestObservations(ScenarioDescription scenarioDescription, int nextTime)
+        {
+            int actualTime = Time;
+            while (actualTime <= nextTime)
             {
-                if (this.WorldAction.StartAt <= this.NextActions[i].StartAt &&
-                    this.NextActions[i].StartAt < this.WorldAction.GetEndTime()) return false;
+                int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
+                if (!CheckNearestObservation(scenarioDescription, actualTime, nextObservationTime, nextTime))
+                    return false;
 
-                if (this.WorldAction.StartAt < this.NextActions[i].GetEndTime() &&
-                    this.NextActions[i].GetEndTime() <= this.WorldAction.GetEndTime()) return false;
-
-                if (i < NextActions.Count - 1)
-                {
-                    if (this.NextActions[i].StartAt <= this.NextActions[i + 1].StartAt &&
-                    this.NextActions[i].GetEndTime() > this.NextActions[i + 1].StartAt) return false;
-
-                    if (this.NextActions[i].StartAt < this.NextActions[i + 1].GetEndTime() &&
-                        this.NextActions[i].GetEndTime() > this.NextActions[i + 1].GetEndTime()) return false;
-
-                }
+                actualTime = nextObservationTime;
             }
 
             return true;
+        }
 
+        private bool CheckNearestObservation(ScenarioDescription scenarioDescription, int actualTime, int nextObservationTime, int nextTime)
+        {
+            if (actualTime <= nextObservationTime && nextObservationTime < nextTime)
+            {
+                ScenarioObservationRecord nextObservation = scenarioDescription.GetObservationFromTime(nextObservationTime);
+                if (!nextObservation.CheckState(ActualState, actualTime))
+                {
+                    _logger.Warn("Leaf is incopatibile with observation!\n" +
+                                    "State: " + ActualState.ToString() +
+                                    "Observation: " + nextObservation);
+                    return false;
+                }
+            }
+            return true;
+        }
 
+        private List<Vertex> GetImpossibleChilds()
+        {
+            Vertex child = new Vertex();
+            child.IsPossible = false;
+            List<Vertex> impossibleChilds = new List<Vertex>() { child };
+            return impossibleChilds;
+        }
+
+        private int GetNextTimestamp(ScenarioDescription scenarioDescription, int TInf)
+        {
+            int actualActionEndTime = ActualWorldAction.GetEndTime() < 0 ? int.MaxValue : ActualWorldAction.GetEndTime();
+            int nextActionStartTime = GetNextActionTime() < 0 ? int.MaxValue : GetNextActionTime();
+
+            int nextActionTime = scenarioDescription.GetNextActionTime(Time);
+            nextActionTime = nextActionTime < 0 ? int.MaxValue : nextActionTime;
+
+            int min = Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime));
+            return min > TInf ? TInf : min;
         }
     }
 }

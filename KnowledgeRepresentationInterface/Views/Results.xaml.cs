@@ -117,8 +117,7 @@ namespace KnowledgeRepresentationInterface.Views
             //todo pozostałe typy
             if (SelectedQueryType == QueryType.SatisfyConditionAtTime)
             {
-                Query q = ((QueControl)QueriesControls[SelectedQueryType]).GetQuery();
-                q.questionType = SelectedQuestionType;
+                Query q = ((QueControl)QueriesControls[SelectedQueryType]).GetQuery(SelectedQuestionType);
                 QueryResult qr = Switcher.ExecuteQuery(q);
                 LabelResult.Content = qr;
             }

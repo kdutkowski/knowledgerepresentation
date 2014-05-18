@@ -23,7 +23,7 @@ namespace KnowledgeRepresentationReasoning
     using System.Collections.Generic;
     using System;
 
-   
+
     public class Reasoning : IReasoning
     {
         private static IContainer Container { get; set; }
@@ -120,68 +120,42 @@ namespace KnowledgeRepresentationReasoning
             //add first level
             int numberOfImpossibleLeaf = 0;
             tree.AddFirstLevel(worldDescription, scenarioDescription, out numberOfImpossibleLeaf);
-            
-            queryResultsContainer.Add(QueryResult.False, numberOfImpossibleLeaf);
-            if (queryResultsContainer.CanAnswer())
-                return queryResultsContainer.CollectResults();
+
+            queryResultsContainer.AddMany(QueryResult.False, numberOfImpossibleLeaf);
 
             //generate next level if query can't answer yet
-            while (!queryResultsContainer.CanAnswer() && tree.LastLevel.Count > 0)
+            while (!queryResultsContainer.CanQuickAnswer() && tree.LastLevel.Count > 0)
             {
-                //for each leafs:
-                    //genereate childs for leaf
-                    //create next level in tree
-                    //for each child:
-                        //if leaf isPossible=false:
-                            //add FALSE to resultsContainer (can check answer)
-                        //if leaf isEnded=true: add query answer (only TRUE/FALSE are valid) to resultsContainer (can check answer)
-                        //else
-                            //query validation:
-                                //if result == TRUE/FALSE add to resultContainer and delete child
-                                //else add child to queue in tree
-                //for ends
                 int childsCount = tree.LastLevel.Count;
                 for (int i = 0; i < childsCount; ++i)
                 {
                     Vertex leaf = tree.LastLevel[i];
                     if (!CheckIfLeafIsPossible(leaf))
                     {
-                        queryResultsContainer.Add(QueryResult.False);
-                        if (queryResultsContainer.CanAnswer())
+                        tree.DeleteChild(i);
+                        queryResultsContainer.AddMany(QueryResult.False);
+                        if (queryResultsContainer.CanQuickAnswer())
+                        {
                             break;
-                        //tree.LastLevel.Remove(i);
+                        }
                     }
                     else
                     {
-                        //if (CheckIfLeafIsEnded(leaf))
-                        //{
-                        //    QueryResult result = query.CheckCondition(leaf.State, leaf.Action, leaf.Time);
-                        //    if (result != QueryResult.True && result != QueryResult.False)
-                        //    {
-                        //        _logger.Warn("Unexpected query result!");
-                        //        return QueryResult.Error; 
-                        //        //return QueryResult.False;
-                        //    }
-                        //    queryResultsContainer.Add(result);
-                        //    if (queryResultsContainer.CanAnswer())
-                        //        break;
-                        //}
-                        tree.SaveChild(i);
                         tree.DeleteChild(i);
-                        List<Vertex> nextLevel = GenerateChildsForLeaf(leaf);
-                        
+                        List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(worldDescription, scenarioDescription, TInf);
+
                         foreach (var child in nextLevel)
                         {
                             if (!CheckIfLeafIsPossible(child))
                             {
-                                queryResultsContainer.Add(QueryResult.False);
-                                if (queryResultsContainer.CanAnswer())
+                                queryResultsContainer.AddMany(QueryResult.False);
+                                if (queryResultsContainer.CanQuickAnswer())
                                     break;
                             }
-                            QueryResult result = query.CheckCondition(child.State, child.WorldAction, child.Time);
+                            QueryResult result = query.CheckCondition(child.ActualState, child.ActualWorldAction, child.Time);
                             if (result == QueryResult.True || result == QueryResult.False)
                             {
-                                queryResultsContainer.Add(result);
+                                queryResultsContainer.AddMany(result);
                             }
                             else tree.Add(child);
                         }
@@ -190,66 +164,6 @@ namespace KnowledgeRepresentationReasoning
             }
 
             return queryResultsContainer.CollectResults();
-        }
-
-        private List<Vertex> GenerateChildsForLeaf(Vertex leaf)
-        {
-            List<Vertex> vertices = new List<Vertex>();
-
-            Vertex child = new Vertex();
-            child.IsPossible = false;
-            List<Vertex> impossibleChild = new List<Vertex>() { child };
-
-            int actualTime = leaf.Time;
-            int nextTime = GetNextTimestamp(leaf, scenarioDescription);
-
-            int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
-            if (!CheckNearestObservation(leaf, actualTime, nextObservationTime, nextTime))
-                return impossibleChild;
-
-            //leaf.Update(nextTime);
-
-            //if (!CheckIfLeafIsPossible(leaf))
-            //    return impossibleChild;
-
-            var implications = worldDescription.GetImplications(leaf, nextTime);
-            vertices = leaf.CreateChildsBasedOnImplications(implications, scenarioDescription.GetActionAtTime(nextTime), nextTime);
-
-            return vertices;
-        }
-
-        private bool CheckNearestObservation(Vertex leaf, int actualTime, int nextObservationTime, int nextTime)
-        {
-            if (actualTime <= nextObservationTime && nextObservationTime < nextTime)
-            {
-                ScenarioObservationRecord nextObservation = scenarioDescription.GetObservationFromTime(nextObservationTime);
-                if (!nextObservation.CheckState(leaf.State, actualTime))
-                {
-                    _logger.Warn("Leaf is incopatibile with observation!\n" +
-                                    "State: " + leaf.State +
-                                    "Observation: " + nextObservation);
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        private int GetNextTimestamp(Vertex leaf, ScenarioDescription scenarioDescription)
-        {
-            int nextActionTime = scenarioDescription.GetNextActionTime(leaf.Time);
-            int actualActionEndTime = leaf.WorldAction.GetEndTime()??Int32.MaxValue;
-            int nextActionStartTime = leaf.GetNextActionTime()??Int32.MaxValue;
-
-            return Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime));
-        }
-
-        private bool CheckIfLeafIsEnded(Vertex leaf)
-        {
-            bool isEnded = false;
-
-            bool noAction = leaf.WorldAction.Equals(null);
-
-            return isEnded;
         }
 
         private bool CheckIfLeafIsPossible(Vertex leaf)
@@ -274,7 +188,7 @@ namespace KnowledgeRepresentationReasoning
             ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(Container));
 
             // WorldDescription
-            
+
             // ScenarioDescription
         }
     }

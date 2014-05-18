@@ -41,6 +41,10 @@
     <Reference Include="Autofac.Extras.CommonServiceLocator">
       <HintPath>..\packages\Autofac.Extras.CommonServiceLocator.3.1.1\lib\net40\Autofac.Extras.CommonServiceLocator.dll</HintPath>
     </Reference>
+    <Reference Include="ExpressionEvaluator, Version=1.0.4.0, Culture=neutral, PublicKeyToken=90d9f15d622e2348, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ExpressionEvaluator.1.0.4.0\lib\net40\ExpressionEvaluator.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
@@ -66,9 +70,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ConditionAtTimeQueryTests.cs" />
     <Compile Include="InitialRecordTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleLogicExpressionTest.cs" />
+    <Compile Include="ReasoningTests.cs" />
+    <Compile Include="TestBase.cs" />
+    <Compile Include="QueryResultsContainerTests.cs" />
+    <Compile Include="VertexTests.cs" />
     <Compile Include="WorldDescriptionTests.cs" />
   </ItemGroup>
   <ItemGroup>

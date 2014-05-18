@@ -1,29 +1,29 @@
-﻿using KnowledgeRepresentationReasoning.Queries;
-using log4net;
+﻿using log4net;
 using Microsoft.Practices.ServiceLocation;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace KnowledgeRepresentationReasoning.Queries
 {
     class QueryResultsContainer : IQueryResultsContainer
     {
         private ILog _logger;
+
         private QuestionType _questionType;
         private List<QueryResult> _results;
 
         public QueryResultsContainer(QuestionType questionType)
         {
-            _logger = ServiceLocator.Current.GetInstance<ILog>();
             _questionType = questionType;
             _results = new List<QueryResult>();
+
+            _logger = ServiceLocator.Current.GetInstance<ILog>();
+            _logger.Info("Create query result container with question type '" + _questionType);
         }
 
         public QueryResult CollectResults()
         {
-            QueryResult finalResult = QueryResult.None;
+            QueryResult finalResult = QueryResult.Undefined;
 
             if (QuestionType.Always == _questionType)
             {
@@ -40,94 +40,52 @@ namespace KnowledgeRepresentationReasoning.Queries
 
         private QueryResult CollectResultsForEver(QueryResult finalResult)
         {
-            finalResult = QueryResult.False;
-            foreach (var result in _results)
-            {
-                if (QueryResult.True == result)
-                {
-                    finalResult = QueryResult.True;
-                    break;
-                }
-            }
-            return finalResult;
+            bool answer = _results.Any(x => x == QueryResult.True);
+            return answer ? QueryResult.True : QueryResult.False;
         }
 
         private QueryResult CollectResultsForAlways(QueryResult finalResult)
         {
-            finalResult = QueryResult.True;
-            foreach (var result in _results)
-            {
-                if (QueryResult.False == result)
-                {
-                    finalResult = QueryResult.False;
-                    break;
-                }
-            }
-            return finalResult;
+            bool answer = _results.Any(x => x == QueryResult.False);
+            return answer ? QueryResult.False : QueryResult.True;
         }
 
-        public bool CanAnswer()
+        public bool CanQuickAnswer()
         {
-            bool answer = true;
+            bool answer = false;
 
             if (QuestionType.Always == _questionType)
             {
-                answer = CanAnswerForAlways();
+                answer = CanQuickAnswerForAlways();
             }
             else if (QuestionType.Ever == _questionType)
             {
-                answer = CanAnswerForEver();
+                answer = CanQuickAnswerForEver();
             }
 
-            _logger.Info("Query can answer: " + answer);
+            _logger.Info("Query can answer now: " + answer);
             return answer;
         }
 
-        private bool CanAnswerForEver()
+        private bool CanQuickAnswerForEver()
         {
-            bool answer = false;
-            foreach (var result in _results)
-            {
-                if (QueryResult.True == result)
-                {
-                    answer = true;
-                    break;
-                }
-                //if (result != QueryResult.True && result != QueryResult.False)
-                //{
-                //    answer = false;
-                //    //break;
-                //}
-            }
-            return answer;
+            return _results.Any(x => x == QueryResult.True);
         }
 
-        private bool CanAnswerForAlways()
+        private bool CanQuickAnswerForAlways()
         {
-            bool answer = false;
-            foreach (var result in _results)
-            {
-                if (QueryResult.False == result)
-                {
-                    answer = true;
-                    break;
-                }
-                //if (result != QueryResult.True && result != QueryResult.False)
-                //{
-                //    answer = false;
-                //    //break;
-                //}
-            }
-            return answer;
+            return _results.Any(x => x == QueryResult.False);
         }
 
-        internal void Add(QueryResult queryResult, int count=0)
+        public void AddMany(QueryResult queryResult, int count = 1)
         {
-            while (count-- > 0)
-            {
-                _results.Add(queryResult);
-                _logger.Info("Adding query result: " + queryResult);
-            }
+            _results.AddRange(Enumerable.Repeat(queryResult, count));
+            _logger.Info("Add query result '" + queryResult + "' " + count + " times");
+        }
+
+        public int Count()
+        {
+            return _results.Count;
         }
     }
 }

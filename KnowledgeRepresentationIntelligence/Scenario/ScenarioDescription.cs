@@ -1,4 +1,6 @@
-﻿namespace KnowledgeRepresentationReasoning.Scenario
+﻿using System.Linq;
+
+namespace KnowledgeRepresentationReasoning.Scenario
 {
     using KnowledgeRepresentationReasoning.Expressions;
     using KnowledgeRepresentationReasoning.World;
@@ -71,17 +73,14 @@
 
         internal WorldAction GetActionAtTime(int t)
         {
-            foreach (ScenarioActionRecord sar in this.actions)
+            try
             {
-                if (sar.Time.Equals(t)) return sar.WorldAction;
-
+                return actions.Find(action => action.Time == t).WorldAction;
             }
-
-            return null;
-
-
-
-            //throw new System.NotImplementedException();
+            catch (System.ArgumentNullException)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -93,23 +92,20 @@
         /// <returns></returns>
         internal ScenarioObservationRecord GetObservationFromTime(int time)
         {
-            //List<ScenarioObservationRecord> matches = new List<ScenarioObservationRecord>(observations.Count);
-            foreach (ScenarioObservationRecord sor in this.observations)
+            ScenarioObservationRecord observation = new ScenarioObservationRecord(new SimpleLogicExpression(""), time);
+            foreach (ScenarioObservationRecord obs in this.observations)
             {
-                if (sor.Time.Equals(time)) return sor;
-                
+                if (obs.Time.Equals(time))
+                {
+                    observation.Expr.AddExpression(obs.Expr);
+                }
             }
-
-            return null;
-
-            //throw new System.NotImplementedException();
-
-            
+            return observation;
         }
 
         internal bool CheckIfLeafIsPossible(Logic.Vertex leaf)
         {
-            return CheckRecords(leaf.State, null, leaf.Time);
+            return CheckRecords(leaf.ActualState, null, leaf.Time);
         }
 
         /// <summary>
@@ -122,15 +118,21 @@
             int result = int.MaxValue;
             foreach (ScenarioObservationRecord sor in this.observations)
             {
-                if (sor.Time>=actualTime)
-                    if(sor.Time<result)result=sor.Time;
+                if (sor.Time >= actualTime)
+                {
+                    if (sor.Time < result)
+                    {
+                        result = sor.Time;
+                    }
+                }
 
             }
-            if (result == int.MaxValue) result = -1;
-            return result;
-           
-            //throw new System.NotImplementedException();
+            if (result == int.MaxValue)
+            {
+                result = -1;
+            }
 
+            return result;
         }
 
         /// <summary>
@@ -144,15 +146,20 @@
             foreach (ScenarioObservationRecord sor in this.observations)
             {
                 if (sor.Time >= actualTime)
-                    if (sor.Time < result) result = sor.Time;
-
+                {
+                    if (sor.Time < result)
+                    {
+                        result = sor.Time;
+                    }
+                }
             }
 
-            if(result==int.MaxValue)result=-1;
+            if (result == int.MaxValue)
+            {
+                result = -1;
+            }
+
             return result;
-
-            //throw new System.NotImplementedException();
-
         }
     }
 }

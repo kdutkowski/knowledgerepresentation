@@ -23,9 +23,9 @@
             RegisterName("queContr_cond", this);
         }
 
-        public override Query GetQuery()
+        public override Query GetQuery(QuestionType questionType)
         {
-           return new ConditionAtTimeQuery(TextBoxCondition.Text, Int32.Parse(TextBoxTime.Text));
+            return new ConditionAtTimeQuery(questionType, TextBoxCondition.Text, Int32.Parse(TextBoxTime.Text));
         }
     }
 }

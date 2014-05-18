@@ -25,7 +25,7 @@
             RegisterName("queContr_cond", this);
         }
 
-        public override Query GetQuery()
+        public override Query GetQuery(QuestionType questionType)
         {
             throw new System.NotImplementedException();
         }

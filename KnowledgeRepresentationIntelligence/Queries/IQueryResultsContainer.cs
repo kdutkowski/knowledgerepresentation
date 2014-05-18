@@ -4,6 +4,6 @@
     {
         QueryResult CollectResults();
 
-        bool CanAnswer();
+        bool CanQuickAnswer();
     }
 }

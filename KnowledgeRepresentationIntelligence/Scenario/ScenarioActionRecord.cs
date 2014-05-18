@@ -23,8 +23,14 @@
         public bool CheckIfActiveAt(int time)
         {
 
-            if (time>=this.WorldAction.StartAt&&time<this.WorldAction.GetEndTime()) return true;
-            else return false;
+            if (time >= this.WorldAction.StartAt && time < this.WorldAction.GetEndTime())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

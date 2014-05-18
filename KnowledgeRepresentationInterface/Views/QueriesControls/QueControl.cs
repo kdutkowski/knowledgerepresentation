@@ -24,6 +24,6 @@
             Fluents = fluents;
         }
 
-        public abstract Query GetQuery();
+        public abstract Query GetQuery( QuestionType questionType);
     }
 }
