@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
 using KnowledgeRepresentationInterface.Views.EnvironmentControls;
-using KnowledgeRepresentationInterface.Views.Helpers;
 using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
 
@@ -27,7 +25,7 @@ namespace KnowledgeRepresentationInterface.Views
         private ObservableCollection<WorldAction> _actions; 
         private ObservableCollection<WorldDescriptionRecord> _statements;
         private WorldDescriptionRecordType _selectedWDRecordType;
-        private Dictionary<WorldDescriptionRecordType, EnvControl> StatementsControls;
+        private Dictionary<WorldDescriptionRecordType, EnvControl> _statementsControls;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -37,7 +35,7 @@ namespace KnowledgeRepresentationInterface.Views
             set
             {
                 _selectedWDRecordType = value;
-                this.GruopBoxStatements.Content = StatementsControls[_selectedWDRecordType];
+                this.GruopBoxStatements.Content = _statementsControls[_selectedWDRecordType];
                 NotifyPropertyChanged("SelectedWDRecordType");
             }
         }
@@ -85,13 +83,13 @@ namespace KnowledgeRepresentationInterface.Views
         #region Init methods
         private void InitControls()
         {
-            StatementsControls = new Dictionary<WorldDescriptionRecordType, EnvControl>();
-            StatementsControls.Add(WorldDescriptionRecordType.ActionCausesIf, new EnvCausesIf());
-            StatementsControls.Add(WorldDescriptionRecordType.ActionInvokesAfterIf, new EnvInvokesAfterIf());
-            StatementsControls.Add(WorldDescriptionRecordType.ActionReleasesIf, new EnvReleasesIf());
-            StatementsControls.Add(WorldDescriptionRecordType.ExpressionTriggersAction, new EnvTriggers());
-            StatementsControls.Add(WorldDescriptionRecordType.ImpossibleActionAt, new EnvImpossibleAt());
-            StatementsControls.Add(WorldDescriptionRecordType.ImpossibleActionIf, new EnvImpossibleIf());
+            _statementsControls = new Dictionary<WorldDescriptionRecordType, EnvControl>();
+            _statementsControls.Add(WorldDescriptionRecordType.ActionCausesIf, new EnvCausesIf(_actions));
+            _statementsControls.Add(WorldDescriptionRecordType.ActionInvokesAfterIf, new EnvInvokesAfterIf(_actions));
+            _statementsControls.Add(WorldDescriptionRecordType.ActionReleasesIf, new EnvReleasesIf());
+            _statementsControls.Add(WorldDescriptionRecordType.ExpressionTriggersAction, new EnvTriggers());
+            _statementsControls.Add(WorldDescriptionRecordType.ImpossibleActionAt, new EnvImpossibleAt());
+            _statementsControls.Add(WorldDescriptionRecordType.ImpossibleActionIf, new EnvImpossibleIf());
         }
         #endregion
 
@@ -121,10 +119,17 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddFluent_Click(object sender, RoutedEventArgs e)
         {
+            if (TextBoxFluents.Text == "")
+            {
+                LabelFluentsActionsValidation.Content = "Fluent name is required.";
+                return;
+            }
+                
             if (!Fluents.Contains(Fluents.FirstOrDefault(f => (f.Name == TextBoxFluents.Text))))
             {
                 var f = new Fluent { Name = this.TextBoxFluents.Text };
                 Fluents.Add(f);
+                TextBoxFluents.Text = "";
                 LabelFluentsActionsValidation.Content = "";
             }
             else
@@ -143,16 +148,23 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddAction_Click(object sender, RoutedEventArgs e)
         {
-            int duration;
-            if (!int.TryParse(TextBoxActionDuration.Text, out duration))
+            if (TextBoxActionName.Text == "")
             {
-                LabelFluentsActionsValidation.Content = "Duration should be an integer.";
+                LabelFluentsActionsValidation.Content = "Action name is required.";
                 return;
             }
+            if (!UpDownTime.Value.HasValue)
+            {
+                LabelFluentsActionsValidation.Content = "Please specify the duration.";
+                return;
+            }
+            int duration = UpDownTime.Value.Value;
             if (!Actions.Contains(Actions.FirstOrDefault(f => (f.Id == TextBoxActionName.Text && f.Duration == duration))))
             {
-                var action = new WorldAction {Id = TextBoxActionName.Text, Duration = duration};
+                var action = new WorldAction { Id = TextBoxActionName.Text, Duration = duration };
                 Actions.Add(action);
+                TextBoxActionName.Text = "";
+                UpDownTime.Value = null;
                 LabelFluentsActionsValidation.Content = "";
 
             }
@@ -174,13 +186,13 @@ namespace KnowledgeRepresentationInterface.Views
         {
             try
             {
-                if (!StatementsControls.ContainsKey(SelectedWDRecordType)) //TODO hotfix
+                if (!_statementsControls.ContainsKey(SelectedWDRecordType)) //TODO hotfix
                 {
                     return;
                 }
-                WorldDescriptionRecord wdr = StatementsControls[SelectedWDRecordType].GetWorldDescriptionRecord();
+                WorldDescriptionRecord wdr = _statementsControls[SelectedWDRecordType].GetWorldDescriptionRecord();
                 Statements.Add(wdr);
-                StatementsControls[SelectedWDRecordType].CleanValues();
+                _statementsControls[SelectedWDRecordType].CleanValues();
             }
             catch (TypeLoadException exception)
             {

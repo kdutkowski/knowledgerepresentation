@@ -11,16 +11,22 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     {
         public abstract WorldDescriptionRecord GetWorldDescriptionRecord();
 
-        public virtual List<WorldAction> GetAllCreatedActions()
-        {
-            return new List<WorldAction>();
-        }
-
         public abstract void CleanValues();
+
+        protected virtual bool ParseAction(int selectedIndex, out string errorInfo)
+        {
+            if (selectedIndex == -1)
+            {
+                errorInfo = "Please select an action.";
+                return false;
+            }
+            errorInfo = "";
+            return true;
+        }
 
         protected virtual bool ParseAction(string actionText, out WorldAction worldAction, out string errorInfo)
         {
-            string actionString = actionText; // TextBoxAction.Text;
+            string actionString = actionText;
             worldAction = new WorldAction();
             errorInfo = "";
             try
@@ -47,6 +53,17 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
                 errorInfo = "All fields are reqiured";
                 return false;
             }
+            return true;
+        }
+
+        protected virtual bool ParseTimeLenght(int? value, out string errorInfo)
+        {
+            if (!value.HasValue)
+            {
+                errorInfo = "You must specify the time.";
+                return false;
+            }
+            errorInfo = "";
             return true;
         }
 

@@ -1,4 +1,5 @@
-﻿using KnowledgeRepresentationReasoning.World.Records;
+﻿using System.Collections.ObjectModel;
+using KnowledgeRepresentationReasoning.World.Records;
 using System;
 using System.Collections.Generic;
 
@@ -13,7 +14,8 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     {
         #region Properties
 
-        private WorldAction worldAction;
+        public WorldAction SelectedAction { get; set; }
+        public ObservableCollection<WorldAction> Actions { get; set; }
         private String _expressionEffect;
         private String _expressionIf;
 
@@ -21,9 +23,11 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 
         #region Constructor
 
-        public EnvCausesIf()
+        public EnvCausesIf(ObservableCollection<WorldAction> actionsCollection)
         {
+            Actions = actionsCollection;
             InitializeComponent();
+            RegisterName("envControl_causesIf", this);
         }
 
         #endregion
@@ -32,11 +36,12 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             string errorString;
-            if (ParseAction(TextBoxAction.Text, out this.worldAction, out errorString)
+            if (ParseAction(ComboBoxActions.SelectedIndex, out errorString)
                 && ParseExpression(TextBoxFormEffect.Text, out _expressionEffect, out errorString)
                 && ParseExpression(TextBoxFormIf.Text, out _expressionIf, out errorString))
             {
-                return new ActionCausesIfRecord(this.worldAction, _expressionEffect, _expressionIf);
+                LabelValidation.Content = "";
+                return new ActionCausesIfRecord(this.SelectedAction, _expressionEffect, _expressionIf);
             }
 
             LabelValidation.Content = errorString;
@@ -47,19 +52,14 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         {
             _expressionEffect = "";
             _expressionIf = "";
-            this.worldAction = null;
+            this.SelectedAction = null;
 
-            TextBoxAction.Text = "(Action, duration)";
+            ComboBoxActions.SelectedIndex = -1;
+            SelectedAction = null;
             TextBoxFormEffect.Text = "Alfa";
             TextBoxFormIf.Text = "Pi";
             LabelValidation.Content = "";
         }
-
-        public override List<WorldAction> GetAllCreatedActions()
-        {
-            return new List<WorldAction> {this.worldAction};
-        }
-
 
     }
 }
