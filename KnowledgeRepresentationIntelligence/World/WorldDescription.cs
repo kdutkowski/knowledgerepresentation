@@ -29,8 +29,8 @@
 
         public List<Implication> GetImplications(Vertex leaf, int nextTime)
         {
-            var triggeredActions = this.GetTriggeredActions(leaf.ActualWorldAction, leaf.State, leaf.Time);
-            var possibleFutureStates = this.GetPossibleFutureStates(leaf.ActualWorldAction, leaf.State, leaf.Time);
+            var triggeredActions = this.GetTriggeredActions(leaf.ActualWorldAction, leaf.ActualState, leaf.Time);
+            var possibleFutureStates = this.GetPossibleFutureStates(leaf.ActualWorldAction, leaf.ActualState, leaf.Time);
             return possibleFutureStates.Select(possibleFutureState => 
                 new Implication { FutureState = possibleFutureState, TriggeredActions = triggeredActions.ToList() }).ToList();
         }
@@ -50,7 +50,7 @@
             }
             foreach (var IAIR in impossibleActionIfRecords)
             {
-                if (IAIR.IsFulfilled(leaf.State) && IAIR.GetResult() == leaf.ActualWorldAction)
+                if (IAIR.IsFulfilled(leaf.ActualState) && IAIR.GetResult() == leaf.ActualWorldAction)
                 {
                     return false;
                 }

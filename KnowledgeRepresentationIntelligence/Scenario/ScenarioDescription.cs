@@ -97,7 +97,7 @@ namespace KnowledgeRepresentationReasoning.Scenario
 
         internal bool CheckIfLeafIsPossible(Logic.Vertex leaf)
         {
-            return CheckRecords(leaf.State, null, leaf.Time);
+            return CheckRecords(leaf.ActualState, null, leaf.Time);
         }
 
         /// <summary>
@@ -138,15 +138,20 @@ namespace KnowledgeRepresentationReasoning.Scenario
             foreach (ScenarioObservationRecord sor in this.observations)
             {
                 if (sor.Time >= actualTime)
-                    if (sor.Time < result) result = sor.Time;
-
+                {
+                    if (sor.Time < result)
+                    {
+                        result = sor.Time;
+                    }
+                }
             }
 
-            if(result==int.MaxValue)result=-1;
+            if (result == int.MaxValue)
+            {
+                result = -1;
+            }
+
             return result;
-
-            //throw new System.NotImplementedException();
-
         }
     }
 }

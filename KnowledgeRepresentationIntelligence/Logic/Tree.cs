@@ -14,7 +14,7 @@ namespace KnowledgeRepresentationReasoning.Logic
         ILogicExpression _logicExpression;
         private ILog _logger;
 
-        public List<Vertex> LastLevel {get; private set;}
+        public List<Vertex> LastLevel { get; private set; }
         private List<Vertex> _allVertices;
 
         private int _TInf;
@@ -31,7 +31,6 @@ namespace KnowledgeRepresentationReasoning.Logic
         }
 
         //missing:
-        //- add T_inf
         //- action can't be before first observation -> interface validation!
         public int AddFirstLevel(World.WorldDescription WorldDescription, Scenario.ScenarioDescription ScenarioDescription, out int numberOfImpossibleLeaf)
         {
@@ -41,6 +40,12 @@ namespace KnowledgeRepresentationReasoning.Logic
             //states
             List<string> fluentNames = WorldDescription.GetFluentNames().ToList<string>();
             List<State> states = CreateStatesBasedOnObservations(fluentNames, ScenarioDescription, ref t);
+
+            if (states.Count == 0)
+            {
+                numberOfImpossibleLeaf = 1;
+                return 0;
+            }
 
             foreach (var state in states)
             {
@@ -67,6 +72,11 @@ namespace KnowledgeRepresentationReasoning.Logic
             List<State> states = new List<State>();
 
             time = scenarioDescription.GetNextObservationTime(0);
+            if (time == -1 || time > _TInf)
+            {
+                return states;
+            }
+
             ScenarioObservationRecord observation = scenarioDescription.GetObservationFromTime(time);
             if (observation == null)
             {
@@ -77,7 +87,6 @@ namespace KnowledgeRepresentationReasoning.Logic
             }
             else
             {
-                //time = observation.Time;
                 _logicExpression = new SimpleLogicExpression(observation.Expr as SimpleLogicExpression);
 
                 List<Fluent[]> possibleInitialValues = _logicExpression.CalculatePossibleFluents();
@@ -91,7 +100,7 @@ namespace KnowledgeRepresentationReasoning.Logic
                         {
                             state.Fluents.First(f => f.Name == fluent.Name).Value = fluent.Value;
                         }
-                        catch (System.ArgumentNullException )
+                        catch (System.ArgumentNullException)
                         {
                             _logger.Error("Fluent " + fluent.Name + " doesn't exist!");
                         }
@@ -103,7 +112,6 @@ namespace KnowledgeRepresentationReasoning.Logic
 
             return states;
         }
-
 
         public int LastLevelCount()
         {
@@ -118,7 +126,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             LastLevel = new List<Vertex>();
         }
 
-        internal void Add(Vertex leaf)
+        public void Add(Vertex leaf)
         {
             LastLevel.Add(leaf);
         }
@@ -134,7 +142,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             SaveChild(LastLevel[i]);
         }
 
-        internal void DeleteChild(int i)
+        public void DeleteChild(int i)
         {
             SaveChild(i);
             LastLevel.RemoveAt(i);

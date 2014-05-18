@@ -29,9 +29,7 @@
                 return true;
             }
 
-            Expr.Evaluate(state);
-
-            return true;
+            return Expr.Evaluate(state);
         }
     }
 }

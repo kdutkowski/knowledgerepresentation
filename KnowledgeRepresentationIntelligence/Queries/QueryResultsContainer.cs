@@ -8,16 +8,16 @@ namespace KnowledgeRepresentationReasoning.Queries
     class QueryResultsContainer : IQueryResultsContainer
     {
         private ILog _logger;
+
         private QuestionType _questionType;
         private List<QueryResult> _results;
 
         public QueryResultsContainer(QuestionType questionType)
         {
-            _logger = ServiceLocator.Current.GetInstance<ILog>();
-            
             _questionType = questionType;
             _results = new List<QueryResult>();
 
+            _logger = ServiceLocator.Current.GetInstance<ILog>();
             _logger.Info("Create query result container with question type '" + _questionType);
         }
 
@@ -41,14 +41,12 @@ namespace KnowledgeRepresentationReasoning.Queries
         private QueryResult CollectResultsForEver(QueryResult finalResult)
         {
             bool answer = _results.Any(x => x == QueryResult.True);
-
             return answer ? QueryResult.True : QueryResult.False;
         }
 
         private QueryResult CollectResultsForAlways(QueryResult finalResult)
         {
             bool answer = _results.Any(x => x == QueryResult.False);
-
             return answer ? QueryResult.False : QueryResult.True;
         }
 
@@ -65,7 +63,7 @@ namespace KnowledgeRepresentationReasoning.Queries
                 answer = CanQuickAnswerForEver();
             }
 
-            _logger.Info("Query can answer: " + answer);
+            _logger.Info("Query can answer now: " + answer);
             return answer;
         }
 
@@ -79,10 +77,10 @@ namespace KnowledgeRepresentationReasoning.Queries
             return _results.Any(x => x == QueryResult.False);
         }
 
-        public void AddMany(QueryResult queryResult, int count=1)
+        public void AddMany(QueryResult queryResult, int count = 1)
         {
             _results.AddRange(Enumerable.Repeat(queryResult, count));
-            _logger.Info("Add query result '" + queryResult +"' " + count +" times");
+            _logger.Info("Add query result '" + queryResult + "' " + count + " times");
         }
 
         public int Count()
