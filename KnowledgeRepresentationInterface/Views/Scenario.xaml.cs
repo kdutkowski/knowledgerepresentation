@@ -1,12 +1,12 @@
-﻿using KnowledgeRepresentationReasoning.Expressions;
-using KnowledgeRepresentationReasoning.Scenario;
-using KnowledgeRepresentationReasoning.World;
-using KnowledgeRepresentationReasoning.World.Records;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using KnowledgeRepresentationReasoning.Expressions;
+using KnowledgeRepresentationReasoning.Scenario;
+using KnowledgeRepresentationReasoning.World;
+using KnowledgeRepresentationReasoning.World.Records;
 
 namespace KnowledgeRepresentationInterface.Views
 {
@@ -26,22 +26,25 @@ namespace KnowledgeRepresentationInterface.Views
 
         public string ScenarioName
         {
-            get { return _scenarioName; }
+            get
+            {
+                return _scenarioName;
+            }
             set
             {
                 _scenarioName = value;
-                if (value == String.Empty)
+                if(value == String.Empty)
                 {
                     LabelValidationScenario.Content = "It is necessary to fill scenario name.";
-                    throw new ArgumentException("");
+                    throw new ArgumentException(String.Empty);
                 }
                 else
-                    LabelValidationScenario.Content = "Validation";
+                    LabelValidationScenario.Content = String.Empty;
                 OnPropertyChanged("ScenarioName");
             }
         }
 
-        #endregion
+        #endregion | PROPERTIES |
 
         #region | PropertyChanged |
 
@@ -49,13 +52,13 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void OnPropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
+            if(PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
-        #endregion
+        #endregion | PropertyChanged |
 
         #region | INITIALIZATION |
 
@@ -64,7 +67,7 @@ namespace KnowledgeRepresentationInterface.Views
             InitializeComponent();
         }
 
-        public void Initialize(List<Fluent> fluents, List<WorldAction> actions, string statements)
+        public void Initialize(List<Fluent> fluents, List<WorldAction> actions, List<WorldDescriptionRecord> statements)
         {
             ActionAdd.SetActions(actions);
             _scenarioDescription = new ScenarioDescription();
@@ -72,33 +75,50 @@ namespace KnowledgeRepresentationInterface.Views
             ScenarioName = SCENARIONAMETEXTBOXCONTENT;
 
             InitializeFluents(fluents);
-            InitializeActions(statements);
+            InitializeStatements(statements);
 
-            StackPanelScenarios.Children.Add(new Label() { Content = "Scenarios:", FontSize = 10 });
+            StackPanelScenarios.Children.Add(new Label()
+            {
+                Content = "Scenarios:",
+                FontSize = 10
+            });
         }
 
-        private void InitializeActions(String statements)
+        private void InitializeStatements(List<WorldDescriptionRecord> statements)
         {
-            StackPanelStatements.Children.Add(new Label() { Content = "Statements:", FontSize = 10 });
-            StackPanelStatements.Children.Add(new Label() { Content = statements, FontSize = 10 });
+            StackPanelStatements.Children.Add(new Label()
+            {
+                Content = "Statements:",
+                FontSize = 10
+            });
 
-            //foreach (WorldAction item in actions)
-            //{
-            //    StackPanelStatements.Children.Add(new Label() { Content = "(" + item.Id + ", " + item.Duration + ")", FontSize = 10 });
-            //}
+            foreach(WorldDescriptionRecord item in statements)
+            {
+                StackPanelStatements.Children.Add(new Label()
+                {
+                    Content = item.ToString(),
+                    FontSize = 10
+                });
+            }
         }
 
         private void InitializeFluents(List<Fluent> fluents)
         {
-
-            StackPanelFluents.Children.Add(new Label() { Content = "Fluents:", FontSize = 10 });
-            foreach (Fluent item in fluents)
+            StackPanelFluents.Children.Add(new Label()
             {
-                StackPanelFluents.Children.Add(new Label() { Content = item.Name });
+                Content = "Fluents:",
+                FontSize = 10
+            });
+            foreach(Fluent item in fluents)
+            {
+                StackPanelFluents.Children.Add(new Label()
+                {
+                    Content = item.ToString()
+                });
             }
         }
 
-        #endregion
+        #endregion | INITIALIZATION |
 
         #region | METHODS |
 
@@ -107,10 +127,10 @@ namespace KnowledgeRepresentationInterface.Views
             ActionAdd.CleanValues();
             ObservationAdd.CleanValues();
             ActionList.CleanValues();
-            LabelValidationScenario.Content = "Validation";
+            LabelValidationScenario.Content = String.Empty;
         }
 
-        #endregion
+        #endregion | METHODS |
 
         #region | EVENTS |
 
@@ -121,11 +141,11 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddAction_Click(object sender, RoutedEventArgs e)
         {
-            if (ActionAdd.SelectedWARecordType == null)
+            if(ActionAdd.SelectedWARecordType == null)
             {
                 ActionAdd.LabelValidation.Content = "It is necessary to choose an action.";
             }
-            else if (ActionList.AddAction(ActionAdd.Time, ActionAdd.SelectedWARecordType.Id,ActionAdd.SelectedWARecordType.Duration))
+            else if(ActionList.AddAction(ActionAdd.Time, ActionAdd.SelectedWARecordType.Id, ActionAdd.SelectedWARecordType.Duration))
             {
                 _scenarioDescription.addACS(ActionAdd.SelectedWARecordType, ActionAdd.Time);
                 ActionAdd.CleanValues();
@@ -138,34 +158,37 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddObservation_Click(object sender, RoutedEventArgs e)
         {
-            if (ObservationAdd.Expression == String.Empty)
+            if(ObservationAdd.Expression == String.Empty)
             {
                 ObservationAdd.LabelValidation.Content = "It is necessary to fill expression.";
             }
-            else if (ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Expression))
+            else if(ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Expression))
             {
                 _scenarioDescription.observations.Add(new ScenarioObservationRecord(new SimpleLogicExpression(ObservationAdd.Expression), ObservationAdd.Time));
                 ObservationAdd.CleanValues();
             }
         }
 
-
-        #endregion
+        #endregion | EVENTS |
 
         private void AddScenario_Click(object sender, RoutedEventArgs e)
         {
-            if (ScenarioName != String.Empty)
+            if(ScenarioName != String.Empty)
             {
-                foreach (ScenarioDescription item in _savedScenarios)
+                foreach(ScenarioDescription item in _savedScenarios)
                 {
-                    if (item.Name == ScenarioName)
+                    if(item.Name == ScenarioName)
                     {
                         LabelValidationScenario.Content = "Scenario with this name already exists.";
                         return;
                     }
                 }
                 _scenarioDescription.Name = ScenarioName;
-                StackPanelScenarios.Children.Add(new Label() { Content = ScenarioName, FontSize = 10 });
+                StackPanelScenarios.Children.Add(new Label()
+                {
+                    Content = ScenarioName,
+                    FontSize = 10
+                });
                 _savedScenarios.Add(_scenarioDescription);
                 _scenarioDescription = new ScenarioDescription();
                 ScenarioName = SCENARIONAMETEXTBOXCONTENT;
