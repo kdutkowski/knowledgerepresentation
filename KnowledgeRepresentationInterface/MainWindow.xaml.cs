@@ -55,6 +55,8 @@ namespace KnowledgeRepresentationInterface
             if(actualPage >= _pages.Count)
                 return;
             actualPage++;
+            //  List<ScenarioDescription>
+            _reasoning.AddScenarioDescriptionList(_savedScenarios);
             ( (Results)_pages[actualPage] ).Initialize(_timeInf, _fluents, _actions, _savedScenarios);
             this.Navigate(_pages[actualPage]);
         }
@@ -81,9 +83,9 @@ namespace KnowledgeRepresentationInterface
             this.Navigate(_pages[actualPage]);
         }
 
-        public QueryResult ExecuteQuery(Query query)
+        public QueryResult ExecuteQuery(Query query, ScenarioDescription scenarioDescription)
         {
-            return _reasoning.ExecuteQuery(query);
+            return _reasoning.ExecuteQuery(query, scenarioDescription);
         }
 
         private void LoadWorldDescriptionRecords(List<WorldDescriptionRecord> statements)
