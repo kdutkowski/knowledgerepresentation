@@ -111,7 +111,6 @@ namespace KnowledgeRepresentationReasoning.Logic
 
                 child.NextActions = new List<WorldAction>();
                 child.NextActions.AddRange(implication.TriggeredActions);
-                child.SetActionSTime();
 
                 child.Time = nextTime;
                 child.IsPossible = child.ValidateActions();
@@ -119,14 +118,6 @@ namespace KnowledgeRepresentationReasoning.Logic
                 childs.Add(child);
             }
             return childs;
-        }
-
-        private void SetActionSTime()
-        {
-            foreach (var action in NextActions)
-            {
-                action.StartAt = Time + action.TriggeredAfter;
-            }
         }
 
         public bool ValidateActions()

@@ -6,7 +6,6 @@ namespace KnowledgeRepresentationReasoning.World
     {
         public string Id { get; set; }
         public int? Duration { get; set; }
-        public int? TriggeredAfter { get; set; }
         public int? StartAt { get; set; }
 
         public WorldAction() { }
@@ -34,7 +33,6 @@ namespace KnowledgeRepresentationReasoning.World
             WorldAction worldAction = new WorldAction();
             worldAction.Id = Id;
             worldAction.Duration = Duration;
-            worldAction.TriggeredAfter = TriggeredAfter;
             worldAction.StartAt = StartAt;
 
             return worldAction;

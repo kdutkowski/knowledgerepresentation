@@ -15,7 +15,7 @@
         private readonly WorldAction result;
         private readonly int after;
 
-        public ActionInvokesAfterIfRecord(WorldAction worldAction, WorldAction result, int after, string ifExpression) 
+        public ActionInvokesAfterIfRecord(WorldAction worldAction, WorldAction result, int after, string ifExpression)
             : base(WorldDescriptionRecordType.ActionInvokesAfterIf)
         {
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
@@ -29,11 +29,15 @@
         {
             // Sprawdzamy czy to dana akcja się skończyła
             if (!endedWorldAction.Equals(this.worldAction))
+            {
                 return false;
+            }
+
             // Sprawdzamy czy zachodzi warunek
             this.logicExpression.SetExpression(ifExpression);
             var fluents = this.logicExpression.GetFluentNames();
             var values = fluents.Select(t => new Tuple<string, bool>(t, state.Fluents.First(x => x.Name == t).Value));
+
             return this.logicExpression.Evaluate(values);
         }
 
