@@ -164,20 +164,28 @@ namespace KnowledgeRepresentationInterface.Views
             {
                 ObservationAdd.LabelValidation.Content = "It is necessary to fill expression.";
             }
-            else if(ValidationGoodFluents(ObservationAdd.Expression) && ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Expression))
-            {
-                _scenarioDescription.observations.Add(new ScenarioObservationRecord(new SimpleLogicExpression(ObservationAdd.Expression), ObservationAdd.Time));
-                ObservationAdd.CleanValues();
-            }
             else
             {
-                ObservationAdd.LabelValidation.Content = "Expression is incorrect.";
+                ILogicExpression expression = new SimpleLogicExpression(ObservationAdd.Expression);
+                if(ValidationExpression(expression) && ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Expression))
+                {
+                    _scenarioDescription.observations.Add(new ScenarioObservationRecord(expression, ObservationAdd.Time));
+                    ObservationAdd.CleanValues();
+                }
+                else
+                {
+                    ObservationAdd.LabelValidation.Content = "Expression is incorrect.";
+                }
             }
         }
 
-        private bool ValidationGoodFluents(string expression_str)
+        private bool ValidationExpression(ILogicExpression expression)
         {
-            ILogicExpression expression = new SimpleLogicExpression(expression_str);
+            return ValidationGoodFluents(expression);
+        }
+
+        private bool ValidationGoodFluents(ILogicExpression expression)
+        {
             string[] fluentNames = expression.GetFluentNames();
             foreach(string item in fluentNames)
             {
