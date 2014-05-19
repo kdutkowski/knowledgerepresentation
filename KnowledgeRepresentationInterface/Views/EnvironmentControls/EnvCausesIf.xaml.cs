@@ -1,7 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using KnowledgeRepresentationReasoning.World.Records;
+﻿using KnowledgeRepresentationReasoning.World.Records;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
@@ -12,16 +11,11 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     /// </summary>
     public partial class EnvCausesIf
     {
-        #region Properties
 
         public WorldAction SelectedAction { get; set; }
-        public ObservableCollection<WorldAction> Actions { get; set; }
         private String _expressionEffect;
         private String _expressionIf;
 
-        #endregion
-
-        #region Constructor
 
         public EnvCausesIf(ObservableCollection<WorldAction> actionsCollection)
         {
@@ -30,34 +24,32 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
             RegisterName("envControl_causesIf", this);
         }
 
-        #endregion
-
 
         public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             string errorString;
-            if (ParseAction(ComboBoxActions.SelectedIndex, out errorString)
+            if (ParseAction(ComboBoxAction.SelectedIndex, out errorString)
                 && ParseExpression(TextBoxFormEffect.Text, out _expressionEffect, out errorString)
                 && ParseExpression(TextBoxFormIf.Text, out _expressionIf, out errorString))
             {
-                LabelValidation.Content = "";
-                return new ActionCausesIfRecord(this.SelectedAction, _expressionEffect, _expressionIf);
+                
+               var wdr = new ActionCausesIfRecord(this.SelectedAction, _expressionEffect, _expressionIf);
+               CleanValues();
+                return wdr;
             }
 
             LabelValidation.Content = errorString;
             throw new TypeLoadException("Validation error");
         }
 
-        public override void CleanValues()
+        protected override void CleanValues()
         {
             _expressionEffect = "";
             _expressionIf = "";
-            this.SelectedAction = null;
 
-            ComboBoxActions.SelectedIndex = -1;
-            SelectedAction = null;
-            TextBoxFormEffect.Text = "Alfa";
-            TextBoxFormIf.Text = "Pi";
+            ComboBoxAction.SelectedIndex = -1;
+            TextBoxFormEffect.Clear();
+            TextBoxFormIf.Clear();
             LabelValidation.Content = "";
         }
 

@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
+using System;
+using System.Collections.ObjectModel;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
@@ -21,17 +10,41 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     /// </summary>
     public partial class EnvReleasesIf
     {
-        public EnvReleasesIf()
+        public WorldAction SelectedAction { get; set; }
+        public Fluent SelectedFluent { get; set; }
+        public ObservableCollection<Fluent> Fluents { get; set; }
+
+        public EnvReleasesIf(ObservableCollection<WorldAction> actionsCollection,  ObservableCollection<Fluent> fluentsCollection)
         {
+            Actions = actionsCollection;
+            Fluents = fluentsCollection;
             InitializeComponent();
+            RegisterName("envControl_releasesIf", this);
         }
+
         public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
-            throw new NotImplementedException();
+            string errorString;
+            string expression;
+            if (ParseAction(ComboBoxAction.SelectedIndex, out errorString)
+                && ParseFluent(ComboBoxFluent.SelectedIndex, out errorString)
+                && ParseExpression(TextBoxFormIf.Text, out expression, out errorString))
+            {
+                WorldDescriptionRecord wdr = new ActionReleasesIfRecord(SelectedAction, SelectedFluent, expression);
+                CleanValues();
+                return wdr;
+            }
+
+            LabelValidation.Content = errorString;
+            throw new TypeLoadException("Validation error");
         }
-        public override void CleanValues()
+
+        protected override void CleanValues()
         {
-            throw new NotImplementedException();
+            LabelValidation.Content = "";
+            ComboBoxAction.SelectedIndex = -1;
+            ComboBoxFluent.SelectedIndex = -1;
+            TextBoxFormIf.Clear();
         }
 
 

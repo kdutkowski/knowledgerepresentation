@@ -39,5 +39,10 @@
         {
             return this.fluent;
         }
+
+        public override string ToString()
+        {
+            return worldAction.ToString() + " releases " + fluent.ToString() + " if " + ifExpression;
+        }
     }
 }

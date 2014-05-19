@@ -68,7 +68,7 @@ namespace KnowledgeRepresentationInterface.Views
         
         #endregion
 
-        #region Constructor
+        #region Constructor and initialization
         public Environment()
         {
             _fluents = new ObservableCollection<Fluent>();
@@ -78,18 +78,17 @@ namespace KnowledgeRepresentationInterface.Views
             InitializeComponent();
         }
 
-        #endregion
-
-        #region Init methods
         private void InitControls()
         {
-            _statementsControls = new Dictionary<WorldDescriptionRecordType, EnvControl>();
-            _statementsControls.Add(WorldDescriptionRecordType.ActionCausesIf, new EnvCausesIf(_actions));
-            _statementsControls.Add(WorldDescriptionRecordType.ActionInvokesAfterIf, new EnvInvokesAfterIf(_actions));
-            _statementsControls.Add(WorldDescriptionRecordType.ActionReleasesIf, new EnvReleasesIf());
-            _statementsControls.Add(WorldDescriptionRecordType.ExpressionTriggersAction, new EnvTriggers());
-            _statementsControls.Add(WorldDescriptionRecordType.ImpossibleActionAt, new EnvImpossibleAt());
-            _statementsControls.Add(WorldDescriptionRecordType.ImpossibleActionIf, new EnvImpossibleIf());
+            _statementsControls = new Dictionary<WorldDescriptionRecordType, EnvControl>
+                                      {
+                                          {WorldDescriptionRecordType.ActionCausesIf, new EnvCausesIf(_actions)},
+                                          {WorldDescriptionRecordType.ActionInvokesAfterIf, new EnvInvokesAfterIf(_actions)},
+                                          {WorldDescriptionRecordType.ActionReleasesIf, new EnvReleasesIf(_actions, _fluents)},
+                                          {WorldDescriptionRecordType.ExpressionTriggersAction, new EnvTriggers(_actions)},
+                                          {WorldDescriptionRecordType.ImpossibleActionAt, new EnvImpossibleAt(_actions)},
+                                          {WorldDescriptionRecordType.ImpossibleActionIf, new EnvImpossibleIf(_actions)}
+                                      };
         }
         #endregion
 
@@ -192,7 +191,6 @@ namespace KnowledgeRepresentationInterface.Views
                 }
                 WorldDescriptionRecord wdr = _statementsControls[SelectedWDRecordType].GetWorldDescriptionRecord();
                 Statements.Add(wdr);
-                _statementsControls[SelectedWDRecordType].CleanValues();
             }
             catch (TypeLoadException exception)
             {

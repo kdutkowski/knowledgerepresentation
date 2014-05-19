@@ -21,5 +21,10 @@
         {
             return this.worldAction;
         }
+
+        public override string ToString()
+        {
+            return "Impossible " + worldAction.ToString() + " at " + time;
+        }
     }
 }

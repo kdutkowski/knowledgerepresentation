@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="245">
     <Grid>
         <Label x:Name="LabelActionStart" Content="Action:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="50"/>
-        <ComboBox x:Name="ComboBoxActionsStart" SelectedItem="{Binding SelectedActionStart, ElementName=envControl_invokesAfterIf}" 
+        <ComboBox x:Name="ComboBoxActionStart" SelectedItem="{Binding SelectedActionStart, ElementName=envControl_invokesAfterIf}" 
 			ItemsSource="{Binding Actions, ElementName=envControl_invokesAfterIf}"
 			HorizontalAlignment="Center" Margin="65,10,10,0" Width="170" VerticalAlignment="Top"/>
 
@@ -21,11 +21,11 @@
 			HorizontalAlignment="Center" Margin="65,64,10,0" Width="170" VerticalAlignment="Top"/>
 
         <Label x:Name="LabelAfter" Content="after" HorizontalAlignment="Center" Margin="0,86,0,0" VerticalAlignment="Top" Width="35"/>
-        <xctk:IntegerUpDown x:Name="UpDownTime" HorizontalAlignment="Center" Margin="0,114,0,0" VerticalAlignment="Top" Width="100"
+        <xctk:IntegerUpDown x:Name="UpDownInvAftIfTime" HorizontalAlignment="Center" Margin="0,114,0,0" VerticalAlignment="Top" Width="100"
                              Minimum="0" Watermark="Enter time"/>
 
         <Label x:Name="LabelIf" Content="if" HorizontalAlignment="Center" Margin="0,139,0,0" VerticalAlignment="Top" Width="17"/>
-        <TextBox x:Name="TextBoxFormIf" Text="Pi" HorizontalAlignment="Center" Margin="0,165,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
+        <xctk:WatermarkTextBox x:Name="TextBoxFormIf" Watermark="Pi" HorizontalAlignment="Center" Margin="0,165,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
 
         <Label x:Name ="LabelValidation" Content="" HorizontalAlignment="Center" Margin="10,0,10,10" VerticalAlignment="Bottom" Width="225" Foreground="Red" FontWeight="Bold" FontStyle="Italic"/>
     </Grid>

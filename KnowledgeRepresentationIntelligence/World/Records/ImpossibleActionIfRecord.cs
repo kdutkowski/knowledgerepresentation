@@ -33,5 +33,10 @@
         {
             return this.worldAction;
         }
+
+        public override string ToString()
+        {
+            return "impossible " + worldAction.ToString() + " if " + ifExpression;
+        }
     }
 }

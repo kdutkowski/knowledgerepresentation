@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
+using System;
+using System.Collections.ObjectModel;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
@@ -21,18 +10,36 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     /// </summary>
     public partial class EnvImpossibleAt
     {
-        public EnvImpossibleAt()
+        public WorldAction SelectedAction { get; set; }
+
+        public EnvImpossibleAt(ObservableCollection<WorldAction> actionsCollection)
         {
+           
+            Actions = actionsCollection;
             InitializeComponent();
+            RegisterName("envControl_impossibleAt", this);
         }
 
         public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
-            throw new NotImplementedException();
+            string errorString;
+            if (ParseAction(ComboBoxAction.SelectedIndex, out errorString)
+               && ParseTimeLenght(UpDownImpAtTime.Value, out errorString))
+            {
+                WorldDescriptionRecord wdr = new ImpossibleActionAtRecord(SelectedAction, UpDownImpAtTime.Value.Value);
+                CleanValues();
+                return wdr;
+            }
+
+            LabelValidation.Content = errorString;
+            throw new TypeLoadException("Validation error");
         }
-        public override void CleanValues()
+
+        protected override void CleanValues()
         {
-            throw new NotImplementedException();
+            LabelValidation.Content = "";
+            UpDownImpAtTime.Value = null;
+            ComboBoxAction.SelectedIndex = -1;
         }
     }
 }

@@ -35,5 +35,10 @@
             this.worldAction.StartAt = time;
             return this.worldAction;
         }
+
+        public override string ToString()
+        {
+            return ifExpression + " triggers " + worldAction.ToString();
+        }
     }
 }

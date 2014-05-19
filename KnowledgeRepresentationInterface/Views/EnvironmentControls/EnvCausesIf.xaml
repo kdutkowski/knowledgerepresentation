@@ -4,15 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:EnvironmentControls="clr-namespace:KnowledgeRepresentationInterface.Views.EnvironmentControls"
-                                mc:Ignorable="d" 
+                                xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="245">
     <Grid>
         <Label Name="LabelCauses" Content="causes" HorizontalAlignment="Center" Margin="0,38,0,0" VerticalAlignment="Top" Width="47"/>
-        <TextBox Name="TextBoxFormEffect" Text="Alfa" HorizontalAlignment="Center" Margin="0,70,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
+        <xctk:WatermarkTextBox x:Name="TextBoxFormEffect" Watermark="Alfa" HorizontalAlignment="Center" Margin="0,70,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
         <Label Name="LabelIf" Content="if" HorizontalAlignment="Center" Margin="0,98,0,0" VerticalAlignment="Top" Width="23"/>
-        <TextBox Name="TextBoxFormIf" Text="Pi" HorizontalAlignment="Center" Margin="0,129,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
+        <xctk:WatermarkTextBox x:Name="TextBoxFormIf" Watermark="Pi" HorizontalAlignment="Center" Margin="0,129,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
         <Label x:Name="LabelAction" Content="Action:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="50"/>
-        <ComboBox x:Name="ComboBoxActions" SelectedItem="{Binding SelectedAction, ElementName=envControl_causesIf}" 
+        <ComboBox x:Name="ComboBoxAction" SelectedItem="{Binding SelectedAction, ElementName=envControl_causesIf}" 
                   ItemsSource="{Binding Actions, ElementName=envControl_causesIf}"
                   HorizontalAlignment="Center" Margin="65,10,10,0" Width="170" VerticalAlignment="Top"/>
         <Label Name ="LabelValidation" Content="" HorizontalAlignment="Center" Margin="0,0,0,37" VerticalAlignment="Bottom" Width="225" Foreground="Red" FontWeight="Bold" FontStyle="Italic"/>
