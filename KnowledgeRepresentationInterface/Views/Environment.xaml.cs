@@ -183,12 +183,10 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddStatement_Click(object sender, RoutedEventArgs e)
         {
+            if (SelectedWDRecordType == WorldDescriptionRecordType.Initially)
+                return;
             try
             {
-                if (!_statementsControls.ContainsKey(SelectedWDRecordType)) //TODO hotfix
-                {
-                    return;
-                }
                 WorldDescriptionRecord wdr = _statementsControls[SelectedWDRecordType].GetWorldDescriptionRecord();
                 Statements.Add(wdr);
             }
