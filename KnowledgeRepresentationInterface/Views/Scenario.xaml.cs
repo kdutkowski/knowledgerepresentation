@@ -19,6 +19,7 @@ namespace KnowledgeRepresentationInterface.Views
 
         #region | PROPERTIES |
 
+        private List<Fluent> _fluents;
         private ScenarioDescription _scenarioDescription;
         private List<ScenarioDescription> _savedScenarios;
 
@@ -72,9 +73,10 @@ namespace KnowledgeRepresentationInterface.Views
             ActionAdd.SetActions(actions);
             _scenarioDescription = new ScenarioDescription();
             _savedScenarios = new List<ScenarioDescription>();
+            _fluents = fluents;
             ScenarioName = SCENARIONAMETEXTBOXCONTENT;
 
-            InitializeFluents(fluents);
+            InitializeFluents();
             InitializeStatements(statements);
 
             StackPanelScenarios.Children.Add(new Label()
@@ -102,14 +104,14 @@ namespace KnowledgeRepresentationInterface.Views
             }
         }
 
-        private void InitializeFluents(List<Fluent> fluents)
+        private void InitializeFluents()
         {
             StackPanelFluents.Children.Add(new Label()
             {
                 Content = "Fluents:",
                 FontSize = 10
             });
-            foreach(Fluent item in fluents)
+            foreach(Fluent item in _fluents)
             {
                 StackPanelFluents.Children.Add(new Label()
                 {
@@ -162,11 +164,27 @@ namespace KnowledgeRepresentationInterface.Views
             {
                 ObservationAdd.LabelValidation.Content = "It is necessary to fill expression.";
             }
-            else if(ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Expression))
+            else if(ValidationGoodFluents(ObservationAdd.Expression) && ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Expression))
             {
                 _scenarioDescription.observations.Add(new ScenarioObservationRecord(new SimpleLogicExpression(ObservationAdd.Expression), ObservationAdd.Time));
                 ObservationAdd.CleanValues();
             }
+            else
+            {
+                ObservationAdd.LabelValidation.Content = "Expression is incorrect.";
+            }
+        }
+
+        private bool ValidationGoodFluents(string expression_str)
+        {
+            ILogicExpression expression = new SimpleLogicExpression(expression_str);
+            string[] fluentNames = expression.GetFluentNames();
+            foreach(string item in fluentNames)
+            {
+                if(!_fluents.Exists(x => x.Name == item))
+                    return false;
+            }
+            return true;
         }
 
         #endregion | EVENTS |
