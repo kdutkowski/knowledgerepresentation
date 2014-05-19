@@ -16,7 +16,7 @@
         private readonly WorldAction worldAction;
 
 
-        public ActionCausesIfRecord(WorldAction worldAction, string resultExpression, string ifExpression) 
+        public ActionCausesIfRecord(WorldAction worldAction, string resultExpression, string ifExpression)
             : base(WorldDescriptionRecordType.ActionCausesIf)
         {
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
@@ -27,13 +27,17 @@
 
         public bool IsFulfilled(State state, WorldAction startedWorldAction)
         {
-            // Sprawdzamy czy to dana akcja się rozpoczęła
+            // Sprawdzamy czy to dana akcja się skończyła
             if (!startedWorldAction.Equals(this.worldAction))
+            {
                 return false;
+            }
+
             // Sprawdzamy czy zachodzi warunek
             this.logicExpression.SetExpression(ifExpression);
             var fluents = this.logicExpression.GetFluentNames();
             var values = fluents.Select(t => new Tuple<string, bool>(t, state.Fluents.First(x => x.Name == t).Value));
+
             return this.logicExpression.Evaluate(values);
         }
 
