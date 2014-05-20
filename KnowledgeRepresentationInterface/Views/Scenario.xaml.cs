@@ -37,10 +37,11 @@ namespace KnowledgeRepresentationInterface.Views
                 if(value == String.Empty)
                 {
                     LabelValidationScenario.Content = "It is necessary to fill scenario name.";
-                    throw new ArgumentException(String.Empty);
                 }
                 else
+                {
                     LabelValidationScenario.Content = String.Empty;
+                }
                 OnPropertyChanged("ScenarioName");
             }
         }
