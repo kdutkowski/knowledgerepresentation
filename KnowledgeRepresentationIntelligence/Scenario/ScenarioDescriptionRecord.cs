@@ -14,5 +14,7 @@
             Id = Guid.NewGuid();
             logger = ServiceLocator.Current.GetInstance<ILog>();
         }
+
+        public new abstract string ToString();
     }
 }

@@ -32,5 +32,10 @@
                 return false;
             }
         }
+
+        public override string ToString()
+        {
+            return "Action " + this.WorldAction.ToString() + " in time " + Time.ToString();
+        }
     }
 }

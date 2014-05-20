@@ -57,7 +57,7 @@ namespace KnowledgeRepresentationInterface
             actualPage++;
             //  List<ScenarioDescription>
             _reasoning.AddScenarioDescriptionList(_savedScenarios);
-            ( (Results)_pages[actualPage] ).Initialize(_timeInf, _fluents, _actions, _savedScenarios);
+            ( (Results)_pages[actualPage] ).Initialize(_timeInf, _fluents, _actions, _savedScenarios, _statements);
             this.Navigate(_pages[actualPage]);
         }
 

@@ -31,5 +31,10 @@
 
             return Expr.Evaluate(state);
         }
+
+        public override string ToString()
+        {
+            return "Expression " + Expr.ToString() + " in time " + Time.ToString();
+        }
     }
 }

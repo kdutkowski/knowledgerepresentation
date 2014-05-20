@@ -17,5 +17,7 @@
             Type = type;
             logger = ServiceLocator.Current.GetInstance<ILog>();
         }
+
+        public new abstract string ToString();
     }
 }

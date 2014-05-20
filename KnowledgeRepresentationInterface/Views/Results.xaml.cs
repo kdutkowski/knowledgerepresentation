@@ -21,6 +21,7 @@ using KnowledgeRepresentationReasoning.World;
 namespace KnowledgeRepresentationInterface.Views
 {
     using KnowledgeRepresentationReasoning.Scenario;
+    using KnowledgeRepresentationReasoning.World.Records;
 
     /// <summary>
     /// Interaction logic for Results.xaml
@@ -105,7 +106,7 @@ namespace KnowledgeRepresentationInterface.Views
                               };
         }
 
-        public void Initialize(int tInf, List<Fluent> fluents, List<WorldAction> actions, List<ScenarioDescription> savedScenarios)
+        public void Initialize(int tInf, List<Fluent> fluents, List<WorldAction> actions, List<ScenarioDescription> savedScenarios, List<WorldDescriptionRecord> worldDescriptions)
         {
             _timeInf = tInf;
             this._actions.AddRange(actions);
@@ -119,9 +120,12 @@ namespace KnowledgeRepresentationInterface.Views
                 foreach(var queriesControl in QueriesControls.Values)
                     queriesControl.SelectedScenario = _scenarioNames.First();
             }
+
             _scenarioDescription = savedScenarios;
             LabelFluents.Content = this._fluents.Aggregate(string.Empty, (current, fluent) => current + ( fluent.Name + " " ));
             LabelActions.Content = this._actions.Aggregate(string.Empty, (current, action) => current + ( action.ToString() + " " ));
+            LabelScenarioDescriptions.Content = savedScenarios.Aggregate(string.Empty, (current, scenario) => current + (scenario.ToString() + "\n"));
+            LabelWorldDescriptions.Content = worldDescriptions.Aggregate(string.Empty, (current, description) => current + (description.ToString() + "\n"));
         }
 
         #endregion | CONSTRUCTOR & INITIALIZATION |

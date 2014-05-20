@@ -26,7 +26,6 @@ namespace KnowledgeRepresentationInterface.Views
         private ObservableCollection<WorldDescriptionRecord> _statements;
         private WorldDescriptionRecordType _selectedWDRecordType;
         private Dictionary<WorldDescriptionRecordType, EnvControl> _statementsControls;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public WorldDescriptionRecordType SelectedWDRecordType
@@ -230,10 +229,5 @@ namespace KnowledgeRepresentationInterface.Views
 
         #endregion
 
-       
-
-       
-
-        
     }
 }

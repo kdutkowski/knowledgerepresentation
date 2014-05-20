@@ -161,5 +161,15 @@ namespace KnowledgeRepresentationReasoning.Scenario
 
             return result;
         }
+
+        public override string ToString()
+        {
+            var result = string.Empty;
+            foreach (var action in actions)
+                result += action.ToString() + "\n";
+            foreach (var observarion in observations)
+                result += observarion.ToString() + "\n";
+            return result;
+        }
     }
 }
