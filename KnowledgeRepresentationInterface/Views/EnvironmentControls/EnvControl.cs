@@ -10,6 +10,7 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     public abstract class EnvControl : UserControl
     {
         public ObservableCollection<WorldAction> Actions { get; set; }
+        public ObservableCollection<Fluent> Fluents { get; set; }
 
         public abstract WorldDescriptionRecord GetWorldDescriptionRecord();
 

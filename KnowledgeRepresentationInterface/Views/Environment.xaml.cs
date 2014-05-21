@@ -82,12 +82,12 @@ namespace KnowledgeRepresentationInterface.Views
         {
             _statementsControls = new Dictionary<WorldDescriptionRecordType, EnvControl>
                                       {
-                                          {WorldDescriptionRecordType.ActionCausesIf, new EnvCausesIf(_actions)},
-                                          {WorldDescriptionRecordType.ActionInvokesAfterIf, new EnvInvokesAfterIf(_actions)},
+                                          {WorldDescriptionRecordType.ActionCausesIf, new EnvCausesIf(_actions, _fluents)},
+                                          {WorldDescriptionRecordType.ActionInvokesAfterIf, new EnvInvokesAfterIf(_actions, _fluents)},
                                           {WorldDescriptionRecordType.ActionReleasesIf, new EnvReleasesIf(_actions, _fluents)},
-                                          {WorldDescriptionRecordType.ExpressionTriggersAction, new EnvTriggers(_actions)},
-                                          {WorldDescriptionRecordType.ImpossibleActionAt, new EnvImpossibleAt(_actions)},
-                                          {WorldDescriptionRecordType.ImpossibleActionIf, new EnvImpossibleIf(_actions)}
+                                          {WorldDescriptionRecordType.ExpressionTriggersAction, new EnvTriggers(_actions, _fluents)},
+                                          {WorldDescriptionRecordType.ImpossibleActionAt, new EnvImpossibleAt(_actions, _fluents)},
+                                          {WorldDescriptionRecordType.ImpossibleActionIf, new EnvImpossibleIf(_actions, _fluents)}
                                       };
         }
         #endregion
@@ -123,6 +123,11 @@ namespace KnowledgeRepresentationInterface.Views
                 LabelFluentsActionsValidation.Content = "Fluent name is required.";
                 return;
             }
+            if (!System.Text.RegularExpressions.Regex.IsMatch(TextBoxFluents.Text, @"[a-zA-Z0-9\-]+$"))
+            {
+                LabelFluentsActionsValidation.Content = "Fluent name should be alphanumeric.";
+                return;
+            }
                 
             if (!Fluents.Contains(Fluents.FirstOrDefault(f => (f.Name == TextBoxFluents.Text))))
             {
@@ -150,6 +155,11 @@ namespace KnowledgeRepresentationInterface.Views
             if (TextBoxActionName.Text == "")
             {
                 LabelFluentsActionsValidation.Content = "Action name is required.";
+                return;
+            }
+            if (!System.Text.RegularExpressions.Regex.IsMatch(TextBoxActionName.Text, @"[a-zA-Z0-9\-]+$"))
+            {
+                LabelFluentsActionsValidation.Content = "Action name should be alphanumeric.";
                 return;
             }
             if (!UpDownTime.Value.HasValue)

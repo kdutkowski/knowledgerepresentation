@@ -12,8 +12,9 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     {
         public WorldAction SelectedAction { get; set; }
 
-        public EnvImpossibleIf(ObservableCollection<WorldAction> actionsCollection)
+        public EnvImpossibleIf(ObservableCollection<WorldAction> actionsCollection, ObservableCollection<Fluent> fluentsCollection)
         {
+            Fluents = fluentsCollection;
             Actions = actionsCollection;
             InitializeComponent();
             RegisterName("envControl_impossibleIf", this);
