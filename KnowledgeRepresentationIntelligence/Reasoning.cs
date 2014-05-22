@@ -8,8 +8,10 @@ namespace KnowledgeRepresentationReasoning
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Autofac;
     using Autofac.Extras.CommonServiceLocator;
+
     using KnowledgeRepresentationReasoning.Expressions;
     using KnowledgeRepresentationReasoning.Helpers;
     using KnowledgeRepresentationReasoning.Logic;
@@ -17,40 +19,22 @@ namespace KnowledgeRepresentationReasoning
     using KnowledgeRepresentationReasoning.Scenario;
     using KnowledgeRepresentationReasoning.World;
     using KnowledgeRepresentationReasoning.World.Records;
+
     using log4net;
+
     using Microsoft.Practices.ServiceLocation;
 
     public class Reasoning : IReasoning
     {
-        private static IContainer Container
-        {
-            get;
-            set;
-        }
+        private static IContainer Container { get; set; }
 
-        private ILog _logger
-        {
-            get;
-            set;
-        }
+        private ILog _logger { get; set; }
 
-        private WorldDescription worldDescription
-        {
-            get;
-            set;
-        }
+        private WorldDescription worldDescription { get; set; }
 
-        private List<ScenarioDescription> scenarioDescriptionList
-        {
-            get;
-            set;
-        }
+        private List<ScenarioDescription> scenarioDescriptionList { get; set; }
 
-        public int TInf
-        {
-            get;
-            set;
-        }
+        public int TInf { get; set; }
 
         public Reasoning()
         {
@@ -68,7 +52,7 @@ namespace KnowledgeRepresentationReasoning
         public void RemoveWorldDescriptionRecord(WorldDescriptionRecord record)
         {
             var removeRecords = worldDescription.Descriptions.Where(t => t.Item2.Id == record.Id).ToList();
-            for(int i = 0; i < removeRecords.Count; i++)
+            for (int i = 0; i < removeRecords.Count; i++)
             {
                 worldDescription.Descriptions.Remove(removeRecords[i]);
             }
@@ -143,17 +127,17 @@ namespace KnowledgeRepresentationReasoning
             queryResultsContainer.AddMany(QueryResult.False, numberOfImpossibleLeaf);
 
             //generate next level if query can't answer yet
-            while(!queryResultsContainer.CanQuickAnswer() && tree.LastLevel.Count > 0)
+            while (!queryResultsContainer.CanQuickAnswer() && tree.LastLevel.Count > 0)
             {
                 int childsCount = tree.LastLevel.Count;
-                for(int i = 0; i < childsCount; ++i)
+                for (int i = 0; i < childsCount; ++i)
                 {
                     Vertex leaf = tree.LastLevel[i];
-                    if(!CheckIfLeafIsPossible(leaf, scenarioDescription))
+                    if (!CheckIfLeafIsPossible(leaf, scenarioDescription))
                     {
                         tree.DeleteChild(i);
                         queryResultsContainer.AddMany(QueryResult.False);
-                        if(queryResultsContainer.CanQuickAnswer())
+                        if (queryResultsContainer.CanQuickAnswer())
                         {
                             break;
                         }
@@ -163,21 +147,25 @@ namespace KnowledgeRepresentationReasoning
                         tree.DeleteChild(i);
                         List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(worldDescription, scenarioDescription, TInf);
 
-                        foreach(var child in nextLevel)
+                        foreach (var child in nextLevel)
                         {
-                            if(!CheckIfLeafIsPossible(child, scenarioDescription))
+                            if (!CheckIfLeafIsPossible(child, scenarioDescription))
                             {
                                 queryResultsContainer.AddMany(QueryResult.False);
-                                if(queryResultsContainer.CanQuickAnswer())
+                                if (queryResultsContainer.CanQuickAnswer())
+                                {
                                     break;
+                                }
                             }
                             QueryResult result = query.CheckCondition(child.ActualState, child.ActualWorldAction, child.Time);
-                            if(result == QueryResult.True || result == QueryResult.False)
+                            if (result == QueryResult.True || result == QueryResult.False)
                             {
                                 queryResultsContainer.AddMany(result);
                             }
                             else
+                            {
                                 tree.Add(child);
+                            }
                         }
                     }
                 }
@@ -207,7 +195,6 @@ namespace KnowledgeRepresentationReasoning
 
         public static void Initialize()
         {
-            // Autofac
             var builder = new ContainerBuilder();
             builder.RegisterModule(new LoggingModule());
             builder.RegisterInstance(LogManager.GetLogger(typeof(Reasoning))).As<ILog>();
@@ -215,10 +202,6 @@ namespace KnowledgeRepresentationReasoning
             builder.RegisterType<SimpleLogicExpression>().As<ILogicExpression>();
             Container = builder.Build();
             ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(Container));
-
-            // WorldDescription
-
-            // ScenarioDescription
         }
 
         public void AddScenarioDescriptionList(List<ScenarioDescription> scenarios)

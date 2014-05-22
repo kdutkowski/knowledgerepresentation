@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
     using KnowledgeRepresentationReasoning.Queries;
     using KnowledgeRepresentationReasoning.Scenario;
-    using KnowledgeRepresentationReasoning.World;
     using KnowledgeRepresentationReasoning.World.Records;
 
     public interface IReasoning
