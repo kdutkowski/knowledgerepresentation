@@ -41,18 +41,186 @@
                 _reasoning.AddWorldDescriptionRecord(description);
         }
 
+        #region | BASIC TESTS - SIMPLE |
+
+        #region ExecutableScenarioQuery
+
         [Test]
-        public void Reasoning_ExecutableScenarioQuery_Ever_Basic_Test()
+        public void Reasoning_ExecutableScenarioQuery_Ever_Basic_True_Test()
         {
             var result = _reasoning.ExecuteQuery(new ExecutableScenarioQuery(QuestionType.Ever, _scenarioDescription), _scenarioDescription);
             Assert.Equals(QueryResult.True, result);
         }
 
         [Test]
-        public void Reasoning_ExecutableScenarioQuery_Ever_Allways_Test()
+        public void Reasoning_ExecutableScenarioQuery_Always_Basic_True_Test()
         {
             var result = _reasoning.ExecuteQuery(new ExecutableScenarioQuery(QuestionType.Always, _scenarioDescription), _scenarioDescription);
             Assert.Equals(QueryResult.True, result);
         }
+
+        #endregion
+
+        #region AccesibleConditionQuery
+
+        [Test]
+        public void Reasoning_AccesibleConditionQuery_Ever_Basic_TrueInTimeZero_Test()
+        {
+            // Condition is satisfied in time 0
+            var result = _reasoning.ExecuteQuery(new AccesibleConditionQuery(QuestionType.Ever, "a && b && c && d", _scenarioDescription), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_AccesibleConditionQuery_Always_Basic_TrueInTimeZero_Test()
+        {
+            // Condition is satisfied in time 0
+            var result = _reasoning.ExecuteQuery(new AccesibleConditionQuery(QuestionType.Always, "a && b && c && d", _scenarioDescription), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_AccesibleConditionQuery_Ever_Basic_True_Test()
+        {
+            // Condition should be satisfied in time 3 and 4 and probably later
+            var result = _reasoning.ExecuteQuery(new AccesibleConditionQuery(QuestionType.Ever, "a && !b && c && d", _scenarioDescription), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_AccesibleConditionQuery_Always_Basic_True_Test()
+        {
+            // Condition should be satisfied in time 3 and 4 and probably later
+            var result = _reasoning.ExecuteQuery(new AccesibleConditionQuery(QuestionType.Always, "a && !b && c && d", _scenarioDescription), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        #endregion
+
+        #region PerformingActionAtTimeQuery
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Always_Basic_True_ActionInProgress_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, _actionA2, 2), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Always_Basic_True_ActionStart_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, _actionA2, 1), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Always_Basic_True_ActionEnd_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, _actionA2, 3), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Ever_Basic_True_ActionInProgress_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Ever, _actionA2, 2), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Ever_Basic_True_ActionStart_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Ever, _actionA2, 1), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Ever_Basic_True_ActionEnd_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Ever, _actionA2, 3), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Always_Basic_False_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, _actionA2, 0), _scenarioDescription);
+            Assert.Equals(QueryResult.False, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Ever_Basic_False_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Ever, _actionA2, 0), _scenarioDescription);
+            Assert.Equals(QueryResult.False, result);
+        }
+
+        #endregion
+
+        #region ConditionAtTimeQuery
+
+        // EVER
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Ever_Basic_TrueInTimeZero_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, "a && b && c && d", 0), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Ever_Basic_FalseInTimeZero_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, "a && !b && c && d", 0), _scenarioDescription);
+            Assert.Equals(QueryResult.False, result);
+        }
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Ever_Basic_True_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, "a && !b && c && d", 3), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Ever_Basic_False_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, "a && b && c && d", 3), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        // ALWAYS
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Always_Basic_TrueInTimeZero_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, "a && b && c && d", 0), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Always_Basic_FalseInTimeZero_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, "a && !b && c && d", 0), _scenarioDescription);
+            Assert.Equals(QueryResult.False, result);
+        }
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Always_Basic_True_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, "a && !b && c && d", 3), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Always_Basic_False_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, "a && b && c && d", 3), _scenarioDescription);
+            Assert.Equals(QueryResult.True, result);
+        }
+
+        #endregion
+
+        #endregion
     }
 }
