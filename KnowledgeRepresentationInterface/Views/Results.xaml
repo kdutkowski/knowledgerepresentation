@@ -13,9 +13,13 @@
         <GridSplitter HorizontalAlignment="Left" Height="500" Margin="300,40,0,0" VerticalAlignment="Top" Width="4" Background="DarkBlue"/>
 
         <Label x:Name="LabelSummaryFluents" Content="Fluents:" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="LabelFluents" Content="{Binding FluentsString, ElementName=uc_res, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" MaxWidth="280"/>
-        <Label x:Name="LabelSummaryActions" Content="Actions:" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="LabelActions" Content="{Binding ActionsString, ElementName=uc_res, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" MaxWidth="280"/>
+        <Label x:Name="LabelFluents" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" MaxWidth="280"/>
+        <Label x:Name="LabelSummaryActions" Content="Actions:" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="LabelActions" HorizontalAlignment="Left" Margin="10,175,0,0" VerticalAlignment="Top" MaxWidth="280"/>
+        <Label x:Name="LabelSummaryWorldDescriptions" Content="World descriptions:" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="LabelWorldDescriptions" HorizontalAlignment="Left" Margin="10,275,0,0" VerticalAlignment="Top" MaxWidth="280"/>
+        <Label x:Name="LabelSummaryScenarioDescriptions" Content="Scenario descriptions:" HorizontalAlignment="Left" Margin="10,400,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="LabelScenarioDescriptions" HorizontalAlignment="Left" Margin="10,425,0,0" VerticalAlignment="Top" MaxWidth="280"/>
 
         <Label x:Name="LabelQuestionTypeName" Content="Select question type:" HorizontalAlignment="Left" Margin="329,50,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name ="ComboBoxQuestionType" 

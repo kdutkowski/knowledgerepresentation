@@ -1,7 +1,7 @@
-﻿using KnowledgeRepresentationReasoning.Queries;
+﻿using System.Collections.Generic;
+using KnowledgeRepresentationReasoning.Queries;
 using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
-using System.Collections.Generic;
 
 namespace KnowledgeRepresentationInterface
 {
@@ -26,10 +26,9 @@ namespace KnowledgeRepresentationInterface
             pageSwitcher.PrevPage();
         }
 
-        public static QueryResult ExecuteQuery(Query query)
+        public static QueryResult ExecuteQuery(Query query, ScenarioDescription scenarioDescription)
         {
-            return pageSwitcher.ExecuteQuery(query);
+            return pageSwitcher.ExecuteQuery(query, scenarioDescription);
         }
-
     }
 }

@@ -123,5 +123,10 @@ namespace KnowledgeRepresentationReasoning.Expressions
 
             _expression = "(" + _expression + ") && (" + logicExpression + ")";
         }
+
+        public override string ToString()
+        {
+            return this._expression;
+        }
     }
 }
