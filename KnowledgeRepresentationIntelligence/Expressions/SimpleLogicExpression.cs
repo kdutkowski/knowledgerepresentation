@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("KnowledgeRepresentationReasoning.Test")]
+
 namespace KnowledgeRepresentationReasoning.Expressions
 {
     using System;
@@ -15,8 +16,9 @@ namespace KnowledgeRepresentationReasoning.Expressions
 
     public class SimpleLogicExpression : ILogicExpression
     {
-        private readonly char[] specialCharacters = new[] { '|', '&', '(', ')', '!' };
-        private string _expression { get; set; }
+        private readonly char[] _specialCharacters = new[] { '|', '&', '(', ')', '!' };
+
+        private string _expression;
 
         public SimpleLogicExpression(SimpleLogicExpression logicExpression)
         {
@@ -25,13 +27,15 @@ namespace KnowledgeRepresentationReasoning.Expressions
 
         public SimpleLogicExpression()
         {
-            // TODO: Complete member initialization
+            _expression = string.Empty;
         }
 
-        public SimpleLogicExpression(string expression)
+        public SimpleLogicExpression(string expression) : this()
         {
-            // TODO: Complete member initialization
-            this._expression = expression;
+            if (!string.IsNullOrEmpty(expression))
+            {
+                this._expression = expression;
+            }
         }
 
         public bool Evaluate(IEnumerable<Tuple<string, bool>> values)
@@ -74,13 +78,13 @@ namespace KnowledgeRepresentationReasoning.Expressions
 
         public void SetExpression(string expression)
         {
-            this._expression = expression??string.Empty;
+            this._expression = expression ?? string.Empty;
         }
 
         public string[] GetFluentNames()
         {
             string filteredString = this._expression;
-            filteredString = this.specialCharacters.Aggregate(filteredString, (current, specialCharacter) => current.Replace(specialCharacter, ' '));
+            filteredString = this._specialCharacters.Aggregate(filteredString, (current, specialCharacter) => current.Replace(specialCharacter, ' '));
             filteredString = Regex.Replace(filteredString, " {2,}", " ");
             return filteredString.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
         }
@@ -94,38 +98,54 @@ namespace KnowledgeRepresentationReasoning.Expressions
             {
                 var possibleFluents = new Fluent[numberOfFluents];
                 for (int i = 0; i < numberOfFluents; i++)
+                {
                     possibleFluents[i] = new Fluent { Name = fluentNames[i], Value = code[i] };
+                }
                 if (this.Evaluate(possibleFluents.Select(t => new Tuple<string, bool>(t.Name, t.Value))))
+                {
                     result.Add(possibleFluents);
+                }
             }
             return result;
         }
 
-        class ExpressionHelper
+        private class ExpressionHelper
         {
             public static bool impl(bool a, bool b)
             {
-                if (a == false) return true;
+                if (a == false)
+                {
+                    return true;
+                }
                 return b;
             }
 
             public static bool rown(bool a, bool b)
             {
-                if (a == b) return true;
-                else return false;
+                if (a == b)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
-
         public void AddExpression(ILogicExpression logicExpression)
         {
-            if (logicExpression == null) return;
-            if (string.IsNullOrEmpty(_expression))
+            if (logicExpression != null)
             {
-                _expression = logicExpression.ToString();
-                return;
+                if (!string.IsNullOrEmpty(logicExpression.ToString()) && !string.IsNullOrEmpty(_expression))
+                {
+                    _expression = "(" + _expression + ") && (" + logicExpression + ")";
+                }
+                else if (!string.IsNullOrEmpty(logicExpression.ToString()))
+                {
+                    _expression = logicExpression.ToString();
+                }
             }
-            _expression = "(" + _expression + ") && (" + logicExpression + ")";
         }
 
         public override string ToString()
