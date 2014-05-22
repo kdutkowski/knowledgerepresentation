@@ -120,7 +120,11 @@ namespace KnowledgeRepresentationReasoning.Expressions
         public void AddExpression(ILogicExpression logicExpression)
         {
             if (logicExpression == null) return;
-
+            if (string.IsNullOrEmpty(_expression))
+            {
+                _expression = logicExpression.ToString();
+                return;
+            }
             _expression = "(" + _expression + ") && (" + logicExpression + ")";
         }
 

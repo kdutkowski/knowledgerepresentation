@@ -1,6 +1,7 @@
 ﻿namespace KnowledgeRepresentationInterface.Views.QueriesControls
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using KnowledgeRepresentationReasoning.Queries;
     using KnowledgeRepresentationReasoning.Scenario;
@@ -11,8 +12,6 @@
     /// </summary>
     public partial class QueAccesibleCondition : QueControl
     {
-        public string Condition { get; set; }
-
         public QueAccesibleCondition()
         {
             InitializeComponent();
@@ -28,7 +27,8 @@
 
         public override Query GetQuery(QuestionType questionType)
         {
-            throw new System.NotImplementedException();
+            var selectedScenario = Scenarios.First(t => t.Name.Equals(SelectedScenario));
+            return new AccesibleConditionQuery(questionType, TextBoxCondition.Text, selectedScenario);
         }
     }
 }

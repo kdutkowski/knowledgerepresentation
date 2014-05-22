@@ -33,6 +33,6 @@
             Fluents = fluents;
         }
 
-        public abstract Query GetQuery( QuestionType questionType);
+        public abstract Query GetQuery(QuestionType questionType);
     }
 }

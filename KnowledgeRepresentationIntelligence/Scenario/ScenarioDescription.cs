@@ -77,7 +77,7 @@ namespace KnowledgeRepresentationReasoning.Scenario
             {
                 return actions.Find(action => action.Time == t).WorldAction;
             }
-            catch (System.ArgumentNullException)
+            catch (System.NullReferenceException)
             {
                 return null;
             }
