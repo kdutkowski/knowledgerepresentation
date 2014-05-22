@@ -14,8 +14,9 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         public WorldAction SelectedActionStart { get; set; }
         public WorldAction SelectedActionResult { get; set; }
 
-        public EnvInvokesAfterIf(ObservableCollection<WorldAction> actionsCollection)
+        public EnvInvokesAfterIf(ObservableCollection<WorldAction> actionsCollection, ObservableCollection<Fluent> fluentsCollection)
         {
+            Fluents = fluentsCollection;
             Actions = actionsCollection;
             InitializeComponent();
             RegisterName("envControl_invokesAfterIf", this);

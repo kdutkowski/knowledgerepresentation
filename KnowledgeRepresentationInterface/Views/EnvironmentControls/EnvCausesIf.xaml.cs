@@ -1,6 +1,9 @@
-﻿using KnowledgeRepresentationReasoning.World.Records;
+﻿using System.Windows.Controls;
+using KnowledgeRepresentationInterface.Views.Helpers;
+using KnowledgeRepresentationReasoning.World.Records;
 using System;
 using System.Collections.ObjectModel;
+using Xceed.Wpf.Toolkit;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
@@ -17,8 +20,9 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         private String _expressionIf;
 
 
-        public EnvCausesIf(ObservableCollection<WorldAction> actionsCollection)
+        public EnvCausesIf(ObservableCollection<WorldAction> actionsCollection, ObservableCollection<Fluent> fluentsCollection)
         {
+            Fluents = fluentsCollection;
             Actions = actionsCollection;
             InitializeComponent();
             RegisterName("envControl_causesIf", this);
@@ -51,6 +55,22 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
             TextBoxFormEffect.Clear();
             TextBoxFormIf.Clear();
             LabelValidation.Content = "";
+        }
+
+        private void TextBoxExpression_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (Fluents.Count == 0)
+                return;
+            var window = new ExpressionWindow(Fluents);
+            var dialogResult = window.ShowDialog();
+            
+            if (dialogResult == false)
+                return;
+            if (sender.GetType() == typeof(TextBox))
+                ((TextBox) sender).Text = window.Expression;
+            else if (sender.GetType() == typeof(WatermarkTextBox))
+                ((WatermarkTextBox)sender).Text = window.Expression;
+            
         }
 
     }

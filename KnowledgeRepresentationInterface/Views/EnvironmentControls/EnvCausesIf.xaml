@@ -8,9 +8,11 @@
              d:DesignHeight="300" d:DesignWidth="245">
     <Grid>
         <Label Name="LabelCauses" Content="causes" HorizontalAlignment="Center" Margin="0,38,0,0" VerticalAlignment="Top" Width="47"/>
-        <xctk:WatermarkTextBox x:Name="TextBoxFormEffect" Watermark="Alfa" HorizontalAlignment="Center" Margin="0,70,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
+        <xctk:WatermarkTextBox x:Name="TextBoxFormEffect" Watermark="Expression" HorizontalAlignment="Center" Margin="0,70,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center" 
+                               PreviewMouseDown="TextBoxExpression_PreviewMouseDown"/>
         <Label Name="LabelIf" Content="if" HorizontalAlignment="Center" Margin="0,98,0,0" VerticalAlignment="Top" Width="23"/>
-        <xctk:WatermarkTextBox x:Name="TextBoxFormIf" Watermark="Pi" HorizontalAlignment="Center" Margin="0,129,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
+        <xctk:WatermarkTextBox x:Name="TextBoxFormIf" Watermark="Expression" HorizontalAlignment="Center" Margin="0,129,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center" 
+                               PreviewMouseDown="TextBoxExpression_PreviewMouseDown"/>
         <Label x:Name="LabelAction" Content="Action:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="50"/>
         <ComboBox x:Name="ComboBoxAction" SelectedItem="{Binding SelectedAction, ElementName=envControl_causesIf}" 
                   ItemsSource="{Binding Actions, ElementName=envControl_causesIf}"

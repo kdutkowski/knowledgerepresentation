@@ -12,7 +12,7 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     {
         public WorldAction SelectedAction { get; set; }
         public Fluent SelectedFluent { get; set; }
-        public ObservableCollection<Fluent> Fluents { get; set; }
+        
 
         public EnvReleasesIf(ObservableCollection<WorldAction> actionsCollection,  ObservableCollection<Fluent> fluentsCollection)
         {
