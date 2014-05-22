@@ -10,8 +10,10 @@
         <Label x:Name="LabelAction"  Content="action" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Center" />
         <ComboBox SelectedItem="{Binding SelectedAction, ElementName=queContr_cond}" ItemsSource="{Binding Actions, ElementName=queContr_cond}" HorizontalAlignment="Center" Margin="0,25,0,0" Width="200" VerticalAlignment="Top"/>
         <Label x:Name="LabelAt" Content="at" HorizontalAlignment="Center" Margin="0,47,0,0" VerticalAlignment="Top" Width="22" />
-        <TextBox x:Name="TextBoxTime"  HorizontalAlignment="Center" Margin="0,78,0,0" TextWrapping="Wrap" Text="time" VerticalAlignment="Top" Width="200" TextAlignment="Center"/>
+        <TextBox x:Name="TextBoxTime"  HorizontalAlignment="Center" Margin="0,78,0,0" TextWrapping="Wrap" Text="{Binding Time, ElementName=queContr_cond}" VerticalAlignment="Top" Width="200" TextAlignment="Center"/>
         <Label x:Name="LabelScenario"  Content="scenario" HorizontalAlignment="Center" Margin="0,105,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Center" />
-        <ComboBox SelectedItem="{Binding SelectedScenario, ElementName=queContr_cond}" ItemsSource="{Binding ScenarioNames, ElementName=queContr_cond}" HorizontalAlignment="Center" Margin="0,135,0,0" Width="200" VerticalAlignment="Top"/>
+        <ComboBox SelectedItem="{Binding SelectedScenario, ElementName=queContr_cond, UpdateSourceTrigger=PropertyChanged}" 
+                  ItemsSource="{Binding ScenarioNames, ElementName=queContr_cond, UpdateSourceTrigger=PropertyChanged}"
+                  HorizontalAlignment="Center" Margin="0,135,0,0" Width="200" VerticalAlignment="Top"/>
     </Grid>
 </QueriesControls:QueControl>

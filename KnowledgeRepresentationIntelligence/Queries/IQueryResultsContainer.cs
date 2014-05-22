@@ -1,6 +1,6 @@
 ﻿namespace KnowledgeRepresentationReasoning.Queries
 {
-    interface IQueryResultsContainer
+    internal interface IQueryResultsContainer
     {
         QueryResult CollectResults();
 

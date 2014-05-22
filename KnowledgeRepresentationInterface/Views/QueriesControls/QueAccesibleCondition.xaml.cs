@@ -3,6 +3,7 @@
     using System.Collections.Generic;
 
     using KnowledgeRepresentationReasoning.Queries;
+    using KnowledgeRepresentationReasoning.Scenario;
     using KnowledgeRepresentationReasoning.World;
 
     /// <summary>
@@ -18,8 +19,8 @@
             RegisterName("queContr_cond", this);
         }
 
-        public QueAccesibleCondition(List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
-            : base(scenarioNames, actions, fluents)
+        public QueAccesibleCondition(List<ScenarioDescription> scenarios, List<WorldAction> actions, List<Fluent> fluents)
+            : base(scenarios, actions, fluents)
         {
             InitializeComponent();
             RegisterName("queContr_cond", this);

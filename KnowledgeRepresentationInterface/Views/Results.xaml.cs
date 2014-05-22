@@ -3,17 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 using KnowledgeRepresentationInterface.Views.QueriesControls;
 using KnowledgeRepresentationReasoning.Queries;
 using KnowledgeRepresentationReasoning.World;
@@ -31,18 +23,14 @@ namespace KnowledgeRepresentationInterface.Views
         #region | PROPERTIES |
 
         private int _timeInf;
-        private readonly List<string> _scenarioNames;
+
+        private readonly List<ScenarioDescription> _savedScenarios;
         private readonly List<WorldAction> _actions;
         private readonly List<Fluent> _fluents;
-
-        private Dictionary<QueryType, QueControl> QueriesControls;
         private QueryType _selectedQueryType;
-
-        public QuestionType SelectedQuestionType
-        {
-            get;
-            set;
-        }
+        private Dictionary<QueryType, QueControl> _queriesControls;
+        
+        public QuestionType SelectedQuestionType { get; set; }
 
         public QueryType SelectedQueryType
         {
@@ -53,15 +41,9 @@ namespace KnowledgeRepresentationInterface.Views
             set
             {
                 _selectedQueryType = value;
-                this.GroupBoxQuery.Content = QueriesControls[_selectedQueryType];
+                this.GroupBoxQuery.Content = this._queriesControls[_selectedQueryType];
                 NotifyPropertyChanged("SelectedQueryType");
             }
-        }
-
-        private List<ScenarioDescription> _scenarioDescription
-        {
-            get;
-            set;
         }
 
         public IEnumerable<QueryType> QueryRecordType
@@ -88,7 +70,7 @@ namespace KnowledgeRepresentationInterface.Views
 
         public Results()
         {
-            _scenarioNames = new List<string>();
+            _savedScenarios = new List<ScenarioDescription>();
             _actions = new List<WorldAction>();
             _fluents = new List<Fluent>();
             InitializeComponent();
@@ -97,31 +79,32 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void InitControls()
         {
-            QueriesControls = new Dictionary<QueryType, QueControl>
+            this._queriesControls = new Dictionary<QueryType, QueControl>
                               {
-                                  { QueryType.SatisfyConditionAtTime, new QueConditionAtTime(this._scenarioNames, this._actions, this._fluents) },
-                                  { QueryType.AccesibleCondition, new QueAccesibleCondition(this._scenarioNames, this._actions, this._fluents) },
-                                  { QueryType.ExecutableScenario, new QueExecutableScenario(this._scenarioNames, this._actions, this._fluents) },
-                                  { QueryType.PerformingActionAtTime, new QueActionAtTime(this._scenarioNames, this._actions, this._fluents) }
+                                  { QueryType.SatisfyConditionAtTime, new QueConditionAtTime(_savedScenarios, this._actions, this._fluents) },
+                                  { QueryType.AccesibleCondition, new QueAccesibleCondition(_savedScenarios, this._actions, this._fluents) },
+                                  { QueryType.ExecutableScenario, new QueExecutableScenario(_savedScenarios, this._actions, this._fluents) },
+                                  { QueryType.PerformingActionAtTime, new QueActionAtTime(_savedScenarios, this._actions, this._fluents) }
                               };
         }
 
         public void Initialize(int tInf, List<Fluent> fluents, List<WorldAction> actions, List<ScenarioDescription> savedScenarios, List<WorldDescriptionRecord> worldDescriptions)
         {
+            // TIME
             _timeInf = tInf;
+
+            // ACTIONS
             this._actions.AddRange(actions);
             if(this._actions.Any())
-                ( (QueActionAtTime)QueriesControls[QueryType.PerformingActionAtTime] ).SelectedAction = this._actions.First();
+                ( (QueActionAtTime)this._queriesControls[QueryType.PerformingActionAtTime] ).SelectedAction = this._actions.First();
+           
+            // FLUENTS
             this._fluents.AddRange(fluents);
-            foreach(var scenario in savedScenarios)
-                _scenarioNames.Add(scenario.Name);
-            if(_scenarioNames.Count > 0)
-            {
-                foreach(var queriesControl in QueriesControls.Values)
-                    queriesControl.SelectedScenario = _scenarioNames.First();
-            }
-
-            _scenarioDescription = savedScenarios;
+            
+            // SCENARIOS
+            _savedScenarios.AddRange(savedScenarios);
+            InitControls();
+            
             LabelFluents.Content = this._fluents.Aggregate(string.Empty, (current, fluent) => current + ( fluent.Name + " " ));
             LabelActions.Content = this._actions.Aggregate(string.Empty, (current, action) => current + ( action.ToString() + " " ));
             LabelScenarioDescriptions.Content = savedScenarios.Aggregate(string.Empty, (current, scenario) => current + (scenario.ToString() + "\n"));
@@ -134,15 +117,13 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonExecute_Click(object sender, RoutedEventArgs e)
         {
-            //TODO wybrać scenariusz
-            ScenarioDescription scenarioDescription = _scenarioDescription.First();
-            //todo pozostałe typy
-            if(SelectedQueryType == QueryType.SatisfyConditionAtTime)
-            {
-                Query q = ( (QueControl)QueriesControls[SelectedQueryType] ).GetQuery(SelectedQuestionType);
-                QueryResult qr = Switcher.ExecuteQuery(q, scenarioDescription);
-                LabelResult.Content = qr;
-            }
+            // Wybieramy scenariusz wybrany w aktywnym oknie, jeśli takiego nie ma to wybieramy pierwszy
+            ScenarioDescription scenarioDescription = this._savedScenarios
+                .FirstOrDefault(t => t.Name.Equals(this._queriesControls[SelectedQueryType].SelectedScenario)) ?? this._savedScenarios.First();
+
+            Query q = this._queriesControls[this.SelectedQueryType].GetQuery(SelectedQuestionType);
+            QueryResult qr = Switcher.ExecuteQuery(q, scenarioDescription);
+            LabelResult.Content = qr;
         }
 
         #endregion | EVENTS |

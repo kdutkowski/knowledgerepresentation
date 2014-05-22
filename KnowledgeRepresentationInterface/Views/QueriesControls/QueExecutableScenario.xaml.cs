@@ -1,9 +1,10 @@
 ﻿namespace KnowledgeRepresentationInterface.Views.QueriesControls
 {
-    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using KnowledgeRepresentationReasoning.Queries;
+    using KnowledgeRepresentationReasoning.Scenario;
     using KnowledgeRepresentationReasoning.World;
 
     /// <summary>
@@ -16,8 +17,9 @@
             InitializeComponent();
             RegisterName("queContr_cond", this);
         }
-        public QueExecutableScenario(List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
-            :base(scenarioNames, actions, fluents)
+
+        public QueExecutableScenario(List<ScenarioDescription> scenarios, List<WorldAction> actions, List<Fluent> fluents)
+            : base(scenarios, actions, fluents)
         {
             InitializeComponent();
             RegisterName("queContr_cond", this);
@@ -25,7 +27,8 @@
 
         public override Query GetQuery(QuestionType questionType)
         {
-           throw new NotImplementedException();
+            var selectedScenario = Scenarios.First(t => t.Name.Equals(SelectedScenario));
+            return new ExecutableScenarioQuery(questionType, selectedScenario);
         }
     }
 }

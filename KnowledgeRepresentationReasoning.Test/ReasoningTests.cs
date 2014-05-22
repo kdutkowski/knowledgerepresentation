@@ -1,23 +1,22 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace KnowledgeRepresentationReasoning.Test
+﻿namespace KnowledgeRepresentationReasoning.Test
 {
-    [TestClass]
-    public class ReasoningTests: TestBase
+    using NUnit.Framework;
+
+    using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+
+    [TestFixture]
+    public class ReasoningTests : TestBase
     {
         private Reasoning _reasoning;
 
-
-        public ReasoningTests() : base() { }
-
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
             _reasoning = new Reasoning();
         }
 
-        [TestMethod]
-        public void TestMethod1()
+        [Test]
+        public void NotImplementedTest()
         {
             Assert.IsTrue(true);
         }

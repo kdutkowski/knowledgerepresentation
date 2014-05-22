@@ -1,15 +1,17 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using KnowledgeRepresentationReasoning.Queries;
-
-namespace KnowledgeRepresentationReasoning.Test
+﻿namespace KnowledgeRepresentationReasoning.Test
 {
-    [TestClass]
+    using KnowledgeRepresentationReasoning.Queries;
+
+    using NUnit.Framework;
+
+    using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+
+    [TestFixture]
     public class QueryResultsContainerTests:TestBase
     {
         private QueryResultsContainer _queryResultContainer;
 
-        [TestMethod]
+        [Test]
         public void AddManyAddOne()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);
@@ -21,7 +23,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.AreEqual(1, result);
         }
 
-        [TestMethod]
+        [Test]
         public void AddManyAddMany()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);
@@ -37,7 +39,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.AreEqual(many, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CanAnswerEverOnTrue()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Ever);
@@ -50,7 +52,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.AreEqual(true, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CanAnswerEverOnFalse()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Ever);
@@ -62,7 +64,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.AreEqual(false, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CanAnswerAlwaysOnTrue()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);
@@ -75,7 +77,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.AreEqual(true, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CanAnswerAlwaysOnFalse()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);
@@ -88,7 +90,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.AreEqual(false, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollectAnswerForEverQueryResultTrue()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Ever);
@@ -100,7 +102,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.AreEqual(QueryResult.True, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollectAnswerForEverQueryResultFalse()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Ever);
@@ -112,7 +114,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.AreEqual(QueryResult.False, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollectAnswerForAlwaysQueryResultTrue()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);
@@ -124,7 +126,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.AreEqual(QueryResult.True, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollectAnswerForAlwaysQueryResultFalse()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);

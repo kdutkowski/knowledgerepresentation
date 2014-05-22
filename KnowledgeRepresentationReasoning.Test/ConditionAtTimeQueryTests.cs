@@ -1,101 +1,122 @@
-﻿using KnowledgeRepresentationReasoning.Queries;
-using KnowledgeRepresentationReasoning.World;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-
-namespace KnowledgeRepresentationReasoning.Test
+﻿namespace KnowledgeRepresentationReasoning.Test
 {
-    [TestClass]
+    using System.Collections.Generic;
+
+    using KnowledgeRepresentationReasoning.Queries;
+    using KnowledgeRepresentationReasoning.World;
+
+    using NUnit.Framework;
+
+    [TestFixture]
     public class ConditionAtTimeQueryTests : TestBase
     {
         private ConditionAtTimeQuery _query;
 
-        public ConditionAtTimeQueryTests() :base(){ }
-
-        [TestInitialize()]
-        public void MyTestInitialize() { }
-
-        [TestMethod]
+        [Test]
         public void CheckConditionAtTimeWithTimeTrue()
         {
-            int time = 0;
-            _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa || bb", time);
-            State state = new State();
-            List<Fluent> fluentList = new List<Fluent>() { new Fluent("aa", true), new Fluent("bb", false) };
+            const int Time = 0;
+            _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa || bb", Time);
+            var state = new State();
+            var fluentList = new List<Fluent>
+                             {
+                                 new Fluent("aa", true),
+                                 new Fluent("bb", false)
+                             };
             state.Fluents.AddRange(fluentList);
 
-            QueryResult result = _query.CheckCondition(state, null, time);
+            QueryResult result = _query.CheckCondition(state, null, Time);
 
             Assert.AreEqual(QueryResult.True, result);
         }
-        
-        [TestMethod]
+
+        [Test]
         public void CheckConditionAtTimeWithTimeFalse()
         {
-            int time = 0;
-            _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa && bb", time);
-            State state = new State();
-            List<Fluent> fluentList = new List<Fluent>() { new Fluent("aa", true), new Fluent("bb", false) };
+            const int Time = 0;
+            _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa && bb", Time);
+            var state = new State();
+            var fluentList = new List<Fluent>
+                             {
+                                 new Fluent("aa", true),
+                                 new Fluent("bb", false)
+                             };
             state.Fluents.AddRange(fluentList);
 
-            QueryResult result = _query.CheckCondition(state, null, time);
+            QueryResult result = _query.CheckCondition(state, null, Time);
 
             Assert.AreEqual(QueryResult.False, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CheckConditionAtTimeNoTimeTrue()
         {
-            int time = 0;
+            const int Time = 0;
             _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa || bb");
-            State state = new State();
-            List<Fluent> fluentList = new List<Fluent>() { new Fluent("aa", true), new Fluent("bb", false) };
+            var state = new State();
+            var fluentList = new List<Fluent>
+                             {
+                                 new Fluent("aa", true),
+                                 new Fluent("bb", false)
+                             };
             state.Fluents.AddRange(fluentList);
 
-            QueryResult result = _query.CheckCondition(state, null, time);
+            QueryResult result = _query.CheckCondition(state, null, Time);
 
             Assert.AreEqual(QueryResult.True, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CheckConditionAtTimeNoTimeQueryResultUndefined()
         {
-            int time = 0;
+            const int Time = 0;
             _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa && bb");
-            State state = new State();
-            List<Fluent> fluentList = new List<Fluent>() { new Fluent("aa", true), new Fluent("bb", false) };
+            var state = new State();
+            var fluentList = new List<Fluent>
+                             {
+                                 new Fluent("aa", true), 
+                                 new Fluent("bb", false)
+                             };
             state.Fluents.AddRange(fluentList);
 
-            QueryResult result = _query.CheckCondition(state, null, time);
+            QueryResult result = _query.CheckCondition(state, null, Time);
 
             Assert.AreEqual(QueryResult.Undefined, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CheckConditionAtTimeBeforeTime()
         {
-            int time = 10;
-            _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa && bb", time);
-            State state = new State();
-            List<Fluent> fluentList = new List<Fluent>() { new Fluent("aa", true), new Fluent("bb", false) };
+            const int Time = 10;
+            _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa && bb", Time);
+            var state = new State();
+            var fluentList = new List<Fluent>
+                             {
+                                 new Fluent("aa", true),
+                                 new Fluent("bb", false)
+                             };
             state.Fluents.AddRange(fluentList);
 
-            QueryResult result = _query.CheckCondition(state, null, time-1);
+            QueryResult result = _query.CheckCondition(state, null, Time-1);
 
             Assert.AreNotEqual(QueryResult.False, result);
             Assert.AreNotEqual(QueryResult.True, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CheckConditionAtTimeAfterTime()
         {
-            int time = 10;
-            _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa && bb", time-1);
-            State state = new State();
-            List<Fluent> fluentList = new List<Fluent>() { new Fluent("aa", true), new Fluent("bb", false) };
+            const int Time = 10;
+            _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa && bb", Time-1);
+            var state = new State();
+            var fluentList = new List<Fluent>
+                             {
+                                 new Fluent("aa", true), 
+                                 new Fluent("bb", false)
+                             };
             state.Fluents.AddRange(fluentList);
 
-            QueryResult result = _query.CheckCondition(state, null, time);
+            QueryResult result = _query.CheckCondition(state, null, Time);
 
             Assert.AreEqual(QueryResult.False, result);
         }

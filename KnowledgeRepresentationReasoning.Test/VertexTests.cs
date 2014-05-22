@@ -1,22 +1,22 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using KnowledgeRepresentationReasoning.Logic;
-using KnowledgeRepresentationReasoning.World;
-
-namespace KnowledgeRepresentationReasoning.Test
+﻿namespace KnowledgeRepresentationReasoning.Test
 {
-    [TestClass]
+    using KnowledgeRepresentationReasoning.Logic;
+    using KnowledgeRepresentationReasoning.World;
+
+    using NUnit.Framework;
+
+    [TestFixture]
     public class VertexTests
     {
         private Vertex _vertex;
 
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
             _vertex = new Vertex();
         }
 
-        [TestMethod]
+        [Test]
         public void GetNextActionTimeWithNoActions()
         {
             int result = _vertex.GetNextActionTime();
@@ -24,35 +24,35 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.AreEqual(-1, result);
         }
 
-        [TestMethod]
+        [Test]
         public void GetNextActionTimeWithOneAction()
         {
-            int time = 1;
-            WorldAction worldAction = new WorldAction();
-            worldAction.StartAt = time;
+            const int Time = 1;
+            var worldAction = new WorldAction();
+            worldAction.StartAt = Time;
             _vertex.NextActions.Add(worldAction);
             
             int result = _vertex.GetNextActionTime();
 
-            Assert.AreEqual(time, result);
+            Assert.AreEqual(Time, result);
         }
 
-        [TestMethod]
+        [Test]
         public void GetNextActionTimeWithManyActions()
         {
-            int time = 1;
-            for (int i = time; i < 5; ++i)
+            const int Time = 1;
+            for (int i = Time; i < 5; ++i)
             {
-                WorldAction worldAction = new WorldAction();
+                var worldAction = new WorldAction();
                 worldAction.StartAt = i;
                 _vertex.NextActions.Add(worldAction);
             }
             int result = _vertex.GetNextActionTime();
 
-            Assert.AreEqual(time, result);
+            Assert.AreEqual(Time, result);
         }
 
-        [TestMethod]
+        [Test]
         public void ValidateActionsNoActualActionOneNextActionTrue()
         {
             _vertex.ActualWorldAction = null;
@@ -63,7 +63,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [Test]
         public void ValidateActionsNoActualActionOneNextActionFalse()
         {
             _vertex.ActualWorldAction = null;
@@ -75,7 +75,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
+        [Test]
         public void ValidateActionsNoActualActionManyNextActionsTrue()
         {
             _vertex.ActualWorldAction = null;
@@ -88,7 +88,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [Test]
         public void ValidateActionsNoActualActionManyNextActionsFalse()
         {
             _vertex.ActualWorldAction = null;
@@ -101,7 +101,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
+        [Test]
         public void ValidateActionsWithActualActionOneNextActionTrue()
         {
             _vertex.ActualWorldAction = new WorldAction("a", 0, 1);
@@ -112,7 +112,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [Test]
         public void ValidateActionsWithActualActionOneNextActionFalse()
         {
             _vertex.ActualWorldAction = new WorldAction("a", 0, 1);
@@ -124,7 +124,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
+        [Test]
         public void ValidateActionsWithActualActionManyNextActionsTrue()
         {
             _vertex.ActualWorldAction = new WorldAction("a", 0, 1);
@@ -137,7 +137,7 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [Test]
         public void ValidateActionsWithActualActionManyNextActionsFalse()
         {
             _vertex.ActualWorldAction = new WorldAction("a", 0, 1);
@@ -150,7 +150,8 @@ namespace KnowledgeRepresentationReasoning.Test
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
+        // TODO: Czemu to jest zakomentowane?
+        [Test]
         public void CreateChildsBasedOnImplicationsNoImplication()
         {
             //_vertex.CreateChildsBasedOnImplications(new System.Collections.Generic.List<Implication>(), 
