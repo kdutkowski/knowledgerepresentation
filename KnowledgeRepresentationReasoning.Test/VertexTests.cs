@@ -6,7 +6,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class VertexTests
+    public class VertexTests : TestBase
     {
         private Vertex _vertex;
 

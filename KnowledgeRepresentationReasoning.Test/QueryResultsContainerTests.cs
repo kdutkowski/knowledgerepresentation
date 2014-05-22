@@ -7,7 +7,7 @@
     using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
     [TestFixture]
-    public class QueryResultsContainerTests:TestBase
+    public class QueryResultsContainerTests : TestBase
     {
         private QueryResultsContainer _queryResultContainer;
 
@@ -28,7 +28,7 @@
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);
 
-            int many = 5;   //most random number
+            int many = 5; //most random number
             for (int i = 0; i < many; ++i)
             {
                 _queryResultContainer.AddMany(QueryResult.Undefined);

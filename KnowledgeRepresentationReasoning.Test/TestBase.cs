@@ -8,6 +8,7 @@
     using KnowledgeRepresentationReasoning.Logic;
 
     using log4net;
+    using log4net.Config;
 
     using Microsoft.Practices.ServiceLocation;
 
@@ -18,6 +19,7 @@
         protected TestBase()
         {
             Initialize();
+            XmlConfigurator.Configure();
         }
 
         private void Initialize()
