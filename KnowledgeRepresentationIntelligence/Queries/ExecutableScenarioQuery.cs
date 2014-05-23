@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KnowledgeRepresentationReasoning.Logic;
 using KnowledgeRepresentationReasoning.Scenario;
 
 namespace KnowledgeRepresentationReasoning.Queries
@@ -49,6 +50,18 @@ namespace KnowledgeRepresentationReasoning.Queries
             //            throw new NotImplementedException();
         }
 
+        public override QueryResult CheckCondition(Vertex v){
+            _logger.Info("Checking if scenario: " + _scenario.ToString() + " with parameters:\nstate: " + v.ActualState.ToString() + "\naction: " + v.ActualWorldAction ?? v.ActualWorldAction.ToString() + " is executable");
+
+            QueryResult result = QueryResult.Undefined;
+            if (!v.IsPossible) result = QueryResult.False;
+
+            if (v.NextActions == null || v.NextActions.Count==0) return QueryResult.True;
+
+
+
+            return result;
+        }
 
         public override string ToString()
         {
