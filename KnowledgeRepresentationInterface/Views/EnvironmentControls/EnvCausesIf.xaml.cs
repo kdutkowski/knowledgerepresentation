@@ -13,9 +13,6 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     {
 
         public WorldAction SelectedAction { get; set; }
-        private String _expressionEffect;
-        private String _expressionIf;
-
 
         public EnvCausesIf(ObservableCollection<WorldAction> actionsCollection,
                            ObservableCollection<Fluent> fluentsCollection)
@@ -30,12 +27,16 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             string errorString;
+            string expressionEffect = "";
+            
             if (ParseAction(ComboBoxAction.SelectedIndex, out errorString)
-                && ParseExpression(TextBoxFormEffect.Text, out _expressionEffect, out errorString)
-                && ParseExpression(TextBoxFormIf.Text, out _expressionIf, out errorString))
+                && ParseExpression(TextBoxFormEffect.Text, out expressionEffect, out errorString))
             {
+                //allow empty ifExpresion
+                string expressionIf = "";
+                ParseExpression(TextBoxFormIf.Text, out expressionIf, out errorString);
 
-                var wdr = new ActionCausesIfRecord(this.SelectedAction, _expressionEffect, _expressionIf);
+                var wdr = new ActionCausesIfRecord(this.SelectedAction, expressionEffect, expressionIf);
                 CleanValues();
                 return wdr;
             }
@@ -46,38 +47,10 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 
         protected override void CleanValues()
         {
-            _expressionEffect = "";
-            _expressionIf = "";
-
             ComboBoxAction.SelectedIndex = -1;
             TextBoxFormEffect.Clear();
             TextBoxFormIf.Clear();
             LabelValidation.Content = "";
         }
-
-        //    private void TextBoxExpression_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        //    {
-        //        if (Fluents.Count == 0)
-        //        {
-        //            Keyboard.ClearFocus();
-        //            return;
-        //        }
-
-
-        //        ExpressionWindow window = new ExpressionWindow(Fluents);
-
-        //        //todo dla już istniejącego expression
-        //        var dialogResult = window.ShowDialog();
-
-        //        if (dialogResult == false)
-        //            return;
-        //        if (sender.GetType() == typeof(TextBox))
-        //            ((TextBox) sender).Text = window.Expression;
-        //        else if (sender.GetType() == typeof(WatermarkTextBox))
-        //            ((WatermarkTextBox)sender).Text = window.Expression;
-        //        Keyboard.ClearFocus();
-        //    }
-
-        //}
     }
 }

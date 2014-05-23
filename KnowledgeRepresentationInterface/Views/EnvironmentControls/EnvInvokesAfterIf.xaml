@@ -13,7 +13,7 @@
 			ItemsSource="{Binding Actions, ElementName=envControl_invokesAfterIf}"
 			HorizontalAlignment="Center" Margin="65,10,10,0" Width="170" VerticalAlignment="Top"/>
 
-        <Label x:Name="LabelInvokes" Content="invokes" HorizontalAlignment="Center" Margin="0,38,0,0" VerticalAlignment="Top" Width="47"/>
+        <Label x:Name="LabelInvokes" Content="invokes" HorizontalAlignment="Center" Margin="0,38,0,0" VerticalAlignment="Top" Width="55"/>
 
         <Label x:Name="LabelActionResult" Content="Action:" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" Width="50"/>
         <ComboBox x:Name="ComboBoxActionResult" SelectedItem="{Binding SelectedActionResult, ElementName=envControl_invokesAfterIf}" 
