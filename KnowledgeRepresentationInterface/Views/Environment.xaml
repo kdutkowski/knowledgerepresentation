@@ -43,11 +43,15 @@
 
         <GroupBox x:Name="GruopBoxStatements" Header="Statements" HorizontalAlignment="Left" Height="250" Margin="508,222,0,0" VerticalAlignment="Top" Width="250" Foreground="Black" />
 
-        <ComboBox x:Name ="ComboBoxStatements" SelectedItem="{Binding SelectedWDRecordType, ElementName=uc_env, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding WDRecordType, ElementName=uc_env}" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="290" RenderTransformOrigin="0.475,0.15" Margin="490,196,0,0"/>
+        <ComboBox x:Name ="ComboBoxStatements" 
+                  SelectedItem="{Binding SelectedWDRecordType, ElementName=uc_env, UpdateSourceTrigger=PropertyChanged}" 
+                  ItemsSource="{Binding WDRecordType, ElementName=uc_env}" 
+                  HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="290" RenderTransformOrigin="0.475,0.15" Margin="490,196,0,0"/>
 
 
         <Label x:Name="LabelStatementsName" Content="Statements:" HorizontalAlignment="Left" Margin="157,50,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <ListBox x:Name="ListBoxStatements" HorizontalAlignment="Left" Height="256" Margin="157,76,0,0" VerticalAlignment="Top" Width="305" ItemsSource="{Binding Statements, ElementName=uc_env}"/>
+        <ListBox x:Name="ListBoxStatements" HorizontalAlignment="Left" Height="256" Margin="157,76,0,0" VerticalAlignment="Top" Width="305"
+                 ItemsSource="{Binding Statements, ElementName=uc_env}"/>
         <Button x:Name ="ButtonAddStatement" Content="Add Statement" HorizontalAlignment="Center" Margin="523,0,51,45" VerticalAlignment="Bottom" Width="220" Click="ButtonAddStatement_Click"/>
         <Button x:Name ="ButtonRemoveStatement" Content="Remove Statement" HorizontalAlignment="Left" Margin="157,0,0,203" VerticalAlignment="Bottom" Width="305" Click="ButtonRemoveStatement_Click"/>
 

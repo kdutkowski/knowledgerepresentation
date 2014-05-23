@@ -14,30 +14,18 @@
     using KnowledgeRepresentationReasoning.World.Records;
 
     using log4net;
-    using log4net.Config;
-
     using Microsoft.Practices.ServiceLocation;
 
     using NUnit.Framework;
 
     [TestFixture]
-    public class WorldDescriptionTests
+    public class WorldDescriptionTests : TestBase
     {
-        private static IContainer Container { get; set; }
-
         private WorldDescription _worldDescription;
-        private WorldAction action_A_2 = new WorldAction { Duration = 2, Id = "A" };
-        private WorldAction action_B_3 = new WorldAction { Duration = 3, Id = "B" };
-        private WorldAction action_C_5 = new WorldAction { Duration = 5, Id = "C" };
-
+        private readonly WorldAction action_A_2 = new WorldAction { Duration = 2, Id = "A" };
+        private readonly WorldAction action_B_3 = new WorldAction { Duration = 3, Id = "B" };
+        private readonly WorldAction action_C_5 = new WorldAction { Duration = 5, Id = "C" };
         private State _state;
-
-        [TestFixtureSetUp]
-        public void FixtureSetUp()
-        {
-            XmlConfigurator.Configure();
-            this.Initialize();
-        }
 
         [SetUp]
         public void SetUp()
@@ -50,7 +38,7 @@
                     new Fluent { Name = "e", Value = true }
                 }};
 
-            var fluent_c = new Fluent { Name = "c", Value = true };
+            var fluentC = new Fluent { Name = "c", Value = true };
 
             _worldDescription = new WorldDescription();
 
@@ -63,7 +51,7 @@
             _worldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(WorldDescriptionRecordType.ActionCausesIf, new ActionCausesIfRecord(action_B_3, "!b && !c", "e")));
 
             // RELEASE FLUENT
-            _worldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(WorldDescriptionRecordType.ActionReleasesIf, new ActionReleasesIfRecord(action_B_3, fluent_c, "e || c")));
+            _worldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(WorldDescriptionRecordType.ActionReleasesIf, new ActionReleasesIfRecord(action_B_3, fluentC, "e || c")));
 
         }
 
@@ -87,7 +75,7 @@
         {
             // EXPECTED RESULT: a = true, b = false, c = false, e = true OR a = true, b = false, c = true, e = true
 
-            var expectedState_1 = new State{ 
+            var expectedState1 = new State{ 
                 Fluents = new List<Fluent>{   
                     new Fluent { Name = "a", Value = true },
                     new Fluent { Name = "b", Value = false },
@@ -95,7 +83,7 @@
                     new Fluent { Name = "e", Value = true }
                 }};
 
-            var expectedState_2 = new State{ 
+            var expectedState2 = new State{ 
                 Fluents = new List<Fluent>{   
                     new Fluent { Name = "a", Value = true },
                     new Fluent { Name = "b", Value = false },
@@ -110,15 +98,15 @@
             Assert.NotNull(implication[0].FutureState);
             Assert.NotNull(implication[1].FutureState);
 
-            var futureState_1 = implication[0].FutureState;
-            var futureState_2 = implication[1].FutureState;
+            var futureState1 = implication[0].FutureState;
+            var futureState2 = implication[1].FutureState;
 
-            var eq_1_1 = futureState_1.Equals(expectedState_1);
-            var eq_1_2 = futureState_1.Equals(expectedState_2);
-            var eq_2_1 = futureState_2.Equals(expectedState_1);
-            var eq_2_2 = futureState_2.Equals(expectedState_2);
+            var eq11 = futureState1.Equals(expectedState1);
+            var eq12 = futureState1.Equals(expectedState2);
+            var eq21 = futureState2.Equals(expectedState1);
+            var eq22 = futureState2.Equals(expectedState2);
 
-            Assert.IsTrue( (eq_1_1 && eq_2_2) ^ (eq_1_2 && eq_2_1) );
+            Assert.IsTrue( (eq11 && eq22) ^ (eq12 && eq21) );
         }
 
         public void Initialize()

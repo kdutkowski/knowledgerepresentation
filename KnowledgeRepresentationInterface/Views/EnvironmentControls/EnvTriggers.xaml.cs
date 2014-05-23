@@ -12,8 +12,9 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     {
         public WorldAction SelectedAction { get; set; }
 
-        public EnvTriggers(ObservableCollection<WorldAction> actionsCollection)
+        public EnvTriggers(ObservableCollection<WorldAction> actionsCollection, ObservableCollection<Fluent> fluentsCollection)
         {
+            Fluents = fluentsCollection;
             Actions = actionsCollection;
             InitializeComponent();
             RegisterName("envControl_triggers", this);

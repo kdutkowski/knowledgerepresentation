@@ -1,9 +1,12 @@
 ﻿using log4net.Config;
-using System.Linq;
 
 [assembly: XmlConfigurator(Watch = true)]
+
 namespace KnowledgeRepresentationReasoning
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Autofac;
@@ -20,23 +23,23 @@ namespace KnowledgeRepresentationReasoning
     using log4net;
 
     using Microsoft.Practices.ServiceLocation;
-    using System.Collections.Generic;
-    using System;
-
 
     public class Reasoning : IReasoning
     {
         private static IContainer Container { get; set; }
+
         private ILog _logger { get; set; }
+
         private WorldDescription worldDescription { get; set; }
-        private ScenarioDescription scenarioDescription { get; set; }
+
+        private List<ScenarioDescription> scenarioDescriptionList { get; set; }
 
         public int TInf { get; set; }
 
         public Reasoning()
         {
             worldDescription = new WorldDescription();
-            scenarioDescription = new ScenarioDescription();
+            scenarioDescriptionList = new List<ScenarioDescription>();
             _logger = ServiceLocator.Current.GetInstance<ILog>();
             TInf = 100;
         }
@@ -65,53 +68,53 @@ namespace KnowledgeRepresentationReasoning
             return worldDescription;
         }
 
-        public void AddScenarioDescriptionRecord(ScenarioDescriptionRecord record)
+        //public void AddScenarioDescriptionRecord(ScenarioDescriptionRecord record)
+        //{
+        //    if(record is ScenarioActionRecord)
+        //    {
+        //        ScenarioActionRecord add = record as ScenarioActionRecord;
+        //        scenarioDescription.addACS(add.WorldAction, add.Time);
+        //    }
+        //    else if(record is ScenarioObservationRecord)
+        //    {
+        //        ScenarioObservationRecord add = record as ScenarioObservationRecord;
+        //        scenarioDescription.addObservation(add.Expr, add.Time);
+        //    }
+        //}
+
+        //public void RemoveScenarioDescriptionRecord(ScenarioDescriptionRecord record)
+        //{
+        //    if(record is ScenarioActionRecord)
+        //    {
+        //        ScenarioActionRecord remove = record as ScenarioActionRecord;
+        //        var removeRecords = scenarioDescription.actions.Where(t => t.Id == remove.Id).ToList();
+        //        for(int i = 0; i < removeRecords.Count; i++)
+        //        {
+        //            scenarioDescription.actions.Remove(removeRecords[i]);
+        //        }
+        //    }
+        //    else if(record is ScenarioObservationRecord)
+        //    {
+        //        ScenarioObservationRecord remove = record as ScenarioObservationRecord;
+        //        var removeRecords = scenarioDescription.observations.Where(t => t.Id == remove.Id).ToList();
+        //        for(int i = 0; i < removeRecords.Count; i++)
+        //        {
+        //            scenarioDescription.observations.Remove(removeRecords[i]);
+        //        }
+        //    }
+        //}
+
+        //public void UpdateScenarioDescriptionRecord(ScenarioDescriptionRecord record)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
+
+        public List<ScenarioDescription> GetScenarioDescriptionList()
         {
-            if (record is ScenarioActionRecord)
-            {
-                ScenarioActionRecord add = record as ScenarioActionRecord;
-                scenarioDescription.addACS(add.WorldAction, add.Time);
-            }
-            else if (record is ScenarioObservationRecord)
-            {
-                ScenarioObservationRecord add = record as ScenarioObservationRecord;
-                scenarioDescription.addObservation(add.Expr, add.Time);
-            }
+            return scenarioDescriptionList;
         }
 
-        public void RemoveScenarioDescriptionRecord(ScenarioDescriptionRecord record)
-        {
-            if (record is ScenarioActionRecord)
-            {
-                ScenarioActionRecord remove = record as ScenarioActionRecord;
-                var removeRecords = scenarioDescription.actions.Where(t => t.Id == remove.Id).ToList();
-                for (int i = 0; i < removeRecords.Count; i++)
-                {
-                    scenarioDescription.actions.Remove(removeRecords[i]);
-                }
-            }
-            else if (record is ScenarioObservationRecord)
-            {
-                ScenarioObservationRecord remove = record as ScenarioObservationRecord;
-                var removeRecords = scenarioDescription.observations.Where(t => t.Id == remove.Id).ToList();
-                for (int i = 0; i < removeRecords.Count; i++)
-                {
-                    scenarioDescription.observations.Remove(removeRecords[i]);
-                }
-            }
-        }
-
-        public void UpdateScenarioDescriptionRecord(ScenarioDescriptionRecord record)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public ScenarioDescription GetScenarioDescription()
-        {
-            return scenarioDescription;
-        }
-
-        public QueryResult ExecuteQuery(Query query)
+        public QueryResult ExecuteQuery(Query query, ScenarioDescription scenarioDescription)
         {
             QueryResultsContainer queryResultsContainer = new QueryResultsContainer(query.questionType);
 
@@ -130,7 +133,7 @@ namespace KnowledgeRepresentationReasoning
                 for (int i = 0; i < childsCount; ++i)
                 {
                     Vertex leaf = tree.LastLevel[i];
-                    if (!CheckIfLeafIsPossible(leaf))
+                    if (!CheckIfLeafIsPossible(leaf, scenarioDescription))
                     {
                         tree.DeleteChild(i);
                         queryResultsContainer.AddMany(QueryResult.False);
@@ -146,18 +149,23 @@ namespace KnowledgeRepresentationReasoning
 
                         foreach (var child in nextLevel)
                         {
-                            if (!CheckIfLeafIsPossible(child))
+                            if (!CheckIfLeafIsPossible(child, scenarioDescription))
                             {
                                 queryResultsContainer.AddMany(QueryResult.False);
                                 if (queryResultsContainer.CanQuickAnswer())
+                                {
                                     break;
+                                }
                             }
                             QueryResult result = query.CheckCondition(child.ActualState, child.ActualWorldAction, child.Time);
                             if (result == QueryResult.True || result == QueryResult.False)
                             {
                                 queryResultsContainer.AddMany(result);
                             }
-                            else tree.Add(child);
+                            else
+                            {
+                                tree.Add(child);
+                            }
                         }
                     }
                 }
@@ -175,9 +183,9 @@ namespace KnowledgeRepresentationReasoning
             return answer;
         }
 
-        private bool CheckIfLeafIsPossible(Vertex leaf)
+        private bool CheckIfLeafIsPossible(Vertex leaf, ScenarioDescription scenarioDescription)
         {
-            return leaf.IsPossible && leaf.ValidateActions() && worldDescription.Validate(leaf) && this.scenarioDescription.CheckIfLeafIsPossible(leaf);
+            return leaf.IsPossible && leaf.ValidateActions() && worldDescription.Validate(leaf) && scenarioDescription.CheckIfLeafIsPossible(leaf);
         }
 
         public Task<QueryResult> ExecuteQueryAsync(Query query)
@@ -187,7 +195,6 @@ namespace KnowledgeRepresentationReasoning
 
         public static void Initialize()
         {
-            // Autofac
             var builder = new ContainerBuilder();
             builder.RegisterModule(new LoggingModule());
             builder.RegisterInstance(LogManager.GetLogger(typeof(Reasoning))).As<ILog>();
@@ -195,10 +202,11 @@ namespace KnowledgeRepresentationReasoning
             builder.RegisterType<SimpleLogicExpression>().As<ILogicExpression>();
             Container = builder.Build();
             ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(Container));
+        }
 
-            // WorldDescription
-
-            // ScenarioDescription
+        public void AddScenarioDescriptionList(List<ScenarioDescription> scenarios)
+        {
+            scenarioDescriptionList.Concat(scenarios);
         }
     }
 }

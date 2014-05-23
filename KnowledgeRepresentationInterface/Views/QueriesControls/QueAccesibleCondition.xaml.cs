@@ -1,8 +1,10 @@
 ﻿namespace KnowledgeRepresentationInterface.Views.QueriesControls
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using KnowledgeRepresentationReasoning.Queries;
+    using KnowledgeRepresentationReasoning.Scenario;
     using KnowledgeRepresentationReasoning.World;
 
     /// <summary>
@@ -10,16 +12,14 @@
     /// </summary>
     public partial class QueAccesibleCondition : QueControl
     {
-        public string Condition { get; set; }
-
         public QueAccesibleCondition()
         {
             InitializeComponent();
             RegisterName("queContr_cond", this);
         }
 
-        public QueAccesibleCondition(List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
-            : base(scenarioNames, actions, fluents)
+        public QueAccesibleCondition(List<ScenarioDescription> scenarios, List<WorldAction> actions, List<Fluent> fluents)
+            : base(scenarios, actions, fluents)
         {
             InitializeComponent();
             RegisterName("queContr_cond", this);
@@ -27,7 +27,8 @@
 
         public override Query GetQuery(QuestionType questionType)
         {
-            throw new System.NotImplementedException();
+            var selectedScenario = Scenarios.First(t => t.Name.Equals(SelectedScenario));
+            return new AccesibleConditionQuery(questionType, TextBoxCondition.Text, selectedScenario);
         }
     }
 }

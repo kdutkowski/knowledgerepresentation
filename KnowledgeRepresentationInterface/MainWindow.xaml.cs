@@ -1,10 +1,10 @@
-﻿using KnowledgeRepresentationInterface.Views;
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using KnowledgeRepresentationInterface.Views;
 using KnowledgeRepresentationReasoning.Queries;
 using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace KnowledgeRepresentationInterface
 {
@@ -29,7 +29,6 @@ namespace KnowledgeRepresentationInterface
 
         private System.String _strStatement;
 
-
         public MainWindow()
         {
             InitializeComponent();
@@ -45,7 +44,6 @@ namespace KnowledgeRepresentationInterface
             this._reasoning = new Reasoning();
         }
 
-
         private void Navigate(UserControl nextPage)
         {
             this.Content = nextPage;
@@ -54,10 +52,12 @@ namespace KnowledgeRepresentationInterface
         public void NextPage(List<ScenarioDescription> savedScenarios)
         {
             _savedScenarios = savedScenarios;
-            if (actualPage >= _pages.Count)
+            if(actualPage >= _pages.Count)
                 return;
             actualPage++;
-            ((Results)_pages[actualPage]).Initialize(_timeInf, _fluents, _actions, _savedScenarios);
+            //  List<ScenarioDescription>
+            _reasoning.AddScenarioDescriptionList(_savedScenarios);
+            ( (Results)_pages[actualPage] ).Initialize(_timeInf, _fluents, _actions, _savedScenarios, _statements);
             this.Navigate(_pages[actualPage]);
         }
 
@@ -71,28 +71,26 @@ namespace KnowledgeRepresentationInterface
             _strStatement = strStatement;
             LoadWorldDescriptionRecords(statements);
             actualPage++;
-            ((Scenario)_pages[actualPage]).Initialize(_fluents, _actions, _strStatement);
+            ( (Scenario)_pages[actualPage] ).Initialize(_fluents, _actions, statements);
             this.Navigate(_pages[actualPage]);
         }
 
-
         public void PrevPage()
         {
-            if (actualPage <= 0)
+            if(actualPage <= 0)
                 return;
             actualPage--;
             this.Navigate(_pages[actualPage]);
         }
 
-        public QueryResult ExecuteQuery(Query query)
+        public QueryResult ExecuteQuery(Query query, ScenarioDescription scenarioDescription)
         {
-            return _reasoning.ExecuteQuery(query);
+            return _reasoning.ExecuteQuery(query, scenarioDescription);
         }
 
-       
         private void LoadWorldDescriptionRecords(List<WorldDescriptionRecord> statements)
         {
-            foreach (var worldDescriptionRecord in statements)
+            foreach(var worldDescriptionRecord in statements)
             {
                 this._reasoning.AddWorldDescriptionRecord(worldDescriptionRecord);
             }

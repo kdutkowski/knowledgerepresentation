@@ -1,15 +1,18 @@
 ﻿using log4net;
+
 using Microsoft.Practices.ServiceLocation;
+
 using System.Collections.Generic;
 using System.Linq;
 
 namespace KnowledgeRepresentationReasoning.Queries
 {
-    class QueryResultsContainer : IQueryResultsContainer
+    internal class QueryResultsContainer : IQueryResultsContainer
     {
         private ILog _logger;
 
         private QuestionType _questionType;
+
         private List<QueryResult> _results;
 
         public QueryResultsContainer(QuestionType questionType)

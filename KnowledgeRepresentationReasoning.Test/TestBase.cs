@@ -1,24 +1,25 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using KnowledgeRepresentationReasoning;
-using Microsoft.Practices.ServiceLocation;
-using log4net;
-using log4net.Config;
-using Autofac;
-using Autofac.Extras.CommonServiceLocator;
-using KnowledgeRepresentationReasoning.Logic;
-using KnowledgeRepresentationReasoning.Expressions;
-using KnowledgeRepresentationReasoning.Helpers;
-
-namespace KnowledgeRepresentationReasoning.Test
+﻿namespace KnowledgeRepresentationReasoning.Test
 {
+    using Autofac;
+    using Autofac.Extras.CommonServiceLocator;
+
+    using KnowledgeRepresentationReasoning.Expressions;
+    using KnowledgeRepresentationReasoning.Helpers;
+    using KnowledgeRepresentationReasoning.Logic;
+
+    using log4net;
+    using log4net.Config;
+
+    using Microsoft.Practices.ServiceLocation;
+
     public abstract class TestBase
     {
         protected static IContainer Container { get; set; }
 
-        public TestBase()
+        protected TestBase()
         {
             Initialize();
+            XmlConfigurator.Configure();
         }
 
         private void Initialize()

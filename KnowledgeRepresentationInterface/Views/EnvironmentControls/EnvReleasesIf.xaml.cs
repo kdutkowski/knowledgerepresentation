@@ -12,7 +12,7 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     {
         public WorldAction SelectedAction { get; set; }
         public Fluent SelectedFluent { get; set; }
-        public ObservableCollection<Fluent> Fluents { get; set; }
+        
 
         public EnvReleasesIf(ObservableCollection<WorldAction> actionsCollection,  ObservableCollection<Fluent> fluentsCollection)
         {
@@ -25,11 +25,14 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             string errorString;
-            string expression;
+            
             if (ParseAction(ComboBoxAction.SelectedIndex, out errorString)
-                && ParseFluent(ComboBoxFluent.SelectedIndex, out errorString)
-                && ParseExpression(TextBoxFormIf.Text, out expression, out errorString))
+                && ParseFluent(ComboBoxFluent.SelectedIndex, out errorString))
             {
+                //allow empty ifExpression
+                string expression;
+                ParseExpression(TextBoxFormIf.Text, out expression, out errorString);
+
                 WorldDescriptionRecord wdr = new ActionReleasesIfRecord(SelectedAction, SelectedFluent, expression);
                 CleanValues();
                 return wdr;

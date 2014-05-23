@@ -14,8 +14,9 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         public WorldAction SelectedActionStart { get; set; }
         public WorldAction SelectedActionResult { get; set; }
 
-        public EnvInvokesAfterIf(ObservableCollection<WorldAction> actionsCollection)
+        public EnvInvokesAfterIf(ObservableCollection<WorldAction> actionsCollection, ObservableCollection<Fluent> fluentsCollection)
         {
+            Fluents = fluentsCollection;
             Actions = actionsCollection;
             InitializeComponent();
             RegisterName("envControl_invokesAfterIf", this);
@@ -24,13 +25,14 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             string errorString;
-            string expression;
             if (ParseAction(ComboBoxActionStart.SelectedIndex, out errorString)
                 && ParseAction(ComboBoxActionResult.SelectedIndex, out errorString)
-                && ParseExpression(TextBoxFormIf.Text, out expression, out errorString)
                 && ParseTimeLenght(UpDownInvAftIfTime.Value, out errorString))
             {
-                
+               //allow empty ifExpression
+                string expression;
+                ParseExpression(TextBoxFormIf.Text, out expression, out errorString);
+
                 var wdr =  new ActionInvokesAfterIfRecord(SelectedActionStart, SelectedActionResult, UpDownInvAftIfTime.Value.Value, expression);
                 CleanValues();
                 return wdr;

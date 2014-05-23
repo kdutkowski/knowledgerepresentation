@@ -77,16 +77,14 @@ namespace KnowledgeRepresentationReasoning.Scenario
             {
                 return actions.Find(action => action.Time == t).WorldAction;
             }
-            catch (System.ArgumentNullException)
+            catch (System.NullReferenceException)
             {
                 return null;
             }
         }
 
         /// <summary>
-        /// Now: Returns first observation found, TO DO: 
-        /// Method returns many observations as one in form: "(ob1) && (ob2)...".
-        /// Returns null if no observations found.
+        /// Method returns many observations as one in form: "(ob1) && (ob2)..."
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
@@ -159,6 +157,16 @@ namespace KnowledgeRepresentationReasoning.Scenario
                 result = -1;
             }
 
+            return result;
+        }
+
+        public override string ToString()
+        {
+            var result = string.Empty;
+            foreach (var action in actions)
+                result += action.ToString() + "\n";
+            foreach (var observarion in observations)
+                result += observarion.ToString() + "\n";
             return result;
         }
     }

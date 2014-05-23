@@ -13,7 +13,7 @@
 			ItemsSource="{Binding Actions, ElementName=envControl_invokesAfterIf}"
 			HorizontalAlignment="Center" Margin="65,10,10,0" Width="170" VerticalAlignment="Top"/>
 
-        <Label x:Name="LabelInvokes" Content="invokes" HorizontalAlignment="Center" Margin="0,38,0,0" VerticalAlignment="Top" Width="47"/>
+        <Label x:Name="LabelInvokes" Content="invokes" HorizontalAlignment="Center" Margin="0,38,0,0" VerticalAlignment="Top" Width="55"/>
 
         <Label x:Name="LabelActionResult" Content="Action:" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" Width="50"/>
         <ComboBox x:Name="ComboBoxActionResult" SelectedItem="{Binding SelectedActionResult, ElementName=envControl_invokesAfterIf}" 
@@ -25,7 +25,8 @@
                              Minimum="0" Watermark="Enter time"/>
 
         <Label x:Name="LabelIf" Content="if" HorizontalAlignment="Center" Margin="0,139,0,0" VerticalAlignment="Top" Width="17"/>
-        <xctk:WatermarkTextBox x:Name="TextBoxFormIf" Watermark="Pi" HorizontalAlignment="Center" Margin="0,165,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
+        <xctk:WatermarkTextBox x:Name="TextBoxFormIf" Watermark="Expression" HorizontalAlignment="Center" Margin="0,165,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"
+                               PreviewMouseDown="WatermarkTextBoxExpression_PreviewMouseDown"/>
 
         <Label x:Name ="LabelValidation" Content="" HorizontalAlignment="Center" Margin="10,0,10,10" VerticalAlignment="Bottom" Width="225" Foreground="Red" FontWeight="Bold" FontStyle="Italic"/>
     </Grid>

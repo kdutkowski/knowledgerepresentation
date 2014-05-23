@@ -12,9 +12,9 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     {
         public WorldAction SelectedAction { get; set; }
 
-        public EnvImpossibleAt(ObservableCollection<WorldAction> actionsCollection)
+        public EnvImpossibleAt(ObservableCollection<WorldAction> actionsCollection, ObservableCollection<Fluent> fluentsCollection)
         {
-           
+            Fluents = fluentsCollection;
             Actions = actionsCollection;
             InitializeComponent();
             RegisterName("envControl_impossibleAt", this);
