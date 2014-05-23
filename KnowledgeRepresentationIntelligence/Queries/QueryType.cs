@@ -3,8 +3,11 @@
     public enum QueryType
     {
         ExecutableScenario,
+
         SatisfyConditionAtTime,
+
         PerformingActionAtTime,
+
         AccesibleCondition
     }
 }

@@ -13,12 +13,11 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
     {
 
         public WorldAction SelectedAction { get; set; }
-        private String _expressionEffect;
-        private String _expressionIf;
 
-
-        public EnvCausesIf(ObservableCollection<WorldAction> actionsCollection)
+        public EnvCausesIf(ObservableCollection<WorldAction> actionsCollection,
+                           ObservableCollection<Fluent> fluentsCollection)
         {
+            Fluents = fluentsCollection;
             Actions = actionsCollection;
             InitializeComponent();
             RegisterName("envControl_causesIf", this);
@@ -28,13 +27,17 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         public override WorldDescriptionRecord GetWorldDescriptionRecord()
         {
             string errorString;
+            string expressionEffect = "";
+            
             if (ParseAction(ComboBoxAction.SelectedIndex, out errorString)
-                && ParseExpression(TextBoxFormEffect.Text, out _expressionEffect, out errorString)
-                && ParseExpression(TextBoxFormIf.Text, out _expressionIf, out errorString))
+                && ParseExpression(TextBoxFormEffect.Text, out expressionEffect, out errorString))
             {
-                
-               var wdr = new ActionCausesIfRecord(this.SelectedAction, _expressionEffect, _expressionIf);
-               CleanValues();
+                //allow empty ifExpresion
+                string expressionIf = "";
+                ParseExpression(TextBoxFormIf.Text, out expressionIf, out errorString);
+
+                var wdr = new ActionCausesIfRecord(this.SelectedAction, expressionEffect, expressionIf);
+                CleanValues();
                 return wdr;
             }
 
@@ -44,14 +47,10 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 
         protected override void CleanValues()
         {
-            _expressionEffect = "";
-            _expressionIf = "";
-
             ComboBoxAction.SelectedIndex = -1;
             TextBoxFormEffect.Clear();
             TextBoxFormIf.Clear();
             LabelValidation.Content = "";
         }
-
     }
 }

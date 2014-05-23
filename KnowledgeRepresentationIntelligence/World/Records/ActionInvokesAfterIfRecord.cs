@@ -49,7 +49,7 @@
 
         public override string ToString()
         {
-            return this.worldAction.ToString() + " invokes " + result.ToString() + " after " + after + " if " + ifExpression;
+            return this.worldAction.ToString() + " invokes " + result.ToString() + " after " + after + ((ifExpression == "") ? "" : (" if " + ifExpression));
         }
     }
 }

@@ -15,57 +15,73 @@
     public partial class SceAddAction : UserControl, INotifyPropertyChanged
     {
         //TODO implement validation Time
+
         #region PropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
+            if(PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
         protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            if(handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
         }
-        #endregion
+
+        #endregion PropertyChanged
 
         private int _time;
+
         public int Time
         {
-            get { return _time; }
+            get
+            {
+                return _time;
+            }
             set
             {
                 _time = value;
                 OnPropertyChanged("Time");
             }
         }
+
         private WorldAction _selectedWARecordType;
 
-       
         public WorldAction SelectedWARecordType
         {
-            get { return _selectedWARecordType; }
+            get
+            {
+                return _selectedWARecordType;
+            }
             set
             {
                 _selectedWARecordType = value;
                 OnPropertyChanged("SelectedWARecordType");
             }
         }
-        
+
         private List<WorldAction> _actions = new List<WorldAction>();
-        
-        public IEnumerable<WorldAction> WARecordType 
-        {   
-            get { return this._actions; }
-            set 
-            { 
+
+        public IEnumerable<WorldAction> WARecordType
+        {
+            get
+            {
+                return this._actions;
+            }
+            set
+            {
                 _actions = value.ToList();
                 OnPropertyChanged("WARecordType");
             }
         }
+
         public SceAddAction()
         {
             InitializeComponent();
@@ -78,10 +94,9 @@
 
         internal void CleanValues()
         {
-            LabelValidation.Content = "Validation";
+            LabelValidation.Content = "";
             SelectedWARecordType = null;
             Time = 0;
         }
     }
-
 }

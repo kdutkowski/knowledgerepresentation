@@ -18,7 +18,8 @@
                   ItemsSource="{Binding Fluents, ElementName=envControl_releasesIf}"
                   HorizontalAlignment="Center" Margin="65,70,10,0" Width="170" VerticalAlignment="Top"/>
         <Label Name="LabelIf" Content="if" HorizontalAlignment="Center" Margin="0,98,0,0" VerticalAlignment="Top" Width="23"/>
-        <xctk:WatermarkTextBox Name="TextBoxFormIf" Watermark="Pi" HorizontalAlignment="Center" Margin="0,129,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
+        <xctk:WatermarkTextBox Name="TextBoxFormIf" Watermark="Expression" HorizontalAlignment="Center" Margin="0,129,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"
+                               PreviewMouseDown="WatermarkTextBoxExpression_PreviewMouseDown"/>
 
         <Label Name ="LabelValidation" Content="" HorizontalAlignment="Center" Margin="0,0,0,37" VerticalAlignment="Bottom" Width="225" Foreground="Red" FontWeight="Bold" FontStyle="Italic"/>
 

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using KnowledgeRepresentationReasoning.Queries;
+    using KnowledgeRepresentationReasoning.Scenario;
     using KnowledgeRepresentationReasoning.World;
 
     /// <summary>
@@ -16,8 +17,9 @@
             InitializeComponent();
             RegisterName("queContr_cond", this);
         }
-        public QueConditionAtTime(List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
-            :base(scenarioNames, actions, fluents)
+
+        public QueConditionAtTime(List<ScenarioDescription> scenarios, List<WorldAction> actions, List<Fluent> fluents)
+            : base(scenarios, actions, fluents)
         {
             InitializeComponent();
             RegisterName("queContr_cond", this);

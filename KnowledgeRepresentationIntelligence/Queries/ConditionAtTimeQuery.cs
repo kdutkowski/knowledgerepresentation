@@ -1,20 +1,24 @@
-﻿using KnowledgeRepresentationReasoning.Expressions;
-using KnowledgeRepresentationReasoning.World;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace KnowledgeRepresentationReasoning.Queries
+﻿namespace KnowledgeRepresentationReasoning.Queries
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    using KnowledgeRepresentationReasoning.Expressions;
+    using KnowledgeRepresentationReasoning.World;
+
     /* [condition] at ([time]) */
+
     public class ConditionAtTimeQuery : Query
     {
-        private string _condition;      //condition to check 
-        private int _time;              //Variable time in query, -1 means no time.
+        private readonly string _condition; //condition to check 
 
-        private SimpleLogicExpression _logicExp;
-        private string[] _fluentNames;
+        private readonly int _time; //Variable time in query, -1 means no time.
+
+        private readonly SimpleLogicExpression _logicExp;
+
+        private readonly string[] _fluentNames;
 
         public ConditionAtTimeQuery(QuestionType questionType, string condition, int time = -1)
             : base(QueryType.SatisfyConditionAtTime, questionType)
@@ -24,28 +28,32 @@ namespace KnowledgeRepresentationReasoning.Queries
             _logicExp = new SimpleLogicExpression(_condition);
             _fluentNames = _logicExp.GetFluentNames();
 
-            _logger.Info("Creates:\n " + this.ToString());
+            _logger.Info("Creates:\n " + this);
         }
 
-        public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
+        public override QueryResult CheckCondition(State state, WorldAction worldAction, int time)
         {
-            _logger.Info("Checking condition: " + _condition + "\nwith parameters:\nstate: " + state.ToString() + "\naction: " + worldAction ?? worldAction.ToString() + "\ntime: " + time);
-            QueryResult result = QueryResult.Undefined;
+            _logger.Info("Checking condition: " + this._condition + "\nwith parameters:\nstate: " + state + "\naction: " + worldAction);
 
-            result = CheckTime(state, time);
+            QueryResult result = this.CheckTime(state, time);
 
             string logResult = "Method result: " + result;
+
             if (QueryResult.Undefined == result)
+            {
                 _logger.Warn(logResult);
+            }
             else
+            {
                 _logger.Info(logResult);
+            }
 
             return result;
         }
 
-        private QueryResult CheckTime(World.State state, int time)
+        private QueryResult CheckTime(State state, int time)
         {
-            QueryResult result = QueryResult.Undefined;
+            var result = QueryResult.Undefined;
 
             if (-1 == _time)
             {
@@ -73,35 +81,33 @@ namespace KnowledgeRepresentationReasoning.Queries
 
         private QueryResult CheckValuation(State state)
         {
-            QueryResult result = QueryResult.Undefined;
             bool valuation = CalculateCondition(state);
 
-            if (true == valuation)
-            {
-                result = QueryResult.True;
-            }
-            else
-            {
-                result = QueryResult.False;
-            }
+            QueryResult result = valuation ? QueryResult.True : QueryResult.False;
 
             _logger.Info("Condition value:\ncondition: " + _condition + "result: " + result);
             return result;
         }
 
-        private bool CalculateCondition(World.State state)
+        private bool CalculateCondition(State state)
         {
-            List<Tuple<string, bool>> values = new List<Tuple<string, bool>>();
+            var values = new List<Tuple<string, bool>>();
+
             foreach (var name in _fluentNames)
             {
-                Fluent fluent = state.Fluents.Where(x => x.Name == name).FirstOrDefault<Fluent>();
-                if (fluent.Equals(default(Fluent)))
+                var fluent = state.Fluents.FirstOrDefault(x => x.Name == name);
+
+                if (fluent != null && fluent.Equals(default(Fluent)))
                 {
                     _logger.Warn("Fluent '" + fluent.Name + "' does not exist!");
                     continue;
                 }
-                Tuple<string, bool> pair = new Tuple<string, bool>(fluent.Name, fluent.Value);
-                values.Add(pair);
+
+                if (fluent != null)
+                {
+                    var pair = new Tuple<string, bool>(fluent.Name, fluent.Value);
+                    values.Add(pair);
+                }
             }
 
             return _logicExp.Evaluate(values);
@@ -109,7 +115,7 @@ namespace KnowledgeRepresentationReasoning.Queries
 
         public override string ToString()
         {
-            StringBuilder stringBuilder = new StringBuilder("Condition at Time Query:\ncondition: ", 77);
+            var stringBuilder = new StringBuilder("Condition at Time Query:\ncondition: ", 77);
             stringBuilder.Append(_condition);
             stringBuilder.Append("\ntime:");
             stringBuilder.Append(_time);

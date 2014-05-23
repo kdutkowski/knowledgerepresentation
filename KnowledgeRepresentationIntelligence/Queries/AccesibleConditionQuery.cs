@@ -1,34 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KnowledgeRepresentationReasoning.Expressions;
-using KnowledgeRepresentationReasoning.Scenario;
-
-
-namespace KnowledgeRepresentationReasoning.Queries
+﻿namespace KnowledgeRepresentationReasoning.Queries
 {
+    using System.Text;
+
+    using KnowledgeRepresentationReasoning.Expressions;
+    using KnowledgeRepresentationReasoning.Scenario;
+
     public class AccesibleConditionQuery : Query
     {
-        private string _condition;      //condition to check 
-        private SimpleLogicExpression _logicExp;
-        private string[] _fluentNames;
-        ScenarioDescription _scenario;
+        private readonly string _condition; //condition to check 
+        ExecutableScenarioQuery ExecQuery;
+        ConditionAtTimeQuery CondAtTimeQuery;
 
+
+        // TODO: Czy to do czegoś potrzebne skoro jest nieużywane?
+        private string[] _fluentNames;
+
+        private readonly ScenarioDescription _scenario;
 
         public AccesibleConditionQuery(QuestionType questionType, string condition, ScenarioDescription scenario)
             : base(QueryType.AccesibleCondition, questionType)
         {
             _queryType = QueryType.AccesibleCondition;
             _condition = condition;
-            _logicExp = new SimpleLogicExpression(_condition);
-            _fluentNames = _logicExp.GetFluentNames();
+            var logicExp = new SimpleLogicExpression(this._condition);
+            _fluentNames = logicExp.GetFluentNames();
             _scenario = scenario;
-            _logger.Info("Creates:\n " + this.ToString());
 
+
+            ExecQuery = new ExecutableScenarioQuery(QuestionType.Ever, _scenario);
+            CondAtTimeQuery = new ConditionAtTimeQuery(QuestionType.Ever, _condition);
+
+
+            _logger.Info("Creates:\n " + this);
         }
-
 
         /// <summary>
         /// Checks given parameters with conditionAtTimeQuery and ExecutableScenarioQuery
@@ -39,28 +43,49 @@ namespace KnowledgeRepresentationReasoning.Queries
         /// <returns></returns>
         public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
         {
-            _logger.Info("Checking condition: " + _condition + "\n accesible with parameters:\nstate: " + state.ToString() + "\naction: " + worldAction ?? worldAction.ToString());
-            QueryResult result = QueryResult.Undefined;
+            _logger.Info("Checking condition: " + this._condition + "\n accesible with parameters:\nstate: " + state + "\naction: " + worldAction);
 
-            Query query = new ConditionAtTimeQuery(QuestionType.Ever, _condition, time);
+            QueryResult condAtTimeResult = CondAtTimeQuery.CheckCondition(state, worldAction, time);
+            QueryResult execResult  = ExecQuery.CheckCondition(state, worldAction, time);
 
-            result = query.CheckCondition(state, worldAction, time);
-            if (result == QueryResult.Undefined || result == QueryResult.Error || result == QueryResult.False)
+
+
+            QueryResult result;
+
+            if (condAtTimeResult == QueryResult.Error || condAtTimeResult == QueryResult.Error)
             {
-
-                return result;
+                result = QueryResult.Error;
             }
+            else
+            {
+                if (condAtTimeResult == QueryResult.False || condAtTimeResult == QueryResult.False)
+                {
+                    result = QueryResult.False;
+                }
+                else
+                {
+                    if (condAtTimeResult == QueryResult.Undefined || condAtTimeResult == QueryResult.Undefined)
+                    {
+                        result = QueryResult.Undefined;
+                    }
+                    else
+                    {
+                        result = QueryResult.True;
 
-            query = new ExecutableScenarioQuery(QuestionType.Ever, _scenario);
-            result = query.CheckCondition(state, worldAction, time);
-            if (result == QueryResult.Undefined || result == QueryResult.Error || result == QueryResult.False) return result;
+                    }
+                }
+            }
 
             string logResult = "Accesible: " + result;
 
             if (QueryResult.Undefined == result)
+            {
                 _logger.Warn(logResult);
+            }
             else
+            {
                 _logger.Info(logResult);
+            }
 
             return result;
         }
@@ -74,7 +99,4 @@ namespace KnowledgeRepresentationReasoning.Queries
             return stringBuilder.ToString();
         }
     }
-
-
-
 }

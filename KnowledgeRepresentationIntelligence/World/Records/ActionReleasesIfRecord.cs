@@ -42,7 +42,7 @@
 
         public override string ToString()
         {
-            return worldAction.ToString() + " releases " + fluent.ToString() + " if " + ifExpression;
+            return worldAction.ToString() + " releases " + fluent.ToString() + ((ifExpression == "") ? "" : (" if " + ifExpression));
         }
     }
 }

@@ -60,7 +60,7 @@
 
         public override string ToString()
         {
-            return this.worldAction.ToString() + " causes " + resultExpression + " if " + ifExpression;
+            return this.worldAction.ToString() + " causes " + resultExpression + ((ifExpression == "")?"":(" if " + ifExpression));
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿namespace KnowledgeRepresentationInterface.Views.QueriesControls
 {
+    using System;
     using System.Collections.Generic;
 
     using KnowledgeRepresentationReasoning.Queries;
+    using KnowledgeRepresentationReasoning.Scenario;
     using KnowledgeRepresentationReasoning.World;
 
     /// <summary>
@@ -18,8 +20,8 @@
             RegisterName("queContr_cond", this);
         }
 
-        public QueActionAtTime(List<string> scenarioNames, List<WorldAction> actions, List<Fluent> fluents)
-            : base(scenarioNames, actions, fluents)
+        public QueActionAtTime(List<ScenarioDescription> scenarios, List<WorldAction> actions, List<Fluent> fluents)
+            : base(scenarios, actions, fluents)
         {
             InitializeComponent();
             RegisterName("queContr_cond", this);
@@ -27,7 +29,7 @@
 
         public override Query GetQuery(QuestionType questionType)
         {
-            throw new System.NotImplementedException();
+            return new PerformingActionAtTimeQuery(questionType, SelectedAction, Int32.Parse(TextBoxTime.Text));
         }
     }
 }
