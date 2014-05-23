@@ -1,9 +1,6 @@
-﻿using System.Windows.Controls;
-using KnowledgeRepresentationInterface.Views.Helpers;
-using KnowledgeRepresentationReasoning.World.Records;
+﻿using KnowledgeRepresentationReasoning.World.Records;
 using System;
 using System.Collections.ObjectModel;
-using Xceed.Wpf.Toolkit;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
@@ -20,7 +17,8 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
         private String _expressionIf;
 
 
-        public EnvCausesIf(ObservableCollection<WorldAction> actionsCollection, ObservableCollection<Fluent> fluentsCollection)
+        public EnvCausesIf(ObservableCollection<WorldAction> actionsCollection,
+                           ObservableCollection<Fluent> fluentsCollection)
         {
             Fluents = fluentsCollection;
             Actions = actionsCollection;
@@ -36,9 +34,9 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
                 && ParseExpression(TextBoxFormEffect.Text, out _expressionEffect, out errorString)
                 && ParseExpression(TextBoxFormIf.Text, out _expressionIf, out errorString))
             {
-                
-               var wdr = new ActionCausesIfRecord(this.SelectedAction, _expressionEffect, _expressionIf);
-               CleanValues();
+
+                var wdr = new ActionCausesIfRecord(this.SelectedAction, _expressionEffect, _expressionIf);
+                CleanValues();
                 return wdr;
             }
 
@@ -57,21 +55,29 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
             LabelValidation.Content = "";
         }
 
-        private void TextBoxExpression_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (Fluents.Count == 0)
-                return;
-            var window = new ExpressionWindow(Fluents);
-            var dialogResult = window.ShowDialog();
-            
-            if (dialogResult == false)
-                return;
-            if (sender.GetType() == typeof(TextBox))
-                ((TextBox) sender).Text = window.Expression;
-            else if (sender.GetType() == typeof(WatermarkTextBox))
-                ((WatermarkTextBox)sender).Text = window.Expression;
-            
-        }
+        //    private void TextBoxExpression_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        //    {
+        //        if (Fluents.Count == 0)
+        //        {
+        //            Keyboard.ClearFocus();
+        //            return;
+        //        }
 
+
+        //        ExpressionWindow window = new ExpressionWindow(Fluents);
+
+        //        //todo dla już istniejącego expression
+        //        var dialogResult = window.ShowDialog();
+
+        //        if (dialogResult == false)
+        //            return;
+        //        if (sender.GetType() == typeof(TextBox))
+        //            ((TextBox) sender).Text = window.Expression;
+        //        else if (sender.GetType() == typeof(WatermarkTextBox))
+        //            ((WatermarkTextBox)sender).Text = window.Expression;
+        //        Keyboard.ClearFocus();
+        //    }
+
+        //}
     }
 }

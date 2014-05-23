@@ -18,6 +18,6 @@
             logger = ServiceLocator.Current.GetInstance<ILog>();
         }
 
-        public new abstract string ToString();
+        public override abstract string ToString();
     }
 }

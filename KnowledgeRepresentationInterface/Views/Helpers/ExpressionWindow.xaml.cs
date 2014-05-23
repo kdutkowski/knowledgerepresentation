@@ -24,11 +24,12 @@ namespace KnowledgeRepresentationInterface.Views.Helpers
         public Fluent SelectedFluent { get; set; }
         public ObservableCollection<Fluent> Fluents { get; set; }
         private string _expressionString = "";
+
         public string Expression
         {
             get { return _expressionString.Replace("#", " "); }
         }
-        
+
 
         private int _leftBrCount = 0;
         private int _rightBrCount = 0;
@@ -39,6 +40,47 @@ namespace KnowledgeRepresentationInterface.Views.Helpers
             InitializeComponent();
         }
 
+        public ExpressionWindow(ObservableCollection<Fluent> fluentsCollection, string actualExpression)
+        {
+            _expressionString = actualExpression.Replace(" ", "#");
+            Fluents = fluentsCollection;
+
+            InitializeComponent();
+            TextBlockExpression.Text = Expression;
+            for (int i = 0; i < actualExpression.Count(); i++)
+            {
+                char c = actualExpression[i];
+                if (c == '(')
+                    _leftBrCount++;
+                if (c == ')')
+                    _rightBrCount++;
+            }
+            var splittedString = _expressionString.Split("#".ToArray(), StringSplitOptions.RemoveEmptyEntries);
+            switch (splittedString[splittedString.Count()-1])
+            {
+                case "!":
+                    EnDisAfterNeg();
+                    break;
+                case "&&":
+                    EnDisAfterAnd();
+                    break;
+                case "||":
+                    EnDisAfterOr();
+                    break;
+                case "(":
+                    _leftBrCount--;
+                    EnDisAfterLeftBracket();
+                    break;
+                case ")":
+                    _rightBrCount--;
+                    EnDisAfterRightBracket();
+                    break;
+                default:
+                    EnDisAfterFluent();
+                    break;
+            }
+        }
+
         private void AddPartExpression(string part)
         {
             _expressionString += part + "#";
@@ -46,6 +88,7 @@ namespace KnowledgeRepresentationInterface.Views.Helpers
         }
 
         #region Buttons Events
+
         private void ButtonAddFluent_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedFluent == null)
@@ -53,7 +96,7 @@ namespace KnowledgeRepresentationInterface.Views.Helpers
             AddPartExpression(SelectedFluent.ToString());
             EnDisAfterFluent();
         }
-        
+
         private void ButtonAddNeg_Click(object sender, RoutedEventArgs e)
         {
             AddPartExpression("!");
@@ -91,52 +134,81 @@ namespace KnowledgeRepresentationInterface.Views.Helpers
             if (_expressionString == "")
                 return;
 
-            var splittedString = _expressionString.Split('#');
-            int lastIndex = splittedString.Count() - 1;
+            var splittedString = _expressionString.Split("#".ToArray(), StringSplitOptions.RemoveEmptyEntries);
+            int lastIndex = splittedString.Count() - 2;
             _expressionString = "";
-            for (int i = 0; i < splittedString.Count() - 1; i++)
-                _expressionString += splittedString + "#";
-            TextBlockExpression.Text = _expressionString.Replace("#", " ");
+            for (int i = 0; i <= lastIndex; i++)
+                _expressionString += splittedString[i] + "#";
 
-            switch (splittedString[lastIndex])
+            if (_expressionString != "")
             {
-                case "!":
-                    EnDisAfterNeg();
-                    break;
-                case "&&":
-                    EnDisAfterAnd();
-                    break;
-                case "||":
-                    EnDisAfterOr();
-                    break;
-                case "(":
-                    _leftBrCount --;
-                    EnDisAfterLeftBracket();
-                    break;
-                case ")":
-                    _rightBrCount --;
-                    EnDisAfterRightBracket();
-                    break;
-                default:
-                    EnDisAfterFluent();
-                    break;
+                TextBlockExpression.Text = _expressionString.Replace("#", " ");
+
+                switch (splittedString[lastIndex])
+                {
+                    case "!":
+                        EnDisAfterNeg();
+                        break;
+                    case "&&":
+                        EnDisAfterAnd();
+                        break;
+                    case "||":
+                        EnDisAfterOr();
+                        break;
+                    case "(":
+                        _leftBrCount--;
+                        EnDisAfterLeftBracket();
+                        break;
+                    case ")":
+                        _rightBrCount--;
+                        EnDisAfterRightBracket();
+                        break;
+                    default:
+                        EnDisAfterFluent();
+                        break;
+                }
             }
+            else
+            {
+                TextBlockExpression.Text = "";
+                EnDisStart();
+            }
+
         }
 
-         private void ButtonFinish_Click(object sender, RoutedEventArgs e)
-         {
-             this.DialogResult = true;
-             this.Close();
-         }
+        private void ButtonClear_Click(object sender, RoutedEventArgs e)
+        {
+            _expressionString = "";
+            TextBlockExpression.Text = "";
+            EnDisStart();
+        }
+
+        private void ButtonFinish_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+            this.Close();
+        }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
             this.Close();
         }
+
         #endregion
 
         #region Enable and Disable Buttons
+
+        private void EnDisStart()
+        {
+            ButtonAddFluent.IsEnabled = true;
+            ButtonAddLeftBracket.IsEnabled = true;
+            ButtonAddNeg.IsEnabled = true;
+            ButtonAddAnd.IsEnabled = false;
+            ButtonAddOr.IsEnabled = false;
+            ButtonAddRightBracket.IsEnabled = false;
+            ButtonFinish.IsEnabled = false;
+        }
 
         private void EnDisAfterFluent()
         {
@@ -180,7 +252,7 @@ namespace KnowledgeRepresentationInterface.Views.Helpers
         private void EnDisAfterRightBracket()
         {
             //enable and disable buttons - po ) występuje ), $$ lub ||
-            
+
             ButtonAddAnd.IsEnabled = true;
             ButtonAddOr.IsEnabled = true;
             ButtonAddFluent.IsEnabled = false;
@@ -217,5 +289,7 @@ namespace KnowledgeRepresentationInterface.Views.Helpers
         }
 
         #endregion
+
+
     }
 }

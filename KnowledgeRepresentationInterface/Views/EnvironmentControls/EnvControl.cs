@@ -1,20 +1,34 @@
-﻿using KnowledgeRepresentationReasoning.World.Records;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using KnowledgeRepresentationInterface.Views.Helpers;
+using KnowledgeRepresentationReasoning.World.Records;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using Xceed.Wpf.Toolkit;
 
 namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 {
     using KnowledgeRepresentationReasoning.World;
 
-    public abstract class EnvControl : UserControl
+    public abstract class EnvControl : UserControl, INotifyPropertyChanged
     {
         public ObservableCollection<WorldAction> Actions { get; set; }
         public ObservableCollection<Fluent> Fluents { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public abstract WorldDescriptionRecord GetWorldDescriptionRecord();
 
         protected abstract void CleanValues();
+
+        #region Property Changed
+        protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
 
         protected virtual bool ParseFluent(int selectedIndex, out string errorInfo)
         {
@@ -61,5 +75,23 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
             return true;
         }
 
+        protected void WatermarkTextBoxExpression_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {//method implemented for WatermarkTextBox
+            //if (Fluents.Count == 0)
+            //{
+            //    Keyboard.ClearFocus();
+            //    return;
+            //}
+            var textBox = ((WatermarkTextBox)sender);
+
+            ExpressionWindow window = textBox.Text == "" ? new ExpressionWindow(Fluents) : new ExpressionWindow(Fluents, textBox.Text);
+
+            var dialogResult = window.ShowDialog();
+
+            if (dialogResult == false)
+                return;
+            textBox.Text = window.Expression;
+            Keyboard.ClearFocus();
+        }
     }
 }

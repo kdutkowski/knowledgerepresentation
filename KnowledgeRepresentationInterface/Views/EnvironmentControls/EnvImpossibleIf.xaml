@@ -13,7 +13,8 @@
 			ItemsSource="{Binding Actions, ElementName=envControl_impossibleIf}"
 			HorizontalAlignment="Center" Margin="65,42,10,0" Width="170" VerticalAlignment="Top"/>
         <Label Name="LabelAt" Content="if" HorizontalAlignment="Center" Margin="0,70,0,0" VerticalAlignment="Top" Width="23"/>
-        <xctk:WatermarkTextBox x:Name="TextBoxForm" Watermark="Pi" HorizontalAlignment="Center" Margin="0,101,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"/>
+        <xctk:WatermarkTextBox x:Name="TextBoxForm" Watermark="Expression" HorizontalAlignment="Center" Margin="0,101,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="225" MaxLines="1" TextAlignment="Center"
+                               PreviewMouseDown="WatermarkTextBoxExpression_PreviewMouseDown"/>
 
         <Label Name ="LabelValidation" Content="" HorizontalAlignment="Center" Margin="0,0,0,37" VerticalAlignment="Bottom" Width="225" Foreground="Red" FontWeight="Bold" FontStyle="Italic"/>
 
