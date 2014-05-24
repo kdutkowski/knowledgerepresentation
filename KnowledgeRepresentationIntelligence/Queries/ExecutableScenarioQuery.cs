@@ -65,6 +65,7 @@ using KnowledgeRepresentationReasoning.Scenario;
         }
 
         public QueryResult CheckCondition(Vertex v){
+
             _logger.Info("Checking if scenario: " + _scenario.ToString() + " with parameters:\nstate: " + v.ActualState.ToString() + "\naction: " + v.ActualWorldAction ?? v.ActualWorldAction.ToString() + " is executable");
 
             QueryResult result;
