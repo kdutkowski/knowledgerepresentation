@@ -33,7 +33,14 @@ namespace KnowledgeRepresentationReasoning.Logic
             Initialize();
 
             ActualState = (State)leaf.ActualState.Clone();
-            ActualWorldAction = (WorldAction)leaf.ActualWorldAction.Clone();
+            if (leaf.ActualWorldAction == null)
+            {
+                ActualWorldAction = null;
+            }
+            else
+            {
+                ActualWorldAction = (WorldAction)leaf.ActualWorldAction.Clone();
+            }
             Time = leaf.Time;
             Root = leaf.Root;
             IsPossible = leaf.IsPossible;
