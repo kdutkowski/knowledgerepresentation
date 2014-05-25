@@ -64,7 +64,7 @@ using KnowledgeRepresentationReasoning.Scenario;
             return result;
         }
 
-        public QueryResult CheckCondition(Vertex v){
+        public override QueryResult CheckCondition(Vertex v){
 
             _logger.Info("Checking if scenario: " + _scenario.ToString() + " with parameters:\nstate: " + v.ActualState.ToString() + "\naction: " + v.ActualWorldAction ?? v.ActualWorldAction.ToString() + " is executable");
 

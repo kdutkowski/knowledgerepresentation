@@ -1,7 +1,6 @@
-﻿using KnowledgeRepresentationReasoning.World;
-
+﻿using KnowledgeRepresentationReasoning.Logic;
+using KnowledgeRepresentationReasoning.World;
 using log4net;
-
 using Microsoft.Practices.ServiceLocation;
 
 namespace KnowledgeRepresentationReasoning.Queries
@@ -23,6 +22,12 @@ namespace KnowledgeRepresentationReasoning.Queries
         }
 
         public abstract QueryResult CheckCondition(State state, WorldAction worldAction, int time);
+
+
+        public virtual QueryResult CheckCondition(Vertex v)
+        {
+            return CheckCondition(v.ActualState, v.ActualWorldAction, v.Time);
+        }
 
 
     }

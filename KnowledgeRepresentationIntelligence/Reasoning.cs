@@ -157,7 +157,7 @@ namespace KnowledgeRepresentationReasoning
                                     break;
                                 }
                             }
-                            QueryResult result = query.CheckCondition(child.ActualState, child.ActualWorldAction, child.Time);
+                            QueryResult result = query.CheckCondition(child);
                             if (result == QueryResult.True || result == QueryResult.False)
                             {
                                 queryResultsContainer.AddMany(result);
@@ -171,16 +171,18 @@ namespace KnowledgeRepresentationReasoning
                 }
             }
 
+            return queryResultsContainer.CollectResults();
             //Achtung!!
             //Temporary solution for ExecutableQuery
-            QueryResult answer = queryResultsContainer.CollectResults();
-            if ((query is ExecutableScenarioQuery || query is AccesibleConditionQuery)
-                && query.questionType == QuestionType.Ever)
-            {
-                answer = queryResultsContainer.CollectResultsForExecutableScenario();
-            }
+            /*           QueryResult answer = 
+                       if ((query is ExecutableScenarioQuery || query is AccesibleConditionQuery)
+                           && query.questionType == QuestionType.Ever)
+                       {
+                           answer = queryResultsContainer.CollectResultsForExecutableScenario();
+                       }
 
-            return answer;
+                       return answer;
+             */
         }
 
         private bool CheckIfLeafIsPossible(Vertex leaf, ScenarioDescription scenarioDescription)
