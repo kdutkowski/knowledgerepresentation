@@ -139,7 +139,14 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonNextPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.NextPage(_savedScenarios);
+            if(_savedScenarios.Count==0)
+            {
+                LabelValidationScenario.Content = "It is necessary to fill scenario name.";
+            }
+            else
+            {
+                Switcher.NextPage(_savedScenarios);
+            }
         }
 
         private void ButtonAddAction_Click(object sender, RoutedEventArgs e)
@@ -196,7 +203,7 @@ namespace KnowledgeRepresentationInterface.Views
             return true;
         }
 
-        #endregion | EVENTS |
+       
 
         private void AddScenario_Click(object sender, RoutedEventArgs e)
         {
@@ -226,5 +233,6 @@ namespace KnowledgeRepresentationInterface.Views
                 LabelValidationScenario.Content = "It is necessary to fill scenario name.";
             }
         }
+        #endregion | EVENTS |
     }
 }

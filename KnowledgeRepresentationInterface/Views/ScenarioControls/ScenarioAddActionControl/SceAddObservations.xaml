@@ -27,7 +27,7 @@
 			FontWeight="Normal" FontSize="16"/>
 
 
-        <Label x:Name="LabelValidation" Content="Validation" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="500" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
+        <Label x:Name="LabelValidation" Content=" " HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="500" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
 
 
     </Grid>
