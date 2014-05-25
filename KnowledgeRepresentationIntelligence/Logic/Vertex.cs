@@ -233,7 +233,11 @@ namespace KnowledgeRepresentationReasoning.Logic
 
         private int GetNextTimestamp(ScenarioDescription scenarioDescription, int TInf)
         {
-            int actualActionEndTime = ActualWorldAction.GetEndTime() < 0 ? int.MaxValue : ActualWorldAction.GetEndTime();
+            int actualActionEndTime = int.MaxValue;
+            if (ActualWorldAction != null)
+            {
+                actualActionEndTime = ActualWorldAction.GetEndTime() < 0 ? int.MaxValue : ActualWorldAction.GetEndTime();
+            }
             int nextActionStartTime = GetNextActionTime() < 0 ? int.MaxValue : GetNextActionTime();
 
             int nextActionTime = scenarioDescription.GetNextActionTime(Time);
