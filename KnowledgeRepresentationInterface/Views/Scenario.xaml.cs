@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +8,8 @@ using KnowledgeRepresentationReasoning.Expressions;
 using KnowledgeRepresentationReasoning.Scenario;
 using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace KnowledgeRepresentationInterface.Views
 {
@@ -21,7 +24,22 @@ namespace KnowledgeRepresentationInterface.Views
 
         private List<Fluent> _fluents;
         private ScenarioDescription _scenarioDescription;
-        private List<ScenarioDescription> _savedScenarios;
+
+        private ObservableCollection<ScenarioDescription> _savedScenarios;
+
+        public ObservableCollection<ScenarioDescription> SavedScenarios
+        {
+            get
+            {
+                return _savedScenarios;
+            }
+            set
+            {
+                _savedScenarios = value;
+                OnPropertyChanged("SavedScenarios");
+            }
+        }
+        
 
         private string _scenarioName;
 
@@ -60,6 +78,14 @@ namespace KnowledgeRepresentationInterface.Views
             }
         }
 
+
+        protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            var handler = PropertyChanged;
+            if(handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         #endregion | PropertyChanged |
 
         #region | INITIALIZATION |
@@ -73,18 +99,12 @@ namespace KnowledgeRepresentationInterface.Views
         {
             ActionAdd.SetActions(actions);
             _scenarioDescription = new ScenarioDescription();
-            _savedScenarios = new List<ScenarioDescription>();
+            _savedScenarios = new ObservableCollection<ScenarioDescription>();
             _fluents = fluents;
             ScenarioName = SCENARIONAMETEXTBOXCONTENT;
 
             InitializeFluents();
             InitializeStatements(statements);
-
-            StackPanelScenarios.Children.Add(new Label()
-            {
-                Content = "Scenarios:",
-                FontSize = 10
-            });
         }
 
         private void InitializeStatements(List<WorldDescriptionRecord> statements)
@@ -145,7 +165,7 @@ namespace KnowledgeRepresentationInterface.Views
             }
             else
             {
-                Switcher.NextPage(_savedScenarios);
+                Switcher.NextPage(_savedScenarios.ToList());
             }
         }
 
@@ -209,7 +229,7 @@ namespace KnowledgeRepresentationInterface.Views
         {
             if(ScenarioName != String.Empty)
             {
-                foreach(ScenarioDescription item in _savedScenarios)
+                foreach(ScenarioDescription item in SavedScenarios)
                 {
                     if(item.Name == ScenarioName)
                     {
@@ -223,7 +243,7 @@ namespace KnowledgeRepresentationInterface.Views
                     Content = ScenarioName,
                     FontSize = 10
                 });
-                _savedScenarios.Add(_scenarioDescription);
+                SavedScenarios.Add(_scenarioDescription);
                 _scenarioDescription = new ScenarioDescription();
                 ScenarioName = SCENARIONAMETEXTBOXCONTENT;
                 CleanValues();
@@ -234,5 +254,14 @@ namespace KnowledgeRepresentationInterface.Views
             }
         }
         #endregion | EVENTS |
+
+        private void RemoveScenario_Click(object sender, RoutedEventArgs e)
+        {
+            if(ListBoxScenarios.SelectedIndex == -1)
+                return;
+            var scenarioDescription = (ScenarioDescription)ListBoxScenarios.SelectedValue;
+            SavedScenarios.Remove(scenarioDescription);
+
+        }
     }
 }

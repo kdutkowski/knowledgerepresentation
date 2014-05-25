@@ -169,5 +169,18 @@ namespace KnowledgeRepresentationReasoning.Scenario
                 result += observarion.ToString() + "\n";
             return result;
         }
+
+
+        public override bool Equals(object obj)
+        {
+            if(obj is ScenarioDescription)
+            {
+                var scenarioDescription = obj as ScenarioDescription;
+                if(scenarioDescription.Name.Equals(this.Name))
+                    return true;
+            }
+            return false;
+        }
+
     }
 }
