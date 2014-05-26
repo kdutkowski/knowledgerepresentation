@@ -33,7 +33,7 @@ namespace KnowledgeRepresentationReasoning.Test
                     new Fluent { Name = "a", Value = true },
                     new Fluent { Name = "b", Value = true },
                     new Fluent { Name = "c", Value = true },
-                    new Fluent { Name = "e", Value = true }
+                    new Fluent { Name = "d", Value = true }
                 }
             };
             worldAction = new WorldAction(idWorldAction,startTime,durationTime);
@@ -52,7 +52,7 @@ namespace KnowledgeRepresentationReasoning.Test
         [Test]
         public void IsFulfilledFalseTest()
         {
-            ifExpression = "a && b && c && d";
+            ifExpression = "a && b && !c && d";
             expressionTriggersActionRecord = new ExpressionTriggersActionRecord(worldAction, ifExpression);
             bool result = expressionTriggersActionRecord.IsFulfilled(state);
             Assert.IsFalse(result);
