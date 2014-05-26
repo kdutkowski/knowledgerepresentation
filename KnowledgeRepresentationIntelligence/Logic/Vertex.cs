@@ -198,10 +198,14 @@ namespace KnowledgeRepresentationReasoning.Logic
             while (actualTime <= nextTime)
             {
                 int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
+                if (nextObservationTime == -1)
+                {
+                    return true;
+                }
                 if (!CheckNearestObservation(scenarioDescription, actualTime, nextObservationTime, nextTime))
                     return false;
 
-                actualTime = nextObservationTime;
+                actualTime = nextObservationTime + 1;
             }
 
             return true;
