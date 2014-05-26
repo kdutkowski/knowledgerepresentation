@@ -24,7 +24,7 @@
 
         private void Initialize()
         {
-            var builder = new ContainerBuilder();
+             var builder = new ContainerBuilder();
             builder.RegisterModule(new LoggingModule());
             builder.RegisterInstance(LogManager.GetLogger(typeof(Reasoning))).As<ILog>();
             builder.RegisterType<Tree>().As<ITree>();

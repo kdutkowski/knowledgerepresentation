@@ -79,6 +79,7 @@
     <Compile Include="ReasoningTests.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="QueryResultsContainerTests.cs" />
+    <Compile Include="TriggerTests.cs" />
     <Compile Include="VertexTests.cs" />
     <Compile Include="WorldDescriptionTests.cs" />
   </ItemGroup>
