@@ -11,23 +11,23 @@ namespace KnowledgeRepresentationReasoning.Test
 {
     class TriggerTests:TestBase
     {
-        private ExpressionTriggersActionRecord expressionTriggersActionRecord;
-        private WorldAction worldAction;
-        private string ifExpression;
-        private string idWorldAction;
-        private int startTime;
-        private int durationTime;
-        private State state;
+        private ExpressionTriggersActionRecord _expressionTriggersActionRecord;
+        private WorldAction _worldAction;
+        private string _ifExpression;
+        private string _idWorldAction;
+        private int _startTime;
+        private int _durationTime;
+        private State _state;
 
 
         [SetUp]
         public void SetUp()
         {
-            idWorldAction="idWorldAction";
-            startTime = 3;
-            durationTime = 5;
+            _idWorldAction = "idWorldAction";
+            _startTime = 3;
+            _durationTime = 5;
 
-            state = new State
+            _state = new State
             {
                 Fluents = new List<Fluent>{   
                     new Fluent { Name = "a", Value = true },
@@ -36,26 +36,47 @@ namespace KnowledgeRepresentationReasoning.Test
                     new Fluent { Name = "d", Value = true }
                 }
             };
-            worldAction = new WorldAction(idWorldAction,startTime,durationTime);
-          
+            _worldAction = new WorldAction(_idWorldAction, _startTime, _durationTime);
+
         }
 
         [Test]
         public void IsFulfilledTrueTest()
         {
-            ifExpression = "a && b && c && d";
-            expressionTriggersActionRecord = new ExpressionTriggersActionRecord(worldAction, ifExpression);
-            bool result = expressionTriggersActionRecord.IsFulfilled(state);
+            _ifExpression = "a && b && c && d";
+            _expressionTriggersActionRecord = new ExpressionTriggersActionRecord(_worldAction, _ifExpression);
+            bool result = _expressionTriggersActionRecord.IsFulfilled(_state);
             Assert.IsTrue(result);
         }
 
         [Test]
         public void IsFulfilledFalseTest()
         {
-            ifExpression = "a && b && !c && d";
-            expressionTriggersActionRecord = new ExpressionTriggersActionRecord(worldAction, ifExpression);
-            bool result = expressionTriggersActionRecord.IsFulfilled(state);
+            _ifExpression = "a && b && c && !d";
+            _expressionTriggersActionRecord = new ExpressionTriggersActionRecord(_worldAction, _ifExpression);
+            bool result = _expressionTriggersActionRecord.IsFulfilled(_state);
             Assert.IsFalse(result);
+        }
+
+        [Test]
+        [ExpectedException(typeof(Exception))]
+        public void IsFulfilledWrongExpressionTest()
+        {
+            _ifExpression = "a && b && c && e";
+            _expressionTriggersActionRecord = new ExpressionTriggersActionRecord(_worldAction, _ifExpression);
+            bool result = _expressionTriggersActionRecord.IsFulfilled(_state);
+            Assert.IsFalse(result);
+        }
+
+        [Test, Sequential]
+        public void GetResultTest(
+            [Values(0, 1, -1)]int time,
+            [Values(0, 1, 0)]int result)
+        {
+            _ifExpression = "a && b && c && d";
+            _expressionTriggersActionRecord = new ExpressionTriggersActionRecord(_worldAction, _ifExpression);
+            WorldAction worldAction = _expressionTriggersActionRecord.GetResult(time);
+            Assert.AreEqual( result,_worldAction.StartAt);
         }
         
     }
