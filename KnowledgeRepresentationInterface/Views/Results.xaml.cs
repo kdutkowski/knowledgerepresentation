@@ -183,6 +183,11 @@ namespace KnowledgeRepresentationInterface.Views
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.PrevPage(removeScenarios: true, removeEnvironment: false);
+        }
+
         #endregion | EVENTS |
 
         #region | OTHER |
@@ -194,6 +199,9 @@ namespace KnowledgeRepresentationInterface.Views
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
+
         #endregion | OTHER |
+
+        
     }
 }

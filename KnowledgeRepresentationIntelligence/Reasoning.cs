@@ -210,5 +210,10 @@ namespace KnowledgeRepresentationReasoning
         {
             scenarioDescriptionList.Concat(scenarios);
         }
+
+        public void RemoveScenarioDescriptionList(List<ScenarioDescription> scenarios)
+        {
+            scenarioDescriptionList.RemoveAll(item => scenarios.Any(s => s.Name == item.Name));
+        }
     }
 }

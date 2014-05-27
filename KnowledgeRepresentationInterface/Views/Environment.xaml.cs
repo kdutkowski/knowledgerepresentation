@@ -107,12 +107,7 @@ namespace KnowledgeRepresentationInterface.Views
                 return;
             ParseFluentsToInitialRecords();
 
-            /*
-            string summary = "Time infinity: " + _timeInf + "\r\n" + "Fluents:\r\n" + FluentString + "\r\nStatements:\r\n" +
-                             StatementsString;
-            */
-
-            Switcher.NextPage(_timeInf, _fluents.ToList(), _actions.ToList(), _statements.ToList(), "");//,_strStatement);
+            Switcher.NextPage(_timeInf, _fluents.ToList(), _actions.ToList(), _statements.ToList());
         }
 
         private void ButtonAddFluent_Click(object sender, RoutedEventArgs e)
@@ -187,6 +182,18 @@ namespace KnowledgeRepresentationInterface.Views
             if (ListBoxActions.SelectedIndex == -1)
                 return;
             var action = (WorldAction)ListBoxActions.SelectedValue;
+            //usuń niepoprawne statementy, które zawierają usuwaną akcję
+            for (int i=0; i<Statements.Count; i++)
+            {
+                var worldDescriptionRecord = Statements[i];
+                if (worldDescriptionRecord.ToString().Contains(action.ToString()))
+                {
+                    Statements.Remove(worldDescriptionRecord);
+                    i--;
+                }
+                    
+            }
+
             Actions.Remove(action);
         }
 

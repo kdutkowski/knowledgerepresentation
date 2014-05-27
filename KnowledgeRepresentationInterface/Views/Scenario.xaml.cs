@@ -243,5 +243,10 @@ namespace KnowledgeRepresentationInterface.Views
             SavedScenarios.Remove(scenarioDescription);
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.PrevPage(removeScenarios: false, removeEnvironment: true);
+        }
     }
 }

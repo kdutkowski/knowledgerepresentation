@@ -26,13 +26,13 @@
             </StackPanel>
         </ScrollViewer>
         <Label x:Name="LabelSummaryWorldDescriptions" Content="World descriptions:" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <ScrollViewer HorizontalAlignment="Left" Height="119" Margin="10,276,0,0"  HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="285">
+        <ScrollViewer HorizontalAlignment="Left" Height="99" Margin="10,276,0,0"  HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="285">
             <StackPanel x:Name="StackPanelWorld" >
 
             </StackPanel>
         </ScrollViewer>
-        <Label x:Name="LabelSummaryScenarioDescriptions" Content="Scenario descriptions:" HorizontalAlignment="Left" Margin="10,400,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <ScrollViewer HorizontalAlignment="Left" Height="131" Margin="10,431,0,0"  HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="285">
+        <Label x:Name="LabelSummaryScenarioDescriptions" Content="Scenario descriptions:" HorizontalAlignment="Left" Margin="10,380,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <ScrollViewer HorizontalAlignment="Left" Height="124" Margin="10,411,0,0"  HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="285">
             <StackPanel x:Name="StackPanelScenarios" >
 
             </StackPanel>
@@ -58,6 +58,6 @@
         <Label x:Name="LabelTInfName" Content="Time infinity:" HorizontalAlignment="Left" Margin="148,39,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label  x:Name="LabelTInf" Content="" HorizontalAlignment="Left" Margin="228,39,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label x:Name="LabelValidationMessage" Content="" HorizontalAlignment="Left" Margin="339,509,0,0" VerticalAlignment="Top" Width="428" Foreground="Red" FontWeight="Bold" />
-
+        <Button Content="Previous page" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="90" Click="Button_Click"/>
     </Grid>
 </UserControl>

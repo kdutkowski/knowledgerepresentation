@@ -13,7 +13,7 @@
 	>
     <Grid Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
 
-        <ScenarioControls:SceAddedActionsList x:Name="ActionList" HorizontalAlignment="Left" Margin="40,270,0,0" VerticalAlignment="Top" Height="292" Width="520" />
+        <ScenarioControls:SceAddedActionsList x:Name="ActionList" HorizontalAlignment="Left" Margin="40,270,0,0" VerticalAlignment="Top" Height="253" Width="520" />
         <Button x:Name ="ButtonNextPage" Content="Next page" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="ButtonNextPage_Click"/>
         <Label Content="Scenario" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
 
@@ -53,5 +53,6 @@
             </ListBox.ItemTemplate>
 
         </ListBox>
+        <Button Content="Previous page" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="90" Click="Button_Click"/>
     </Grid>
 </UserControl>
