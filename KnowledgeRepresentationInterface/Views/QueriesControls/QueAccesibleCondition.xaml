@@ -4,14 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:QueriesControls="clr-namespace:KnowledgeRepresentationInterface.Views.QueriesControls"
-             mc:Ignorable="d" 
+                            xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" mc:Ignorable="d" 
              d:DesignHeight="294" d:DesignWidth="419">
     <Grid>
-        <Label x:Name="LabelCondition" Content="condition" HorizontalAlignment="Center" Margin="0,47,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Center" />
-        <TextBox x:Name="TextBoxCondition"  HorizontalAlignment="Center" Margin="0,78,0,0" TextWrapping="Wrap" Text="condition" VerticalAlignment="Top" Width="200" TextAlignment="Center"/>
-        <Label x:Name="LabelScenario"  Content="scenario" HorizontalAlignment="Center" Margin="0,105,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Center" />
+        <Label x:Name="LabelCondition" Content="accessible" HorizontalAlignment="Center" Margin="0,14,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Center" />
+        <xctk:WatermarkTextBox x:Name="TextBoxCondition" Watermark="Enter condition" HorizontalAlignment="Center" Margin="0,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" TextAlignment="Center"
+                               PreviewMouseDown="WatermarkTextBoxExpression_PreviewMouseDown"/>
+        <Label x:Name="LabelWhen"  Content="when" HorizontalAlignment="Center" Margin="0,72,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Center" />
+        <Label x:Name="LabelScenario"  Content="Scenario name:" HorizontalAlignment="Center" Margin="55,102,264,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Center" />
         <ComboBox SelectedItem="{Binding SelectedScenario, ElementName=queContr_cond, UpdateSourceTrigger=PropertyChanged}"
                   ItemsSource="{Binding ScenarioNames, ElementName=queContr_cond, UpdateSourceTrigger=PropertyChanged}"
-                  HorizontalAlignment="Center" Margin="0,135,0,0" Width="200" VerticalAlignment="Top"/>
+                  HorizontalAlignment="Center" Margin="160,106,59,0" Width="200" VerticalAlignment="Top"/>
     </Grid>
 </QueriesControls:QueControl>

@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
+using System.Windows.Input;
+using KnowledgeRepresentationInterface.Views.Helpers;
+using KnowledgeRepresentationReasoning.World;
+using Xceed.Wpf.Toolkit;
 
 namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddActionControl
 {
@@ -33,9 +38,11 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
 
         public SceAddObservations()
         {
+            Fluents = new ObservableCollection<Fluent>();
             InitializeComponent();
-            InitExpression();
         }
+
+        public ObservableCollection<Fluent> Fluents; 
 
         private int _time;
 
@@ -63,28 +70,31 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
             set
             {
                 _expression = value;
-                if(value == String.Empty)
-                {
-                    LabelValidation.Content = "It is necessary to fill expression.";
-                }
-                else
-                {
-                    LabelValidation.Content = "";
-                }
+                
                 OnPropertyChanged("Expression");
             }
-        }
-
-        private void InitExpression()
-        {
-            TextBoxExpression.Text = "Expression";
         }
 
         internal void CleanValues()
         {
             LabelValidation.Content = "";
-            TextBoxExpression.Text = "Expression";
+            this.Expression = String.Empty;
+            //TextBoxExpression.Text = "";
             Time = 0;
+        }
+
+        protected void WatermarkTextBoxExpression_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {//method implemented for WatermarkTextBox
+            var textBox = ((WatermarkTextBox)sender);
+
+            ExpressionWindow window = textBox.Text == "" ? new ExpressionWindow(Fluents) : new ExpressionWindow(Fluents, textBox.Text);
+
+            var dialogResult = window.ShowDialog();
+
+            if (dialogResult == false)
+                return;
+            textBox.Text = window.Expression;
+            Keyboard.ClearFocus();
         }
     }
 }

@@ -77,11 +77,6 @@ namespace KnowledgeRepresentationInterface.Views.EnvironmentControls
 
         protected void WatermarkTextBoxExpression_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {//method implemented for WatermarkTextBox
-            //if (Fluents.Count == 0)
-            //{
-            //    Keyboard.ClearFocus();
-            //    return;
-            //}
             var textBox = ((WatermarkTextBox)sender);
 
             ExpressionWindow window = textBox.Text == "" ? new ExpressionWindow(Fluents) : new ExpressionWindow(Fluents, textBox.Text);

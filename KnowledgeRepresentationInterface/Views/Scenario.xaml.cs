@@ -18,7 +18,6 @@ namespace KnowledgeRepresentationInterface.Views
     /// </summary>
     public partial class Scenario : UserControl, INotifyPropertyChanged
     {
-        private string SCENARIONAMETEXTBOXCONTENT = "Scenario name";
 
         #region | PROPERTIES |
 
@@ -101,10 +100,10 @@ namespace KnowledgeRepresentationInterface.Views
             _scenarioDescription = new ScenarioDescription();
             _savedScenarios = new ObservableCollection<ScenarioDescription>();
             _fluents = fluents;
-            ScenarioName = SCENARIONAMETEXTBOXCONTENT;
 
             InitializeFluents();
             InitializeStatements(statements);
+            this.ObservationAdd.Fluents = new ObservableCollection<Fluent>(fluents);
         }
 
         private void InitializeStatements(List<WorldDescriptionRecord> statements)
@@ -188,7 +187,7 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonAddObservation_Click(object sender, RoutedEventArgs e)
         {
-            if(ObservationAdd.Expression == String.Empty)
+            if ( String.IsNullOrEmpty(ObservationAdd.Expression) )
             {
                 ObservationAdd.LabelValidation.Content = "It is necessary to fill expression.";
             }
@@ -245,7 +244,7 @@ namespace KnowledgeRepresentationInterface.Views
                 });
                 SavedScenarios.Add(_scenarioDescription);
                 _scenarioDescription = new ScenarioDescription();
-                ScenarioName = SCENARIONAMETEXTBOXCONTENT;
+                ScenarioName = "";
                 CleanValues();
             }
             else
