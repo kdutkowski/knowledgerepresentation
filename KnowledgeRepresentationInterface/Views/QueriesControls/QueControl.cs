@@ -53,5 +53,6 @@ namespace KnowledgeRepresentationInterface.Views.QueriesControls
         }
 
         public abstract Query GetQuery(QuestionType questionType);
+        public abstract void Clear();
     }
 }

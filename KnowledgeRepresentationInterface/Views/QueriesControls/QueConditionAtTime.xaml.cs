@@ -1,4 +1,6 @@
-﻿namespace KnowledgeRepresentationInterface.Views.QueriesControls
+﻿using Xceed.Wpf.Toolkit.Core;
+
+namespace KnowledgeRepresentationInterface.Views.QueriesControls
 {
     using System;
     using System.Collections.Generic;
@@ -27,7 +29,18 @@
 
         public override Query GetQuery(QuestionType questionType)
         {
-            return new ConditionAtTimeQuery(questionType, TextBoxCondition.Text, Int32.Parse(TextBoxTime.Text));
+            if (!UpDownTime.Value.HasValue)
+                throw new InvalidContentException("Time value is required.");
+            if (String.IsNullOrEmpty(TextBoxCondition.Text))
+                throw new InvalidContentException("Condition is required.");
+
+            return new ConditionAtTimeQuery(questionType, TextBoxCondition.Text, UpDownTime.Value.Value);
+        }
+
+        public override void Clear()
+        {
+            UpDownTime.Value = null;
+            TextBoxCondition.Text = null;
         }
     }
 }

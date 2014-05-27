@@ -31,9 +31,18 @@ namespace KnowledgeRepresentationInterface.Views.QueriesControls
 
         public override Query GetQuery(QuestionType questionType)
         {
-            if (!TextBoxTime.Value.HasValue)
-                throw new InvalidContentException("Time is empty.");
-            return new PerformingActionAtTimeQuery(questionType, SelectedAction, TextBoxTime.Value.Value);//Int32.Parse(TextBoxTime.Text)
+            if (!UpDownTime.Value.HasValue)
+                throw new InvalidContentException("Time value is required.");
+            if (SelectedAction == null)
+                throw new InvalidContentException("Action is required.");
+
+            return new PerformingActionAtTimeQuery(questionType, SelectedAction, UpDownTime.Value.Value);
+        }
+
+        public override void Clear()
+        {
+            UpDownTime.Value = null;
+            SelectedAction = null;
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace KnowledgeRepresentationInterface.Views.QueriesControls
+﻿using System;
+using Xceed.Wpf.Toolkit.Core;
+
+namespace KnowledgeRepresentationInterface.Views.QueriesControls
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -27,8 +30,16 @@
 
         public override Query GetQuery(QuestionType questionType)
         {
+            if (String.IsNullOrEmpty(SelectedScenario))
+                throw new InvalidContentException("Scenario name is required.");
+
             var selectedScenario = Scenarios.First(t => t.Name.Equals(SelectedScenario));
             return new ExecutableScenarioQuery(questionType, selectedScenario);
+        }
+
+        public override void Clear()
+        {
+            SelectedScenario = "";
         }
     }
 }

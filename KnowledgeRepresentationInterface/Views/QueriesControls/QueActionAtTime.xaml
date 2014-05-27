@@ -11,8 +11,7 @@
         <Label x:Name="LabelAction"  Content="Action:" HorizontalAlignment="Center" Margin="39,22,280,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Center" />
         <ComboBox SelectedItem="{Binding SelectedAction, ElementName=queContr_cond}" ItemsSource="{Binding Actions, ElementName=queContr_cond}" HorizontalAlignment="Center" Margin="144,26,75,0" Width="200" VerticalAlignment="Top"/>
         <Label x:Name="LabelAt" Content="at" HorizontalAlignment="Center" Margin="0,47,0,0" VerticalAlignment="Top" Width="22" />
-        <!--<TextBox x:Name="TextBoxTime"  HorizontalAlignment="Center" Margin="0,78,0,0" TextWrapping="Wrap" Text="{Binding Time, ElementName=queContr_cond}" VerticalAlignment="Top" Width="200" TextAlignment="Center"/>-->
-        <xctk:IntegerUpDown x:Name="TextBoxTime" HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Width="100"
+        <xctk:IntegerUpDown x:Name="UpDownTime" HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Width="100"
                              Minimum="0" Watermark="Enter time"/>
         <Label x:Name="LabelWhen"  Content="when" HorizontalAlignment="Center" Margin="0,105,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Center" />
         <Label x:Name="LabelScenario"  Content="Scenario name:" HorizontalAlignment="Center" Margin="39,132,280,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Center" />

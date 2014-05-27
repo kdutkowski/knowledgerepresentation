@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using KnowledgeRepresentationInterface.Views.QueriesControls;
 using KnowledgeRepresentationReasoning.Queries;
 using KnowledgeRepresentationReasoning.World;
+using Xceed.Wpf.Toolkit.Core;
 
 namespace KnowledgeRepresentationInterface.Views
 {
@@ -41,8 +42,13 @@ namespace KnowledgeRepresentationInterface.Views
             set
             {
                 _selectedQueryType = value;
+                if (this.GroupBoxQuery.Content != null)
+                    ((QueControl)this.GroupBoxQuery.Content).Clear();
+                LabelValidationMessage.Content = "";
+                LabelResult.Content = "";
                 this.GroupBoxQuery.Content = this._queriesControls[_selectedQueryType];
                 NotifyPropertyChanged("SelectedQueryType");
+                
             }
         }
 
@@ -86,7 +92,7 @@ namespace KnowledgeRepresentationInterface.Views
                                   { QueryType.ExecutableScenario, new QueExecutableScenario(_savedScenarios, this._actions, this._fluents) },
                                   { QueryType.PerformingActionAtTime, new QueActionAtTime(_savedScenarios, this._actions, this._fluents) }
                               };
-            SelectedQueryType = QueryType.ExecutableScenario;
+            
         }
 
         public void Initialize(int tInf, List<Fluent> fluents, List<WorldAction> actions, List<ScenarioDescription> savedScenarios, List<WorldDescriptionRecord> worldDescriptions)
@@ -106,15 +112,16 @@ namespace KnowledgeRepresentationInterface.Views
             _savedScenarios.AddRange(savedScenarios);
             InitControls();
             InitializeInformations(tInf, fluents, actions, savedScenarios, worldDescriptions);
-            //LabelFluents.Content = this._fluents.Aggregate(string.Empty, (current, fluent) => current + ( fluent.Name + " " ));
-            //LabelActions.Content = this._actions.Aggregate(string.Empty, (current, action) => current + ( action.ToString() + " " ));
-            //LabelScenarioDescriptions.Content = savedScenarios.Aggregate(string.Empty, (current, scenario) => current + (scenario.ToString() + "\n"));
-            //LabelWorldDescriptions.Content = worldDescriptions.Aggregate(string.Empty, (current, description) => current + (description.ToString() + "\n"));
+            SelectedQueryType = QueryType.ExecutableScenario;
         }
 
         private void InitializeInformations(int tInf, List<Fluent> fluents, List<WorldAction> actions, List<ScenarioDescription> savedScenarios, List<WorldDescriptionRecord> worldDescriptions)
         {
             LabelTInf.Content = tInf;
+            StackPanelFluents.Children.Clear();
+            StackPanelActions.Children.Clear();
+            StackPanelScenarios.Children.Clear();
+            StackPanelWorld.Children.Clear();
             foreach ( var f in fluents )
             {
                 StackPanelFluents.Children.Add(new Label()
@@ -131,14 +138,6 @@ namespace KnowledgeRepresentationInterface.Views
                     FontSize = 10
                 });
             }
-            foreach (var f in fluents)
-            {
-                StackPanelFluents.Children.Add(new Label()
-                {
-                    Content = f.ToString(),
-                    FontSize = 10
-                });
-            }
             foreach (var sc in savedScenarios)
             {
                 StackPanelScenarios.Children.Add(new Label()
@@ -150,6 +149,9 @@ namespace KnowledgeRepresentationInterface.Views
 
             foreach (var wd in worldDescriptions)
             {
+                if (wd.GetType() == typeof(InitialRecord))
+                    continue;
+                
                 StackPanelWorld.Children.Add(new Label()
                 {
                     Content = wd.ToString(),
@@ -164,13 +166,21 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void ButtonExecute_Click(object sender, RoutedEventArgs e)
         {
-            // Wybieramy scenariusz wybrany w aktywnym oknie, jeśli takiego nie ma to wybieramy pierwszy
+            // Wybieramy scenariusz wybrany w aktywnym oknie, jeśli nie jest wybrany to domyślnie bierzemy pierwszy
             ScenarioDescription scenarioDescription = this._savedScenarios
                 .FirstOrDefault(t => t.Name.Equals(this._queriesControls[SelectedQueryType].SelectedScenario)) ?? this._savedScenarios.First();
-
-            Query q = this._queriesControls[this.SelectedQueryType].GetQuery(SelectedQuestionType);
-            QueryResult qr = Switcher.ExecuteQuery(q, scenarioDescription);
-            LabelResult.Content = qr;
+            try
+            {
+                Query q = this._queriesControls[this.SelectedQueryType].GetQuery(SelectedQuestionType);
+                QueryResult qr = Switcher.ExecuteQuery(q, scenarioDescription);
+                LabelResult.Content = qr;
+                LabelValidationMessage.Content = "";
+            }
+            catch (InvalidContentException exception)
+            {
+                LabelValidationMessage.Content = exception.Message;
+                LabelResult.Content = "";
+            }
         }
 
         #endregion | EVENTS |
