@@ -52,7 +52,13 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls
         {
             foreach(AddedAction item in _addedActionsList)
             {
-                if(addedAction.Name == item.Name && addedAction.Time == item.Time && addedAction.Duration == item.Duration)
+                //nie moga byc dwie akcje w tym samym czasie
+                if(addedAction.Time == item.Time)
+                    return false;
+                //nakładanie się akcji
+                if ((item.Time < addedAction.Time) && (item.Time + item.Duration > addedAction.Time))
+                    return false;
+                if ((addedAction.Time < item.Time) && (addedAction.Time + addedAction.Duration > item.Time))
                     return false;
             }
             return true;

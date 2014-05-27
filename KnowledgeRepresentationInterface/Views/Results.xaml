@@ -12,15 +12,35 @@
         <Label x:Name="LabelQueries" Content="Queries" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
         <GridSplitter HorizontalAlignment="Left" Height="500" Margin="300,40,0,0" VerticalAlignment="Top" Width="4" Background="DarkBlue"/>
 
-        <Label x:Name="LabelSummaryFluents" Content="Fluents:" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="LabelFluents" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" MaxWidth="280"/>
-        <Label x:Name="LabelSummaryActions" Content="Actions:" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="LabelActions" HorizontalAlignment="Left" Margin="10,175,0,0" VerticalAlignment="Top" MaxWidth="280"/>
-        <Label x:Name="LabelSummaryWorldDescriptions" Content="World descriptions:" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="LabelWorldDescriptions" HorizontalAlignment="Left" Margin="10,275,0,0" VerticalAlignment="Top" MaxWidth="280"/>
-        <Label x:Name="LabelSummaryScenarioDescriptions" Content="Scenario descriptions:" HorizontalAlignment="Left" Margin="10,400,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="LabelScenarioDescriptions" HorizontalAlignment="Left" Margin="10,425,0,0" VerticalAlignment="Top" MaxWidth="280"/>
+        <Label x:Name="LabelSummaryFluents" Content="Fluents:" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <!--<Label x:Name="LabelFluents" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" MaxWidth="280"/>-->
+        <ScrollViewer HorizontalAlignment="Left" Height="144" Margin="10,101,0,0"  HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="133">
+            <StackPanel x:Name="StackPanelFluents" >
 
+            </StackPanel>
+        </ScrollViewer>
+
+        <Label x:Name="LabelSummaryActions" Content="Actions:" HorizontalAlignment="Left" Margin="148,70,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <!--<Label x:Name="LabelActions" HorizontalAlignment="Left" Margin="10,175,0,0" VerticalAlignment="Top" MaxWidth="280"/>-->
+        <ScrollViewer HorizontalAlignment="Left" Height="145" Margin="148,101,0,0"  HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="147">
+            <StackPanel x:Name="StackPanelActions" >
+
+            </StackPanel>
+        </ScrollViewer>
+        <Label x:Name="LabelSummaryWorldDescriptions" Content="World descriptions:" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <!--<Label x:Name="LabelWorldDescriptions" HorizontalAlignment="Left" Margin="10,275,0,0" VerticalAlignment="Top" MaxWidth="280"/>-->
+        <ScrollViewer HorizontalAlignment="Left" Height="119" Margin="10,276,0,0"  HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="285">
+            <StackPanel x:Name="StackPanelWorld" >
+
+            </StackPanel>
+        </ScrollViewer>
+        <Label x:Name="LabelSummaryScenarioDescriptions" Content="Scenario descriptions:" HorizontalAlignment="Left" Margin="10,400,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <!--<Label x:Name="LabelScenarioDescriptions" HorizontalAlignment="Left" Margin="10,425,0,0" VerticalAlignment="Top" MaxWidth="280"/>-->
+        <ScrollViewer HorizontalAlignment="Left" Height="131" Margin="10,431,0,0"  HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="285">
+            <StackPanel x:Name="StackPanelScenarios" >
+
+            </StackPanel>
+        </ScrollViewer>
         <Label x:Name="LabelQuestionTypeName" Content="Select question type:" HorizontalAlignment="Left" Margin="329,50,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name ="ComboBoxQuestionType" 
 			SelectedItem="{Binding SelectedQuestionType, ElementName=uc_res, UpdateSourceTrigger=PropertyChanged}" 
@@ -38,6 +58,8 @@
         <Label x:Name ="LabelResultName"  Content="Query result:" HorizontalAlignment="Left" Margin="339,478,0,0" VerticalAlignment="Top" Width="110"/>
         <Label x:Name="LabelResult"  Content="" HorizontalAlignment="Left" Margin="459,478,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.765,0.008" Width="308" FontWeight="Bold"/>
         <Button x:Name="ButtonExecute"  Content="Execute query" HorizontalAlignment="Left" Margin="336,451,0,0" VerticalAlignment="Top" Width="431" FontWeight="Bold" Click="ButtonExecute_Click"/>
+        <Label x:Name="LabelTInfName" Content="Time infinity:" HorizontalAlignment="Left" Margin="105,39,0,0" VerticalAlignment="Top"/>
+        <Label  x:Name="LabelTInf" Content="" HorizontalAlignment="Left" Margin="185,39,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </UserControl>

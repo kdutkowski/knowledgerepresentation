@@ -122,7 +122,7 @@ namespace KnowledgeRepresentationInterface.Views
                 LabelFluentsActionsValidation.Content = "Fluent name is required.";
                 return;
             }
-            if (!System.Text.RegularExpressions.Regex.IsMatch(TextBoxFluents.Text, @"[a-zA-Z0-9\-]+$"))
+            if (!System.Text.RegularExpressions.Regex.IsMatch(TextBoxFluents.Text, @"[a-zA-Z]+[a-zA-Z0-9\-]*$"))
             {
                 LabelFluentsActionsValidation.Content = "Fluent name should be alphanumeric.";
                 return;
@@ -156,7 +156,7 @@ namespace KnowledgeRepresentationInterface.Views
                 LabelFluentsActionsValidation.Content = "Action name is required.";
                 return;
             }
-            if (!System.Text.RegularExpressions.Regex.IsMatch(TextBoxActionName.Text, @"[a-zA-Z0-9\-]+$"))
+            if (!System.Text.RegularExpressions.Regex.IsMatch(TextBoxActionName.Text, @"[a-zA-Z]+[a-zA-Z0-9\-]*$"))
             {
                 LabelFluentsActionsValidation.Content = "Action name should be alphanumeric.";
                 return;

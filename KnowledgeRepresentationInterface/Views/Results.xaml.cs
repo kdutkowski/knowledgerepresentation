@@ -86,6 +86,7 @@ namespace KnowledgeRepresentationInterface.Views
                                   { QueryType.ExecutableScenario, new QueExecutableScenario(_savedScenarios, this._actions, this._fluents) },
                                   { QueryType.PerformingActionAtTime, new QueActionAtTime(_savedScenarios, this._actions, this._fluents) }
                               };
+            SelectedQueryType = QueryType.ExecutableScenario;
         }
 
         public void Initialize(int tInf, List<Fluent> fluents, List<WorldAction> actions, List<ScenarioDescription> savedScenarios, List<WorldDescriptionRecord> worldDescriptions)
@@ -104,11 +105,57 @@ namespace KnowledgeRepresentationInterface.Views
             // SCENARIOS
             _savedScenarios.AddRange(savedScenarios);
             InitControls();
-            
-            LabelFluents.Content = this._fluents.Aggregate(string.Empty, (current, fluent) => current + ( fluent.Name + " " ));
-            LabelActions.Content = this._actions.Aggregate(string.Empty, (current, action) => current + ( action.ToString() + " " ));
-            LabelScenarioDescriptions.Content = savedScenarios.Aggregate(string.Empty, (current, scenario) => current + (scenario.ToString() + "\n"));
-            LabelWorldDescriptions.Content = worldDescriptions.Aggregate(string.Empty, (current, description) => current + (description.ToString() + "\n"));
+            InitializeInformations(tInf, fluents, actions, savedScenarios, worldDescriptions);
+            //LabelFluents.Content = this._fluents.Aggregate(string.Empty, (current, fluent) => current + ( fluent.Name + " " ));
+            //LabelActions.Content = this._actions.Aggregate(string.Empty, (current, action) => current + ( action.ToString() + " " ));
+            //LabelScenarioDescriptions.Content = savedScenarios.Aggregate(string.Empty, (current, scenario) => current + (scenario.ToString() + "\n"));
+            //LabelWorldDescriptions.Content = worldDescriptions.Aggregate(string.Empty, (current, description) => current + (description.ToString() + "\n"));
+        }
+
+        private void InitializeInformations(int tInf, List<Fluent> fluents, List<WorldAction> actions, List<ScenarioDescription> savedScenarios, List<WorldDescriptionRecord> worldDescriptions)
+        {
+            LabelTInf.Content = tInf;
+            foreach ( var f in fluents )
+            {
+                StackPanelFluents.Children.Add(new Label()
+                {
+                    Content = f.ToString(),
+                    FontSize = 10
+                });
+            }
+            foreach (var a in actions)
+            {
+                StackPanelActions.Children.Add(new Label()
+                {
+                    Content = a.ToString(),
+                    FontSize = 10
+                });
+            }
+            foreach (var f in fluents)
+            {
+                StackPanelFluents.Children.Add(new Label()
+                {
+                    Content = f.ToString(),
+                    FontSize = 10
+                });
+            }
+            foreach (var sc in savedScenarios)
+            {
+                StackPanelScenarios.Children.Add(new Label()
+                {
+                    Content = sc.Name+"\n"+sc.ToString(),
+                    FontSize = 10
+                });
+            }
+
+            foreach (var wd in worldDescriptions)
+            {
+                StackPanelWorld.Children.Add(new Label()
+                {
+                    Content = wd.ToString(),
+                    FontSize = 10
+                });
+            }
         }
 
         #endregion | CONSTRUCTOR & INITIALIZATION |

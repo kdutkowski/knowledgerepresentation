@@ -116,6 +116,8 @@ namespace KnowledgeRepresentationInterface.Views
 
             foreach(WorldDescriptionRecord item in statements)
             {
+                if (item.GetType() == typeof(InitialRecord))
+                    continue;
                 StackPanelStatements.Children.Add(new Label()
                 {
                     Content = item.ToString(),
@@ -165,7 +167,7 @@ namespace KnowledgeRepresentationInterface.Views
             }
             else
             {
-                ActionAdd.LabelValidation.Content = "Action with this name and time already exists.";
+                ActionAdd.LabelValidation.Content = "Two actions at the some time are forbidden.";
             }
         }
 

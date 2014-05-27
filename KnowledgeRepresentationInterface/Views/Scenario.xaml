@@ -21,7 +21,7 @@
 
         <ScenarioAddActionControl:SceAddAction x:Name="ActionAdd" HorizontalAlignment="Left" Margin="40,43,0,0" VerticalAlignment="Top" Height="91" Width="520"/>
 
-        <Button x:Name ="ButtonAddAction" Content="Add action" HorizontalAlignment="Left" Margin="437,65,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.286,0.646" Height="30" Click="ButtonAddAction_Click"/>
+        <Button x:Name ="ButtonAddAction" Content="Add action" HorizontalAlignment="Left" Margin="437,62,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.286,0.646" Height="30" Click="ButtonAddAction_Click"/>
 
         <ScenarioAddActionControl:SceAddObservations  x:Name="ObservationAdd" HorizontalAlignment="Left" Margin="40,139,0,0" VerticalAlignment="Top" Height="89" Width="520"/>
         <Button x:Name ="ButtonAddObservation" Content="Add observation" HorizontalAlignment="Left" Margin="437,160,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.286,0.646" Height="30" Click="ButtonAddObservation_Click" />
@@ -35,7 +35,7 @@
 
 
         <Button x:Name="AddScenario" Content="Finish scenario" HorizontalAlignment="Left" Margin="165,242,0,0" VerticalAlignment="Top" Width="120" Height="23" Click="AddScenario_Click"/>
-        <ScrollViewer HorizontalAlignment="Left" Height="185" Margin="565,43,0,0"  HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="225">
+        <ScrollViewer HorizontalAlignment="Left" Height="185" Margin="565,43,0,0"  HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="219">
             <StackPanel x:Name="StackPanelStatements" >
 
             </StackPanel>
