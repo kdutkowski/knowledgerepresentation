@@ -80,14 +80,17 @@ namespace KnowledgeRepresentationReasoning.Logic
         {
             List<Vertex> childs = new List<Vertex>();
 
-            if (ActualWorldAction.GetEndTime() < nextTime)
+            if (ActualWorldAction != null)
             {
-                return GetImpossibleChilds();
-            }
+                if (ActualWorldAction.GetEndTime() < nextTime)
+                {
+                    return GetImpossibleChilds();
+                }
 
-            if (ActualWorldAction.GetEndTime() == nextTime)
-            {
-                ActualWorldAction = null;
+                if (ActualWorldAction.GetEndTime() == nextTime)
+                {
+                    ActualWorldAction = null;
+                }
             }
 
             WorldAction leafAction = ActualWorldAction;

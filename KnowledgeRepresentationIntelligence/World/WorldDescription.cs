@@ -91,18 +91,27 @@
 
         private IEnumerable<State> GetPossibleFutureStates(WorldAction worldAction, State state, int time)
         {
+            var possibleFutureStates = new List<State>();
+
             // Get released fluents
             var releasedFluents = GetReleasedFluents(worldAction, state, time);
 
             // Get possible state changes from ActionCausesIf records
             var actionCausesRec = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ActionCausesIf)
                             .Select(t => t.Item2 as ActionCausesIfRecord).ToList();
-            var causedStatesX = actionCausesRec.Where(t => t.IsFulfilled(state, worldAction)).Aggregate((x, y) => x.Concat(y));
+            ActionCausesIfRecord causedStatesX = null;
+            try
+            {
+                causedStatesX = actionCausesRec.Where(t => t.IsFulfilled(state, worldAction)).Aggregate((x, y) => x.Concat(y));
+            }
+            catch (InvalidOperationException)
+            {
+                return possibleFutureStates;
+            }
             var causedStates = causedStatesX.GetResult();
             var possibleStateChanges = new List<State>(causedStates.Select(t => new State { Fluents = t.ToList() }));
 
             // Get all future states excluding released fluents changes
-            var possibleFutureStates = new List<State>();
             foreach (var stateChange in possibleStateChanges)
             {
                 var template = (State)state.Clone();
