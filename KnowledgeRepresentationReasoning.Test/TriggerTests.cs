@@ -70,8 +70,8 @@ namespace KnowledgeRepresentationReasoning.Test
 
         [Test, Sequential]
         public void GetResultTest(
-            [Values(0, 1, -1)]int time,
-            [Values(0, 1, 0)]int result)
+            [Values(0, 1)]int time,
+            [Values(0, 1)]int result)
         {
             _ifExpression = "a && b && c && d";
             _expressionTriggersActionRecord = new ExpressionTriggersActionRecord(_worldAction, _ifExpression);
