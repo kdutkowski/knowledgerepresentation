@@ -14,7 +14,7 @@
         private readonly WorldAction worldAction;
         private readonly Fluent fluent;
 
-        public ActionReleasesIfRecord(WorldAction worldAction, Fluent fluent, string ifExpression) 
+        public ActionReleasesIfRecord(WorldAction worldAction, Fluent fluent, string ifExpression)
             : base(WorldDescriptionRecordType.ActionReleasesIf)
         {
             this.logicExpression = ServiceLocator.Current.GetInstance<ILogicExpression>();
@@ -26,7 +26,7 @@
         public bool IsFulfilled(State state, WorldAction endedWorldAction)
         {
             // Sprawdzamy czy to dana akcja się skończyła
-            if (!endedWorldAction.Equals(this.worldAction)) 
+            if(!endedWorldAction.Equals(this.worldAction))
                 return false;
             // Sprawdzamy czy zachodzi warunek
             this.logicExpression.SetExpression(ifExpression);
@@ -42,7 +42,7 @@
 
         public override string ToString()
         {
-            return worldAction.ToString() + " releases " + fluent.ToString() + ((ifExpression == "") ? "" : (" if " + ifExpression));
+            return worldAction.ToString() + " releases " + fluent.ToString() + ( ( ifExpression == "" ) ? "" : ( " if " + ifExpression ) );
         }
     }
 }

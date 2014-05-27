@@ -71,12 +71,12 @@ namespace KnowledgeRepresentationReasoning.Test
         [Test, Sequential]
         public void GetResultTest(
             [Values(0, 1)]int time,
-            [Values(0, 1)]int result)
+            [Values(0, 1)]int expected)
         {
             _ifExpression = "a && b && c && d";
             _expressionTriggersActionRecord = new ExpressionTriggersActionRecord(_worldAction, _ifExpression);
             WorldAction worldAction = _expressionTriggersActionRecord.GetResult(time);
-            Assert.AreEqual( result,_worldAction.StartAt);
+            Assert.AreEqual( expected,_worldAction.StartAt);
         }
         
     }

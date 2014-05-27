@@ -72,6 +72,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ActionReleasesIfRecordTestscs.cs" />
     <Compile Include="ConditionAtTimeQueryTests.cs" />
     <Compile Include="InitialRecordTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
