@@ -71,7 +71,7 @@ namespace KnowledgeRepresentationInterface
             _strStatement = strStatement;
             LoadWorldDescriptionRecords(statements);
             actualPage++;
-            ( (Scenario)_pages[actualPage] ).Initialize(_fluents, _actions, statements);
+            ( (Scenario)_pages[actualPage] ).Initialize(_fluents, _actions, statements, tInf);
             this.Navigate(_pages[actualPage]);
         }
 

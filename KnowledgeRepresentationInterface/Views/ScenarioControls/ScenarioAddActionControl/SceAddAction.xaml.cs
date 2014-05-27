@@ -37,6 +37,18 @@
 
         #endregion PropertyChanged
 
+        private int _maxTime;
+
+        public int MaxTime
+        {
+            get { return _maxTime; }
+            set
+            {
+                _maxTime = value;
+                NotifyPropertyChanged("MaxTime");
+            }
+        }
+
         private int _time;
 
         public int Time

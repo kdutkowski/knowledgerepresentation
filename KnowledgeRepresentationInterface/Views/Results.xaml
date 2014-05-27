@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:QueriesControls="clr-namespace:KnowledgeRepresentationInterface.Views.QueriesControls" x:Class="KnowledgeRepresentationInterface.Views.Results" 
              mc:Ignorable="d" 
-            d:DesignHeight="600" d:DesignWidth="800"
+            d:DesignHeight="572" d:DesignWidth="794"
              x:Name="uc_res">
     <Grid Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
         <!--<Button Name ="ButtonNextPage" Content="Next page" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="ButtonNextPage_Click"/>-->

@@ -3,41 +3,46 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-			 xmlns:ScenarioControls="clr-namespace:KnowledgeRepresentationInterface.Views.ScenarioControls" xmlns:local="clr-namespace:KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddActionControl" x:Class="KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddActionControl.SceAddAction" 
+			 xmlns:ScenarioControls="clr-namespace:KnowledgeRepresentationInterface.Views.ScenarioControls" xmlns:local="clr-namespace:KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddActionControl"
+			 xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+			 x:Class="KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddActionControl.SceAddAction" 
 			 mc:Ignorable="d" d:DesignWidth="520"
 			 x:Name="uc_sce" Height="85" >
-	<Grid Margin="0,0,0,0">
-		<GroupBox Header="Action occurrences" HorizontalAlignment="Left" Height="81" Margin="0,0,0,0" VerticalAlignment="Top" Width="520"/>
+    <Grid Margin="0,0,0,0">
+        <GroupBox Header="Action occurrences" HorizontalAlignment="Left" Height="81" Margin="0,0,0,0" VerticalAlignment="Top" Width="520"/>
 
-		<TextBox x:Name="TextBoxTime"
+        <!--<TextBox x:Name="TextBoxTime"
 			TextAlignment="Center"
 			Text="{Binding Time, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
 			Width="40" TextWrapping="Wrap"
 			Height="30" Margin="10,20,0,0"
-			FontWeight="Normal" FontSize="16"/>
+			FontWeight="Normal" FontSize="16"/>-->
+        <xctk:IntegerUpDown x:Name="TextBoxTime" HorizontalAlignment="Center" VerticalAlignment="Top" Width="52"
+                             Minimum="0" Maximum="{Binding MaxTime, ElementName=uc_sce}" FontWeight="Normal"
+                            Value="{Binding Time, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" Margin="10,20,458,0" Height="30"/>
 
-		<ComboBox x:Name ="ComboBoxStatements" SelectedItem="{Binding SelectedWARecordType, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
+        <ComboBox x:Name ="ComboBoxStatements" SelectedItem="{Binding SelectedWARecordType, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
 				  ItemsSource="{Binding WARecordType, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}"
-				 HorizontalAlignment="Left"  Height="30" VerticalAlignment="Top" Width="320" RenderTransformOrigin="0.475,0.15" Margin="55,20,0,0">
-			<ComboBox.ItemTemplate>
-				<DataTemplate>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="("/>
-						<TextBlock Text="{Binding Id}" />
-						<TextBlock Text=", "/>
-						<TextBlock Text="{Binding Duration}"/>
-						<TextBlock Text=")"/>
-					</StackPanel>
+				 HorizontalAlignment="Left"  Height="30" VerticalAlignment="Top" Width="320" RenderTransformOrigin="0.475,0.15" Margin="67,20,0,0">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="("/>
+                        <TextBlock Text="{Binding Id}" />
+                        <TextBlock Text=", "/>
+                        <TextBlock Text="{Binding Duration}"/>
+                        <TextBlock Text=")"/>
+                    </StackPanel>
 
-				</DataTemplate>
+                </DataTemplate>
 
-			</ComboBox.ItemTemplate>
-		</ComboBox>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
-		<Label x:Name="LabelValidation" Content=" " HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="500" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
+        <Label x:Name="LabelValidation" Content=" " HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="500" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
 
 
-	</Grid>
+    </Grid>
 </UserControl>

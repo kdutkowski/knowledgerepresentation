@@ -21,9 +21,9 @@ namespace KnowledgeRepresentationInterface.Views
 
         #region | PROPERTIES |
 
+        //private int _maxTime;
         private List<Fluent> _fluents;
         private ScenarioDescription _scenarioDescription;
-
         private ObservableCollection<ScenarioDescription> _savedScenarios;
 
         public ObservableCollection<ScenarioDescription> SavedScenarios
@@ -35,7 +35,6 @@ namespace KnowledgeRepresentationInterface.Views
             set
             {
                 _savedScenarios = value;
-                OnPropertyChanged("SavedScenarios");
             }
         }
         
@@ -91,19 +90,20 @@ namespace KnowledgeRepresentationInterface.Views
 
         public Scenario()
         {
+            _savedScenarios = new ObservableCollection<ScenarioDescription>();
             InitializeComponent();
         }
 
-        public void Initialize(List<Fluent> fluents, List<WorldAction> actions, List<WorldDescriptionRecord> statements)
+        public void Initialize(List<Fluent> fluents, List<WorldAction> actions, List<WorldDescriptionRecord> statements, int maxTime)
         {
             ActionAdd.SetActions(actions);
             _scenarioDescription = new ScenarioDescription();
-            _savedScenarios = new ObservableCollection<ScenarioDescription>();
             _fluents = fluents;
 
-            InitializeFluents();
             InitializeStatements(statements);
             this.ObservationAdd.Fluents = new ObservableCollection<Fluent>(fluents);
+            this.ActionAdd.MaxTime = maxTime;
+            this.ObservationAdd.MaxTime = maxTime;
         }
 
         private void InitializeStatements(List<WorldDescriptionRecord> statements)
@@ -120,22 +120,6 @@ namespace KnowledgeRepresentationInterface.Views
                 {
                     Content = item.ToString(),
                     FontSize = 10
-                });
-            }
-        }
-
-        private void InitializeFluents()
-        {
-            StackPanelFluents.Children.Add(new Label()
-            {
-                Content = "Fluents:",
-                FontSize = 10
-            });
-            foreach(Fluent item in _fluents)
-            {
-                StackPanelFluents.Children.Add(new Label()
-                {
-                    Content = item.ToString()
                 });
             }
         }
@@ -226,7 +210,11 @@ namespace KnowledgeRepresentationInterface.Views
 
         private void AddScenario_Click(object sender, RoutedEventArgs e)
         {
-            if(ScenarioName != String.Empty)
+            if (String.IsNullOrEmpty(ScenarioName))
+            {
+                LabelValidationScenario.Content = "It is necessary to fill scenario name.";
+            }
+            else
             {
                 foreach(ScenarioDescription item in SavedScenarios)
                 {
@@ -237,19 +225,10 @@ namespace KnowledgeRepresentationInterface.Views
                     }
                 }
                 _scenarioDescription.Name = ScenarioName;
-                StackPanelScenarios.Children.Add(new Label()
-                {
-                    Content = ScenarioName,
-                    FontSize = 10
-                });
                 SavedScenarios.Add(_scenarioDescription);
                 _scenarioDescription = new ScenarioDescription();
                 ScenarioName = "";
                 CleanValues();
-            }
-            else
-            {
-                LabelValidationScenario.Content = "It is necessary to fill scenario name.";
             }
         }
         #endregion | EVENTS |

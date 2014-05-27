@@ -1,7 +1,4 @@
-﻿using KnowledgeRepresentationReasoning.World;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Controls;
 
 namespace KnowledgeRepresentationInterface.Views.ScenarioControls

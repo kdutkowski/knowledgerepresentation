@@ -42,7 +42,19 @@ namespace KnowledgeRepresentationInterface.Views.ScenarioControls.ScenarioAddAct
             InitializeComponent();
         }
 
-        public ObservableCollection<Fluent> Fluents; 
+        public ObservableCollection<Fluent> Fluents;
+
+        private int _maxTime;
+
+        public int MaxTime
+        {
+            get { return _maxTime; }
+            set
+            {
+                _maxTime = value;
+                NotifyPropertyChanged("MaxTime");
+            }
+        }
 
         private int _time;
 

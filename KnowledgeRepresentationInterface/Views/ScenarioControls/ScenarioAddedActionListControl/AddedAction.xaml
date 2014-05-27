@@ -14,7 +14,7 @@
 			HorizontalAlignment="Left"
 			Width="30" 
 			Height="30" Margin="10,10,0,0"
-			FontWeight="Normal" FontSize="16"/>
+			FontWeight="Normal" FontSize="14"/>
 
 
 
@@ -25,7 +25,7 @@
 			HorizontalAlignment="Left"
 			Width="295" 
 			Height="30" Margin="40,10,0,0"
-			FontWeight="Normal" FontSize="16"/>
+			FontWeight="Normal" FontSize="14"/>
 
 
         <Label x:Name="LabelActionName"
@@ -35,7 +35,7 @@
 			HorizontalAlignment="Right"
 			Width="125" 
 			Height="30" Margin="0,10,45,0"
-			FontWeight="Normal" FontSize="16"/>
+			FontWeight="Normal" FontSize="14"/>
         <Label x:Name="aDuration"
 			HorizontalContentAlignment="Center"
 			Content="{Binding Duration, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" 
@@ -43,6 +43,6 @@
 			HorizontalAlignment="Right"
 			Width="30" 
 			Height="30" Margin="0,10,10,0"
-			FontWeight="Normal" FontSize="16"/>
+			FontWeight="Normal" FontSize="14"/>
     </Grid>
 </UserControl>

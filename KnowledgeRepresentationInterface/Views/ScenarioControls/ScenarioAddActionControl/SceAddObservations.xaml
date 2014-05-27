@@ -8,22 +8,25 @@
     <Grid>
         <GroupBox Header="Add observations" HorizontalAlignment="Left" Height="81" Margin="0,0,0,0" VerticalAlignment="Top" Width="520"/>
 
-        <TextBox x:Name="TextBoxTime"
+        <!--<TextBox x:Name="TextBoxTime"
 			TextAlignment="Center"
 			Text="{Binding Time, ElementName=uc_sce,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
 			Width="40" TextWrapping="Wrap"
 			Height="30" Margin="10,20,0,0"
-			FontWeight="Normal" FontSize="16"/>
-
+			FontWeight="Normal" FontSize="16"/>-->
+        <xctk:IntegerUpDown x:Name="TextBoxTime" HorizontalAlignment="Center" VerticalAlignment="Top" Width="52"
+                             Minimum="0" Maximum="{Binding MaxTime, ElementName=uc_sce}" FontWeight="Normal"
+                            Value="{Binding Time, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged}" Margin="10,20,458,0" Height="30"/>
+        
         <xctk:WatermarkTextBox x:Name="TextBoxExpression" Watermark="Expression"
 			TextAlignment="Center"
 			Text="{Binding Expression, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" 
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
 			Width="320" TextWrapping="Wrap"
-			Height="30" Margin="55,20,0,0"
+			Height="30" Margin="67,20,0,0"
 			FontWeight="Normal" FontSize="16"
             PreviewMouseDown="WatermarkTextBoxExpression_PreviewMouseDown"/>
 
