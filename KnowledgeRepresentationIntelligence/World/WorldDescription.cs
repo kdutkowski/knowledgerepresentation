@@ -108,7 +108,7 @@
             }
             catch (InvalidOperationException)
             {
-                return possibleFutureStates;
+                return new List<State>(){state};
             }
             var causedStates = causedStatesX.GetResult();
             var possibleStateChanges = new List<State>(causedStates.Select(t => new State { Fluents = t.ToList() }));
@@ -134,6 +134,11 @@
                     statesToAdd.Add(copy);
                 }
                 possibleFutureStates.AddRange(statesToAdd);
+            }
+
+            if (possibleFutureStates.Count == 0)
+            {
+                possibleFutureStates = new List<State>() { state };
             }
 
             return possibleFutureStates;
