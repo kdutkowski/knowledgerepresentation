@@ -31,11 +31,11 @@
             _logger.Info("Creates:\n " + this);
         }
 
-        public override QueryResult CheckCondition(State state, WorldAction worldAction, int time)
+        public override QueryResult CheckCondition(State state, WorldAction worldAction, int actualTime)
         {
             _logger.Info("Checking condition: " + this._condition + "\nwith parameters:\nstate: " + state + "\naction: " + worldAction);
 
-            QueryResult result = this.CheckTime(state, time);
+            QueryResult result = this.CheckTime(state, actualTime);
 
             string logResult = "Method result: " + result;
 
@@ -51,7 +51,7 @@
             return result;
         }
 
-        private QueryResult CheckTime(State state, int time)
+        private QueryResult CheckTime(State state, int actualTime)
         {
             var result = QueryResult.Undefined;
 
@@ -63,15 +63,11 @@
                     result = QueryResult.False == result ? QueryResult.Undefined : QueryResult.False;
                 }
             }
-            else if (time == _time)
+            else if (_time <= actualTime)
             {
                 result = CheckValuation(state);
             }
-            else if (_time < time)
-            {
-                result = QueryResult.False;
-            }
-            else if (_time > time)
+            else
             {
                 result = QueryResult.Undefined;
             }
