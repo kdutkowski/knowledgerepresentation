@@ -126,7 +126,7 @@ namespace KnowledgeRepresentationReasoning
 
             queryResultsContainer.AddMany(QueryResult.False, numberOfImpossibleLeaf);
 
-            if (CheckIfLeafIsPossible(tree.LastLevel[0], scenarioDescription))
+            if (tree.LastLevel.Count > 0 && CheckIfLeafIsPossible(tree.LastLevel[0], scenarioDescription))
             {
                 QueryResult result = query.CheckCondition(tree.LastLevel[0]);
                 if (result == QueryResult.True || result == QueryResult.False)

@@ -62,7 +62,9 @@
         {
             var initialRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.Initially).ToList();
             if (!initialRecords.Any())
-                throw new TypeInitializationException("Brak warunków początkowych!", null);
+            {
+                return new InitialRecord("");
+            }
 
             return initialRecords.Select(t => (t.Item2 as InitialRecord)).Aggregate((x, y) => x.ConcatOr(y));
         }

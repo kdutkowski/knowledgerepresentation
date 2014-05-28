@@ -43,7 +43,7 @@ namespace KnowledgeRepresentationReasoning.Logic
 
             if (states.Count == 0)
             {
-                numberOfImpossibleLeaf = 1;
+                numberOfImpossibleLeaf = 0;
                 return 0;
             }
 
