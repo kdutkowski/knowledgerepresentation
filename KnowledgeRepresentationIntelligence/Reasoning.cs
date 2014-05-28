@@ -181,17 +181,6 @@ namespace KnowledgeRepresentationReasoning
             }
 
             return queryResultsContainer.CollectResults();
-            //Achtung!!
-            //Temporary solution for ExecutableQuery
-            /*           QueryResult answer = 
-                       if ((query is ExecutableScenarioQuery || query is AccesibleConditionQuery)
-                           && query.questionType == QuestionType.Ever)
-                       {
-                           answer = queryResultsContainer.CollectResultsForExecutableScenario();
-                       }
-
-                       return answer;
-             */
         }
 
         private bool CheckIfLeafIsPossible(Vertex leaf, ScenarioDescription scenarioDescription)
