@@ -71,13 +71,27 @@ using KnowledgeRepresentationReasoning.Scenario;
             QueryResult result;
             
             if (!v.IsPossible)
-                if (QuestionType.Always == questionType) result = QueryResult.False;
-                else result = QueryResult.Undefined;
-            else
-                if (v.NextActions == null || v.NextActions.Count==0)
-                    result= QueryResult.True;
+            {
+                if (QuestionType.Always == questionType)
+                {
+                    result = QueryResult.False;
+                }
                 else
-                    result=QueryResult.False;
+                {
+                    result = QueryResult.Undefined;
+                }
+            }
+            else
+            {
+                if (v.NextActions == null || v.NextActions.Count == 0)
+                {
+                    result = QueryResult.True;
+                }
+                else
+                {
+                    result = QueryResult.False;
+                }
+            }
     
             string logResult = "Executable: " + result;
 

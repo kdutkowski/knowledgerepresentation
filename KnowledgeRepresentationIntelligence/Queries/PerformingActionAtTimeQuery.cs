@@ -40,10 +40,11 @@
                 else if (this._worldAction.Equals(worldAction))
                 {
                     result = QueryResult.True;
-                }else
-                    {
-                        result = QueryResult.False;
-                    }
+                }
+                else
+                {
+                    result = QueryResult.False;
+                }
             }
             else if (_time < time)
             {
