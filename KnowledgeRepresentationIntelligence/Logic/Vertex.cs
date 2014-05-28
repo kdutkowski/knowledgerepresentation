@@ -109,15 +109,40 @@ namespace KnowledgeRepresentationReasoning.Logic
                 child.Root = this;
                 child.ActualState = implication.FutureState;
 
-                if (nextActionFromScenario != null)
+                WorldAction actualAction = nextActionFromScenario;
+                if (actualAction != null)
                 {
-                    if (nextTime == nextActionFromScenario.StartAt)
-                    {
-                        this.ActualWorldAction = (WorldAction)nextActionFromScenario.Clone();
-                    }
-                    this.IsPossible = false;
-                    return childs;
+                    actualAction.StartAt = nextTime;
                 }
+
+                if (implication.TriggeredActions.Count > 0)
+                {
+                    WorldAction triggeredAction = implication.TriggeredActions[0];
+                    foreach (var action in implication.TriggeredActions)
+                    {
+                        if (triggeredAction.StartAt > action.StartAt)
+                        {
+                            triggeredAction = (WorldAction)action.Clone();
+                        }
+                    }
+
+                    if (nextActionFromScenario == null)
+                    {
+                        if (triggeredAction != null)
+                        {
+                            actualAction = triggeredAction;
+                        }
+                    }
+                    else
+                    {
+                        if (triggeredAction != null && nextActionFromScenario.StartAt == triggeredAction.StartAt)
+                        {
+                            this.IsPossible = false;
+                            return childs;
+                        }
+                    }
+                }
+                child.ActualWorldAction = actualAction;
 
                 child.NextActions = new List<WorldAction>();
                 child.NextActions.AddRange(implication.TriggeredActions);
@@ -247,7 +272,9 @@ namespace KnowledgeRepresentationReasoning.Logic
             }
             int nextActionStartTime = GetNextActionTime() < 0 ? int.MaxValue : GetNextActionTime();
 
-            int nextActionTime = scenarioDescription.GetNextActionTime(Time);
+            int nextTimeForAction = Time == 0 ? 0 :  Time +1;
+            int nextActionTime = scenarioDescription.GetNextActionTime(nextTimeForAction);
+
             nextActionTime = nextActionTime < 0 ? int.MaxValue : nextActionTime;
 
             int min = Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime));
