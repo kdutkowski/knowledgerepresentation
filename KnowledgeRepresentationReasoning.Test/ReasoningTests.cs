@@ -82,7 +82,7 @@
         [Test]
         public void Reasoning_AccesibleConditionQuery_Ever_Basic_True_Test()
         {
-            // Condition should be satisfied in time 3 and 4 and probably later
+            // Condition should be satisfied in time 3 and 4
             var result = _reasoning.ExecuteQuery(new AccesibleConditionQuery(QuestionType.Ever, "a && !b && c && d", _scenarioDescription), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
         }
@@ -90,7 +90,7 @@
         [Test]
         public void Reasoning_AccesibleConditionQuery_Always_Basic_True_Test()
         {
-            // Condition should be satisfied in time 3 and 4 and probably later
+            // Condition should be satisfied in time 3 and 4
             var result = _reasoning.ExecuteQuery(new AccesibleConditionQuery(QuestionType.Always, "a && !b && c && d", _scenarioDescription), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
         }
@@ -114,10 +114,10 @@
         }
 
         [Test]
-        public void Reasoning_PerformingActionAtTimeQuery_Always_Basic_True_ActionEnd_Test()
+        public void Reasoning_PerformingActionAtTimeQuery_Always_Basic_False_ActionEnd_Test()
         {
             var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, _actionA2, 3), _scenarioDescription);
-            Assert.AreEqual(QueryResult.True, result);
+            Assert.AreEqual(QueryResult.False, result);
         }
 
         [Test]
@@ -135,10 +135,10 @@
         }
 
         [Test]
-        public void Reasoning_PerformingActionAtTimeQuery_Ever_Basic_True_ActionEnd_Test()
+        public void Reasoning_PerformingActionAtTimeQuery_Ever_Basic_False_ActionEnd_Test()
         {
             var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Ever, _actionA2, 3), _scenarioDescription);
-            Assert.AreEqual(QueryResult.True, result);
+            Assert.AreEqual(QueryResult.False, result);
         }
 
         [Test]
@@ -186,7 +186,7 @@
         public void Reasoning_ConditionAtTimeQuery_Ever_Basic_False_Test()
         {
             var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, "a && b && c && d", 3), _scenarioDescription);
-            Assert.AreEqual(QueryResult.True, result);
+            Assert.AreEqual(QueryResult.False, result);
         }
 
         // ALWAYS
@@ -216,7 +216,7 @@
         public void Reasoning_ConditionAtTimeQuery_Always_Basic_False_Test()
         {
             var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, "a && b && c && d", 3), _scenarioDescription);
-            Assert.AreEqual(QueryResult.True, result);
+            Assert.AreEqual(QueryResult.False, result);
         }
 
         #endregion
