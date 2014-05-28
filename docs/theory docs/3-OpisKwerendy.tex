@@ -1,0 +1,64 @@
+\input{header.tex}
+\begin{document}
+%<*tag>
+
+\section{Opis języka kwerend}
+Zdefiniowany język akcji może być odpytywany przez poniżej zaprezentowany język kwerend, który zapewnia uzyskanie odpowiedzi $TRUE/FALSE$ na następujące pytania:
+\begin{description}
+\item[Q1.] Czy podany scenariusz jest możliwy do realizacji zawsze/kiedykolwiek?
+	\begin{itemize}
+		\item $always/ever\ executable\ Sc$\\
+		Oznacza, że scenariusz $Sc$ zawsze/kiedykolwiek jest zgodny z domeną $D$, tzn. że istnieje model dla danego scenariusza do chwili $T_{\infty}$\ włącznie.
+	\end{itemize}
+\item[Q2.] Czy w chwili $t\ge0$ realizacji podanego scenariusza warunek $\gamma$ zachodzi zawsze/kiedykolwiek?
+	\begin{itemize}
+		\item $always/ever\ \gamma\ at\ t\ when\ Sc$\\
+		Oznacza, że zawsze/kiedykolwiek w chwili $t$ realizacji scenariusza $Sc$ zachodzi warunek $\gamma$.
+		\item $always/ever\ \gamma\ when\ Sc$\\
+		Oznacza, że zawsze/kiedykolwiek w pewnej chwili $t$ realizacji scenariusza $Sc$ zachodzi warunek $\gamma$.
+	\end{itemize}
+\item[Q3.] Czy w chwili $t$ realizacji scenariusza wykonywana jest akcja $A$?
+	\begin{itemize}
+		\item $always/ever\ performing\ A\ at\ t\ when\ Sc$\\
+		Oznacza, że w chwili $t$ realizacji scenariusza $Sc$ zachodzi akcja $A$.
+		\item $always/ever\ performing\ A\ when\ Sc$\\
+		Oznacza, że istnieje pewna chwila w realizacji scenariusza $Sc$, w której zachodzi akcja $A$.
+		\item $always/ever\ performing\ at\ t\ when\ Sc$\\
+		Oznacza, że w chwili $t$ realizacji scenariusza $Sc$ zachodzi pewna akcja.
+	\end{itemize}
+\item[Q4.] Czy podany cel $\gamma$ jest osiągalny zawsze/kiedykolwiek przy zadanym zbiorze obserwacji OBS?
+	\begin{itemize}
+		\item $always/ever\ accesible\ \gamma\ when\ Sc$\\
+		Oznacza, że cel $\gamma$ jest osiągalny zawsze/kiedykolwiek przy zadanym zbiorze obserwacji $OBS$ przy realizacji scenariusza $Sc$, tzn. istnieje model dla danego scenariusza do chwili $T_{\infty}$\ włącznie.\\
+	\end{itemize}
+\begin{remark}
+   Warunek $always$\ zachodzi jeśli odpowiedź na kwerendę we wszystkich ścieżkach wykonania jest $TRUE$, natomiast warunek $ever$\ zachodzi jeśli istnieje co najmniej jedna taka ścieżka. 
+\end{remark}
+\begin{remark}
+	Kwerendy są sprawdzane do czasu t=$T_{\infty}$, jeśli do tego czasu warunek jest spełniony, to odpowiedzią jest $TRUE$, w przeciwnym razie $FALSE$.
+\end{remark}
+
+\item[Semantyka kwerend w języku] \hfill \\\\
+Niech $Sc$ będzie scenariuszem, a $D$ opisem domeny języka. Powiemy, że kwerenda $Q$ jest konsekwencją $Sc$ zgodnie z $D$ (ozn. $Sc,\ D\ |\approx\ Q $)
+
+\begin{itemize}
+	\item zapytanie kwerendą $Q$ postaci $executable\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdej ścieżki wykonania istnieje model $S=(H,O,E,T_{\infty})$ zgodny z $D$ dla scenariusza $Sc$.
+
+	\item zapytanie kwerendą $Q$ postaci $\gamma\ at\ t\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E,T_{\infty})$ scenariusza $Sc$ zgodnego z $D$ zajdzie $H(\gamma,t)=1$
+	\item zapytanie kwerendą $Q$ postaci $\gamma\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E,T_{\infty})$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\exists_{t \in N}\ H(\gamma,t)=1$.
+
+	\item zapytanie kwerendą $Q$ postaci $performing\ A\ at\ t\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E,T_{\infty})$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\exists_{d \in N}\ (A,t,d) \in E$.
+	\item zapytanie kwerendą $Q$ postaci $performing\ A\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E,T_{\infty})$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\exists_{t \in N}\ \exists_{d \in N}\ (A,t,d) \in E$.
+	\item zapytanie kwerendą $Q$ postaci $performing\ at\ t\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E,T_{\infty})$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\exists_{A \in Ac}\ \exists_{d \in N}\ (A,t,d) \in E$.
+
+	\item zapytanie kwerendą $Q$ postaci $accesible\ \gamma\ when\ Sc$\\ zwróci wynik $TRUE$ jeśli dla każdego modelu $S=(H,O,E,T_{\infty})$ scenariusza $Sc$ zgodnego z $D$ zajdzie $\exists(A_{0},...,A_{n} \in ACS, n \geqslant 0)\  \exists_{t \in N}\ H(\gamma,t)=1$.
+\end{itemize}
+
+\begin{remark}
+   Jeśli warunek nie zajdzie program zwróci wartość $FALSE$.
+\end{remark}
+
+\end{description}
+
+%</tag>
+\end{document}
