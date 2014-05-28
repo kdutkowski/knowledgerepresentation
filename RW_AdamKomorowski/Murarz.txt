@@ -1,0 +1,9 @@
+F={MurarzSmutny,MurarzGłodny,ŻonaGłodna,DzieciGłodne}
+Ac={KUPJEDZENIEMURARZOWI,KUPJEDZENIEŻONIE,KUPJEDZENIEDZIECIOM}
+
+initially MurarzGłodny
+always MurarzSmutny
+initially 5 value
+KUPJEDZENIEMURARZOWI costs 2 with effect -MurarzGłodny
+KUPJEDZENIEŻONIE costs 2 with effect -ŻonaGłodna
+KUPJEDZENIEDZIECIOM costs 2 with effect -DzieciGłodne

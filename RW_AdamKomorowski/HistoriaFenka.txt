@@ -1,0 +1,11 @@
+F={IndykZywy,RusznicaNaladowana,IndykBiega}
+Ac={STRZEL,LADUJ}
+
+initially 5 value
+initially -RusznicaNaladowana
+initially IndykZywy
+always IndykBiega IMPLIES IndykZywy
+noninertial IndykBiega
+LADUJ releases RusznicaNaladowana
+STRZEL with effect -RusznicaNaladowana
+STRZEL if RusznicaNaladowana with effect -IndykZywy
