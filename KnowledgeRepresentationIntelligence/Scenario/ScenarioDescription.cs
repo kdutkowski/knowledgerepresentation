@@ -141,7 +141,7 @@ namespace KnowledgeRepresentationReasoning.Scenario
         internal int GetNextActionTime(int actualTime)
         {
             int result = int.MaxValue;
-            foreach (ScenarioObservationRecord sor in this.observations)
+            foreach (ScenarioActionRecord sor in this.actions)
             {
                 if (sor.Time >= actualTime)
                 {
