@@ -28,7 +28,7 @@
             {
                 if (this._worldAction == null)
                 {
-                    if (worldAction != null)
+                    if (worldAction == null)
                     {
                         result = QueryResult.True;
                     }
@@ -40,7 +40,10 @@
                 else if (this._worldAction.Equals(worldAction))
                 {
                     result = QueryResult.True;
-                }
+                }else
+                    {
+                        result = QueryResult.False;
+                    }
             }
             else if (_time < time)
             {
