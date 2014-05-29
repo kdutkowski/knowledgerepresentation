@@ -29,8 +29,8 @@
 
         public List<Implication> GetImplications(Vertex leaf, int nextTime)
         {
-            var triggeredActions = this.GetTriggeredActions(leaf.ActualWorldAction, leaf.ActualState, leaf.Time);
-            var possibleFutureStates = this.GetPossibleFutureStates(leaf.ActualWorldAction, leaf.ActualState, leaf.Time);
+            var triggeredActions = this.GetTriggeredActions(leaf.ActualWorldAction, leaf.ActualState, nextTime);
+            var possibleFutureStates = this.GetPossibleFutureStates(leaf.ActualWorldAction, leaf.ActualState, nextTime);
             return possibleFutureStates.Select(possibleFutureState => 
                 new Implication { FutureState = possibleFutureState, TriggeredActions = triggeredActions.ToList() }).ToList();
         }

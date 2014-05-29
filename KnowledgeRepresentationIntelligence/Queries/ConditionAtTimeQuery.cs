@@ -14,8 +14,6 @@
     {
         private readonly string _condition; //condition to check 
 
-        private readonly int _time; //Variable time in query, -1 means no time.
-
         private readonly SimpleLogicExpression _logicExp;
 
         private readonly string[] _fluentNames;
@@ -24,7 +22,7 @@
             : base(QueryType.SatisfyConditionAtTime, questionType)
         {
             _condition = condition;
-            _time = time;
+            Time = time;
             _logicExp = new SimpleLogicExpression(_condition);
             _fluentNames = _logicExp.GetFluentNames();
 
@@ -55,7 +53,7 @@
         {
             var result = QueryResult.Undefined;
 
-            if (-1 == _time)
+            if (-1 == Time)
             {
                 result = CheckValuation(state);
                 if (result != QueryResult.True)
@@ -63,9 +61,13 @@
                     result = QueryResult.False == result ? QueryResult.Undefined : QueryResult.False;
                 }
             }
-            else if (_time <= actualTime)
+            else if (Time == actualTime)
             {
                 result = CheckValuation(state);
+            }
+            else if (Time < actualTime)
+            {
+                result = QueryResult.False;
             }
             else
             {
@@ -114,7 +116,7 @@
             var stringBuilder = new StringBuilder("Condition at Time Query:\ncondition: ", 77);
             stringBuilder.Append(_condition);
             stringBuilder.Append("\ntime:");
-            stringBuilder.Append(_time);
+            stringBuilder.Append(Time);
 
             return stringBuilder.ToString();
         }

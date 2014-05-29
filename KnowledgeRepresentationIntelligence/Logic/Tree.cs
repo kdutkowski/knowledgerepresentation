@@ -30,8 +30,6 @@ namespace KnowledgeRepresentationReasoning.Logic
             _TInf = timeInf;
         }
 
-        //missing:
-        //- action can't be before first observation -> interface validation!
         public int AddFirstLevel(World.WorldDescription WorldDescription, Scenario.ScenarioDescription ScenarioDescription, out int numberOfImpossibleLeaf)
         {
             numberOfImpossibleLeaf = 0;

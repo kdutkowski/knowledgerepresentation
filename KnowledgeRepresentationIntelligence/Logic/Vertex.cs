@@ -1,4 +1,5 @@
-﻿using KnowledgeRepresentationReasoning.Scenario;
+﻿using KnowledgeRepresentationReasoning.Queries;
+using KnowledgeRepresentationReasoning.Scenario;
 using KnowledgeRepresentationReasoning.World;
 using log4net;
 using System;
@@ -11,12 +12,19 @@ namespace KnowledgeRepresentationReasoning.Logic
     {
         public State ActualState { get; private set; }
         public WorldAction ActualWorldAction { get; set; }
-        public int Time { get; private set; }
+        public int Time { get;  set; }
         private Vertex Root { get; set; }
         public bool IsPossible { get; set; }
         public List<WorldAction> NextActions { get; set; }
 
         private ILog _logger;
+
+        private static Query _query;
+
+        public void SetQuery(Query query)
+        {
+            _query = query;
+        }
 
         public Vertex(State state, WorldAction worldAction, int time, Vertex root)
         {
@@ -107,6 +115,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             {
                 Vertex child = new Vertex(this);
                 child.Root = this;
+
                 child.ActualState = implication.FutureState;
 
                 WorldAction actualAction = nextActionFromScenario;
@@ -203,11 +212,22 @@ namespace KnowledgeRepresentationReasoning.Logic
             }
         }
 
-        internal List<Vertex> GenerateChildsForLeaf(WorldDescription worldDescription, ScenarioDescription scenarioDescription, int TInf)
+        internal List<Vertex> GenerateChildsForLeaf(WorldDescription worldDescription, ScenarioDescription scenarioDescription, int TInf, out QueryResult result)
         {
+            result = QueryResult.Undefined;
+
             List<Vertex> vertices = new List<Vertex>();
 
             int nextTime = GetNextTimestamp(scenarioDescription, TInf);
+
+            if (nextTime > _query.Time)
+            {
+                result = _query.CheckCondition(this, _query.Time);
+                if (QueryResult.True == result || QueryResult.False == result)
+                {
+                    return vertices;
+                }
+            }
 
             if (!CheckNearestObservations(scenarioDescription, nextTime))
                 return GetImpossibleChilds();
@@ -266,19 +286,22 @@ namespace KnowledgeRepresentationReasoning.Logic
         private int GetNextTimestamp(ScenarioDescription scenarioDescription, int TInf)
         {
             int actualActionEndTime = int.MaxValue;
+
             if (ActualWorldAction != null)
             {
                 actualActionEndTime = ActualWorldAction.GetEndTime() < 0 ? int.MaxValue : ActualWorldAction.GetEndTime();
             }
             int nextActionStartTime = GetNextActionTime() < 0 ? int.MaxValue : GetNextActionTime();
 
-            int nextTimeForAction = Time == 0 ? 0 :  Time +1;
+            int nextTimeForAction = Time == 0 ? 0 : Time + 1;
             int nextActionTime = scenarioDescription.GetNextActionTime(nextTimeForAction);
 
             nextActionTime = nextActionTime < 0 ? int.MaxValue : nextActionTime;
 
             int min = Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime));
-            return min > TInf ? TInf : min;
+            min = min > TInf ? TInf : min;
+            
+            return min;
         }
     }
 }

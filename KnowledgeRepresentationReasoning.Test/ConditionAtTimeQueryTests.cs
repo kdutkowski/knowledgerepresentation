@@ -121,23 +121,5 @@
 
             Assert.AreEqual(QueryResult.False, result);
         }
-
-        [Test]
-        public void CheckConditionAtTimeAfterTimeTrue()
-        {
-            const int Time = 10;
-            _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa && bb", Time - 1);
-            var state = new State();
-            var fluentList = new List<Fluent>
-                             {
-                                 new Fluent("aa", true), 
-                                 new Fluent("bb", true)
-                             };
-            state.Fluents.AddRange(fluentList);
-
-            QueryResult result = _query.CheckCondition(state, null, Time);
-
-            Assert.AreEqual(QueryResult.True, result);
-        }
     }
 }

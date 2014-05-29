@@ -13,6 +13,8 @@ namespace KnowledgeRepresentationReasoning.Queries
 
         public QuestionType questionType { get; private set; }
 
+        public int Time { get; set; }
+
         protected Query(QueryType queryType, QuestionType questionType)
         {
             _queryType = queryType;
@@ -30,5 +32,12 @@ namespace KnowledgeRepresentationReasoning.Queries
         }
 
 
+
+        internal QueryResult CheckCondition(Vertex vertex, int p)
+        {
+            Vertex tmp = new Vertex(vertex);
+            tmp.Time = p;
+            return CheckCondition(tmp);
+        }
     }
 }

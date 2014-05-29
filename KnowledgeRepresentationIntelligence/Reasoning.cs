@@ -133,7 +133,8 @@ namespace KnowledgeRepresentationReasoning
                 {
                     queryResultsContainer.AddMany(result);
                 }
-            }
+                tree.LastLevel[0].SetQuery(query);
+            }            
             
             //generate next level if query can't answer yet
             while (!queryResultsContainer.CanQuickAnswer() && tree.LastLevel.Count > 0)
@@ -154,7 +155,14 @@ namespace KnowledgeRepresentationReasoning
                     else
                     {
                         tree.DeleteChild(i);
-                        List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(worldDescription, scenarioDescription, TInf);
+                        QueryResult queryInMiddleResult;
+                        List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(worldDescription, scenarioDescription, TInf, out queryInMiddleResult);
+                        
+                        queryResultsContainer.AddMany(queryInMiddleResult);
+                        if (queryResultsContainer.CanQuickAnswer())
+                        {
+                            break;
+                        }
 
                         foreach (var child in nextLevel)
                         {
