@@ -8,7 +8,6 @@
     {
         private readonly WorldAction _worldAction;
 
-
         public PerformingActionAtTimeQuery(QuestionType questionType, WorldAction worldAction = null, int time = -1)
             : base(QueryType.PerformingActionAtTime, questionType)
         {
@@ -17,7 +16,7 @@
             _logger.Info("Creates:\n " + this);
         }
 
-        public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
+        public override QueryResult CheckCondition(State state, WorldAction worldAction, int time)
         {
             _logger.Info("Checking Action: " + this._worldAction + "at time: " + this.Time + "\nwith parameters:\nstate: " + state + "\naction: " + worldAction);
 
@@ -36,7 +35,7 @@
                         result = QueryResult.False;
                     }
                 }
-                else if (this._worldAction.Equals(worldAction))
+                else if (this._worldAction.Id == worldAction.Id) // Porównuje tylko id bo długość nie ma tu znaczenia
                 {
                     result = QueryResult.True;
                 }
@@ -67,7 +66,7 @@
         public override string ToString()
         {
             var stringBuilder = new StringBuilder("Action at Time Query:\nAction: ", 77);
-            stringBuilder.Append(this._worldAction.ToString());
+            stringBuilder.Append(this._worldAction.Id);
             stringBuilder.Append("\ntime:");
             stringBuilder.Append(Time);
 

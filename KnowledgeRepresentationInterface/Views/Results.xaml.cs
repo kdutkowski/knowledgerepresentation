@@ -101,7 +101,7 @@ namespace KnowledgeRepresentationInterface.Views
             _timeInf = tInf;
 
             // ACTIONS
-            this._actions.AddRange(actions);
+            this._actions.AddRange(actions.Select(t => new WorldAction(t.Id, 0, -1)).GroupBy(t => t.Id).Select(t => t.First()));
             if(this._actions.Any())
                 ( (QueActionAtTime)this._queriesControls[QueryType.PerformingActionAtTime] ).SelectedAction = this._actions.First();
            

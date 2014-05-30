@@ -53,9 +53,11 @@ namespace KnowledgeRepresentationReasoning.World
 
         public override string ToString()
         {
-            //string description = "Action (" + Id + ", " + Duration + ") with start time: " + StartAt;
-            //return description;
-            return "(" + this.Id + ", " + this.Duration + ")";
+            var result = "(" + Id;
+            if (Duration > 0)
+                result += "," + Duration;
+            result += ")";
+            return result;
         }
     }
 }
