@@ -99,8 +99,6 @@
 
             QueryResult result = _query.CheckCondition(state, null, Time-1);
 
-            Assert.AreNotEqual(QueryResult.False, result);
-            Assert.AreNotEqual(QueryResult.True, result);
             Assert.AreEqual(QueryResult.Undefined, result);
         }
 

@@ -24,30 +24,19 @@ using KnowledgeRepresentationReasoning.Scenario;
             _scenario = scenario;
         }
 
-        /// <summary>
-        /// Checks whetever actions and observations in this query are consistent with those 
-        /// </summary>
-        /// <param name="state"></param>
-        /// <param name="worldAction"></param>
-        /// <param name="time"></param>
-        /// <returns></returns>
-        public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
+        public override QueryResult CheckCondition(Vertex v)
         {
-            _logger.Info("Checking if scenario: " + this._scenario + " with parameters:\nstate: " + state + "\naction: " + worldAction);
+            _logger.Info("Checking if scenario: " + this._scenario + " with parameters:\nstate: " + v.ActualState + "\naction: " + v.ActualWorldAction);
 
             var result = QueryResult.Undefined;
 
-            if (this._scenario.observations.Any(sor => sor.Time.Equals(time) && !sor.Expr.Evaluate(state)))
+            if (!v.IsPossible)
             {
                 result = QueryResult.False;
             }
-
-            if (result == QueryResult.True)
+            else if (v.ActualWorldAction == null && (v.NextActions == null || v.NextActions.Count == 0) && !_scenario.actions.Any(a => a.Time >= v.Time))
             {
-                if (this._scenario.actions.Any(sar => sar.Time.Equals(time) && sar.CheckIfActiveAt(time) && !sar.WorldAction.Equals(worldAction)))
-                {
-                    result = QueryResult.False;
-                }
+                result = QueryResult.True;
             }
 
             string logResult = "Executable: " + result;
@@ -63,56 +52,17 @@ using KnowledgeRepresentationReasoning.Scenario;
 
             return result;
         }
-
-        public override QueryResult CheckCondition(Vertex v){
-
-            _logger.Info("Checking if scenario: " + _scenario.ToString() + " with parameters:\nstate: " + v.ActualState.ToString() + "\naction: " + v.ActualWorldAction ?? v.ActualWorldAction.ToString() + " is executable");
-
-            QueryResult result;
-            
-            if (!v.IsPossible)
-            {
-                if (QuestionType.Always == questionType)
-                {
-                    result = QueryResult.False;
-                }
-                else
-                {
-                    result = QueryResult.Undefined;
-                }
-            }
-            else
-            {
-                if (v.NextActions == null || v.NextActions.Count == 0)
-                {
-                    result = QueryResult.True;
-                }
-                else
-                {
-                    result = QueryResult.False;
-                }
-            }
-    
-            string logResult = "Executable: " + result;
-
-            if (QueryResult.Undefined == result)
-            {
-                _logger.Warn(logResult);
-            }
-            else
-            {
-                _logger.Info(logResult);
-            }
-
-            return result;
-        }
-
 
         public override string ToString()
         {
             var stringBuilder = new StringBuilder("Executable Scenario Query:\nscenario: ", 77);
             stringBuilder.Append(_scenario);
             return stringBuilder.ToString();
+        }
+
+        public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
+        {
+            throw new NotImplementedException();
         }
     }
 }

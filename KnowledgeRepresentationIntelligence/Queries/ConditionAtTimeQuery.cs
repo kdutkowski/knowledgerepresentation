@@ -17,6 +17,7 @@
         private readonly SimpleLogicExpression _logicExp;
 
         private readonly string[] _fluentNames;
+        private bool _notChecked;
 
         public ConditionAtTimeQuery(QuestionType questionType, string condition, int time = -1)
             : base(QueryType.SatisfyConditionAtTime, questionType)
@@ -25,6 +26,7 @@
             Time = time;
             _logicExp = new SimpleLogicExpression(_condition);
             _fluentNames = _logicExp.GetFluentNames();
+            _notChecked = true;
 
             _logger.Info("Creates:\n " + this);
         }
@@ -65,9 +67,10 @@
             {
                 result = CheckValuation(state);
             }
-            else if (Time < actualTime)
+            else if (Time < actualTime && _notChecked)
             {
-                result = QueryResult.False;
+                result = CheckValuation(state);
+                _notChecked = false;
             }
             else
             {

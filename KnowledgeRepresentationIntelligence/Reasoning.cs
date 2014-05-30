@@ -122,19 +122,16 @@ namespace KnowledgeRepresentationReasoning
             Tree tree = new Tree(TInf);
             //add first level
             int numberOfImpossibleLeaf = 0;
-            tree.AddFirstLevel(worldDescription, scenarioDescription, out numberOfImpossibleLeaf);
+            int worldCanStart = tree.AddFirstLevel(worldDescription, scenarioDescription, out numberOfImpossibleLeaf);
+
+            if (worldCanStart == -1)
+            {
+                return QueryResult.False;
+            }
 
             queryResultsContainer.AddMany(QueryResult.False, numberOfImpossibleLeaf);
 
-            if (tree.LastLevel.Count > 0 && CheckIfLeafIsPossible(tree.LastLevel[0], scenarioDescription))
-            {
-                QueryResult result = query.CheckCondition(tree.LastLevel[0]);
-                if (result == QueryResult.True || result == QueryResult.False)
-                {
-                    queryResultsContainer.AddMany(result);
-                }
-                tree.LastLevel[0].SetQuery(query);
-            }            
+            tree.SetQuery(query);
             
             //generate next level if query can't answer yet
             while (!queryResultsContainer.CanQuickAnswer() && tree.LastLevel.Count > 0)

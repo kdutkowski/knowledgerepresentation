@@ -41,8 +41,7 @@ namespace KnowledgeRepresentationReasoning.Logic
 
             if (states.Count == 0)
             {
-                numberOfImpossibleLeaf = 0;
-                return 0;
+                return -1;
             }
 
             foreach (var state in states)
@@ -144,6 +143,18 @@ namespace KnowledgeRepresentationReasoning.Logic
         {
             SaveChild(i);
             LastLevel.RemoveAt(i);
+        }
+
+        internal void SetQuery(Queries.Query query)
+        {
+            if (LastLevel.Count > 0)
+            {
+                foreach (var child in LastLevel)
+                {
+                    child.SetQuery(query);
+                }
+            }            
+            
         }
     }
 }

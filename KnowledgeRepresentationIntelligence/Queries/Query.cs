@@ -19,25 +19,21 @@ namespace KnowledgeRepresentationReasoning.Queries
         {
             _queryType = queryType;
             this.questionType = questionType;
+            Time = int.MaxValue;
 
             _logger = ServiceLocator.Current.GetInstance<ILog>();
         }
 
         public abstract QueryResult CheckCondition(State state, WorldAction worldAction, int time);
 
-
         public virtual QueryResult CheckCondition(Vertex v)
         {
-            return CheckCondition(v.ActualState, v.ActualWorldAction, v.Time);
+            return CheckCondition(v, v.Time);
         }
 
-
-
-        internal QueryResult CheckCondition(Vertex vertex, int p)
+        public virtual QueryResult CheckCondition(Vertex vertex, int time)
         {
-            Vertex tmp = new Vertex(vertex);
-            tmp.Time = p;
-            return CheckCondition(tmp);
+            return CheckCondition(vertex.ActualState, vertex.ActualWorldAction, time);
         }
     }
 }

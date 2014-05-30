@@ -8,14 +8,11 @@
     public class AccesibleConditionQuery : Query
     {
         private readonly string _condition; //condition to check 
-        ExecutableScenarioQuery ExecQuery;
-        ConditionAtTimeQuery CondAtTimeQuery;
-
-
-        // TODO: Czy to do czegoś potrzebne skoro jest nieużywane?
-        private string[] _fluentNames;
+        private ExecutableScenarioQuery ExecQuery;
+        private ConditionAtTimeQuery CondAtTimeQuery;
 
         private readonly ScenarioDescription _scenario;
+        private QueryResult _answerForCondAtTimeResult;
 
         public AccesibleConditionQuery(QuestionType questionType, string condition, ScenarioDescription scenario)
             : base(QueryType.AccesibleCondition, questionType)
@@ -23,56 +20,41 @@
             _queryType = QueryType.AccesibleCondition;
             _condition = condition;
             var logicExp = new SimpleLogicExpression(this._condition);
-            _fluentNames = logicExp.GetFluentNames();
             _scenario = scenario;
 
-
-            ExecQuery = new ExecutableScenarioQuery(QuestionType.Ever, _scenario);
-            CondAtTimeQuery = new ConditionAtTimeQuery(QuestionType.Ever, _condition);
-
+            _answerForCondAtTimeResult = QueryResult.Undefined;
+            ExecQuery = new ExecutableScenarioQuery(questionType, _scenario);
+            CondAtTimeQuery = new ConditionAtTimeQuery(questionType, _condition);
 
             _logger.Info("Creates:\n " + this);
         }
 
-        /// <summary>
-        /// Checks given parameters with conditionAtTimeQuery and ExecutableScenarioQuery
-        /// </summary>
-        /// <param name="state"></param>
-        /// <param name="worldAction"></param>
-        /// <param name="time"></param>
-        /// <returns></returns>
-        public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
+        public override QueryResult CheckCondition(Logic.Vertex v, int time)
         {
-            _logger.Info("Checking condition: " + this._condition + "\n accesible with parameters:\nstate: " + state + "\naction: " + worldAction);
+            _logger.Info("Checking condition: " + this._condition + "\n accesible with parameters:\nstate: " + v.ActualState + "\naction: " + v.ActualWorldAction);
 
-            QueryResult condAtTimeResult = CondAtTimeQuery.CheckCondition(state, worldAction, time);
-            QueryResult execResult  = ExecQuery.CheckCondition(state, worldAction, time);
+            QueryResult condAtTimeResult = CondAtTimeQuery.CheckCondition(v.ActualState, v.ActualWorldAction, time);
+            QueryResult execResult = ExecQuery.CheckCondition(v);
+            QueryResult result = QueryResult.Undefined;
 
-
-
-            QueryResult result;
-
-            if (condAtTimeResult == QueryResult.Error || condAtTimeResult == QueryResult.Error)
+            if (condAtTimeResult == QueryResult.True || condAtTimeResult == QueryResult.False)
             {
-                result = QueryResult.Error;
+                _answerForCondAtTimeResult = condAtTimeResult;
             }
-            else
+
+            if (_answerForCondAtTimeResult == QueryResult.False || execResult == QueryResult.False)
             {
-                if (condAtTimeResult == QueryResult.False || condAtTimeResult == QueryResult.False)
+                result = QueryResult.False;
+            }
+            else if(execResult == QueryResult.True)
+            {
+                if (_answerForCondAtTimeResult == QueryResult.True)
+                {
+                    result = QueryResult.True;
+                }
+                else if (_answerForCondAtTimeResult == QueryResult.False)
                 {
                     result = QueryResult.False;
-                }
-                else
-                {
-                    if (condAtTimeResult == QueryResult.Undefined || condAtTimeResult == QueryResult.Undefined)
-                    {
-                        result = QueryResult.Undefined;
-                    }
-                    else
-                    {
-                        result = QueryResult.True;
-
-                    }
                 }
             }
 
@@ -97,6 +79,11 @@
             stringBuilder.Append("\nscenario:\n");
             stringBuilder.Append(_scenario);
             return stringBuilder.ToString();
+        }
+
+        public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
