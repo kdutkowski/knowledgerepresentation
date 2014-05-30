@@ -11,48 +11,48 @@
 			d:DesignHeight="572" d:DesignWidth="794"
 			x:Name="uc_sce"
 	>
-    <Grid Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
+	<Grid Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
 
-        <ScenarioControls:SceAddedActionsList x:Name="ActionList" HorizontalAlignment="Left" Margin="40,270,0,0" VerticalAlignment="Top" Height="253" Width="520" />
-        <Button x:Name ="ButtonNextPage" Content="Next page" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="ButtonNextPage_Click"/>
-        <Label Content="Scenario" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
+		<ScenarioControls:SceAddedActionsList x:Name="ActionList" HorizontalAlignment="Left" Margin="40,270,0,0" VerticalAlignment="Top" Height="253" Width="520" />
+		<Button x:Name ="ButtonNextPage" Content="Next page" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="ButtonNextPage_Click"/>
+		<Label Content="Scenario" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
 
-        <GridSplitter HorizontalAlignment="Left" Height="4" Margin="40,233,0,0" VerticalAlignment="Top" Width="720" Background="DarkBlue"/>
+		<GridSplitter HorizontalAlignment="Left" Height="4" Margin="40,233,0,0" VerticalAlignment="Top" Width="720" Background="DarkBlue"/>
 
-        <ScenarioAddActionControl:SceAddAction x:Name="ActionAdd" HorizontalAlignment="Left" Margin="40,43,0,0" VerticalAlignment="Top" Height="91" Width="520"/>
+		<ScenarioAddActionControl:SceAddAction x:Name="ActionAdd" HorizontalAlignment="Left" Margin="40,43,0,0" VerticalAlignment="Top" Height="91" Width="520"/>
 
-        <Button x:Name ="ButtonAddAction" Content="Add action" HorizontalAlignment="Left" Margin="437,62,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.286,0.646" Height="30" Click="ButtonAddAction_Click"/>
+		<Button x:Name ="ButtonAddAction" Content="Add action" HorizontalAlignment="Left" Margin="437,62,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.286,0.646" Height="30" Click="ButtonAddAction_Click"/>
 
-        <ScenarioAddActionControl:SceAddObservations  x:Name="ObservationAdd" HorizontalAlignment="Left" Margin="40,139,0,0" VerticalAlignment="Top" Height="89" Width="520"/>
-        <Button x:Name ="ButtonAddObservation" Content="Add observation" HorizontalAlignment="Left" Margin="437,160,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.286,0.646" Height="30" Click="ButtonAddObservation_Click" />
+		<ScenarioAddActionControl:SceAddObservations  x:Name="ObservationAdd" HorizontalAlignment="Left" Margin="40,139,0,0" VerticalAlignment="Top" Height="89" Width="520"/>
+		<Button x:Name ="ButtonAddObservation" Content="Add observation" HorizontalAlignment="Left" Margin="437,160,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.286,0.646" Height="30" Click="ButtonAddObservation_Click" />
 
-        <Label x:Name="LabelValidationScenario" Content=" " HorizontalAlignment="Left" Margin="290,242,0,0" VerticalAlignment="Top" Width="225" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
+		<Label x:Name="LabelValidationScenario" Content=" " HorizontalAlignment="Left" Margin="290,242,0,0" VerticalAlignment="Top" Width="225" Foreground="#FFE80000" FontWeight="Bold" FontStyle="Italic" Background="#00000000"/>
 
-        <xctk:WatermarkTextBox x:Name="TextBoxScenarioName" Watermark="Scenario name"
+		<xctk:WatermarkTextBox x:Name="TextBoxScenarioName" Watermark="Scenario name"
 			TextAlignment="Center"
 			Text="{Binding ScenarioName, ElementName=uc_sce, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" 
 			 HorizontalAlignment="Left" Height="23" Margin="40,242,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
 
 
-        <Button x:Name="AddScenario" Content="Finish scenario" HorizontalAlignment="Left" Margin="165,242,0,0" VerticalAlignment="Top" Width="120" Height="23" Click="AddScenario_Click"/>
-        <ScrollViewer HorizontalAlignment="Left" Height="185" Margin="565,43,0,0"  HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="219">
-            <StackPanel x:Name="StackPanelStatements" >
+		<Button x:Name="AddScenario" Content="Finish scenario" HorizontalAlignment="Left" Margin="165,242,0,0" VerticalAlignment="Top" Width="120" Height="23" Click="AddScenario_Click"/>
+		<ScrollViewer HorizontalAlignment="Left" Height="185" Margin="565,43,0,0"  HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Width="219">
+			<StackPanel x:Name="StackPanelStatements" >
 
-            </StackPanel>
-        </ScrollViewer>
-        <Button x:Name="RemoveScenario" Content="Remove scenario" HorizontalAlignment="Left" Margin="565,501,0,0" VerticalAlignment="Top" Width="219" Click="RemoveScenario_Click"/>
-        <Label Content="Saved scenarios:" HorizontalAlignment="Left" Margin="565,248,0,0" VerticalAlignment="Top" Width="225"/>
-        <ListBox x:Name="ListBoxScenarios" HorizontalAlignment="Left" Height="217" Margin="565,279,0,0" VerticalAlignment="Top" Width="219"
+			</StackPanel>
+		</ScrollViewer>
+		<Button x:Name="RemoveScenario" Content="Remove scenario" HorizontalAlignment="Left" Margin="565,501,0,0" VerticalAlignment="Top" Width="219" Click="RemoveScenario_Click"/>
+		<Label Content="Saved scenarios:" HorizontalAlignment="Left" Margin="565,248,0,0" VerticalAlignment="Top" Width="225"/>
+		<ListBox x:Name="ListBoxScenarios" HorizontalAlignment="Left" Height="217" Margin="565,279,0,0" VerticalAlignment="Top" Width="219"
 				  ItemsSource="{Binding SavedScenarios, ElementName=uc_sce}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding Name}" />
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
 
-        </ListBox>
-        <Button Content="Previous page" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="90" Click="Button_Click"/>
-    </Grid>
+		</ListBox>
+		<Button Content="Previous page" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="90" Click="Button_Click"/>
+	</Grid>
 </UserControl>

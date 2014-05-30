@@ -8,7 +8,7 @@
     <Grid>
         <GroupBox Header="Scenario" VerticalAlignment="Top" Height="250">
             <ScrollViewer HorizontalAlignment="Right" Height="227" VerticalAlignment="Top" Width="500" HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
-                <StackPanel x:Name="StackPanelActionList" Height="240" Width="492">
+                <StackPanel x:Name="StackPanelActionList" Height="217" Width="492">
 
                 </StackPanel>
             </ScrollViewer>
