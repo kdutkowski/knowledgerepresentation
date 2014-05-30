@@ -6,8 +6,6 @@ initially -RusznicaNaladowana
 initially IndykZywy
 always IndykBiega IMPLIES IndykZywy
 noninertial IndykBiega
-LADUJ costs 1
 LADUJ releases RusznicaNaladowana
-STRZEL costs 2
 STRZEL with effect -RusznicaNaladowana
 STRZEL if RusznicaNaladowana with effect -IndykZywy
