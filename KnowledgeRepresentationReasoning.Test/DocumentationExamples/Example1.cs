@@ -1,4 +1,10 @@
-﻿using KnowledgeRepresentationReasoning.World;
+﻿using System;
+using System.Collections.Generic;
+using KnowledgeRepresentationReasoning.Expressions;
+using KnowledgeRepresentationReasoning.Queries;
+using KnowledgeRepresentationReasoning.Scenario;
+using KnowledgeRepresentationReasoning.World;
+using KnowledgeRepresentationReasoning.World.Records;
 using NUnit.Framework;
 
 namespace KnowledgeRepresentationReasoning.Test.DocumentationExamples
@@ -6,6 +12,10 @@ namespace KnowledgeRepresentationReasoning.Test.DocumentationExamples
     [TestFixture]
     public class Example1 : TestBase
     {
+        private Reasoning _reasoning;
+        private ScenarioDescription _scenarioDescription1;
+        private ScenarioDescription _scenarioDescription2;
+
         #region | ACTIONS |
         private readonly WorldAction _drinkAction = new WorldAction
         {
@@ -29,14 +39,51 @@ namespace KnowledgeRepresentationReasoning.Test.DocumentationExamples
             Name = "hangover"
         };
 
+        List<Fluent> _listFluent = new List<Fluent>();
         #endregion
+
+        #region | INITIALIZE |
+
+        #endregion
+        public Example1()
+        {
+            _listFluent = new List<Fluent>();
+            _listFluent.Add(_drunkFluent);
+            _listFluent.Add(_hangoverFluent);
+        }
 
         [SetUp]
         public void SetUp()
         {
+            _reasoning = new Reasoning();
+            foreach(Fluent item in _listFluent)
+            {
+                _reasoning.AddWorldDescriptionRecord(new InitialRecord(item.ToString()));
+            }
+            _reasoning.AddWorldDescriptionRecord(new ActionCausesIfRecord(_drinkAction, _drunkFluent.Name.ToString(), String.Empty));
+            _reasoning.AddWorldDescriptionRecord(new ActionCausesIfRecord(_sleepAction, "!" + _drunkFluent.Name.ToString(), String.Empty));
+            _reasoning.AddWorldDescriptionRecord(new ActionCausesIfRecord(_sleepAction, _hangoverFluent.Name.ToString(), _drunkFluent.Name.ToString()));
+
+            _scenarioDescription1 = new ScenarioDescription("ScenarioDescription1");
+
+            _scenarioDescription1.addObservation(new SimpleLogicExpression("!" + _drunkFluent.Name.ToString()), 0);
+            _scenarioDescription1.addObservation(new SimpleLogicExpression("!" + _hangoverFluent.Name.ToString()), 0);
+            _scenarioDescription1.addObservation(new SimpleLogicExpression("!" + _drunkFluent.Name.ToString()), 10);
+            _scenarioDescription1.addObservation(new SimpleLogicExpression("!" + _hangoverFluent.Name.ToString()), 10);
+            _scenarioDescription1.addACS(_drinkAction, 2);
+            _scenarioDescription1.addACS(_sleepAction, 2);
+
+            _scenarioDescription2 = new ScenarioDescription("ScenarioDescription2");
+
+            _scenarioDescription2.addObservation(new SimpleLogicExpression("!" + _drunkFluent.Name.ToString()), 0);
+            _scenarioDescription2.addObservation(new SimpleLogicExpression("!" + _hangoverFluent.Name.ToString()), 0);
+            _scenarioDescription2.addObservation(new SimpleLogicExpression("!" + _drunkFluent.Name.ToString()), 10);
+            _scenarioDescription2.addObservation(new SimpleLogicExpression("!" + _hangoverFluent.Name.ToString()), 10);
+            _scenarioDescription2.addACS(_sleepAction, 1);
+
         }
 
-        #region | EXAMPLE 1 |
+        #region | EXAMPLE 1 TEXT|
 
         //Michał jest pracujacym studentem. W srode o godzinie 8.00 powinien pojawic sie w pracy zupełnie
         //trzezwy. Mimo to we wtorek postanowił pójsc do baru. Jesli Michał sie napije, stanie sie pijany. Jesli
@@ -60,6 +107,30 @@ namespace KnowledgeRepresentationReasoning.Test.DocumentationExamples
         //1. ever executable Sc
         //2. ever executable Sc2
 
+        #endregion
+
+        #region | TESTS |
+        [Test]
+        public void First_Query_ever_executable_SC1_Test()
+        {
+            //Arrange
+            QueryResult expectedResult = QueryResult.False;
+            //Act
+            QueryResult result = _reasoning.ExecuteQuery(new ExecutableScenarioQuery(QuestionType.Ever,_scenarioDescription1),_scenarioDescription1);
+            //Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+      
+        [Test]
+        public void Second_Query_ever_executable_SC2_Test()
+        {
+            //Arrange
+            QueryResult expectedResult = QueryResult.True;
+            //Act
+            QueryResult result = _reasoning.ExecuteQuery(new ExecutableScenarioQuery(QuestionType.Ever,_scenarioDescription2),_scenarioDescription2);
+            //Assert
+            Assert.AreEqual(expectedResult, result);
+        }
         #endregion
     }
 }
