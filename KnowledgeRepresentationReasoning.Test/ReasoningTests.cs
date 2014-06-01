@@ -263,14 +263,71 @@
             Assert.AreEqual(QueryResult.True, result);
         }
 
-        /*
         [Test]
-        public void Reasoning_ExecutableScenarioQuery_Always_Basic_True_Test()
+        public void Reasoning_ExecutableScenarioQuery_Always_Comples_False_Test()
         {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
             var result = _reasoning.ExecuteQuery(new ExecutableScenarioQuery(QuestionType.Always, _scenarioDescription), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
         }
-        */
+
+        #endregion
+
+        #region AccesibleConditionQuery
+
+        [Test]
+        public void Reasoning_AccesibleConditionQuery_Ever_Complex_True_Test()
+        {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
+            // Condition is satisfied in time 1
+            var result = _reasoning.ExecuteQuery(new AccesibleConditionQuery(QuestionType.Ever, "a && b && c && d", _scenarioDescription), _scenarioDescription);
+            Assert.AreEqual(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_AccesibleConditionQuery_Always_Basic_False_Test()
+        {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
+            var result = _reasoning.ExecuteQuery(new AccesibleConditionQuery(QuestionType.Always, "!a && b && c && d", _scenarioDescription), _scenarioDescription);
+            Assert.AreEqual(QueryResult.False, result);
+        }
+
+        [Test]
+        public void Reasoning_AccesibleConditionQuery_Ever_Complex_TrueAtTheEnd_Test()
+        {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
+            var result = _reasoning.ExecuteQuery(new AccesibleConditionQuery(QuestionType.Ever, "a && !b && !c && d", _scenarioDescription), _scenarioDescription);
+            Assert.AreEqual(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_AccesibleConditionQuery_Always_Basic_FalseAtTheEnd_Test()
+        {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
+            var result = _reasoning.ExecuteQuery(new AccesibleConditionQuery(QuestionType.Always, "c", _scenarioDescription), _scenarioDescription);
+            Assert.AreEqual(QueryResult.True, result);
+        }
+
         #endregion
 
         #endregion
