@@ -28,101 +28,53 @@ namespace KnowledgeRepresentationReasoning
     {
         private static IContainer Container { get; set; }
 
-        private ILog _logger { get; set; }
+        private ILog Logger { get; set; }
 
-        private WorldDescription worldDescription { get; set; }
+        private WorldDescription WorldDescription { get; set; }
 
-        private List<ScenarioDescription> scenarioDescriptionList { get; set; }
+        private List<ScenarioDescription> ScenarioDescriptionList { get; set; }
 
-        public int TInf { get; set; }
+        public int Inf { get; set; }
 
         public Reasoning()
         {
-            worldDescription = new WorldDescription();
-            scenarioDescriptionList = new List<ScenarioDescription>();
-            _logger = ServiceLocator.Current.GetInstance<ILog>();
-            TInf = 100;
+            this.WorldDescription = new WorldDescription();
+            this.ScenarioDescriptionList = new List<ScenarioDescription>();
+            this.Logger = ServiceLocator.Current.GetInstance<ILog>();
+            this.Inf = 100;
         }
 
         public void AddWorldDescriptionRecord(WorldDescriptionRecord record)
         {
-            worldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(record.Type, record));
+            this.WorldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(record.Type, record));
         }
 
         public void RemoveWorldDescriptionRecord(WorldDescriptionRecord record)
         {
-            var removeRecords = worldDescription.Descriptions.Where(t => t.Item2.Id == record.Id).ToList();
+            var removeRecords = this.WorldDescription.Descriptions.Where(t => t.Item2.Id == record.Id).ToList();
             for (int i = 0; i < removeRecords.Count; i++)
             {
-                worldDescription.Descriptions.Remove(removeRecords[i]);
+                this.WorldDescription.Descriptions.Remove(removeRecords[i]);
             }
-        }
-
-        public void UpdateWorldDescriptionRecord(WorldDescriptionRecord record)
-        {
-            throw new System.NotImplementedException();
         }
 
         public WorldDescription GetWorldDescription()
         {
-            return worldDescription;
+            return this.WorldDescription;
         }
-
-        //public void AddScenarioDescriptionRecord(ScenarioDescriptionRecord record)
-        //{
-        //    if(record is ScenarioActionRecord)
-        //    {
-        //        ScenarioActionRecord add = record as ScenarioActionRecord;
-        //        scenarioDescription.addACS(add.WorldAction, add.Time);
-        //    }
-        //    else if(record is ScenarioObservationRecord)
-        //    {
-        //        ScenarioObservationRecord add = record as ScenarioObservationRecord;
-        //        scenarioDescription.addObservation(add.Expr, add.Time);
-        //    }
-        //}
-
-        //public void RemoveScenarioDescriptionRecord(ScenarioDescriptionRecord record)
-        //{
-        //    if(record is ScenarioActionRecord)
-        //    {
-        //        ScenarioActionRecord remove = record as ScenarioActionRecord;
-        //        var removeRecords = scenarioDescription.actions.Where(t => t.Id == remove.Id).ToList();
-        //        for(int i = 0; i < removeRecords.Count; i++)
-        //        {
-        //            scenarioDescription.actions.Remove(removeRecords[i]);
-        //        }
-        //    }
-        //    else if(record is ScenarioObservationRecord)
-        //    {
-        //        ScenarioObservationRecord remove = record as ScenarioObservationRecord;
-        //        var removeRecords = scenarioDescription.observations.Where(t => t.Id == remove.Id).ToList();
-        //        for(int i = 0; i < removeRecords.Count; i++)
-        //        {
-        //            scenarioDescription.observations.Remove(removeRecords[i]);
-        //        }
-        //    }
-        //}
-
-        //public void UpdateScenarioDescriptionRecord(ScenarioDescriptionRecord record)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
 
         public List<ScenarioDescription> GetScenarioDescriptionList()
         {
-            return scenarioDescriptionList;
+            return this.ScenarioDescriptionList;
         }
 
         public QueryResult ExecuteQuery(Query query, ScenarioDescription scenarioDescription)
         {
-            QueryResultsContainer queryResultsContainer = new QueryResultsContainer(query.questionType);
+            var queryResultsContainer = new QueryResultsContainer(query.questionType);
 
-            //tree initialization
-            Tree tree = new Tree(TInf);
-            //add first level
+            var tree = new Tree(this.Inf);
             int numberOfImpossibleLeaf = 0;
-            int worldCanStart = tree.AddFirstLevel(worldDescription, scenarioDescription, out numberOfImpossibleLeaf);
+            int worldCanStart = tree.AddFirstLevel(this.WorldDescription, scenarioDescription, out numberOfImpossibleLeaf);
 
             if (worldCanStart == -1)
             {
@@ -153,7 +105,7 @@ namespace KnowledgeRepresentationReasoning
                     {
                         tree.DeleteChild(i);
                         QueryResult queryInMiddleResult;
-                        List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(worldDescription, scenarioDescription, TInf, out queryInMiddleResult);
+                        List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(this.WorldDescription, scenarioDescription, this.Inf, out queryInMiddleResult);
                         
                         queryResultsContainer.AddMany(queryInMiddleResult);
                         if (queryResultsContainer.CanQuickAnswer())
@@ -190,7 +142,7 @@ namespace KnowledgeRepresentationReasoning
 
         private bool CheckIfLeafIsPossible(Vertex leaf, ScenarioDescription scenarioDescription)
         {
-            return leaf.IsPossible && leaf.ValidateActions() && worldDescription.Validate(leaf) && scenarioDescription.CheckIfLeafIsPossible(leaf);
+            return leaf.IsPossible && leaf.ValidateActions() && this.WorldDescription.Validate(leaf) && scenarioDescription.CheckIfLeafIsPossible(leaf);
         }
 
         public Task<QueryResult> ExecuteQueryAsync(Query query)
@@ -211,12 +163,12 @@ namespace KnowledgeRepresentationReasoning
 
         public void AddScenarioDescriptionList(List<ScenarioDescription> scenarios)
         {
-            scenarioDescriptionList.Concat(scenarios);
+            this.ScenarioDescriptionList.Concat(scenarios);
         }
 
         public void RemoveScenarioDescriptionList(List<ScenarioDescription> scenarios)
         {
-            scenarioDescriptionList.RemoveAll(item => scenarios.Any(s => s.Name == item.Name));
+            this.ScenarioDescriptionList.RemoveAll(item => scenarios.Any(s => s.Name == item.Name));
         }
     }
 }

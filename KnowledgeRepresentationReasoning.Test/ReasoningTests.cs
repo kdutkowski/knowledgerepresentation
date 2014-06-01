@@ -357,11 +357,29 @@
         [Test]
         public void Reasoning_PerformingActionAtTimeQuery_Ever_Complex_ActionInProgress_Test()
         {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test 1
             var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, this._actionC5, 24), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
 
-            result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, this._actionC5, 34), _scenarioDescription);
+            // Test 2
+            result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, this._actionC5, 35), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Ever_Complex_ActionEnded_Test()
+        {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, this._actionC3, 14), _scenarioDescription);
+            Assert.AreEqual(QueryResult.False, result);
         }
 
         #endregion

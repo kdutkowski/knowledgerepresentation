@@ -12,18 +12,6 @@
 
         void RemoveWorldDescriptionRecord(WorldDescriptionRecord record);
 
-        void UpdateWorldDescriptionRecord(WorldDescriptionRecord record);
-
-        //WorldDescription GetWorldDescription();
-
-        //void AddScenarioDescriptionRecord(ScenarioDescriptionRecord record);
-
-        //void RemoveScenarioDescriptionRecord(ScenarioDescriptionRecord record);
-
-        //void UpdateScenarioDescriptionRecord(ScenarioDescriptionRecord record);
-
-        //ScenarioDescription GetScenarioDescription();
-
         QueryResult ExecuteQuery(Query query, ScenarioDescription scenarioDescription);
 
         Task<QueryResult> ExecuteQueryAsync(Query query);
