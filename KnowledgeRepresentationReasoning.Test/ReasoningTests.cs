@@ -361,12 +361,44 @@
             this.SetComplexWorldDescription_A();
             this.SetComplexScenario_A();
 
-            // Test 1
+            // Test
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Ever, this._actionC5, 24), _scenarioDescription);
+            Assert.AreEqual(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Always_Complex_ActionInProgress_Test()
+        {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
             var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, this._actionC5, 24), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
+        }
 
-            // Test 2
-            result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, this._actionC5, 35), _scenarioDescription);
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Ever_Complex_ActionInProgress_Last_Test()
+        {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Ever, this._actionC5, 35), _scenarioDescription);
+            Assert.AreEqual(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Always_Complex_ActionInProgress_Last_Test()
+        {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, this._actionC5, 35), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
         }
 
@@ -378,11 +410,97 @@
             this.SetComplexScenario_A();
 
             // Test
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Ever, this._actionC3, 14), _scenarioDescription);
+            Assert.AreEqual(QueryResult.False, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Always_Complex_ActionEnded_Test()
+        {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
             var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, this._actionC3, 14), _scenarioDescription);
             Assert.AreEqual(QueryResult.False, result);
         }
 
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Ever_Complex_ActionStarted_Test()
+        {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Ever, this._actionD1, 7), _scenarioDescription);
+            Assert.AreEqual(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Always_Complex_ActionStarted_Test()
+        {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, this._actionD1, 7), _scenarioDescription);
+            Assert.AreEqual(QueryResult.True, result);
+        }
+
         #endregion
+
+
+        #region ConditionAtTimeQuery
+
+        // EVER
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Ever_Complex_TrueInTimeOne_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, "a && b && c && d", 1), _scenarioDescription);
+            Assert.AreEqual(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Always_Complex_TrueInTimeOne_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, "a && b && c && d", 1), _scenarioDescription);
+            Assert.AreEqual(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Ever_Complex_PossibleInTime6_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, "!a && b && c && d", 6), _scenarioDescription);
+            Assert.AreEqual(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Always_Complex_NotAlwaysTrueInTime6_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, "!a && b && c && d", 6), _scenarioDescription);
+            Assert.AreEqual(QueryResult.False, result);
+        }
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Ever_Complex_PossibleAfterTime22_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, "a && !b && !c && !d", 23), _scenarioDescription);
+            Assert.AreEqual(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_ConditionAtTimeQuery_Always_Complex_NotAlwaysTrueAfterTime22_Test()
+        {
+            var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, "a && !b && !c && !d", 22), _scenarioDescription);
+            Assert.AreEqual(QueryResult.False, result);
+        }
+
+        #endregion
+
 
         #endregion
     }
