@@ -264,7 +264,7 @@
         }
 
         [Test]
-        public void Reasoning_ExecutableScenarioQuery_Always_Comples_False_Test()
+        public void Reasoning_ExecutableScenarioQuery_Always_Complex_False_Test()
         {
             // Set scenario and description
             this.SetComplexWorldDescription_A();
@@ -293,7 +293,7 @@
         }
 
         [Test]
-        public void Reasoning_AccesibleConditionQuery_Always_Basic_False_Test()
+        public void Reasoning_AccesibleConditionQuery_Always_Complex_False_Test()
         {
             // Set scenario and description
             this.SetComplexWorldDescription_A();
@@ -317,7 +317,7 @@
         }
 
         [Test]
-        public void Reasoning_AccesibleConditionQuery_Always_Basic_FalseAtTheEnd_Test()
+        public void Reasoning_AccesibleConditionQuery_Always_Complex_FalseAtTheEnd_Test()
         {
             // Set scenario and description
             this.SetComplexWorldDescription_A();
