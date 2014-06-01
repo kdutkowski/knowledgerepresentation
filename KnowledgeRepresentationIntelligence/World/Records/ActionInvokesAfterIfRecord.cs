@@ -28,7 +28,7 @@
         public bool IsFulfilled(State state, WorldAction endedWorldAction)
         {
             // Sprawdzamy czy to dana akcja się skończyła
-            if (!endedWorldAction.Equals(this.worldAction))
+            if (endedWorldAction == null || endedWorldAction.Id != worldAction.Id || endedWorldAction.Duration != worldAction.Duration)
             {
                 return false;
             }
