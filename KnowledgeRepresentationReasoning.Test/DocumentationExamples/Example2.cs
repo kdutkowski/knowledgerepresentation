@@ -1,4 +1,10 @@
-﻿using KnowledgeRepresentationReasoning.World;
+﻿using System;
+using System.Collections.Generic;
+using KnowledgeRepresentationReasoning.Expressions;
+using KnowledgeRepresentationReasoning.Queries;
+using KnowledgeRepresentationReasoning.Scenario;
+using KnowledgeRepresentationReasoning.World;
+using KnowledgeRepresentationReasoning.World.Records;
 using NUnit.Framework;
 
 namespace KnowledgeRepresentationReasoning.Test.DocumentationExamples
@@ -6,6 +12,9 @@ namespace KnowledgeRepresentationReasoning.Test.DocumentationExamples
     [TestFixture]
     public class Example2 : TestBase
     {
+        private Reasoning _reasoning;
+        private ScenarioDescription _scenarioDescription;
+
         #region | ACTIONS |
         private readonly WorldAction _makingPancAction = new WorldAction
         {
@@ -29,13 +38,37 @@ namespace KnowledgeRepresentationReasoning.Test.DocumentationExamples
         {
             Name = "eggs"
         };
+        List<Fluent> _listFluent = new List<Fluent>();
         #endregion
+
+        #region | INITIALIZE |
+
+        public Example2()
+        {
+            _listFluent = new List<Fluent>();
+            _listFluent.Add(_eggsFluent);
+        }
         [SetUp]
         public void SetUp()
         {
-        }
+            _reasoning = new Reasoning();
+            foreach(Fluent item in _listFluent)
+            {
+                _reasoning.AddWorldDescriptionRecord(new InitialRecord(item.ToString()));
+            }
+            _reasoning.AddWorldDescriptionRecord(new ActionCausesIfRecord(_makingPancAction, "!" + _eggsFluent.Name.ToString(), _eggsFluent.Name.ToString()));
+            _reasoning.AddWorldDescriptionRecord(new ActionCausesIfRecord(_makingCakeAction, "!" + _eggsFluent.Name.ToString(), _eggsFluent.Name.ToString()));
+            _reasoning.AddWorldDescriptionRecord(new ActionCausesIfRecord(_buyEggsAction, _eggsFluent.Name.ToString(), String.Empty));
 
-        #region | EXAMPLE 2 |
+            _scenarioDescription = new ScenarioDescription("ScenarioDescription");
+
+            _scenarioDescription.addObservation(new SimpleLogicExpression(_eggsFluent.Name.ToString()), 0);
+            _scenarioDescription.addACS(_makingPancAction, 0);
+            _scenarioDescription.addACS(_makingCakeAction, 2);
+        }
+        #endregion
+
+        #region | EXAMPLE 2 TEXT |
 
         //Mick i Sarah sa para, wiec maja wspólne produkty spozywcze, ale posiłki zwykle jadaja oddzielnie.
         //Pewnego dnia Sarah chce zrobic ciasto, a Mick nalesniki. Nie moga byc one robione w tym samym czasie
@@ -57,6 +90,50 @@ namespace KnowledgeRepresentationReasoning.Test.DocumentationExamples
         //2. eggs at 2 when Sc
 
 
+        #endregion
+
+        #region | TESTS |
+        [Test]
+        public void First_Query_at_0_when_Ever_TTest()
+        {
+            //Arrange
+            QueryResult expectedResult = QueryResult.True;
+            //Act
+            QueryResult result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, _eggsFluent.Name.ToString(), 0), _scenarioDescription);
+            //Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+        [Test]
+        public void First_Query_at_0_when_Always_Test()
+        {
+            //Arrange
+            QueryResult expectedResult = QueryResult.True;
+            //Act
+            QueryResult result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, _eggsFluent.Name.ToString(), 0), _scenarioDescription);
+            //Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void Second_Query_at_2_when_Ever_Test()
+        {
+            //Arrange
+            QueryResult expectedResult = QueryResult.False;
+            //Act
+            QueryResult result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, _eggsFluent.Name.ToString(), 2), _scenarioDescription);
+            //Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+        [Test]
+        public void Second_Query_at_2_when_Always_Test()
+        {
+            //Arrange
+            QueryResult expectedResult = QueryResult.False;
+            //Act
+            QueryResult result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, _eggsFluent.Name.ToString(), 2), _scenarioDescription);
+            //Assert
+            Assert.AreEqual(expectedResult, result);
+        }
         #endregion
     }
 }
