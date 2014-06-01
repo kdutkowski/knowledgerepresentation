@@ -7,12 +7,14 @@
     public class PerformingActionAtTimeQuery : Query
     {
         private readonly WorldAction _worldAction;
+        private bool _notChecked;
 
         public PerformingActionAtTimeQuery(QuestionType questionType, WorldAction worldAction = null, int time = -1)
             : base(QueryType.PerformingActionAtTime, questionType)
         {
             this._worldAction = worldAction;
             this.Time = time;
+            _notChecked = true;
             _logger.Info("Creates:\n " + this);
         }
 
@@ -22,29 +24,24 @@
 
             var result = QueryResult.Undefined;
 
-            if (time == Time || Time == -1 || Time < time)
+            if (-1 == Time)
             {
-                if (this._worldAction == null)
+                result = CheckAction(worldAction);
+                if (result != QueryResult.True)
                 {
-                    if (worldAction == null)
-                    {
-                        result = QueryResult.True;
-                    }
-                    else
-                    {
-                        result = QueryResult.False;
-                    }
-                }
-                else if (this._worldAction.Id == worldAction.Id) // Porównuje tylko id bo długość nie ma tu znaczenia
-                {
-                    result = QueryResult.True;
-                }
-                else
-                {
-                    result = QueryResult.False;
+                    result = QueryResult.False == result ? QueryResult.Undefined : QueryResult.False;
                 }
             }
-            else if (Time > time)
+            else if (Time == time)
+            {
+                result = CheckAction(worldAction);
+            }
+            else if (Time < time && _notChecked)
+            {
+                result = CheckAction(worldAction);
+                _notChecked = false;
+            }
+            else
             {
                 result = QueryResult.Undefined;
             }
@@ -58,6 +55,25 @@
             else
             {
                 _logger.Info(logResult);
+            }
+
+            return result;
+        }
+
+        private QueryResult CheckAction(WorldAction action)
+        {
+            QueryResult result = QueryResult.Undefined;
+            if (action == null)
+            {
+                result = QueryResult.False;
+            }
+            else if (_worldAction.Id == action.Id)
+            {
+                result = QueryResult.True;
+            }
+            else
+            {
+                result = QueryResult.False;
             }
 
             return result;
