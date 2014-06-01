@@ -29,7 +29,7 @@
 
             foreach (var fluent in Fluents)
             {
-                description += "\n" + fluent.ToString();
+                description += "\n" + fluent + "(" + (fluent.Value?"1":"0") + ")";
             }
 
             return description;

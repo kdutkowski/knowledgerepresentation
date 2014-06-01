@@ -74,6 +74,10 @@
   <ItemGroup>
     <Compile Include="ActionReleasesIfRecordTestscs.cs" />
     <Compile Include="ConditionAtTimeQueryTests.cs" />
+    <Compile Include="DocumentationExamples\Example1.cs" />
+    <Compile Include="DocumentationExamples\Example2.cs" />
+    <Compile Include="DocumentationExamples\Example3.cs" />
+    <Compile Include="DocumentationExamples\Example4.cs" />
     <Compile Include="InitialRecordTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleLogicExpressionTest.cs" />

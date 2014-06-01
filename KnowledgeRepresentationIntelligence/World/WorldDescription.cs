@@ -76,7 +76,9 @@
             var expressionTriggersRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ExpressionTriggersAction)
                 .Select(t => t.Item2 as ExpressionTriggersActionRecord).ToList();
 
-            var triggeredActions = actionInvokesRecords.Where(t => t.IsFulfilled(state, worldAction)).Select(t => t.GetResult(time)).ToList();
+            var triggeredActions = new List<WorldAction>();
+            if(worldAction != null)
+                triggeredActions.AddRange(actionInvokesRecords.Where(t => t.IsFulfilled(state, worldAction)).Select(t => t.GetResult(time)).ToList());
             triggeredActions.AddRange(expressionTriggersRecords.Where(t => t.IsFulfilled(state)).Select(t => t.GetResult(time)));
 
             return triggeredActions;
