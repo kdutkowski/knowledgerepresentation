@@ -85,11 +85,10 @@ namespace KnowledgeRepresentationReasoning
 
             tree.SetQuery(query);
             
-            //generate next level if query can't answer yet
+            //generate next level if query can't be answered yet
             while (!queryResultsContainer.CanQuickAnswer() && tree.LastLevel.Count > 0)
             {
-                int childsCount = tree.LastLevel.Count;
-                for (int i = 0; i < childsCount; ++i)
+                for (int i = 0; i < tree.LastLevel.Count; ++i)
                 {
                     Vertex leaf = tree.LastLevel[i];
                     if (!CheckIfLeafIsPossible(leaf, scenarioDescription))

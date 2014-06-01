@@ -29,6 +29,8 @@ namespace KnowledgeRepresentationReasoning.Test.DocumentationExamples
             Name = "hangover"
         };
 
+        #endregion
+
         [SetUp]
         public void SetUp()
         {
