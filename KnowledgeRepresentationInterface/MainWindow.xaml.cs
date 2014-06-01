@@ -93,6 +93,7 @@ namespace KnowledgeRepresentationInterface
                 _reasoning.RemoveScenarioDescriptionList(_savedScenarios);
                 _savedScenarios = null;
                 _results = new Results();
+                _pages[2] = _results;
             }
 
             if (removeEnvironment)
@@ -112,6 +113,7 @@ namespace KnowledgeRepresentationInterface
                 _actions = null;
                 _timeInf = 0;
                 _scenario = new Scenario();
+                _pages[1] = _scenario;
             }
 
 
