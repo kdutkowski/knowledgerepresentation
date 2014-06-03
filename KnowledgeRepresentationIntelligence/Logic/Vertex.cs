@@ -92,6 +92,7 @@ namespace KnowledgeRepresentationReasoning.Logic
 
             if (vertices == null)
             {
+                IsActive = false;
                 return null;
             }
 
