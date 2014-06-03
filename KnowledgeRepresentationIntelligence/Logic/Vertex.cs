@@ -89,6 +89,11 @@ namespace KnowledgeRepresentationReasoning.Logic
 
             var vertices = CreateChildsBasedOnImplications(implications);
 
+            if (vertices == null)
+            {
+                return null;
+            }
+
             // Delete all vertices after time of inf
             vertices.RemoveAll(t => t.Time > inf);
             
