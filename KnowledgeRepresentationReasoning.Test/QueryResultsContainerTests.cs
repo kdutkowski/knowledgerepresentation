@@ -12,11 +12,11 @@
         private QueryResultsContainer _queryResultContainer;
 
         [Test]
-        public void AddManyAddOne()
+        public void AddOne()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);
 
-            _queryResultContainer.AddMany(QueryResult.Undefined);
+            _queryResultContainer.AddOne(QueryResult.Undefined);
 
             int result = _queryResultContainer.Count();
 
@@ -24,14 +24,14 @@
         }
 
         [Test]
-        public void AddManyAddMany()
+        public void AddMany()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);
 
             int many = 5; //most random number
             for (int i = 0; i < many; ++i)
             {
-                _queryResultContainer.AddMany(QueryResult.Undefined);
+                _queryResultContainer.AddOne(QueryResult.Undefined);
             }
 
             int result = _queryResultContainer.Count();
@@ -43,9 +43,9 @@
         public void CanAnswerEverOnTrue()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Ever);
-            _queryResultContainer.AddMany(QueryResult.True);
-            _queryResultContainer.AddMany(QueryResult.False);
-            _queryResultContainer.AddMany(QueryResult.False);
+            _queryResultContainer.AddOne(QueryResult.True);
+            _queryResultContainer.AddOne(QueryResult.False);
+            _queryResultContainer.AddOne(QueryResult.False);
 
             bool result = _queryResultContainer.CanQuickAnswer();
 
@@ -56,8 +56,8 @@
         public void CanAnswerEverOnFalse()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Ever);
-            _queryResultContainer.AddMany(QueryResult.False);
-            _queryResultContainer.AddMany(QueryResult.False);
+            _queryResultContainer.AddOne(QueryResult.False);
+            _queryResultContainer.AddOne(QueryResult.False);
 
             bool result = _queryResultContainer.CanQuickAnswer();
 
@@ -68,9 +68,9 @@
         public void CanAnswerAlwaysOnTrue()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);
-            _queryResultContainer.AddMany(QueryResult.True);
-            _queryResultContainer.AddMany(QueryResult.True);
-            _queryResultContainer.AddMany(QueryResult.False);
+            _queryResultContainer.AddOne(QueryResult.True);
+            _queryResultContainer.AddOne(QueryResult.True);
+            _queryResultContainer.AddOne(QueryResult.False);
 
             bool result = _queryResultContainer.CanQuickAnswer();
 
@@ -81,9 +81,9 @@
         public void CanAnswerAlwaysOnFalse()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);
-            _queryResultContainer.AddMany(QueryResult.True);
-            _queryResultContainer.AddMany(QueryResult.True);
-            _queryResultContainer.AddMany(QueryResult.True);
+            _queryResultContainer.AddOne(QueryResult.True);
+            _queryResultContainer.AddOne(QueryResult.True);
+            _queryResultContainer.AddOne(QueryResult.True);
 
             bool result = _queryResultContainer.CanQuickAnswer();
 
@@ -94,8 +94,8 @@
         public void CollectAnswerForEverQueryResultTrue()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Ever);
-            _queryResultContainer.AddMany(QueryResult.True);
-            _queryResultContainer.AddMany(QueryResult.False);
+            _queryResultContainer.AddOne(QueryResult.True);
+            _queryResultContainer.AddOne(QueryResult.False);
 
             QueryResult result = _queryResultContainer.CollectResults();
 
@@ -106,8 +106,8 @@
         public void CollectAnswerForEverQueryResultFalse()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Ever);
-            _queryResultContainer.AddMany(QueryResult.False);
-            _queryResultContainer.AddMany(QueryResult.False);
+            _queryResultContainer.AddOne(QueryResult.False);
+            _queryResultContainer.AddOne(QueryResult.False);
 
             QueryResult result = _queryResultContainer.CollectResults();
 
@@ -118,8 +118,8 @@
         public void CollectAnswerForAlwaysQueryResultTrue()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);
-            _queryResultContainer.AddMany(QueryResult.True);
-            _queryResultContainer.AddMany(QueryResult.True);
+            _queryResultContainer.AddOne(QueryResult.True);
+            _queryResultContainer.AddOne(QueryResult.True);
 
             QueryResult result = _queryResultContainer.CollectResults();
 
@@ -130,8 +130,8 @@
         public void CollectAnswerForAlwaysQueryResultFalse()
         {
             _queryResultContainer = new QueryResultsContainer(QuestionType.Always);
-            _queryResultContainer.AddMany(QueryResult.True);
-            _queryResultContainer.AddMany(QueryResult.False);
+            _queryResultContainer.AddOne(QueryResult.True);
+            _queryResultContainer.AddOne(QueryResult.False);
 
             QueryResult result = _queryResultContainer.CollectResults();
 
