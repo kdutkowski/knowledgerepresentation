@@ -4,6 +4,7 @@ using KnowledgeRepresentationReasoning.World;
 using log4net;
 using System.Collections.Generic;
 using System.Linq;
+using KnowledgeRepresentationReasoning.Queries;
 
 namespace KnowledgeRepresentationReasoning.Logic
 {
@@ -18,8 +19,11 @@ namespace KnowledgeRepresentationReasoning.Logic
         public bool IsActive { get; set; }
         private ILog _logger;
 
+        public QueryResult AccesibleConditionQuery { get; set; }
+
         public Vertex()
         {
+            AccesibleConditionQuery = QueryResult.Undefined;
             IsPossible = true;
             IsActive = true;
             NextActions = new SortedDictionary<int, WorldAction>();
@@ -32,6 +36,11 @@ namespace KnowledgeRepresentationReasoning.Logic
             ActualWorldAction = worldAction;
             Time = time;
             Root = root;
+
+            if (root != null)
+            {
+                AccesibleConditionQuery = root.AccesibleConditionQuery;
+            }
         }
 
         public void AddScenarioActions(IEnumerable<WorldAction> actions)
