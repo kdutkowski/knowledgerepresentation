@@ -1,17 +1,13 @@
 ﻿using log4net.Config;
 
 [assembly: XmlConfigurator(Watch = true)]
-
 namespace KnowledgeRepresentationReasoning
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-
     using Autofac;
     using Autofac.Extras.CommonServiceLocator;
-
     using KnowledgeRepresentationReasoning.Expressions;
     using KnowledgeRepresentationReasoning.Helpers;
     using KnowledgeRepresentationReasoning.Logic;
@@ -19,9 +15,7 @@ namespace KnowledgeRepresentationReasoning
     using KnowledgeRepresentationReasoning.Scenario;
     using KnowledgeRepresentationReasoning.World;
     using KnowledgeRepresentationReasoning.World.Records;
-
     using log4net;
-
     using Microsoft.Practices.ServiceLocation;
 
     public class Reasoning : IReasoning
@@ -36,37 +30,35 @@ namespace KnowledgeRepresentationReasoning
 
         public Reasoning()
         {
-            this.WorldDescription = new WorldDescription();
-            this.Logger = ServiceLocator.Current.GetInstance<ILog>();
-            this.Inf = 100;
+            WorldDescription = new WorldDescription();
+            Logger = ServiceLocator.Current.GetInstance<ILog>();
+            Inf = 100;
         }
 
         public void AddWorldDescriptionRecord(WorldDescriptionRecord record)
         {
-            this.WorldDescription.Descriptions.Add(new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(record.Type, record));
+            WorldDescription.Descriptions.Add(
+                new Tuple<WorldDescriptionRecordType, WorldDescriptionRecord>(record.Type, record));
         }
 
         public void RemoveWorldDescriptionRecord(WorldDescriptionRecord record)
         {
-            var removeRecords = this.WorldDescription.Descriptions.Where(t => t.Item2.Id == record.Id).ToList();
-            for (int i = 0; i < removeRecords.Count; i++)
-            {
-                this.WorldDescription.Descriptions.Remove(removeRecords[i]);
-            }
+            WorldDescription.Descriptions.RemoveAll(t => t.Item2.Id == record.Id);
         }
 
         public WorldDescription GetWorldDescription()
         {
-            return this.WorldDescription;
+            return WorldDescription;
         }
 
         public QueryResult ExecuteQuery(Query query, ScenarioDescription scenarioDescription)
         {
             var queryResultsContainer = new QueryResultsContainer(query.questionType);
 
-            var tree = new Tree(this.Inf);
-            int numberOfImpossibleLeaf = 0;
-            bool worldCanStart = tree.AddFirstLevel(this.WorldDescription, scenarioDescription, out numberOfImpossibleLeaf);
+            var tree = new Tree(Inf);
+            int numberOfImpossibleLeaf;
+            bool worldCanStart = tree.AddFirstLevel(WorldDescription, scenarioDescription,
+                out numberOfImpossibleLeaf);
             queryResultsContainer.AddMany(QueryResult.False, numberOfImpossibleLeaf);
 
             if (worldCanStart == false)
@@ -77,10 +69,9 @@ namespace KnowledgeRepresentationReasoning
             //generate next level if query can't be answered yet
             while (!queryResultsContainer.CanQuickAnswer() && tree.LastLevel.Count > 0)
             {
-                List<Vertex> newLevel = new List<Vertex>();
-                for (int i = 0; i < tree.LastLevel.Count; ++i)
+                var newLevel = new List<Vertex>();
+                foreach (Vertex leaf in tree.LastLevel)
                 {
-                    Vertex leaf = tree.LastLevel[i];
                     List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(WorldDescription, scenarioDescription, Inf);
 
                     //koniec sciezki
@@ -118,14 +109,14 @@ namespace KnowledgeRepresentationReasoning
 
         public Task<QueryResult> ExecuteQueryAsync(Query query)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public static void Initialize()
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule(new LoggingModule());
-            builder.RegisterInstance(LogManager.GetLogger(typeof(Reasoning))).As<ILog>();
+            builder.RegisterInstance(LogManager.GetLogger(typeof (Reasoning))).As<ILog>();
             builder.RegisterType<Tree>().As<ITree>();
             builder.RegisterType<SimpleLogicExpression>().As<ILogicExpression>();
             Container = builder.Build();
