@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using KnowledgeRepresentationReasoning.Logic;
 using KnowledgeRepresentationReasoning.Scenario;
 
-
 ﻿namespace KnowledgeRepresentationReasoning.Queries
  {
      using System.Linq;
@@ -16,29 +15,23 @@ using KnowledgeRepresentationReasoning.Scenario;
 
      public class ExecutableScenarioQuery : Query
      {
-         private readonly ScenarioDescription _scenario;
-
          public ExecutableScenarioQuery(QuestionType questionType, ScenarioDescription scenario)
-             : base(QueryType.ExecutableScenario, questionType)
-         {
-             _scenario = scenario;
-         }
+             : base(QueryType.ExecutableScenario, questionType){}
+
+         public ExecutableScenarioQuery(QuestionType questionType)
+             : base(QueryType.ExecutableScenario, questionType){}
 
          public override QueryResult CheckCondition(Vertex v)
          {
-             _logger.Info("Checking if scenario: " + this._scenario + " with parameters:\nstate: " + v.ActualState + "\naction: " + v.ActualWorldAction);
+             _logger.Info("Checking executable scenario" + " with parameters:\nstate: " + v.ActualState + "\naction: " + v.ActualWorldAction);
 
              var result = QueryResult.Undefined;
 
-             if (!v.IsActive)
-             {
-                 result = QueryResult.True;
-             }
-             else if (!v.IsPossible)
+             if (!v.IsPossible)
              {
                  result = QueryResult.False;
              }
-             else if (v.ActualWorldAction == null && (v.NextActions == null || v.NextActions.Count == 0) && !_scenario.Actions.Any(a => a.Time >= v.Time))
+             else if (!v.IsActive)
              {
                  result = QueryResult.True;
              }
@@ -59,14 +52,7 @@ using KnowledgeRepresentationReasoning.Scenario;
 
          public override string ToString()
          {
-             var stringBuilder = new StringBuilder("Executable Scenario Query:\nscenario: ", 77);
-             stringBuilder.Append(_scenario);
-             return stringBuilder.ToString();
-         }
-
-         public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
-         {
-             throw new NotImplementedException();
+             return "Executable Scenario Query";
          }
      }
  }

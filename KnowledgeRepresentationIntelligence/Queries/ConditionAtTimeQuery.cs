@@ -7,6 +7,7 @@
 
     using KnowledgeRepresentationReasoning.Expressions;
     using KnowledgeRepresentationReasoning.World;
+    using KnowledgeRepresentationReasoning.Logic;
 
     /* [condition] at ([time]) */
 
@@ -17,7 +18,6 @@
         private readonly SimpleLogicExpression _logicExp;
 
         private readonly string[] _fluentNames;
-        private bool _notChecked;
 
         public ConditionAtTimeQuery(QuestionType questionType, string condition, int time = -1)
             : base(QueryType.SatisfyConditionAtTime, questionType)
@@ -26,16 +26,15 @@
             Time = time;
             _logicExp = new SimpleLogicExpression(_condition);
             _fluentNames = _logicExp.GetFluentNames();
-            _notChecked = true;
 
             _logger.Info("Creates:\n " + this);
         }
 
-        public override QueryResult CheckCondition(State state, WorldAction worldAction, int actualTime)
+        public override QueryResult CheckCondition(Vertex vertex)
         {
-            _logger.Info("Checking condition: " + this._condition + "\nwith parameters:\nstate: " + state + "\naction: " + worldAction);
+            _logger.Info("Checking condition: " + this._condition + "\nwith parameters:\nstate: " + vertex.ActualState + "\naction: " + vertex.ActualWorldAction);
 
-            QueryResult result = this.CheckTime(state, actualTime);
+            QueryResult result = this.CheckTime(vertex);
 
             string logResult = "Method result: " + result;
 
@@ -51,30 +50,26 @@
             return result;
         }
 
-        private QueryResult CheckTime(State state, int actualTime)
+        private QueryResult CheckTime(Vertex vertex)
         {
             var result = QueryResult.Undefined;
 
             if (-1 == Time)
             {
-                result = CheckValuation(state);
+                result = CheckValuation(vertex.ActualState);
                 if (result != QueryResult.True)
                 {
                     result = QueryResult.False == result ? QueryResult.Undefined : QueryResult.False;
                 }
             }
-            else if (Time == actualTime)
+            else if (Time == vertex.Time)
             {
-                result = CheckValuation(state);
+                result = CheckValuation(vertex.ActualState);
             }
-            else if (Time < actualTime && _notChecked)
+            else if (Time < vertex.Time)
             {
-                result = CheckValuation(state);
-                _notChecked = false;
-            }
-            else
-            {
-                result = QueryResult.Undefined;
+                State parentState = vertex.GetParentState();
+                result = CheckValuation(parentState);
             }
 
             return result;
@@ -92,6 +87,11 @@
 
         private bool CalculateCondition(State state)
         {
+            if (state == null)
+            {
+                return false;
+            }
+
             var values = new List<Tuple<string, bool>>();
 
             foreach (var name in _fluentNames)

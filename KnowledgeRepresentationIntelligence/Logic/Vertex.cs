@@ -179,5 +179,15 @@ namespace KnowledgeRepresentationReasoning.Logic
             }
             return result;
         }
+
+        internal WorldAction GetParentAction()
+        {
+            return Root == null ? null : Root.ActualWorldAction;
+        }
+
+        internal State GetParentState()
+        {
+            return Root == null ? null : Root.ActualState;
+        }
     }
 }

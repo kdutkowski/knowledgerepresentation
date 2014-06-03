@@ -2,20 +2,26 @@
 {
     using System.Text;
     using KnowledgeRepresentationReasoning.Scenario;
+    using KnowledgeRepresentationReasoning.Logic;
 
     public class AccesibleConditionQuery : Query
     {
         private readonly string _condition; //condition to check 
         private readonly ConditionAtTimeQuery _condAtTimeQuery;
-        private readonly ScenarioDescription _scenario;
+        private readonly ExecutableScenarioQuery _executableScenarioQuery;
+
+        private QueryResult _condAtTimeResult;
 
         public AccesibleConditionQuery(QuestionType questionType, string condition, ScenarioDescription scenario)
             : base(QueryType.AccesibleCondition, questionType)
         {
             _queryType = QueryType.AccesibleCondition;
             _condition = condition;
-            _scenario = scenario;
             _condAtTimeQuery = new ConditionAtTimeQuery(questionType, _condition);
+            _executableScenarioQuery = new ExecutableScenarioQuery(questionType);
+
+            _condAtTimeResult = QueryResult.Undefined;
+
             _logger.Info("Creates:\n " + this);
         }
 
@@ -24,28 +30,34 @@
             var stringBuilder = new StringBuilder("Accesible Condition Query:\ncondition: ", 77);
             stringBuilder.Append(_condition);
             stringBuilder.Append("\nscenario:\n");
-            stringBuilder.Append(_scenario);
             return stringBuilder.ToString();
         }
 
-        public override QueryResult CheckCondition(World.State state, World.WorldAction worldAction, int time)
+        public override QueryResult CheckCondition(Vertex vertex)
         {
-            _logger.Info("Checking condition: " + _condition + "\n accesible with parameters:\nstate: " + state + "\naction: " + worldAction);
+            _logger.Info("Checking condition: " + _condition + "\n accesible with parameters:\nstate: " + vertex.ActualState + "\naction: " + vertex.ActualWorldAction);
 
-             QueryResult condAtTimeResult = _condAtTimeQuery.CheckCondition(state, worldAction, time);
+            QueryResult condAtTimeResult = _condAtTimeQuery.CheckCondition(vertex);
+            QueryResult executableScenarioResult = _executableScenarioQuery.CheckCondition(vertex);
+            QueryResult result = QueryResult.Undefined;
 
             string logResult = "Accesible: " + condAtTimeResult;
 
-            if (QueryResult.Undefined == condAtTimeResult)
+            if (_condAtTimeResult == QueryResult.Undefined)
             {
-                _logger.Warn(logResult);
-            }
-            else
-            {
-                _logger.Info(logResult);
+                _condAtTimeResult = condAtTimeResult;
             }
 
-            return condAtTimeResult;
+            if (executableScenarioResult == QueryResult.False)
+            {
+                result = QueryResult.False;
+            }
+            else if (executableScenarioResult == QueryResult.True)
+            {
+                result = _condAtTimeResult;
+            }
+
+            return result;
         }
     }
 }
