@@ -87,11 +87,16 @@ namespace KnowledgeRepresentationReasoning
                     List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(this.WorldDescription, scenarioDescription, this.Inf, out queryBetweenTreeLevelsResult);
 
                     queryResultsContainer.AddOne(queryBetweenTreeLevelsResult);
-                    if (queryResultsContainer.CanQuickAnswer())
-                    {
-                        break;
-                    }
 
+                    //koniec sciezki
+                    if (nextLevel == null)
+                    {
+                        QueryResult result = query.CheckCondition(leaf);
+                        if (queryResultsContainer.CanQuickAnswer())
+                        {
+                            break;
+                        }
+                    }
                     foreach (var child in nextLevel)
                     {
                         if (!child.IsPossible)
@@ -102,18 +107,21 @@ namespace KnowledgeRepresentationReasoning
                                 break;
                             }
                         }
-                        QueryResult result = query.CheckCondition(child);
-                        if (result == QueryResult.True || result == QueryResult.False)
-                        {
-                            queryResultsContainer.AddOne(result);
-                            if (queryResultsContainer.CanQuickAnswer())
-                            {
-                                break;
-                            }
-                        }
                         else
                         {
-                            tree.Add(child);
+                            QueryResult result = query.CheckCondition(child);
+                            if (result == QueryResult.True || result == QueryResult.False)
+                            {
+                                queryResultsContainer.AddOne(result);
+                                if (queryResultsContainer.CanQuickAnswer())
+                                {
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                tree.Add(child);
+                            }
                         }
                     }
 

@@ -13,9 +13,11 @@ namespace KnowledgeRepresentationReasoning.Logic
         public State ActualState { get; private set; }
         public WorldAction ActualWorldAction { get; set; }
         public int Time { get;  set; }
+        public List<WorldAction> NextActions { get; set; }
+        
         private Vertex Root { get; set; }
         public bool IsPossible { get; set; }
-        public List<WorldAction> NextActions { get; set; }
+        public bool IsActive { get; set; }
 
         private ILog _logger;
 
@@ -63,6 +65,7 @@ namespace KnowledgeRepresentationReasoning.Logic
         private void Initialize()
         {
             IsPossible = true;
+            IsActive = true;
             NextActions = new List<WorldAction>();
 
             _logger = Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetInstance<ILog>();
@@ -223,10 +226,6 @@ namespace KnowledgeRepresentationReasoning.Logic
             if (nextTime > _query.Time)
             {
                 result = _query.CheckCondition(this, _query.Time);
-                if (QueryResult.True == result || QueryResult.False == result)
-                {
-                    return vertices;
-                }
             }
 
             // TODO Run  .Validate(vertex)
