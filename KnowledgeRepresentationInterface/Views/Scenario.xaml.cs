@@ -182,7 +182,7 @@ namespace KnowledgeRepresentationInterface.Views
                 ILogicExpression expression = new SimpleLogicExpression(ObservationAdd.Expression);
                 if(ValidationExpression(expression) && ActionList.AddObservation(ObservationAdd.Time, ObservationAdd.Expression))
                 {
-                    _scenarioDescription.observations.Add(new ScenarioObservationRecord(expression, ObservationAdd.Time));
+                    _scenarioDescription.Observations.Add(new ScenarioObservationRecord(expression, ObservationAdd.Time));
                     ObservationAdd.CleanValues();
                 }
                 else

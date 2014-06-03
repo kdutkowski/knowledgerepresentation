@@ -127,34 +127,5 @@ namespace KnowledgeRepresentationReasoning.Logic
         {
             LastLevel.Add(leaf);
         }
-
-        internal void SaveChild(Vertex leaf)
-        {
-            Vertex one = new Vertex(leaf);
-            _allVertices.Add(one);
-        }
-
-        internal void SaveChild(int i)
-        {
-            SaveChild(LastLevel[i]);
-        }
-
-        public void DeleteChild(int i)
-        {
-            SaveChild(i);
-            LastLevel.RemoveAt(i);
-        }
-
-        internal void SetQuery(Queries.Query query)
-        {
-            if (LastLevel.Count > 0)
-            {
-                foreach (var child in LastLevel)
-                {
-                    child.SetQuery(query);
-                }
-            }            
-            
-        }
     }
 }

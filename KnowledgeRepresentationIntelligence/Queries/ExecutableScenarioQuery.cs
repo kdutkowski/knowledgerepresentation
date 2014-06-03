@@ -34,7 +34,7 @@ using KnowledgeRepresentationReasoning.Scenario;
             {
                 result = QueryResult.False;
             }
-            else if (v.ActualWorldAction == null && (v.NextActions == null || v.NextActions.Count == 0) && !_scenario.actions.Any(a => a.Time >= v.Time))
+            else if (v.ActualWorldAction == null && (v.NextActions == null || v.NextActions.Count == 0) && !_scenario.Actions.Any(a => a.Time >= v.Time))
             {
                 result = QueryResult.True;
             }

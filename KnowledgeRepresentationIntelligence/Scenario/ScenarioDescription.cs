@@ -9,38 +9,38 @@ namespace KnowledgeRepresentationReasoning.Scenario
     public class ScenarioDescription
     {
         public string Name { get; set; }
-        public List<ScenarioActionRecord> actions { get; set; }
-        public List<ScenarioObservationRecord> observations { get; set; }
+        public List<ScenarioActionRecord> Actions { get; set; }
+        public List<ScenarioObservationRecord> Observations { get; set; }
 
         public ScenarioDescription()
         {
-            actions = new List<ScenarioActionRecord>();
-            observations = new List<ScenarioObservationRecord>();
+            Actions = new List<ScenarioActionRecord>();
+            Observations = new List<ScenarioObservationRecord>();
         }
 
         public ScenarioDescription(string name)
         {
             Name = name;
-            actions = new List<ScenarioActionRecord>();
-            observations = new List<ScenarioObservationRecord>();
+            Actions = new List<ScenarioActionRecord>();
+            Observations = new List<ScenarioObservationRecord>();
         }
 
         public void addObservation(ILogicExpression expr, int time)
         {
             ScenarioObservationRecord OBS = new ScenarioObservationRecord(expr, time);
-            observations.Add(OBS);
+            Observations.Add(OBS);
         }
 
         public void addACS(WorldAction worldAction, int time)
         {
             ScenarioActionRecord ACS = new ScenarioActionRecord(worldAction, time);
-            actions.Add(ACS);
+            Actions.Add(ACS);
         }
 
         List<ScenarioDescriptionRecord> GetRecords(int time)
         {
             List<ScenarioDescriptionRecord> records = new List<ScenarioDescriptionRecord>();
-            foreach (ScenarioObservationRecord obs in observations)
+            foreach (ScenarioObservationRecord obs in Observations)
             {
                 if (obs.Time == time)
                 {
@@ -48,7 +48,7 @@ namespace KnowledgeRepresentationReasoning.Scenario
                 }
             }
 
-            foreach (ScenarioActionRecord acs in actions)
+            foreach (ScenarioActionRecord acs in Actions)
             {
                 if (acs.Time == time)
                 {
@@ -61,7 +61,7 @@ namespace KnowledgeRepresentationReasoning.Scenario
 
         public bool CheckRecords(State state, WorldAction worldAction, int time)
         {
-            foreach (ScenarioObservationRecord obs in observations)
+            foreach (ScenarioObservationRecord obs in Observations)
             {
                 if (!obs.CheckState(state, time))
                 {
@@ -75,7 +75,7 @@ namespace KnowledgeRepresentationReasoning.Scenario
         {
             try
             {
-                return actions.Find(action => action.Time == t).WorldAction;
+                return Actions.Find(action => action.Time == t).WorldAction;
             }
             catch (System.NullReferenceException)
             {
@@ -91,7 +91,7 @@ namespace KnowledgeRepresentationReasoning.Scenario
         internal ScenarioObservationRecord GetObservationFromTime(int time)
         {
             ScenarioObservationRecord observation = new ScenarioObservationRecord(new SimpleLogicExpression(""), time);
-            foreach (ScenarioObservationRecord obs in this.observations)
+            foreach (ScenarioObservationRecord obs in this.Observations)
             {
                 if (obs.Time.Equals(time))
                 {
@@ -114,7 +114,7 @@ namespace KnowledgeRepresentationReasoning.Scenario
         internal int GetNextObservationTime(int actualTime)
         {
             int result = int.MaxValue;
-            foreach (ScenarioObservationRecord sor in this.observations)
+            foreach (ScenarioObservationRecord sor in this.Observations)
             {
                 if (sor.Time >= actualTime)
                 {
@@ -141,7 +141,7 @@ namespace KnowledgeRepresentationReasoning.Scenario
         internal int GetNextActionTime(int actualTime)
         {
             int result = int.MaxValue;
-            foreach (ScenarioActionRecord sor in this.actions)
+            foreach (ScenarioActionRecord sor in this.Actions)
             {
                 if (sor.Time >= actualTime)
                 {
@@ -163,13 +163,12 @@ namespace KnowledgeRepresentationReasoning.Scenario
         public override string ToString()
         {
             var result = string.Empty;
-            foreach (var action in actions)
+            foreach (var action in Actions)
                 result += action.ToString() + "\n";
-            foreach (var observarion in observations)
+            foreach (var observarion in Observations)
                 result += observarion.ToString() + "\n";
             return result;
         }
-
 
         public override bool Equals(object obj)
         {
@@ -181,6 +180,5 @@ namespace KnowledgeRepresentationReasoning.Scenario
             }
             return false;
         }
-
     }
 }

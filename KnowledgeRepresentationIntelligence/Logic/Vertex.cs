@@ -1,8 +1,8 @@
-﻿using KnowledgeRepresentationReasoning.Queries;
+﻿using System.Diagnostics;
+using KnowledgeRepresentationReasoning.Queries;
 using KnowledgeRepresentationReasoning.Scenario;
 using KnowledgeRepresentationReasoning.World;
 using log4net;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,159 +15,114 @@ namespace KnowledgeRepresentationReasoning.Logic
         public int Time { get;  set; }
         private Vertex Root { get; set; }
         public bool IsPossible { get; set; }
-        public List<WorldAction> NextActions { get; set; }
-
+        public SortedDictionary<int, WorldAction> NextActions { get; set; }
         private ILog _logger;
 
-        private static Query _query;
-
-        public void SetQuery(Query query)
+        public Vertex()
         {
-            _query = query;
+            IsPossible = true;
+            NextActions = new SortedDictionary<int, WorldAction>();
+            _logger = Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetInstance<ILog>();
         }
 
         public Vertex(State state, WorldAction worldAction, int time, Vertex root)
         {
             ActualState = state;
-            this.ActualWorldAction = worldAction;
+            ActualWorldAction = worldAction;
             Time = time;
             Root = root;
-
-            Initialize();
         }
 
-        public Vertex(Vertex leaf)
+        public void AddScenarioActions(IEnumerable<WorldAction> actions)
         {
-            Initialize();
-
-            ActualState = (State)leaf.ActualState.Clone();
-            if (leaf.ActualWorldAction == null)
+            foreach (var worldAction in actions)
             {
-                ActualWorldAction = null;
+                Debug.Assert(worldAction.StartAt != null, "worldAction.StartAt != null");
+                NextActions.Add((int)worldAction.StartAt, worldAction);
             }
-            else
-            {
-                ActualWorldAction = (WorldAction)leaf.ActualWorldAction.Clone();
-            }
-            Time = leaf.Time;
-            Root = leaf.Root;
-            IsPossible = leaf.IsPossible;
-            NextActions = leaf.NextActions.ToList();
         }
 
-        public Vertex()
+        public List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications)
         {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            IsPossible = true;
-            NextActions = new List<WorldAction>();
-
-            _logger = Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetInstance<ILog>();
-        }
-
-        public int GetNextActionTime()
-        {
-            int nextTimeAction = -1;
-
-            if (NextActions.Count > 0)
-            {
-                int? nextTime = NextActions.Min(x => x.StartAt);
-                if (nextTime.HasValue)
-                {
-                    nextTimeAction = nextTime.Value;
-                }
-            }
-
-            return nextTimeAction;
-        }
-
-        public List<Vertex> CreateChildsBasedOnImplications(List<Implication> implications, World.WorldAction nextActionFromScenario, int nextTime)
-        {
-            List<Vertex> childs = new List<Vertex>();
-
-            if (ActualWorldAction != null)
-            {
-                if (ActualWorldAction.GetEndTime() < nextTime)
-                {
-                    return GetImpossibleChilds();
-                }
-
-                if (ActualWorldAction.GetEndTime() == nextTime)
-                {
-                    ActualWorldAction = null;
-                }
-            }
-
-            WorldAction leafAction = ActualWorldAction;
-            if (NextActions.Count > 0)
-            {
-                SortActionsByStartTime(NextActions);
-                if (NextActions[0].StartAt < nextTime)
-                {
-                    leafAction = NextActions[0];
-                }
-            }
+            var result = new List<Vertex>();
 
             foreach (var implication in implications)
             {
-                Vertex child = new Vertex(this);
-                child.Root = this;
-
-                child.ActualState = implication.FutureState;
-
-                WorldAction actualAction = nextActionFromScenario;
-                if (actualAction != null)
-                {
-                    actualAction.StartAt = nextTime;
-                }
-
-                if (implication.TriggeredActions.Count > 0)
-                {
-                    WorldAction triggeredAction = implication.TriggeredActions[0];
-                    foreach (var action in implication.TriggeredActions)
-                    {
-                        if (triggeredAction.StartAt > action.StartAt)
-                        {
-                            triggeredAction = (WorldAction)action.Clone();
-                        }
-                    }
-
-                    if (nextActionFromScenario == null)
-                    {
-                        if (triggeredAction != null)
-                        {
-                            actualAction = triggeredAction;
-                        }
-                    }
-                    else
-                    {
-                        if (triggeredAction != null && nextActionFromScenario.StartAt == triggeredAction.StartAt)
-                        {
-                            this.IsPossible = false;
-                            return childs;
-                        }
-                    }
-                }
-                child.ActualWorldAction = actualAction;
-
-                child.NextActions = new List<WorldAction>();
-                child.NextActions.AddRange(implication.TriggeredActions);
-
-                child.Time = nextTime;
-                child.IsPossible = child.ValidateActions();
-
-                childs.Add(child);
+                
             }
-            return childs;
+
+            return result;
         }
 
-        public bool ValidateActions()
+        internal List<Vertex> GenerateChildsForLeaf(WorldDescription worldDescription, ScenarioDescription scenarioDescription, int inf)
+        {
+            // implications are supposed to be not empty and not null !!
+            var implications = worldDescription.GetImplications(this);
+
+            // now we add triggeredActions to next actions 
+            var triggeredActions = implications.First().TriggeredActions;
+
+            foreach (var triggeredAction in triggeredActions)
+            {
+                Debug.Assert(triggeredAction.StartAt != null, "triggeredAction.StartAt != null");
+                NextActions.Add((int)triggeredAction.StartAt, triggeredAction);
+            }
+
+            var vertices = CreateChildsBasedOnImplications(implications);
+
+            foreach (var vertex in vertices)
+            {
+                if (!Validate(vertex, worldDescription, scenarioDescription))
+                    vertex.IsPossible = false;
+ 
+            }
+
+            return vertices;
+        }
+
+        private bool Validate(Vertex vertex, WorldDescription worldDescription, ScenarioDescription scenarioDescription)
+        {
+            var observationsValidationResult = CheckObservations(vertex, scenarioDescription);
+            var actionsValidationResult = CheckActions(vertex, scenarioDescription);
+            var worldDescriptionValidationResult = worldDescription.Validate(vertex);
+            var nextActionsValidationResult = ValidateNextActions();
+            return observationsValidationResult && actionsValidationResult && worldDescriptionValidationResult && nextActionsValidationResult;
+        }
+
+        private bool CheckObservations(Vertex vertex, ScenarioDescription scenarioDescription)
+        {
+            int fromTime = vertex.Time;
+            int toTime = vertex.Time;
+            
+            if (vertex.ActualWorldAction != null)
+            {
+                toTime += vertex.ActualWorldAction.Duration ?? 0;
+            }
+            
+            var observations = scenarioDescription.Observations.Where(t => t.Time >= fromTime && t.Time < toTime);
+            
+            return observations.All(observation => observation.CheckState(vertex.ActualState));
+        }
+
+        private bool CheckActions(Vertex vertex, ScenarioDescription scenarioDescription)
+        {
+            int fromTime = vertex.Time;
+            int toTime = vertex.Time;
+
+            if (vertex.ActualWorldAction != null)
+            {
+                toTime += vertex.ActualWorldAction.Duration ?? 0;
+            }
+
+            var actions = scenarioDescription.Actions.Where(t => t.Time >= fromTime && t.Time < toTime);
+
+            // if any actions exists while running action from vertex there is a collision and scenario is wrong
+            return !actions.Any();
+        }
+
+        private bool ValidateNextActions()
         {
             bool result = true;
-            SortActionsByStartTime(NextActions);
 
             for (int i = 0; i < NextActions.Count; ++i)
             {
@@ -195,118 +150,6 @@ namespace KnowledgeRepresentationReasoning.Logic
                 }
             }
             return result;
-        }
-
-        private void SortActionsByStartTime(List<World.WorldAction> NextActions)
-        {
-            NextActions.Sort(new WorldActionTimeComparer());
-        }
-
-        private class WorldActionTimeComparer : IComparer<WorldAction>
-        {
-            public int Compare(WorldAction a, WorldAction b)
-            {
-                if (a.StartAt == b.StartAt) return 0;
-                if (a.StartAt > b.StartAt) return 1;
-                else return -1;
-            }
-        }
-
-        internal List<Vertex> GenerateChildsForLeaf(WorldDescription worldDescription, ScenarioDescription scenarioDescription, int TInf, out QueryResult result)
-        {
-            result = QueryResult.Undefined;
-
-            List<Vertex> vertices = new List<Vertex>();
-
-            int nextTime = GetNextTimestamp(scenarioDescription, TInf);
-
-            if (nextTime > _query.Time)
-            {
-                result = _query.CheckCondition(this, _query.Time);
-                if (QueryResult.True == result || QueryResult.False == result)
-                {
-                    return vertices;
-                }
-            }
-
-            // TODO Run  .Validate(vertex)
-            var implications = worldDescription.GetImplications(this);
-
-            // TODO: Implement validation including: WorldDescription.Validate(), CheckNearestObservations() and Check triggered actions...
-            // It will be big function Validate(); it should also check if actions from scenario are valid
-
-            if (!CheckNearestObservations(scenarioDescription, nextTime))
-                return GetImpossibleChilds();
-
-            WorldAction nextAction = scenarioDescription.GetActionAtTime(nextTime);
-
-            vertices = CreateChildsBasedOnImplications(implications, nextAction, nextTime);
-
-            return vertices;
-        }
-
-        private bool CheckNearestObservations(ScenarioDescription scenarioDescription, int nextTime)
-        {
-            int actualTime = Time;
-            while (actualTime <= nextTime)
-            {
-                int nextObservationTime = scenarioDescription.GetNextObservationTime(actualTime);
-                if (nextObservationTime == -1)
-                {
-                    return true;
-                }
-                if (!CheckNearestObservation(scenarioDescription, actualTime, nextObservationTime, nextTime))
-                    return false;
-
-                actualTime = nextObservationTime + 1;
-            }
-
-            return true;
-        }
-
-        private bool CheckNearestObservation(ScenarioDescription scenarioDescription, int actualTime, int nextObservationTime, int nextTime)
-        {
-            if (actualTime <= nextObservationTime && nextObservationTime < nextTime)
-            {
-                ScenarioObservationRecord nextObservation = scenarioDescription.GetObservationFromTime(nextObservationTime);
-                if (!nextObservation.CheckState(ActualState, actualTime))
-                {
-                    _logger.Warn("Leaf is incopatibile with observation!\n" +
-                                    "State: " + ActualState.ToString() +
-                                    "Observation: " + nextObservation);
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        private List<Vertex> GetImpossibleChilds()
-        {
-            Vertex child = new Vertex();
-            child.IsPossible = false;
-            List<Vertex> impossibleChilds = new List<Vertex>() { child };
-            return impossibleChilds;
-        }
-
-        private int GetNextTimestamp(ScenarioDescription scenarioDescription, int TInf)
-        {
-            int actualActionEndTime = int.MaxValue;
-
-            if (ActualWorldAction != null)
-            {
-                actualActionEndTime = ActualWorldAction.GetEndTime() < 0 ? int.MaxValue : ActualWorldAction.GetEndTime();
-            }
-            int nextActionStartTime = GetNextActionTime() < 0 ? int.MaxValue : GetNextActionTime();
-
-            int nextTimeForAction = Time == 0 ? 0 : Time + 1;
-            int nextActionTime = scenarioDescription.GetNextActionTime(nextTimeForAction);
-
-            nextActionTime = nextActionTime < 0 ? int.MaxValue : nextActionTime;
-
-            int min = Math.Min(nextActionTime, Math.Min(actualActionEndTime, nextActionStartTime));
-            min = min > TInf ? TInf : min;
-            
-            return min;
         }
     }
 }

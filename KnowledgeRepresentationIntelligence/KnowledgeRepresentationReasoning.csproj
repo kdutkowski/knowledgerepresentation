@@ -64,6 +64,7 @@
     <Compile Include="Logic\ITree.cs" />
     <Compile Include="Logic\Tree.cs" />
     <Compile Include="Logic\Vertex.cs" />
+    <Compile Include="Helpers\Comparers\WorldActionTimeComparer.cs" />
     <Compile Include="Queries\AccesibleConditionQuery.cs" />
     <Compile Include="Queries\ExecutableScenarioQuery.cs" />
     <Compile Include="Queries\IQueryResultsContainer.cs" />
