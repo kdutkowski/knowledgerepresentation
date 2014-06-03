@@ -81,47 +81,31 @@ namespace KnowledgeRepresentationReasoning
                 for (int i = 0; i < tree.LastLevel.Count; ++i)
                 {
                     Vertex leaf = tree.LastLevel[i];
-
-                    QueryResult queryBetweenTreeLevelsResult;
-                    List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(this.WorldDescription, scenarioDescription, Inf);
+                    List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(WorldDescription, scenarioDescription, Inf);
 
                     //koniec sciezki
                     if (!leaf.IsActive)
                     {
                         QueryResult result = query.CheckCondition(leaf);
                         queryResultsContainer.AddOne(result);
-                        if (queryResultsContainer.CanQuickAnswer())
-                        {
-                            break;
-                        }
+                        continue;
                     }
-                    else
+                    foreach (var child in nextLevel)
                     {
-                        foreach (var child in nextLevel)
+                        if (!child.IsPossible)
                         {
-                            if (!child.IsPossible)
+                            queryResultsContainer.AddOne(QueryResult.False);
+                        }
+                        else
+                        {
+                            QueryResult result = query.CheckCondition(child);
+                            if (result == QueryResult.True || result == QueryResult.False)
                             {
-                                queryResultsContainer.AddOne(QueryResult.False);
-                                if (queryResultsContainer.CanQuickAnswer())
-                                {
-                                    break;
-                                }
+                                queryResultsContainer.AddOne(result);
                             }
                             else
                             {
-                                QueryResult result = query.CheckCondition(child);
-                                if (result == QueryResult.True || result == QueryResult.False)
-                                {
-                                    queryResultsContainer.AddOne(result);
-                                    if (queryResultsContainer.CanQuickAnswer())
-                                    {
-                                        break;
-                                    }
-                                }
-                                else
-                                {
-                                    newLevel.Add(child);
-                                }
+                                newLevel.Add(child);
                             }
                         }
                     }
