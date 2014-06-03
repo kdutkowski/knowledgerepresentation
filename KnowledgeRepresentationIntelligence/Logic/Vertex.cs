@@ -25,7 +25,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             _logger = Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetInstance<ILog>();
         }
 
-        public Vertex(State state, WorldAction worldAction, int time, Vertex root)
+        public Vertex(State state, WorldAction worldAction, int time, Vertex root) : this()
         {
             ActualState = state;
             ActualWorldAction = worldAction;

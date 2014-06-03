@@ -28,13 +28,13 @@
             // BASIC WORLD DESCRIPTION
             _reasoning = new Reasoning();
             _reasoning.AddWorldDescriptionRecord(new InitialRecord("a || b || c || d"));
-            _reasoning.AddWorldDescriptionRecord(new ActionCausesIfRecord(this._actionA2, "a && !b", "c"));
-            _reasoning.AddWorldDescriptionRecord(new ActionCausesIfRecord(this._actionB3, "a || b", "d"));
+            _reasoning.AddWorldDescriptionRecord(new ActionCausesIfRecord(_actionA2, "a && !b", "c"));
+            _reasoning.AddWorldDescriptionRecord(new ActionCausesIfRecord(_actionB3, "a || b", "d"));
 
             // BASIC SCENARIO
             _scenarioDescription = new ScenarioDescription("basic");
             _scenarioDescription.addObservation(new SimpleLogicExpression("a && b && c && d"), 0);
-            _scenarioDescription.addACS(this._actionA2, 1);
+            _scenarioDescription.addACS(_actionA2, 1);
             _scenarioDescription.addObservation(new SimpleLogicExpression("a && !b && c && d"), 4);
         }
 
