@@ -15,9 +15,5 @@
         QueryResult ExecuteQuery(Query query, ScenarioDescription scenarioDescription);
 
         Task<QueryResult> ExecuteQueryAsync(Query query);
-
-        List<ScenarioDescription> GetScenarioDescriptionList();
-
-        void AddScenarioDescriptionList(List<ScenarioDescription> scenarios);
     }
 }

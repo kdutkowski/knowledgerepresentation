@@ -61,7 +61,6 @@ namespace KnowledgeRepresentationInterface
             if(actualPage >= _pages.Count)
                 return;
             actualPage++;
-            _reasoning.AddScenarioDescriptionList(_savedScenarios);
             ( (Results)_pages[actualPage] ).Initialize(_timeInf, _fluents, _actions, _savedScenarios, _statements);
             this.Navigate(_pages[actualPage]);
         }
@@ -90,7 +89,6 @@ namespace KnowledgeRepresentationInterface
         {
             if (removeScenarios)
             {
-                _reasoning.RemoveScenarioDescriptionList(_savedScenarios);
                 _savedScenarios = null;
                 _results = new Results();
                 _pages[2] = _results;

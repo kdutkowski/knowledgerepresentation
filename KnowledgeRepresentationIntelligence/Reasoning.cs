@@ -32,14 +32,11 @@ namespace KnowledgeRepresentationReasoning
 
         private WorldDescription WorldDescription { get; set; }
 
-        private List<ScenarioDescription> ScenarioDescriptionList { get; set; }
-
         public int Inf { get; set; }
 
         public Reasoning()
         {
             this.WorldDescription = new WorldDescription();
-            this.ScenarioDescriptionList = new List<ScenarioDescription>();
             this.Logger = ServiceLocator.Current.GetInstance<ILog>();
             this.Inf = 100;
         }
@@ -61,11 +58,6 @@ namespace KnowledgeRepresentationReasoning
         public WorldDescription GetWorldDescription()
         {
             return this.WorldDescription;
-        }
-
-        public List<ScenarioDescription> GetScenarioDescriptionList()
-        {
-            return this.ScenarioDescriptionList;
         }
 
         public QueryResult ExecuteQuery(Query query, ScenarioDescription scenarioDescription)
@@ -158,16 +150,6 @@ namespace KnowledgeRepresentationReasoning
             builder.RegisterType<SimpleLogicExpression>().As<ILogicExpression>();
             Container = builder.Build();
             ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(Container));
-        }
-
-        public void AddScenarioDescriptionList(List<ScenarioDescription> scenarios)
-        {
-            this.ScenarioDescriptionList.Concat(scenarios);
-        }
-
-        public void RemoveScenarioDescriptionList(List<ScenarioDescription> scenarios)
-        {
-            this.ScenarioDescriptionList.RemoveAll(item => scenarios.Any(s => s.Name == item.Name));
         }
     }
 }
