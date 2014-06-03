@@ -10,7 +10,6 @@
         private readonly ConditionAtTimeQuery _condAtTimeQuery;
         private readonly ExecutableScenarioQuery _executableScenarioQuery;
 
-        private QueryResult _condAtTimeResult;
 
         public AccesibleConditionQuery(QuestionType questionType, string condition, ScenarioDescription scenario)
             : base(QueryType.AccesibleCondition, questionType)
@@ -19,8 +18,6 @@
             _condition = condition;
             _condAtTimeQuery = new ConditionAtTimeQuery(questionType, _condition);
             _executableScenarioQuery = new ExecutableScenarioQuery(questionType);
-
-            _condAtTimeResult = QueryResult.Undefined;
 
             _logger.Info("Creates:\n " + this);
         }
@@ -43,9 +40,9 @@
 
             string logResult = "Accesible: " + condAtTimeResult;
 
-            if (_condAtTimeResult == QueryResult.Undefined && condAtTimeResult == QueryResult.True)
+            if (condAtTimeResult == QueryResult.True)
             {
-                _condAtTimeResult = condAtTimeResult;
+                vertex.AccesibleConditionQuery = QueryResult.True;
             }
 
             if (executableScenarioResult == QueryResult.False)
@@ -54,7 +51,14 @@
             }
             else if (executableScenarioResult == QueryResult.True)
             {
-                result = _condAtTimeResult;
+                if (vertex.AccesibleConditionQuery == QueryResult.True)
+                {
+                    result = QueryResult.True;
+                }
+                else
+                {
+                    result = QueryResult.False;
+                }
             }
 
             return result;
