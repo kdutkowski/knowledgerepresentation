@@ -21,6 +21,7 @@ namespace KnowledgeRepresentationReasoning.Logic
         public Vertex()
         {
             IsPossible = true;
+            IsActive = true;
             NextActions = new SortedDictionary<int, WorldAction>();
             _logger = Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetInstance<ILog>();
         }
