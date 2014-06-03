@@ -60,7 +60,7 @@
         {
             var leaf = new Vertex(_state, action_A_2, 10, null);
 
-            var implication = _worldDescription.GetImplications(leaf, 0);
+            var implication = _worldDescription.GetImplications(leaf);
             Assert.AreEqual(1, implication.Count);
             Assert.NotNull(implication[0].FutureState);
             var futureState = implication[0].FutureState;
@@ -92,7 +92,7 @@
                 }};
 
             var leaf = new Vertex(_state, action_B_3, 10, null);
-            var implication = _worldDescription.GetImplications(leaf, 0);
+            var implication = _worldDescription.GetImplications(leaf);
             
             Assert.AreEqual(2, implication.Count);
             Assert.NotNull(implication[0].FutureState);

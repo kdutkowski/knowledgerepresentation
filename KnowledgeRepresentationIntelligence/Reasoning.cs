@@ -94,6 +94,18 @@ namespace KnowledgeRepresentationReasoning
                     //else
                     //{
                         tree.DeleteChild(i);
+                    if (!CheckIfLeafIsPossible(leaf, scenarioDescription))
+                    {
+                        tree.DeleteChild(i--);
+                        queryResultsContainer.AddMany(QueryResult.False);
+                        if (queryResultsContainer.CanQuickAnswer())
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        tree.DeleteChild(i--);
                         QueryResult queryInMiddleResult;
                         List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(this.WorldDescription, scenarioDescription, this.Inf, out queryInMiddleResult);
                         
