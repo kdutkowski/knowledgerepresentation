@@ -14,8 +14,7 @@ namespace KnowledgeRepresentationReasoning.Logic
         ILogicExpression _logicExpression;
         private ILog _logger;
 
-        public List<Vertex> LastLevel { get; private set; }
-        private List<Vertex> _oldVertices;
+        public List<Vertex> LastLevel { get; set; }
 
         private int _TInf;
 
@@ -25,7 +24,6 @@ namespace KnowledgeRepresentationReasoning.Logic
             _logicExpression = new SimpleLogicExpression();
 
             LastLevel = new List<Vertex>();
-            _oldVertices = new List<Vertex>();
 
             _TInf = timeInf;
         }
@@ -112,22 +110,9 @@ namespace KnowledgeRepresentationReasoning.Logic
             return states;
         }
 
-        internal void SaveLastLevel()
-        {
-            Vertex[] last = new Vertex[LastLevel.Count];
-            LastLevel.CopyTo(last);
-            _oldVertices.AddRange(last);
-            LastLevel = new List<Vertex>();
-        }
-
         public void Add(Vertex leaf)
         {
             LastLevel.Add(leaf);
-        }
-
-        public void DeleteChild(int i)
-        {
-            LastLevel.RemoveAt(i);
         }
     }
 }

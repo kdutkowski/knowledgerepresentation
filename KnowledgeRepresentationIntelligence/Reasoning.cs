@@ -77,6 +77,7 @@ namespace KnowledgeRepresentationReasoning
             //generate next level if query can't be answered yet
             while (!queryResultsContainer.CanQuickAnswer() && tree.LastLevel.Count > 0)
             {
+                List<Vertex> newLevel = new List<Vertex>();
                 for (int i = 0; i < tree.LastLevel.Count; ++i)
                 {
                     Vertex leaf = tree.LastLevel[i];
@@ -116,13 +117,12 @@ namespace KnowledgeRepresentationReasoning
                             }
                             else
                             {
-                                tree.Add(child);
+                                newLevel.Add(child);
                             }
                         }
                     }
-
-                    tree.DeleteChild(i--);
                 }
+                tree.LastLevel = newLevel;
             }
 
             return queryResultsContainer.CollectResults();
