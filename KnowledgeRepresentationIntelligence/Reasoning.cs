@@ -66,14 +66,13 @@ namespace KnowledgeRepresentationReasoning
 
             var tree = new Tree(this.Inf);
             int numberOfImpossibleLeaf = 0;
-            int worldCanStart = tree.AddFirstLevel(this.WorldDescription, scenarioDescription, out numberOfImpossibleLeaf);
+            bool worldCanStart = tree.AddFirstLevel(this.WorldDescription, scenarioDescription, out numberOfImpossibleLeaf);
+            queryResultsContainer.AddMany(QueryResult.False, numberOfImpossibleLeaf);
 
-            if (worldCanStart == -1)
+            if (worldCanStart == false)
             {
                 return QueryResult.False;
             }
-
-            queryResultsContainer.AddMany(QueryResult.False, numberOfImpossibleLeaf);
 
             tree.SetQuery(query);
             

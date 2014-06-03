@@ -12,6 +12,11 @@
         {
             this.WorldAction = worldAction;
             Time = time;
+
+            if (WorldAction != null)
+            {
+                WorldAction.StartAt = time;
+            }
         }
 
 
