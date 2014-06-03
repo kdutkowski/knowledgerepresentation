@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KnowledgeRepresentationReasoning.Logic;
-using KnowledgeRepresentationReasoning.Scenario;
+﻿using KnowledgeRepresentationReasoning.Logic;
 
-﻿namespace KnowledgeRepresentationReasoning.Queries
+namespace KnowledgeRepresentationReasoning.Queries
  {
-     using System.Linq;
-     using System.Text;
-
      using KnowledgeRepresentationReasoning.Scenario;
 
      public class ExecutableScenarioQuery : Query
