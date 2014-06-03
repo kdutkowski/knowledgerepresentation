@@ -10,7 +10,7 @@
         public ScenarioActionRecord(WorldAction worldAction, int time)
             : base()
         {
-            this.WorldAction = worldAction;
+            this.WorldAction = (WorldAction)worldAction.Clone();
             Time = time;
 
             if (WorldAction != null)
