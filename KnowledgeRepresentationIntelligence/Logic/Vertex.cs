@@ -148,35 +148,12 @@ namespace KnowledgeRepresentationReasoning.Logic
             return !actions.Any();
         }
 
+
+        // TODO: Implement validation actions in NextActions Dictionary
         private bool ValidateNextActions()
         {
             bool result = true;
 
-            for (int i = 0; i < NextActions.Count; ++i)
-            {
-                WorldAction nextAction = NextActions[i];
-
-                if (nextAction.GetEndTime() != nextAction.StartAt + nextAction.Duration)
-                {
-                    result = false;
-                    break;
-                }
-
-                if (ActualWorldAction != null && nextAction.StartAt < ActualWorldAction.GetEndTime())
-                {
-                    result = false;
-                    break;
-                }
-
-                if (i < NextActions.Count - 1)
-                {
-                    if (NextActions[i + 1].StartAt.HasValue && NextActions[i + 1].StartAt < nextAction.GetEndTime())
-                    {
-                        result = false;
-                        break;
-                    }
-                }
-            }
             return result;
         }
 
