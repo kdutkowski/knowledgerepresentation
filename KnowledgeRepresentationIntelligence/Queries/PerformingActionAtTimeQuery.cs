@@ -3,47 +3,43 @@
     using System.Text;
 
     using KnowledgeRepresentationReasoning.World;
+    using KnowledgeRepresentationReasoning.Logic;
 
     public class PerformingActionAtTimeQuery : Query
     {
         private readonly WorldAction _worldAction;
-        private bool _notChecked;
 
         public PerformingActionAtTimeQuery(QuestionType questionType, WorldAction worldAction = null, int time = -1)
             : base(QueryType.PerformingActionAtTime, questionType)
         {
             this._worldAction = worldAction;
             this.Time = time;
-            _notChecked = true;
+
             _logger.Info("Creates:\n " + this);
         }
 
-        public override QueryResult CheckCondition(State state, WorldAction worldAction, int time)
+        public override QueryResult CheckCondition(Vertex vertex)
         {
-            _logger.Info("Checking Action: " + this._worldAction + "at time: " + this.Time + "\nwith parameters:\nstate: " + state + "\naction: " + worldAction);
+            _logger.Info("Checking Action: " + this._worldAction + "at time: " + this.Time + "\nwith parameters:\nstate: " + vertex.ActualState + "\naction: " + vertex.ActualWorldAction);
 
             var result = QueryResult.Undefined;
 
             if (-1 == Time)
             {
-                result = CheckAction(worldAction);
+                result = CheckAction(vertex.ActualWorldAction);
                 if (result != QueryResult.True)
                 {
                     result = QueryResult.False == result ? QueryResult.Undefined : QueryResult.False;
                 }
             }
-            else if (Time == time)
+            else if (Time == vertex.Time)
             {
-                result = CheckAction(worldAction);
+                result = CheckAction(vertex.ActualWorldAction);
             }
-            else if (Time < time && _notChecked)
+            else if (Time < vertex.Time)
             {
-                result = CheckAction(worldAction);
-                _notChecked = false;
-            }
-            else
-            {
-                result = QueryResult.Undefined;
+                WorldAction parentAction = vertex.GetParentAction();
+                result = CheckAction(parentAction);
             }
 
             string logResult = "Method result: " + result;

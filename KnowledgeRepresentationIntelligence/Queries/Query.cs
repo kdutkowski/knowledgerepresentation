@@ -24,16 +24,6 @@ namespace KnowledgeRepresentationReasoning.Queries
             _logger = ServiceLocator.Current.GetInstance<ILog>();
         }
 
-        public abstract QueryResult CheckCondition(State state, WorldAction worldAction, int time);
-
-        public virtual QueryResult CheckCondition(Vertex v)
-        {
-            return CheckCondition(v, v.Time);
-        }
-
-        public virtual QueryResult CheckCondition(Vertex vertex, int time)
-        {
-            return CheckCondition(vertex.ActualState, vertex.ActualWorldAction, time);
-        }
+        public abstract QueryResult CheckCondition(Vertex v);
     }
 }

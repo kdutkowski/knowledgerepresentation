@@ -223,10 +223,6 @@ namespace KnowledgeRepresentationReasoning.Logic
 
             int nextTime = GetNextTimestamp(scenarioDescription, TInf);
 
-            if (nextTime > _query.Time)
-            {
-                result = _query.CheckCondition(this, _query.Time);
-            }
 
             // TODO Run  .Validate(vertex)
             var implications = worldDescription.GetImplications(this);
@@ -306,6 +302,16 @@ namespace KnowledgeRepresentationReasoning.Logic
             min = min > TInf ? TInf : min;
             
             return min;
+        }
+
+        internal WorldAction GetParentAction()
+        {
+            return Root == null ? null : Root.ActualWorldAction;
+        }
+
+        internal State GetParentState()
+        {
+            return Root == null ? null : Root.ActualState;
         }
     }
 }

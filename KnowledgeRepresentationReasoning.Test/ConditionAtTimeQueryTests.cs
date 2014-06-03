@@ -6,6 +6,7 @@
     using KnowledgeRepresentationReasoning.World;
 
     using NUnit.Framework;
+    using KnowledgeRepresentationReasoning.Logic;
 
     [TestFixture]
     public class ConditionAtTimeQueryTests : TestBase
@@ -25,7 +26,9 @@
                              };
             state.Fluents.AddRange(fluentList);
 
-            QueryResult result = _query.CheckCondition(state, null, Time);
+            Vertex vertex = new Vertex(state, null, Time, null);
+
+            QueryResult result = _query.CheckCondition(vertex);
 
             Assert.AreEqual(QueryResult.True, result);
         }
@@ -43,7 +46,9 @@
                              };
             state.Fluents.AddRange(fluentList);
 
-            QueryResult result = _query.CheckCondition(state, null, Time);
+            Vertex vertex = new Vertex(state, null, Time, null);
+
+            QueryResult result = _query.CheckCondition(vertex);
 
             Assert.AreEqual(QueryResult.False, result);
         }
@@ -61,7 +66,9 @@
                              };
             state.Fluents.AddRange(fluentList);
 
-            QueryResult result = _query.CheckCondition(state, null, Time);
+            Vertex vertex = new Vertex(state, null, Time, null);
+
+            QueryResult result = _query.CheckCondition(vertex);
 
             Assert.AreEqual(QueryResult.True, result);
         }
@@ -78,8 +85,9 @@
                                  new Fluent("bb", false)
                              };
             state.Fluents.AddRange(fluentList);
+            Vertex vertex = new Vertex(state, null, Time, null);
 
-            QueryResult result = _query.CheckCondition(state, null, Time);
+            QueryResult result = _query.CheckCondition(vertex);
 
             Assert.AreEqual(QueryResult.Undefined, result);
         }
@@ -88,7 +96,7 @@
         public void CheckConditionAtTimeBeforeTime()
         {
             const int Time = 10;
-            _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa && bb", Time);
+            _query = new ConditionAtTimeQuery(QuestionType.Ever, "aa && bb", Time+1);
             var state = new State();
             var fluentList = new List<Fluent>
                              {
@@ -96,8 +104,9 @@
                                  new Fluent("bb", false)
                              };
             state.Fluents.AddRange(fluentList);
+            Vertex vertex = new Vertex(state, null, Time, null);
 
-            QueryResult result = _query.CheckCondition(state, null, Time-1);
+            QueryResult result = _query.CheckCondition(vertex);
 
             Assert.AreEqual(QueryResult.Undefined, result);
         }
@@ -114,8 +123,9 @@
                                  new Fluent("bb", false)
                              };
             state.Fluents.AddRange(fluentList);
+            Vertex vertex = new Vertex(state, null, Time, null);
 
-            QueryResult result = _query.CheckCondition(state, null, Time);
+            QueryResult result = _query.CheckCondition(vertex);
 
             Assert.AreEqual(QueryResult.False, result);
         }
