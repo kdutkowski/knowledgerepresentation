@@ -93,7 +93,7 @@ namespace KnowledgeRepresentationReasoning
                     Vertex leaf = tree.LastLevel[i];
                     if (!CheckIfLeafIsPossible(leaf, scenarioDescription))
                     {
-                        tree.DeleteChild(i);
+                        tree.DeleteChild(i--);
                         queryResultsContainer.AddMany(QueryResult.False);
                         if (queryResultsContainer.CanQuickAnswer())
                         {
@@ -102,9 +102,9 @@ namespace KnowledgeRepresentationReasoning
                     }
                     else
                     {
-                        tree.DeleteChild(i);
+                        tree.DeleteChild(i--);
                         QueryResult queryInMiddleResult;
-                        List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(this.WorldDescription, scenarioDescription, this.Inf, out queryInMiddleResult);
+                        List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(WorldDescription, scenarioDescription, Inf, out queryInMiddleResult);
                         
                         queryResultsContainer.AddMany(queryInMiddleResult);
                         if (queryResultsContainer.CanQuickAnswer())

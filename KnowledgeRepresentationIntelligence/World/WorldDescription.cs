@@ -27,10 +27,10 @@
             return this.GetSummarizedInitialRecord().PossibleFluents.Select(t => new State { Fluents = t.ToList() });
         }
 
-        public List<Implication> GetImplications(Vertex leaf, int nextTime)
+        public List<Implication> GetImplications(Vertex leaf)
         {
-            var triggeredActions = this.GetTriggeredActions(leaf.ActualWorldAction, leaf.ActualState, nextTime);
-            var possibleFutureStates = this.GetPossibleFutureStates(leaf.ActualWorldAction, leaf.ActualState, nextTime);
+            var triggeredActions = this.GetTriggeredActions(leaf.ActualWorldAction, leaf.ActualState, leaf.Time);
+            var possibleFutureStates = this.GetPossibleFutureStates(leaf.ActualWorldAction, leaf.ActualState, leaf.Time);
             return possibleFutureStates.Select(possibleFutureState => 
                 new Implication { FutureState = possibleFutureState, TriggeredActions = triggeredActions.ToList() }).ToList();
         }

@@ -10,8 +10,8 @@
 
         IEnumerable<string> GetFluentNames();
 
-        List<Implication> GetImplications(Vertex leaf, int nextTime);
+        List<Implication> GetImplications(Vertex leaf);
 
-        bool Validate(Logic.Vertex leaf);
+        bool Validate(Vertex leaf);
     }
 }

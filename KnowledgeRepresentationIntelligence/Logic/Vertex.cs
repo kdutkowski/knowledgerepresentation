@@ -229,10 +229,15 @@ namespace KnowledgeRepresentationReasoning.Logic
                 }
             }
 
+            // TODO Run  .Validate(vertex)
+            var implications = worldDescription.GetImplications(this);
+
+            // TODO: Implement validation including: WorldDescription.Validate(), CheckNearestObservations() and Check triggered actions...
+            // It will be big function Validate(); it should also check if actions from scenario are valid
+
             if (!CheckNearestObservations(scenarioDescription, nextTime))
                 return GetImpossibleChilds();
 
-            var implications = worldDescription.GetImplications(this, nextTime);
             WorldAction nextAction = scenarioDescription.GetActionAtTime(nextTime);
 
             vertices = CreateChildsBasedOnImplications(implications, nextAction, nextTime);
