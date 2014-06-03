@@ -32,14 +32,11 @@ namespace KnowledgeRepresentationReasoning
 
         private WorldDescription WorldDescription { get; set; }
 
-        private List<ScenarioDescription> ScenarioDescriptionList { get; set; }
-
         public int Inf { get; set; }
 
         public Reasoning()
         {
             this.WorldDescription = new WorldDescription();
-            this.ScenarioDescriptionList = new List<ScenarioDescription>();
             this.Logger = ServiceLocator.Current.GetInstance<ILog>();
             this.Inf = 100;
         }
@@ -63,69 +60,59 @@ namespace KnowledgeRepresentationReasoning
             return this.WorldDescription;
         }
 
-        public List<ScenarioDescription> GetScenarioDescriptionList()
-        {
-            return this.ScenarioDescriptionList;
-        }
-
         public QueryResult ExecuteQuery(Query query, ScenarioDescription scenarioDescription)
         {
             var queryResultsContainer = new QueryResultsContainer(query.questionType);
 
             var tree = new Tree(this.Inf);
             int numberOfImpossibleLeaf = 0;
-            int worldCanStart = tree.AddFirstLevel(this.WorldDescription, scenarioDescription, out numberOfImpossibleLeaf);
+            bool worldCanStart = tree.AddFirstLevel(this.WorldDescription, scenarioDescription, out numberOfImpossibleLeaf);
+            queryResultsContainer.AddMany(QueryResult.False, numberOfImpossibleLeaf);
 
-            if (worldCanStart == -1)
+            if (worldCanStart == false)
             {
                 return QueryResult.False;
             }
 
-            queryResultsContainer.AddMany(QueryResult.False, numberOfImpossibleLeaf);
-
-            tree.SetQuery(query);
-            
             //generate next level if query can't be answered yet
             while (!queryResultsContainer.CanQuickAnswer() && tree.LastLevel.Count > 0)
             {
                 for (int i = 0; i < tree.LastLevel.Count; ++i)
                 {
                     Vertex leaf = tree.LastLevel[i];
-                    if (!CheckIfLeafIsPossible(leaf, scenarioDescription))
+
+                    QueryResult queryBetweenTreeLevelsResult;
+                    List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(this.WorldDescription, scenarioDescription, Inf);
+
+                    //koniec sciezki
+                    if (nextLevel == null)
                     {
-                        tree.DeleteChild(i--);
-                        queryResultsContainer.AddMany(QueryResult.False);
+                        QueryResult result = query.CheckCondition(leaf);
                         if (queryResultsContainer.CanQuickAnswer())
                         {
                             break;
                         }
                     }
-                    else
+                    foreach (var child in nextLevel)
                     {
-                        tree.DeleteChild(i--);
-                        QueryResult queryInMiddleResult;
-                        List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(WorldDescription, scenarioDescription, Inf, out queryInMiddleResult);
-                        
-                        queryResultsContainer.AddMany(queryInMiddleResult);
-                        if (queryResultsContainer.CanQuickAnswer())
+                        if (!child.IsPossible)
                         {
-                            break;
-                        }
-
-                        foreach (var child in nextLevel)
-                        {
-                            if (!CheckIfLeafIsPossible(child, scenarioDescription))
+                            queryResultsContainer.AddOne(QueryResult.False);
+                            if (queryResultsContainer.CanQuickAnswer())
                             {
-                                queryResultsContainer.AddMany(QueryResult.False);
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            QueryResult result = query.CheckCondition(child);
+                            if (result == QueryResult.True || result == QueryResult.False)
+                            {
+                                queryResultsContainer.AddOne(result);
                                 if (queryResultsContainer.CanQuickAnswer())
                                 {
                                     break;
                                 }
-                            }
-                            QueryResult result = query.CheckCondition(child);
-                            if (result == QueryResult.True || result == QueryResult.False)
-                            {
-                                queryResultsContainer.AddMany(result);
                             }
                             else
                             {
@@ -133,15 +120,12 @@ namespace KnowledgeRepresentationReasoning
                             }
                         }
                     }
+
+                    tree.DeleteChild(i--);
                 }
             }
 
             return queryResultsContainer.CollectResults();
-        }
-
-        private bool CheckIfLeafIsPossible(Vertex leaf, ScenarioDescription scenarioDescription)
-        {
-            return leaf.IsPossible && leaf.ValidateActions() && this.WorldDescription.Validate(leaf) && scenarioDescription.CheckIfLeafIsPossible(leaf);
         }
 
         public Task<QueryResult> ExecuteQueryAsync(Query query)
@@ -158,16 +142,6 @@ namespace KnowledgeRepresentationReasoning
             builder.RegisterType<SimpleLogicExpression>().As<ILogicExpression>();
             Container = builder.Build();
             ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(Container));
-        }
-
-        public void AddScenarioDescriptionList(List<ScenarioDescription> scenarios)
-        {
-            this.ScenarioDescriptionList.Concat(scenarios);
-        }
-
-        public void RemoveScenarioDescriptionList(List<ScenarioDescription> scenarios)
-        {
-            this.ScenarioDescriptionList.RemoveAll(item => scenarios.Any(s => s.Name == item.Name));
         }
     }
 }

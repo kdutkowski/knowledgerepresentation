@@ -80,10 +80,15 @@ namespace KnowledgeRepresentationReasoning.Queries
             return _results.Any(x => x == QueryResult.False);
         }
 
-        public void AddMany(QueryResult queryResult, int count = 1)
+        public void AddMany(QueryResult queryResult, int count)
         {
             _results.AddRange(Enumerable.Repeat(queryResult, count));
             _logger.Info("Add query result '" + queryResult + "' " + count + " times");
+        }
+
+        public void AddOne(QueryResult queryResult)
+        {
+            AddMany(queryResult, 1);
         }
 
         public int Count()

@@ -2,8 +2,6 @@
 {
     internal interface ITree
     {
-        int AddFirstLevel(World.WorldDescription WorldDescription, Scenario.ScenarioDescription ScenarioDescription, out int numberOfImpossibleLeaf);
-
-        int LastLevelCount();
+        bool AddFirstLevel(World.WorldDescription WorldDescription, Scenario.ScenarioDescription ScenarioDescription, out int numberOfImpossibleLeaf);
     }
 }

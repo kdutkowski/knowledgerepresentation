@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using KnowledgeRepresentationReasoning.Queries;
 using KnowledgeRepresentationReasoning.Scenario;
 using KnowledgeRepresentationReasoning.World;
 using log4net;
@@ -13,9 +12,10 @@ namespace KnowledgeRepresentationReasoning.Logic
         public State ActualState { get; private set; }
         public WorldAction ActualWorldAction { get; set; }
         public int Time { get;  set; }
-        private Vertex Root { get; set; }
+        public Vertex Root { get; set; }
         public bool IsPossible { get; set; }
         public SortedDictionary<int, WorldAction> NextActions { get; set; }
+        public bool IsActive { get; set; }
         private ILog _logger;
 
         public Vertex()
@@ -46,15 +46,34 @@ namespace KnowledgeRepresentationReasoning.Logic
         {
             var result = new List<Vertex>();
 
+            if (ActualWorldAction == null && !NextActions.Any())
+                return null;
+
             foreach (var implication in implications)
             {
-                
+                var nextAction = GetNextAction();
+                var time = nextAction != null ? nextAction.StartAt : Time+ActualWorldAction.Duration;
+                Debug.Assert(time != null, "time != null");
+                var newVertex = new Vertex(implication.FutureState, nextAction, (int)time, this);
+                result.Add(newVertex);
             }
 
             return result;
         }
 
-        internal List<Vertex> GenerateChildsForLeaf(WorldDescription worldDescription, ScenarioDescription scenarioDescription, int inf)
+        private WorldAction GetNextAction()
+        {
+            if (ActualWorldAction == null)
+            {
+                var min = NextActions.Keys.Min();
+                var result = NextActions[min];
+                NextActions.Remove(min);
+                return result;
+            }
+            return null;
+        }
+
+        public List<Vertex> GenerateChildsForLeaf(WorldDescription worldDescription, ScenarioDescription scenarioDescription, int inf)
         {
             // implications are supposed to be not empty and not null !!
             var implications = worldDescription.GetImplications(this);
@@ -70,11 +89,20 @@ namespace KnowledgeRepresentationReasoning.Logic
 
             var vertices = CreateChildsBasedOnImplications(implications);
 
+            // Delete all vertices after time of inf
+            vertices.RemoveAll(t => t.Time > inf);
+            
+            // If vertex has no children set vertex not active and return null 
+            if (!vertices.Any())
+            {
+                IsActive = false;
+                return null;
+            }
+
             foreach (var vertex in vertices)
             {
                 if (!Validate(vertex, worldDescription, scenarioDescription))
                     vertex.IsPossible = false;
- 
             }
 
             return vertices;
