@@ -144,8 +144,5 @@ namespace KnowledgeRepresentationReasoning.Test.DocumentationExamples
             Assert.AreEqual(expectedResult, result);
         }
         #endregion
-
-
-
     }
 }

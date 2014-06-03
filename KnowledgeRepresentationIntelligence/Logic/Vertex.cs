@@ -116,10 +116,9 @@ namespace KnowledgeRepresentationReasoning.Logic
         private bool Validate(Vertex vertex, WorldDescription worldDescription, ScenarioDescription scenarioDescription)
         {
             var observationsValidationResult = CheckObservations(vertex, scenarioDescription);
-            var actionsValidationResult = CheckActions(vertex, scenarioDescription);
             var worldDescriptionValidationResult = worldDescription.Validate(vertex);
             var nextActionsValidationResult = ValidateNextActions();
-            return observationsValidationResult && actionsValidationResult && worldDescriptionValidationResult && nextActionsValidationResult;
+            return observationsValidationResult && worldDescriptionValidationResult && nextActionsValidationResult;
         }
 
         private bool CheckObservations(Vertex vertex, ScenarioDescription scenarioDescription)
@@ -137,24 +136,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             return observations.All(observation => observation.CheckState(vertex.ActualState));
         }
 
-        private bool CheckActions(Vertex vertex, ScenarioDescription scenarioDescription)
-        {
-            int fromTime = vertex.Time;
-            int toTime = vertex.Time;
-
-            if (vertex.ActualWorldAction != null)
-            {
-                toTime += vertex.ActualWorldAction.Duration ?? 0;
-            }
-
-            var actions = scenarioDescription.Actions.Where(t => t.Time >= fromTime && t.Time < toTime);
-
-            // if any actions exists while running action from vertex there is a collision and scenario is wrong
-            return !actions.Any();
-        }
-
-
-        // TODO: Implement validation actions in NextActions Dictionary
+        // TODO: Implement validation 
         private bool ValidateNextActions()
         {
             bool result = true;
