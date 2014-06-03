@@ -86,30 +86,22 @@ namespace KnowledgeRepresentationReasoning
                     List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(this.WorldDescription, scenarioDescription, Inf);
 
                     //koniec sciezki
-                    if (nextLevel == null)
+                    if (!leaf.IsActive)
                     {
                         QueryResult result = query.CheckCondition(leaf);
+                        queryResultsContainer.AddOne(result);
                         if (queryResultsContainer.CanQuickAnswer())
                         {
                             break;
                         }
                     }
-                    foreach (var child in nextLevel)
+                    else
                     {
-                        if (!child.IsPossible)
+                        foreach (var child in nextLevel)
                         {
-                            queryResultsContainer.AddOne(QueryResult.False);
-                            if (queryResultsContainer.CanQuickAnswer())
+                            if (!child.IsPossible)
                             {
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            QueryResult result = query.CheckCondition(child);
-                            if (result == QueryResult.True || result == QueryResult.False)
-                            {
-                                queryResultsContainer.AddOne(result);
+                                queryResultsContainer.AddOne(QueryResult.False);
                                 if (queryResultsContainer.CanQuickAnswer())
                                 {
                                     break;
@@ -117,7 +109,19 @@ namespace KnowledgeRepresentationReasoning
                             }
                             else
                             {
-                                newLevel.Add(child);
+                                QueryResult result = query.CheckCondition(child);
+                                if (result == QueryResult.True || result == QueryResult.False)
+                                {
+                                    queryResultsContainer.AddOne(result);
+                                    if (queryResultsContainer.CanQuickAnswer())
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    newLevel.Add(child);
+                                }
                             }
                         }
                     }
