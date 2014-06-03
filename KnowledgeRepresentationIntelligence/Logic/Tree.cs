@@ -144,14 +144,13 @@ namespace KnowledgeRepresentationReasoning.Logic
 
         internal void SetQuery(Queries.Query query)
         {
-            if (LastLevel != null && LastLevel.Count > 0)
+            if (LastLevel.Count > 0)
             {
                 foreach (var child in LastLevel)
                 {
                     child.SetQuery(query);
                 }
             }
-
         }
     }
 }
