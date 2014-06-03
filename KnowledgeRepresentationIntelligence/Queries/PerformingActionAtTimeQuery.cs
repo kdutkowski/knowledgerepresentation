@@ -78,7 +78,10 @@
         public override string ToString()
         {
             var stringBuilder = new StringBuilder("Action at Time Query:\nAction: ", 77);
-            stringBuilder.Append(this._worldAction.Id);
+            if (this._worldAction != null)
+            {
+                stringBuilder.Append(this._worldAction.Id);
+            }
             stringBuilder.Append("\ntime:");
             stringBuilder.Append(Time);
 

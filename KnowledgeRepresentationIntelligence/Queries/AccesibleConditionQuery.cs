@@ -43,7 +43,7 @@
 
             string logResult = "Accesible: " + condAtTimeResult;
 
-            if (_condAtTimeResult == QueryResult.Undefined)
+            if (_condAtTimeResult == QueryResult.Undefined && condAtTimeResult == QueryResult.True)
             {
                 _condAtTimeResult = condAtTimeResult;
             }
