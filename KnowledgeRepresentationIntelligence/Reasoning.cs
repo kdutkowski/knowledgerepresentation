@@ -83,17 +83,17 @@ namespace KnowledgeRepresentationReasoning
                 for (int i = 0; i < tree.LastLevel.Count; ++i)
                 {
                     Vertex leaf = tree.LastLevel[i];
-                    if (!CheckIfLeafIsPossible(leaf, scenarioDescription))
-                    {
-                        tree.DeleteChild(i);
-                        queryResultsContainer.AddMany(QueryResult.False);
-                        if (queryResultsContainer.CanQuickAnswer())
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
+                    //if (!CheckIfLeafIsPossible(leaf, scenarioDescription))
+                    //{
+                    //    tree.DeleteChild(i);
+                    //    queryResultsContainer.AddMany(QueryResult.False);
+                    //    if (queryResultsContainer.CanQuickAnswer())
+                    //    {
+                    //        break;
+                    //    }
+                    //}
+                    //else
+                    //{
                         tree.DeleteChild(i);
                         QueryResult queryInMiddleResult;
                         List<Vertex> nextLevel = leaf.GenerateChildsForLeaf(this.WorldDescription, scenarioDescription, this.Inf, out queryInMiddleResult);
@@ -106,35 +106,36 @@ namespace KnowledgeRepresentationReasoning
 
                         foreach (var child in nextLevel)
                         {
-                            if (!CheckIfLeafIsPossible(child, scenarioDescription))
-                            {
-                                queryResultsContainer.AddMany(QueryResult.False);
-                                if (queryResultsContainer.CanQuickAnswer())
-                                {
-                                    break;
-                                }
-                            }
+                            //if (!CheckIfLeafIsPossible(child, scenarioDescription))
+                            //{
+                            //    queryResultsContainer.AddMany(QueryResult.False);
+
+                            //}
                             QueryResult result = query.CheckCondition(child);
                             if (result == QueryResult.True || result == QueryResult.False)
                             {
                                 queryResultsContainer.AddMany(result);
+                                if (queryResultsContainer.CanQuickAnswer())
+                                {
+                                    break;
+                                }
                             }
                             else
                             {
                                 tree.Add(child);
                             }
                         }
-                    }
+                    //}
                 }
             }
 
             return queryResultsContainer.CollectResults();
         }
 
-        private bool CheckIfLeafIsPossible(Vertex leaf, ScenarioDescription scenarioDescription)
-        {
-            return leaf.IsPossible && leaf.ValidateActions() && this.WorldDescription.Validate(leaf) && scenarioDescription.CheckIfLeafIsPossible(leaf);
-        }
+        //private bool CheckIfLeafIsPossible(Vertex leaf, ScenarioDescription scenarioDescription)
+        //{
+        //    return leaf.IsPossible && leaf.ValidateActions() && this.WorldDescription.Validate(leaf) && scenarioDescription.CheckIfLeafIsPossible(leaf);
+        //}
 
         public Task<QueryResult> ExecuteQueryAsync(Query query)
         {
