@@ -1,11 +1,13 @@
 ﻿using KnowledgeRepresentationReasoning.World;
 using KnowledgeRepresentationReasoning.World.Records;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assert = NUnit.Framework.Assert;
 
 namespace KnowledgeRepresentationReasoning.Test
 {
@@ -59,7 +61,7 @@ namespace KnowledgeRepresentationReasoning.Test
         }
 
         [Test]
-        [ExpectedException(typeof(Exception))]
+        [NUnit.Framework.ExpectedException]
         public void IsFulfilledWrongExpressionTest()
         {
             _ifExpression = "a && b && c && e";

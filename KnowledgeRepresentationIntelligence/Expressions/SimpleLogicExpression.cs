@@ -45,15 +45,17 @@ namespace KnowledgeRepresentationReasoning.Expressions
                 return true;
             }
 
-            var expression = new CompiledExpression(this._expression);
-            expression.RegisterType("h", typeof(ExpressionHelper));
+            var registry = new TypeRegistry();
+            registry.RegisterType("h", typeof(ExpressionHelper));
             if (values != null)
             {
                 foreach (var value in values)
                 {
-                    expression.RegisterType(value.Item1, value.Item2);
+                    registry.RegisterSymbol(value.Item1, value.Item2);
                 }
             }
+            var expression = new CompiledExpression(this._expression) { TypeRegistry = registry };
+
             return (bool)expression.Eval();
         }
 
@@ -64,15 +66,16 @@ namespace KnowledgeRepresentationReasoning.Expressions
                 return true;
             }
 
-            var expression = new CompiledExpression(this._expression);
-            expression.RegisterType("h", typeof(ExpressionHelper));
+            var registry = new TypeRegistry();
+            registry.RegisterType("h", typeof(ExpressionHelper));
             if (state != null)
             {
                 foreach (var fluent in state.Fluents)
                 {
-                    expression.RegisterType(fluent.Name, fluent.Value);
+                    registry.RegisterSymbol(fluent.Name, fluent.Value);
                 }
             }
+            var expression = new CompiledExpression(this._expression) { TypeRegistry = registry };
             return (bool)expression.Eval();
         }
 
