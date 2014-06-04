@@ -61,30 +61,6 @@
             _scenarioDescription.addACS(this._actionB3, 3);
             _scenarioDescription.addACS(this._actionA2, 20);
             _scenarioDescription.addObservation(new SimpleLogicExpression("a && !b && !c && d"), 24);   // (1,0,0,1)
-
-            /* Wynik dla ComplexWorldDescription_A
-             * 
-             * Obserwacja czas 1: a = 1, b = 1, c = 1, d = 1 czyli (1,1,1,1)
-             * Akcja czas 3: (B,3) 
-             *      Rezultaty:
-             *              0) Czas 6: Możliwe stany: (0,1,1,1), (1,1,1,1), (1,0,1,1)
-             *              1) Czas 7: Rozpoczyna się akcja (D,1)
-             *              2) Czas 8: Zwalniany jest fluent d - 
-             *                  Możliwe stany: 
-             *                      (0,1,1,1), (0,1,1,0),
-             *                      (1,1,1,1), (1,1,1,0),
-             *                      (1,0,1,1), (1,0,1,0)
-             *              3) Czas 11: Rozpoczyna się akcja (C,3)
-             * Akcja czas 20: (A,2)
-             *      Rezultaty:
-             *              1) Czas 22: Możliwe stany:
-             *                      (0,1,0,1), (0,1,0,0),
-             *                      (1,1,0,1), (1,1,0,0),
-             *                      (1,0,0,1), (1,0,0,0)
-             *              2) Czas 22: Rozpoczyna się akcja (C,5)
-             *              3) Czas 34: Rozpoczyna się akcja (C,5)
-             *              
-             */
         }
 
         #region ExecutableScenarioQuery
@@ -275,6 +251,11 @@
         [Test]
         public void Reasoning_MC_ConditionAtTimeQuery_Ever_Complex_TrueInTimeOne_Test()
         {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
             var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, "a && b && c && d", 1), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
         }
@@ -282,6 +263,11 @@
         [Test]
         public void Reasoning_MC_ConditionAtTimeQuery_Always_Complex_TrueInTimeOne_Test()
         {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
             var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, "a && b && c && d", 1), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
         }
@@ -289,6 +275,11 @@
         [Test]
         public void Reasoning_MC_ConditionAtTimeQuery_Ever_Complex_PossibleInTime6_Test()
         {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
             var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, "!a && b && c && d", 6), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
         }
@@ -296,6 +287,11 @@
         [Test]
         public void Reasoning_MC_ConditionAtTimeQuery_Always_Complex_NotAlwaysTrueInTime6_Test()
         {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
             var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, "!a && b && c && d", 6), _scenarioDescription);
             Assert.AreEqual(QueryResult.False, result);
         }
@@ -303,6 +299,11 @@
         [Test]
         public void Reasoning_MC_ConditionAtTimeQuery_Ever_Complex_PossibleAfterTime22_Test()
         {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
             var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Ever, "a && !b && !c && !d", 23), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
         }
@@ -310,6 +311,11 @@
         [Test]
         public void Reasoning_MC_ConditionAtTimeQuery_Always_Complex_NotAlwaysTrueAfterTime22_Test()
         {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
             var result = _reasoning.ExecuteQuery(new ConditionAtTimeQuery(QuestionType.Always, "a && !b && !c && !d", 22), _scenarioDescription);
             Assert.AreEqual(QueryResult.False, result);
         }
