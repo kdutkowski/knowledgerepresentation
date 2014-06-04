@@ -294,7 +294,7 @@
 
             // Test
             var result = _reasoning.ExecuteQuery(new ExecutableScenarioQuery(QuestionType.Always, _scenarioDescription), _scenarioDescription);
-            Assert.AreEqual(QueryResult.True, result);
+            Assert.AreEqual(QueryResult.False, result);
         }
 
         #endregion
