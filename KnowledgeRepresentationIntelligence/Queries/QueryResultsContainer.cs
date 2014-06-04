@@ -95,11 +95,5 @@ namespace KnowledgeRepresentationReasoning.Queries
         {
             return _results.Count;
         }
-
-        internal QueryResult CollectResultsForExecutableScenario()
-        {
-            bool answer = _results.All(x => x == QueryResult.False);
-            return answer ? QueryResult.False : QueryResult.True;
-        }
     }
 }
