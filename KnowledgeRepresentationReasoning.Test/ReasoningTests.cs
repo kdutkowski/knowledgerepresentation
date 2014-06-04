@@ -274,8 +274,7 @@
              *              4) Czas 27: Zwalniany jest fluent c - 
              *                  Możliwe stany:
              *                      (1,0,0,1), (1,0,1,1) 
-             *              5) Czas 34: Rozpoczyna się akcja (C,5)
-             *              6) Czas 39: Koniec akcji (C,5) -> koniec scenariusza
+             *              6) Czas 27: Koniec akcji (C,5) -> koniec scenariusza
              *              
              */
         }
@@ -395,7 +394,7 @@
             this.SetComplexScenario_A();
 
             // Test
-            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Ever, this._actionC5, 35), _scenarioDescription);
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Ever, this._actionC5, 25), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
         }
 
@@ -457,6 +456,18 @@
             // Test
             var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Always, this._actionD1, 7), _scenarioDescription);
             Assert.AreEqual(QueryResult.True, result);
+        }
+
+        [Test]
+        public void Reasoning_PerformingActionAtTimeQuery_Ever_Complex_ActionAfterScenarioEnded_Test()
+        {
+            // Set scenario and description
+            this.SetComplexWorldDescription_A();
+            this.SetComplexScenario_A();
+
+            // Test
+            var result = _reasoning.ExecuteQuery(new PerformingActionAtTimeQuery(QuestionType.Ever, this._actionC5, 35), _scenarioDescription);
+            Assert.AreEqual(QueryResult.False, result);
         }
 
         #endregion
@@ -538,7 +549,6 @@
         }
 
         #endregion
-
 
         #endregion
     }
