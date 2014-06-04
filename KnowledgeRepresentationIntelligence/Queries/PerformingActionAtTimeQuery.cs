@@ -41,6 +41,10 @@
                 WorldAction parentAction = vertex.GetParentAction();
                 result = CheckAction(parentAction);
             }
+            else if (!vertex.IsActive)
+            {
+                result = QueryResult.False;
+            }
 
             string logResult = "Method result: " + result;
 

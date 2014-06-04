@@ -71,6 +71,10 @@
                 State parentState = vertex.GetParentState();
                 result = CheckValuation(parentState);
             }
+            else if(!vertex.IsActive)
+            {
+                result = QueryResult.False;
+            }
 
             return result;
         }
