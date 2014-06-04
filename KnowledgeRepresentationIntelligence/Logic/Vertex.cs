@@ -125,7 +125,9 @@ namespace KnowledgeRepresentationReasoning.Logic
             foreach (var vertex in vertices)
             {
                 if (!Validate(vertex, worldDescription, scenarioDescription))
+                {
                     vertex.IsPossible = false;
+                }
             }
 
             return vertices;
