@@ -1,4 +1,6 @@
-﻿namespace KnowledgeRepresentationReasoning.World
+﻿using System.CodeDom;
+
+namespace KnowledgeRepresentationReasoning.World
 {
     using System;
     using System.Collections.Generic;
@@ -73,8 +75,11 @@
         {
             var actionInvokesRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ActionInvokesAfterIf)
                 .Select(t => t.Item2 as ActionInvokesAfterIfRecord).ToList();
+            
             var expressionTriggersRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ExpressionTriggersAction)
                 .Select(t => t.Item2 as ExpressionTriggersActionRecord).ToList();
+
+            if(worldAction != null) expressionTriggersRecords = new List<ExpressionTriggersActionRecord>();
 
             var triggeredActions = new List<WorldAction>();
             if(worldAction != null)
@@ -86,6 +91,7 @@
 
         private IEnumerable<Fluent> GetReleasedFluents(WorldAction worldAction, State state, int time)
         {
+            if(worldAction == null) return new List<Fluent>();
             var actionReleaseRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ActionReleasesIf)
                                                    .Select(t => t.Item2 as ActionReleasesIfRecord).ToList();
 
@@ -96,6 +102,7 @@
         private IEnumerable<State> GetPossibleFutureStates(WorldAction worldAction, State state, int time)
         {
             var possibleFutureStates = new List<State>();
+            var possibleStateChanges = new List<State>{ state };
 
             // Get released fluents
             var releasedFluents = GetReleasedFluents(worldAction, state, time);
@@ -103,17 +110,16 @@
             // Get possible state changes from ActionCausesIf records
             var actionCausesRec = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ActionCausesIf)
                             .Select(t => t.Item2 as ActionCausesIfRecord).ToList();
-            ActionCausesIfRecord causedStatesX = null;
-            try
+
+            if (actionCausesRec.Any())
             {
-                causedStatesX = actionCausesRec.Where(t => t.IsFulfilled(state, worldAction)).Aggregate((x, y) => x.Concat(y));
+                var causedStatesX = actionCausesRec.Where(t => t.IsFulfilled(state, worldAction));
+                if (causedStatesX.Any())
+                {
+                    var causedStates = causedStatesX.Aggregate((x, y) => x.Concat(y)).GetResult();
+                    possibleStateChanges = new List<State>(causedStates.Select(t => new State {Fluents = t.ToList()}));
+                }
             }
-            catch (InvalidOperationException)
-            {
-                return new List<State>(){state};
-            }
-            var causedStates = causedStatesX.GetResult();
-            var possibleStateChanges = new List<State>(causedStates.Select(t => new State { Fluents = t.ToList() }));
 
             // Get all future states excluding released fluents changes
             foreach (var stateChange in possibleStateChanges)
@@ -136,11 +142,6 @@
                     statesToAdd.Add(copy);
                 }
                 possibleFutureStates.AddRange(statesToAdd);
-            }
-
-            if (possibleFutureStates.Count == 0)
-            {
-                possibleFutureStates = new List<State>() { state };
             }
 
             return possibleFutureStates;

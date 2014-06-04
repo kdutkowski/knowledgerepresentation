@@ -48,6 +48,12 @@ namespace KnowledgeRepresentationReasoning.Logic
             foreach (var worldAction in actions)
             {
                 Debug.Assert(worldAction.StartAt != null, "worldAction.StartAt != null");
+                if (NextActions.ContainsKey((int) worldAction.StartAt))
+                {
+                    this.IsPossible = false;
+                    this.IsActive = false;
+                    continue;
+                }
                 NextActions.Add((int)worldAction.StartAt, worldAction);
             }
         }
@@ -65,6 +71,7 @@ namespace KnowledgeRepresentationReasoning.Logic
                 var time = nextAction != null ? nextAction.StartAt : Time+ActualWorldAction.Duration;
                 Debug.Assert(time != null, "time != null");
                 var newVertex = new Vertex(implication.FutureState, nextAction, (int)time, this);
+                newVertex.AddScenarioActions(NextActions.Values);
                 result.Add(newVertex);
             }
 
@@ -94,6 +101,7 @@ namespace KnowledgeRepresentationReasoning.Logic
             foreach (var triggeredAction in triggeredActions)
             {
                 Debug.Assert(triggeredAction.StartAt != null, "triggeredAction.StartAt != null");
+                //if(!NextActions.ContainsKey((int)triggeredAction.StartAt))
                 NextActions.Add((int)triggeredAction.StartAt, triggeredAction);
             }
 
