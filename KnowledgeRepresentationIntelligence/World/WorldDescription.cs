@@ -41,18 +41,20 @@ namespace KnowledgeRepresentationReasoning.World
         {
             var impossibleActionAtRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ImpossibleActionAt)
                                                    .Select(t => t.Item2 as ImpossibleActionAtRecord).ToList();
+            
             var impossibleActionIfRecords = Descriptions.Where(t => t.Item1 == WorldDescriptionRecordType.ImpossibleActionIf)
                                                    .Select(t => t.Item2 as ImpossibleActionIfRecord).ToList();
+
             foreach (var IAAR in impossibleActionAtRecords)
             {
-                if (IAAR.IsFulfilled(leaf.Time) && IAAR.GetResult() == leaf.ActualWorldAction)
+                if (IAAR.IsFulfilled(leaf.Time) && IAAR.GetResult().Equals(leaf.ActualWorldAction))
                 {
                     return false;
                 }
             }
             foreach (var IAIR in impossibleActionIfRecords)
             {
-                if (IAIR.IsFulfilled(leaf.ActualState) && IAIR.GetResult() == leaf.ActualWorldAction)
+                if (IAIR.IsFulfilled(leaf.ActualState) && IAIR.GetResult().Equals(leaf.ActualWorldAction))
                 {
                     return false;
                 }

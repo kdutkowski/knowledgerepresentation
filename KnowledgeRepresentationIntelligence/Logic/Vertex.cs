@@ -82,10 +82,9 @@ namespace KnowledgeRepresentationReasoning.Logic
         {
             if (ActualWorldAction == null)
             {
-                var min = NextActions.Keys.Min();
-                var result = NextActions[min];
-                NextActions.Remove(min);
-                return result;
+                var result = NextActions.First();
+                NextActions.Remove(result.Key);
+                return result.Value;
             }
             return null;
         }
@@ -148,6 +147,16 @@ namespace KnowledgeRepresentationReasoning.Logic
             if (vertex.ActualWorldAction != null)
             {
                 toTime += vertex.ActualWorldAction.Duration ?? 0;
+
+                // if vertex has ActualWorldAction we must check observations from time
+                // between vetex and his parent (this is his parent)
+                var intermediateObservations = scenarioDescription.Observations
+                    .Where(t => t.Time >= Time && t.Time < vertex.Time);
+
+                if (intermediateObservations.Any(observation => !observation.CheckState(ActualState)))
+                {
+                    return false;
+                }
             }
             
             var observations = scenarioDescription.Observations.Where(t => t.Time >= fromTime && t.Time < toTime);
@@ -155,12 +164,9 @@ namespace KnowledgeRepresentationReasoning.Logic
             return observations.All(observation => observation.CheckState(vertex.ActualState));
         }
 
-        // TODO: Implement validation 
         private bool ValidateNextActions()
         {
-            bool result = true;
-
-            return result;
+            return NextActions.All(worldAction => !NextActions.Values.Any(t => t.Overlap(worldAction.Value)));
         }
 
         internal WorldAction GetParentAction()
