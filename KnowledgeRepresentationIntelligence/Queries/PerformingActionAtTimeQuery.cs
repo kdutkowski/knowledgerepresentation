@@ -59,7 +59,12 @@
         private QueryResult CheckAction(WorldAction action)
         {
             QueryResult result = QueryResult.Undefined;
-            if (action == null)
+
+            if (_worldAction == null && Time != -1)
+            {
+                result = action == null ? QueryResult.False : QueryResult.True;
+            }
+            else if (action == null)
             {
                 result = QueryResult.False;
             }
